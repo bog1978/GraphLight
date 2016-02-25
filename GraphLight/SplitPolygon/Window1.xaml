@@ -1,0 +1,41 @@
+﻿<Window x:Class="SplitPolygon.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Window1" Height="1024" Width="1280" WindowState="Maximized">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Canvas Background="LightSeaGreen" MouseLeftButtonDown="Canvas_MouseLeftButtonDown">
+            <Polygon x:Name="polygon" Stroke="Black" StrokeThickness="1"/>
+            <Path x:Name="convexPoints" Stroke="Green" StrokeThickness="1"/>
+            <Path x:Name="concavePoints" Stroke="Red" StrokeThickness="1"/>
+            <Path x:Name="splitLines" Stroke="Blue" StrokeThickness="1"/>
+            <Path x:Name="pathLines" Stroke="Green" StrokeThickness="1"/>
+            <Polyline x:Name="shortestPathLines" Stroke="LightYellow" Opacity="0.2" StrokeThickness="8"/>
+            <Polyline x:Name="shortestPathLines2" Stroke="Black" Opacity="0.5" StrokeThickness="2"/>
+            <!--Polygon Stroke="Black" Opacity="0.5" StrokeThickness="2">
+                <Polygon.Points>
+                    <PointCollection>
+                        <Point X="620.33331298828125" Y="359.79998779296875"/>
+                        <Point X="1240.6666259765625" Y="530.58453369140625"/>
+                        <Point X="1240.6666259765625" Y="546.20001220703125"/>
+                        <Point X="1250.1666259765625" Y="546.20001220703125"/>
+                        <Point X="1250.1666259765625" Y="706.5999755859375"/>
+                        <Point X="620.33331298828125" Y="359.79998779296875"/>
+                        <Point X="620.33331298828125" Y="533.20001220703125"/>
+                        <Point X="620.33331298828125" Y="533.20001220703125"/>
+                        <Point X="1250.1666259765625" Y="706.5999755859375"/>
+                    </PointCollection>
+                </Polygon.Points>
+            </Polygon-->
+        </Canvas>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button x:Name="btnClear" Margin="5" Content="Clear" Click="btnClear_Click"/>
+            <Button x:Name="btnSimplify" Margin="5" Content="Simplify" Click="btnSimplify_Click"/>
+            <Button x:Name="btnSplit" Margin="5" Content="Split" Click="btnSplit_Click"/>
+            <Button x:Name="btnConvexLines" Margin="5" Content="Convex Lines" Click="btnConvexLines_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

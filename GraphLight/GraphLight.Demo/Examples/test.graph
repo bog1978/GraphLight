@@ -1,0 +1,8 @@
+digraph Test
+{
+	edges:
+		A -> B -> C -> D -> E;
+		B -> E;
+		C -> E;
+		C -> A;
+}

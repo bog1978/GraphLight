@@ -1,0 +1,33 @@
+﻿digraph Task
+{
+	 nodes:
+		new [label="Новая задача" rank=0 order=0];
+		draft [label="Черновик" rank=1 order=0];
+		archive [label="Архив" rank=8 order=0];
+		closed [label="Закрыта" rank=7 order=1];
+		published [label="Опубликована" rank=2 order=2];
+		assigned [label="Назначена" rank=3 order=2];
+		in_progress [label="В работе" rank=4 order=3];
+		approve [label="На приемке" rank=5 order=2];
+		done [label="Выполнена" rank=6 order=2];
+		declined [label="Отклонена" rank=4 order=2];
+		defered [label="Отложена" rank=5 order=3];
+		
+	edges:
+		new -> draft;
+		draft -> archive;
+		draft -> closed;
+		draft -> published;
+		published -> assigned;
+		assigned -> declined;
+		assigned -> in_progress;
+		in_progress -> approve;
+		approve -> in_progress;
+		approve -> done;
+		declined -> assigned;
+		done -> closed;
+		in_progress -> defered;
+		defered -> in_progress;	
+		closed -> archive;
+		archive -> draft;
+}

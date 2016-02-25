@@ -1,0 +1,24 @@
+﻿digraph test1
+{
+	nodes:
+		n1 [rank=0];
+		n2 [rank=2];
+		n3 [rank=3];
+		n4 [rank=4];
+		n5 [rank=1];
+		n6 [rank=2];
+		n7 [rank=3];
+		n8 [rank=3];
+		
+	edges:
+		n1 -> n2;
+		n2 -> n3;
+		n3 -> n4;
+		n4 -> n2;
+		n1 -> n5;
+		n5 -> n6;
+		n6 -> n7;
+		n1 -> n8;
+		n6 -> n8;
+		n6 -> n3;
+}

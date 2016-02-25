@@ -1,0 +1,67 @@
+digraph Viewfile
+{
+	 nodes:
+		fclose [label="fclose" rank=2 order=1];
+		close [label="close" rank=3 order=1];
+		fgets [label="fgets" rank=4 order=0];
+		fstat [label="fstat" rank=5 order=0];
+		read [label="read" rank=5 order=1];
+		fopen [label="fopen" rank=2 order=4];
+		open [label="open" rank=3 order=4];
+		printf [label="printf" rank=4 order=2];
+		write [label="write" rank=5 order=2];
+		main [label="main" rank=0 order=0];
+		getopt [label="getopt" rank=1 order=2];
+		makeargs [label="makeargs" rank=1 order=11];
+		makepairs [label="makepairs" rank=1 order=5];
+		chkmalloc [label="chkmalloc" rank=3 order=6];
+		error [label="error" rank=4 order=3];
+		viewlines [label="viewlines" rank=1 order=1];
+		atoi [label="atoi" rank=2 order=8];
+		init_list [label="init_list" rank=2 order=10];
+		insert_list [label="insert_list" rank=2 order=9];
+		free_list [label="free_list" rank=0 order=1];
+		free [label="free" rank=1 order=7];
+		walk_list [label="walk_list" rank=2 order=3];
+		viewline [label="viewline" rank=3 order=2];
+		malloc [label="malloc" rank=4 order=4];
+		exit [label="exit" rank=5 order=3];
+		fprintf [label="fprintf" rank=5 order=4];
+		rewind [label="rewind" rank=4 order=1];
+
+	edges:
+		fclose -> close;
+		fgets -> fstat;
+		fgets -> read;
+		fopen -> open;
+		printf -> write;
+		main -> fgets;
+		main -> getopt;
+		main -> makeargs;
+		main -> makepairs;
+		main -> chkmalloc;
+		main -> error;
+		main -> viewlines;
+		makeargs -> chkmalloc;
+		makepairs -> atoi;
+		makepairs -> init_list;
+		makepairs -> insert_list;
+		makepairs -> chkmalloc;
+		free_list -> free;
+		init_list -> chkmalloc;
+		insert_list -> chkmalloc;
+		walk_list -> error;
+		walk_list -> viewline;
+		chkmalloc -> malloc;
+		chkmalloc -> error;
+		error -> exit;
+		error -> fprintf;
+		error -> error;
+		viewline -> fgets;
+		viewline -> printf;
+		viewline -> rewind;
+		viewlines -> fclose;
+		viewlines -> fopen;
+		viewlines -> walk_list;
+		viewlines -> viewline;
+}

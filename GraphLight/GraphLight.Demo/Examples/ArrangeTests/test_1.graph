@@ -1,0 +1,6 @@
+digraph Test
+{
+	edges:
+		A1 -> B1;
+		A1 -> B2;
+}

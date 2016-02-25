@@ -1,0 +1,132 @@
+digraph comp_lang
+{
+	nodes:
+		
+		// Rank 0
+		fortran [rank=0];
+		tcl [rank=0];
+		
+		// Rank 1
+		algol [rank=1];
+		tcl_tk [rank=1];
+		cobol [rank=1];
+		snowball [rank=1];
+		
+		// Rank 2
+		basic [rank=2];
+		c [rank=2];
+		simula [rank=2];
+		pascal [rank=2];
+		pl_1 [rank=2];
+		lisp [rank=2];
+		icon [rank=2];
+		ml [rank=2];
+
+		// Rank 3
+		visual_basic [rank=3];
+		cpp [rank=3];
+		delphi [rank=3];
+		modula [rank=3];
+		ada [rank=3];
+		python [rank=3];
+		smalltalk [rank=3];
+		scheme [rank=3];
+		logo [rank=3];
+		perl [rank=3];
+		sml [rank=3];
+		miranda [rank=3];
+
+		// Rank 4
+		vb_net [rank=4];
+		vbscript [rank=4];
+		javascript [rank=4];
+		csharp [rank=4];
+		oberon [rank=4];
+		eiffel [rank=4];
+		oak [rank=4];
+		ruby [rank=4];
+		php [rank=4];
+		caml [rank=4];
+		haskell [rank=4];
+		
+		// Rank 5
+		java [rank=5];
+		csharp2 [rank=5];
+		ocaml [rank=5];
+
+		// Rank 6
+		fsharp [rank=6];
+		nemerle [rank=6];
+		
+	edges:
+		fortran -> algol;
+		fortran -> pl_1;
+		fortran -> basic;
+		
+		algol -> c;
+		algol -> simula;
+		algol -> pl_1;
+		algol -> basic;
+		algol -> pascal;
+		
+		cobol -> pl_1;
+		
+		lisp -> logo;
+		lisp -> smalltalk;
+		lisp -> scheme;
+		lisp -> ruby;
+		
+		basic -> visual_basic;
+		visual_basic -> vb_net;
+		visual_basic -> vbscript;
+		
+		simula -> smalltalk;
+		simula -> cpp;
+		
+		c -> cpp;
+		c -> python;
+		c -> javascript;
+		
+		smalltalk -> oak;
+		smalltalk -> ruby;
+		
+		scheme -> oak;
+		scheme -> nemerle;
+
+		python -> ruby;
+		
+		ruby -> csharp2;
+		
+		cpp -> javascript;
+		cpp -> csharp;
+		
+		oak -> java;
+		
+		snowball -> icon -> perl -> php;
+		perl -> ruby;
+
+		ml -> sml -> caml -> ocaml -> fsharp;
+		ml -> miranda -> haskell;
+		
+		pascal -> ruby;
+		pascal -> oak;
+		pascal -> modula;
+		pascal -> ada;
+		pascal -> delphi;
+		
+		modula -> oberon;
+		
+		ada -> eiffel;
+		ada -> oak;
+		
+		delphi -> csharp;
+		csharp -> csharp2;
+		csharp -> fsharp;
+		
+		tcl -> tcl_tk;
+		
+		java -> nemerle;
+		csharp2 -> nemerle;
+		haskell -> nemerle;
+		ocaml -> nemerle;
+}

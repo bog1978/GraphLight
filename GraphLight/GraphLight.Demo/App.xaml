@@ -1,0 +1,45 @@
+﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight.Drawing" x:Class="GraphLight.App">
+    <Application.Resources>
+        <Drawing:DataTemplateDictionary x:Key="vertexTemplateDictionary">
+            <Drawing:DataTemplateDictionary.DefaultTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Data.Label}" />
+                </DataTemplate>
+            </Drawing:DataTemplateDictionary.DefaultTemplate>
+            <DataTemplate x:Key="large_font">
+                <TextBlock Text="{Binding Data.Label}" FontSize="32" />
+            </DataTemplate>
+            <DataTemplate x:Key="small_font">
+                <TextBlock Text="{Binding Data.Label}" FontSize="8" />
+            </DataTemplate>
+            <DataTemplate x:Key="with_tooltip">
+                <TextBlock Text="{Binding Data.Label}">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Left:"
+                                        Margin="3" />
+                                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Top:"
+                                        Margin="3" />
+                                                    <TextBlock Grid.Row="0" Grid.Column="1"
+                                        Text="{Binding Data.Left}" Margin="3" />
+                                                    <TextBlock Grid.Row="1" Grid.Column="1"
+                                        Text="{Binding Data.Top}" Margin="3" />
+                                                </Grid>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
+                                    </TextBlock>
+            </DataTemplate>
+        </Drawing:DataTemplateDictionary>
+    </Application.Resources>
+</Application>

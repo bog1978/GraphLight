@@ -1,0 +1,40 @@
+﻿<Window x:Class="GraphLight.Window1" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight.Drawing" Title="Window1"
+        WindowState="Maximized" Loaded="userControlLoaded">
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl x:Name="tabCtrl" SelectedIndex="{Binding TabIndex, Mode=TwoWay}" Background="Transparent">
+            <TabControl.Items>
+                <TabItem Header="Graph">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Drawing:Palette Graph="{Binding Palette}" VerticalAlignment="Top"
+                                VertexTemplateDictionary="{StaticResource vertexTemplateDictionary}" />
+                        <Drawing:GraphControl x:Name="ctrlGraph" Grid.Column="1"
+                                Graph="{Binding Graph, Mode=TwoWay}"
+                                VertexTemplateDictionary="{StaticResource vertexTemplateDictionary}" />
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tiText" Header="Text">
+                    <ScrollViewer>
+                        <TextBox x:Name="tbText" Text="{Binding GraphDefinition}" />
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl.Items>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button x:Name="btnOpen" Content="Open File" Click="btnOpenClick" Margin="5" />
+            <Button x:Name="btnLayout" Content="Layout" Margin="5"
+                    Command="{Binding Path=LayoutCommand, ElementName=ctrlGraph}" />
+            <ComboBox x:Name="cbExamples" ItemsSource="{Binding ExampleCollection}"
+                    SelectedItem="{Binding SelectedExample, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
+</Window>

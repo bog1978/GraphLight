@@ -1,0 +1,100 @@
+digraph comp_lang
+{
+	nodes:
+		pl_1 [label="PL/1"];
+		cpp [label="C++"];
+		csharp [label="C#"];
+		csharp2 [label="C# 2.0"];
+		fsharp [label="F#"];
+		vb_net [label="VB.Net"];
+		visual_basic [label="Visual Basic"];
+		
+		// Level 1
+		snowball;// [order=1];
+		ml;// [order=2];
+		lisp;// [order=4];
+		fortran;// [order=5];
+		cobol;// [order=6];
+		tcl;// [order=8];
+		
+		// Level 2
+		icon;// [order=1];
+		sml;// [order=2];
+		miranda;// [order=3];
+		scheme;// [order=4];
+		algol;// [order=5];
+		logo;// [order=6];		
+		tcl_tk;// [label="Tcl/Tk" order=8];
+		
+	edges:
+		fortran -> algol;
+		fortran -> pl_1;
+		fortran -> basic;
+		
+		algol -> c;
+		algol -> simula;
+		algol -> pl_1;
+		algol -> basic;
+		algol -> pascal;
+		
+		cobol -> pl_1;
+		
+		lisp -> logo;
+		lisp -> smalltalk;
+		lisp -> scheme;
+		lisp -> ruby;
+		
+		basic -> visual_basic;
+		visual_basic -> vb_net;
+		visual_basic -> vbscript;
+		
+		simula -> smalltalk;
+		simula -> cpp;
+		
+		c -> cpp;
+		c -> python;
+		c -> javascript;
+		
+		smalltalk -> oak;
+		smalltalk -> ruby;
+		
+		scheme -> oak;
+		scheme -> nemerle;
+
+		python -> ruby;
+		
+		ruby -> csharp2;
+		
+		cpp -> javascript;
+		cpp -> csharp;
+		
+		oak -> java;
+		
+		snowball -> icon -> perl -> php;
+		perl -> ruby;
+
+		ml -> sml -> caml -> ocaml -> fsharp;
+		ml -> miranda -> haskell;
+		
+		pascal -> ruby;
+		pascal -> oak;
+		pascal -> modula;
+		pascal -> ada;
+		pascal -> delphi;
+		
+		modula -> oberon;
+		
+		ada -> eiffel;
+		ada -> oak;
+		
+		delphi -> csharp;
+		csharp -> csharp2;
+		csharp -> fsharp;
+		
+		tcl -> tcl_tk;
+		
+		java -> nemerle;
+		csharp2 -> nemerle;
+		haskell -> nemerle;
+		ocaml -> nemerle;
+}

@@ -1,0 +1,30 @@
+/* Quadratic Bezier curve */
+P(t,Q,P1,P2,P3):=(1-t)^2*P1+2*t*(1-t)*Q+t^2*P3;
+
+/* Find set of Q at which P=P2 */
+Q(t):=solve(P(t,Q,P1,P2,P3)=P2,Q);
+/* Here 0 < a < 1 */
+Q1(a) := rhs(Q(a)[1]);
+
+/* Replace dependency on Q with a */
+P1(t,a,P1,P2,P3):=gfactor(P(t,Q1(a),P1,P2,P3));
+
+/* First derivative dP/dt */
+dP1(t,a,P1,P2,P3):=diff(P1(t,a,P1,P2,P3),t);
+dX(t,a):=dP1(t,a,x1,x2,x3);
+dY(t,a):=dP1(t,a,y1,y2,y3);
+
+/* Solve equation dP/dt(t=0) = b */
+eq:subst(0,t,dY(t,a)/dX(t,a))=b;
+ratsimp(solve(eq,a));
+
+/* Other aproach */
+b(i,n,t):=n!/(i!*(n-i)!)*t^i*(1-t)^(n-i);
+B(t):=P0*b(0,5,t)+Q1*b(1,5,t)+Q2*b(2,5,t)+Q3*b(3,5,t)+Q4*b(4,5,t)+P5*b(5,5,t);
+eq1:B(1/5)=P1;
+eq2:B(2/5)=P2;
+eq3:B(3/5)=P3;
+eq4:B(4/5)=P4;
+f(P0,P1,P2,P3,P4,P5):=solve([eq1,eq2,eq3,eq4],[Q1,Q2,Q3,Q4]);
+x:f(200,250,300,350,400,450);
+y:f(300, 350, 300,250,300,350);
