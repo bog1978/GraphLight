@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Media;
 using GraphLight.Geometry;
 using GraphLight.Layout;
 
@@ -17,7 +16,7 @@ namespace GraphLight.Graph
             : base(data)
         {
             base.Data = data;
-            Color = Colors.Black;
+            Color = "Black";
             Thickness = 1;
 
             var points = new ObservableCollection<Point2D>();
@@ -51,7 +50,7 @@ namespace GraphLight.Graph
             }
         }
 
-        public Color Color
+        public string Color
         {
             get { return Data.Color; }
             set
@@ -62,9 +61,9 @@ namespace GraphLight.Graph
             }
         }
 
-        public Brush StrokeBrush
+        public string StrokeBrush
         {
-            get { return new SolidColorBrush(Color); }
+            get { return Data.Color; }
         }
 
         public double Thickness

@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
 using System.Resources;
+using System.Runtime.CompilerServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -27,11 +28,12 @@ using System.Resources;
 
 #if !SILVERLIGHT
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
+[assembly: InternalsVisibleTo("WpfGraphLightTest")]
+[assembly: InternalsVisibleTo("GraphLight.Prefomance")]
 #endif
+
 [assembly: NeutralResourcesLanguageAttribute("ru")]
 [assembly: XmlnsPrefix("http://graphlight.codeplex.com", "gl")]
 //[assembly: XmlnsDefinition("http://graphlight.codeplex.com", "GraphLight.Drawing", AssemblyName = "GraphLight.Drawing")]
 //[assembly: XmlnsDefinition("http://graphlight.codeplex.com", "GraphLight.Converters", AssemblyName = "GraphLight.Drawing")]
 //[assembly: XmlnsDefinition("http://graphlight.codeplex.com", "GraphLight.Controls", AssemblyName = "GraphLight.Drawing")]
-
-

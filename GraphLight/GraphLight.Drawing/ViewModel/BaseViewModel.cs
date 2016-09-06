@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using GraphLight.Annotations;
 
 namespace GraphLight.ViewModel
 {
@@ -6,10 +7,12 @@ namespace GraphLight.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        [NotifyPropertyChangedInvocator]
         protected void RaisePropertyChanged(string name)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(name));
         }
     }
 }

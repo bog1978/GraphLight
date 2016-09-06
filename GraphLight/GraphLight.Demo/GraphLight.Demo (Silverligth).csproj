@@ -143,13 +143,9 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphLight.Drawing\GraphLight.Drawing %28SL4%29.csproj">
+    <ProjectReference Include="..\GraphLight.Drawing\GraphLight %28Silverlight%29.csproj">
       <Project>{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}</Project>
-      <Name>GraphLight.Drawing %28SL4%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphLight\GraphLight.csproj">
-      <Project>{e99616c6-58b3-4870-922e-1b0d7cc605ed}</Project>
-      <Name>GraphLight</Name>
+      <Name>GraphLight %28Silverlight%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

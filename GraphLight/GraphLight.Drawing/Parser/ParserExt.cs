@@ -60,7 +60,7 @@ namespace GraphLight.Parser
         private void setColor(Color color)
         {
             foreach (var edge in _edgeChain)
-                edge.Data.Color = color;
+                edge.Data.Color = color.ToString();
         }
 
         private void setThickness()

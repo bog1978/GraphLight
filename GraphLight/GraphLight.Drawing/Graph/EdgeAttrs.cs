@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Media;
 using GraphLight.Geometry;
 using GraphLight.ViewModel;
 
@@ -9,7 +8,7 @@ namespace GraphLight.Graph
     [DebuggerDisplay("IsRevert={IsRevert}, CutValue={CutValue}")]
     public class EdgeAttrs : BaseViewModel, IEdgeAttrs
     {
-        private Color _color;
+        private string _color;
         private IList<Point2D> _draggablePoints;
         private int _dstPointIndex;
         private bool _isHighlighted;
@@ -19,8 +18,8 @@ namespace GraphLight.Graph
         private IList<Point2D> _polygonPoints;
         private double _thickness;
         private int _zIndex;
-
-        public Color Color
+        
+        public string Color
         {
             get { return _color; }
             set

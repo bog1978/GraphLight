@@ -115,13 +115,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GraphLight.Drawing\GraphLight.Drawing %28WPF%29.csproj">
+    <ProjectReference Include="..\GraphLight.Drawing\GraphLight %28WPF%29.csproj">
       <Project>{19D6A2B3-2A59-4408-9492-3EDC35303CCC}</Project>
-      <Name>GraphLight.Drawing %28WPF%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphLight\GraphLight.csproj">
-      <Project>{e99616c6-58b3-4870-922e-1b0d7cc605ed}</Project>
-      <Name>GraphLight</Name>
+      <Name>GraphLight %28WPF%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
