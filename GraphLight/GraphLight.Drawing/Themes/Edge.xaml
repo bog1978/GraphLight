@@ -37,14 +37,14 @@
                         Binding="{Binding Path=IsHighlighted, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
             </i:Interaction.Behaviors>
             <Path x:Name="arrow" StrokeThickness="{Binding Thickness}" Stroke="{Binding StrokeBrush}"
-                    Data="{Binding Data.Points, Converter={StaticResource bezierConverter}}" />
+                    Data="{Binding Points, Converter={StaticResource bezierConverter}}" />
         </Grid>
     </ControlTemplate>
 
     <Style TargetType="Drawing:Edge">
-        <Setter Property="Canvas.ZIndex" Value="{Binding Data.ZIndex}" />
-        <Setter Property="IsSelected" Value="{Binding Data.IsSelected}" />
-        <Setter Property="IsHighlighted" Value="{Binding Data.IsHighlighted}" />
+        <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}" />
+        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+        <Setter Property="IsHighlighted" Value="{Binding IsHighlighted}" />
         <Setter Property="Template" Value="{StaticResource edgeTemplate}" />
     </Style>
 

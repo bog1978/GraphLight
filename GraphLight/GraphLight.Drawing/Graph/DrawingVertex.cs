@@ -1,20 +1,19 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
 namespace GraphLight.Graph
 {
     [DebuggerDisplay("{DebugString}")]
-    public class DrawingVertex : Vertex<VertexAttrs, EdgeAttrs>, INotifyPropertyChanged
+    public class DrawingVertex : Vertex<VertexAttrs, EdgeAttrs>
     {
+        private string _shapeData;
+
         #region Constructors
 
         public DrawingVertex(VertexAttrs data)
             : base(data)
         {
-            base.Data = data;
+            Data = data;
             ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1"; // Эллипс
             //ShapeData = "M 0,0 H 1 V 1 H 0 Z"; // Прямоугольник.
         }
@@ -23,46 +22,25 @@ namespace GraphLight.Graph
 
         public string DebugString
         {
-            get { return Id; }
+            get { return Data.ToString(); }
         }
 
         public double CenterY
         {
-            get { return Data.Top + Data.Height/2; }
+            get { return Top + Height / 2; }
         }
 
         public string ShapeData
         {
-            get { return Data.ShapeData; }
-            set
-            {
-                Data.ShapeData = value;
-                RaisePropertyChanged("ShapeData");
-            }
-        }
-
-        public override string Id
-        {
-            get { return Data != null ? Data.Id : null; }
-        }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        protected void RaisePropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            get { return _shapeData; }
+            set { SetProperty(ref _shapeData, value, "ShapeData"); }
         }
 
         public void Update()
         {
             foreach (DrawingEdge e in Edges)
             {
-                var pts = e.Data.Points;
+                var pts = e.Points;
                 using (e.DeferRefresh())
                 {
                     if (pts.Count == 2 || e.Src == e.Dst)
@@ -74,17 +52,12 @@ namespace GraphLight.Graph
                         e.UpdateSrcPort();
                     else
                         e.UpdateDstPort();
-                    var first = e.Data.Points.First();
-                    var last = e.Data.Points.Last();
+                    var first = e.Points.First();
+                    var last = e.Points.Last();
                     e.FixDraggablePoints(first);
                     e.FixDraggablePoints(last);
                 }
             }
-        }
-
-        protected override ICollection<T> CreateCollection<T>()
-        {
-            return new ObservableCollection<T>();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace GraphLight.Test.Graph
         [TestMethod]
         public void Test1()
         {
-            var g = new DrawingGraph("test");
+            var g = new DrawingGraph();
             var a = g.AddVertex(new VertexAttrs("a"));
             var b = g.AddVertex(new VertexAttrs("b"));
             var c = g.AddVertex(new VertexAttrs("c"));

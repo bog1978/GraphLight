@@ -133,7 +133,6 @@
     <Compile Include="Graph\EdgeAttrs.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="Graph\IEdge.cs" />
-    <Compile Include="Graph\IEdgeAttrs.cs" />
     <Compile Include="Graph\IGraph.cs" />
     <Compile Include="Graph\IVertex.cs" />
     <Compile Include="Graph\IVertexAttrs.cs" />

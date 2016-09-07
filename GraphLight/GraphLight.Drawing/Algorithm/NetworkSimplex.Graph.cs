@@ -9,7 +9,7 @@ namespace GraphLight.Algorithm
     {
         #region Nested type: Edge
 
-        [DebuggerDisplay("{Src.Id} -> {Dst.Id}")]
+        //[DebuggerDisplay("{Src.Id} -> {Dst.Id}")]
         protected class Edge
         {
             private static int _counter;
@@ -67,7 +67,7 @@ namespace GraphLight.Algorithm
 
         #region Nested type: Vertex
 
-        [DebuggerDisplay("{Id}")]
+        //[DebuggerDisplay("{Id}")]
         protected class Vertex : IBinaryHeapItem<int>
         {
             public VertexColor Color = VertexColor.White;
@@ -83,11 +83,6 @@ namespace GraphLight.Algorithm
             internal int TreeEdgeCount;
             public int Value;
             private int _heapKey = int.MaxValue;
-
-            public Vertex(string id)
-            {
-                Id = id;
-            }
 
             #region IBinaryHeapItem<int> Members
 

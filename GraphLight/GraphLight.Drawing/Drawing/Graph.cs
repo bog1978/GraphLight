@@ -112,14 +112,14 @@ namespace GraphLight.Drawing
             var maxY = double.MinValue;
             foreach (var vertex in Graph.Verteces)
             {
-                if (vertex.Data.Left < minX)
-                    minX = vertex.Data.Left;
-                if (vertex.Data.Right > maxX)
-                    maxX = vertex.Data.Right;
-                if (vertex.Data.Top < minY)
-                    minY = vertex.Data.Top;
-                if (vertex.Data.Bottom > maxY)
-                    maxY = vertex.Data.Bottom;
+                if (vertex.Left < minX)
+                    minX = vertex.Left;
+                if (vertex.Right > maxX)
+                    maxX = vertex.Right;
+                if (vertex.Top < minY)
+                    minY = vertex.Top;
+                if (vertex.Bottom > maxY)
+                    maxY = vertex.Bottom;
             }
             var graphWidth = maxX - minX;
             var graphHeight = maxY - minY;
@@ -139,12 +139,12 @@ namespace GraphLight.Drawing
             {
                 foreach (var vertex in Graph.Verteces)
                 {
-                    vertex.Data.Left += leftShift;
-                    vertex.Data.Top += topShift;
+                    vertex.Left += leftShift;
+                    vertex.Top += topShift;
                 }
                 foreach (DrawingEdge edge in Graph.Edges)
                 {
-                    foreach (var point2D in edge.Data.DraggablePoints)
+                    foreach (var point2D in edge.DraggablePoints)
                     {
                         point2D.X += leftShift;
                         point2D.Y += topShift;
@@ -204,7 +204,7 @@ namespace GraphLight.Drawing
             var vm = data as GraphViewModel;
 
             if (vertex != null)
-                _currentTool = !vertex.Data.IsSelected
+                _currentTool = !vertex.IsSelected
                     ? _edgeDrawingTool
                     : _vertexTool;
             else if (edge != null)

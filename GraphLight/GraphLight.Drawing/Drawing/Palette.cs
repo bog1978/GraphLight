@@ -28,14 +28,14 @@ namespace GraphLight.Drawing
                 return;
             clearAllItems();
             fillVerteces();
-            Graph.Width = Graph.Verteces.Max(x => x.Data.Width);
-            Graph.Height = Graph.Verteces.Sum(x => x.Data.Height);
+            Graph.Width = Graph.Verteces.Max(x => x.Width);
+            Graph.Height = Graph.Verteces.Sum(x => x.Height);
             var top = 0.0;
             foreach (var vertex in Graph.Verteces)
             {
-                vertex.Data.Left = (Graph.Width - vertex.Data.Width) / 2;
-                vertex.Data.Top = top;
-                top += vertex.Data.Height;
+                vertex.Left = (Graph.Width - vertex.Width) / 2;
+                vertex.Top = top;
+                top += vertex.Height;
             }
             Width = Graph.Width;
             Height = Graph.Height;

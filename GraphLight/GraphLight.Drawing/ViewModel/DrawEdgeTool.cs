@@ -22,7 +22,7 @@ namespace GraphLight.ViewModel
         {
             var point = GetPoint(e);
             var node = GetOriginalDataContext<DrawingVertex>(e);
-            if (_newEdge != null && node == _srcNode && _newEdge.Data.Points.Count <= 2)
+            if (_newEdge != null && node == _srcNode && _newEdge.Points.Count <= 2)
             {
                 Cancel();
                 Model.SelectedNode = node;
@@ -43,20 +43,20 @@ namespace GraphLight.ViewModel
 
         private void beginDrawEdge(Point2D point, DrawingVertex srcNode)
         {
-            var p = srcNode.Data.CenterPoint();
+            var p = srcNode.CenterPoint();
             _srcNode = srcNode;
             _newEdge = (DrawingEdge) Model.Graph.AddEdge(srcNode.Data, srcNode.Data, new EdgeAttrs());
-            _newEdge.Data.Points.Add(p);
+            _newEdge.Points.Add(p);
             _newEdge.RaisePointsChanged();
             IsInProgress = true;
         }
 
         private void addNewControlPoint(Point2D point)
         {
-            _newEdge.Data.Points.Add(point);
-            if (_newEdge.Data.Points.Count == 2)
+            _newEdge.Points.Add(point);
+            if (_newEdge.Points.Count == 2)
             {
-                _newEdge.Data.IsSelected = true;
+                _newEdge.IsSelected = true;
                 _newEdge.UpdateSrcPort();
                 _newEdge.FixDraggablePoints(point);
             }
@@ -67,11 +67,11 @@ namespace GraphLight.ViewModel
         {
             //_newEdge.Points.Add(point);
             _newEdge.Dst = dstNode;
-            if (_newEdge.Data.Points.Count == 2)
+            if (_newEdge.Points.Count == 2)
                 _newEdge.UpdateSrcPort();
-            _newEdge.Data.IsSelected = false;
+            _newEdge.IsSelected = false;
             _newEdge.UpdateDstPort();
-            _newEdge.FixDraggablePoints(_newEdge.Data.Points.Last());
+            _newEdge.FixDraggablePoints(_newEdge.Points.Last());
             _newEdge.RaisePointsChanged();
             _newEdge = null;
             IsInProgress = false;
@@ -88,9 +88,9 @@ namespace GraphLight.ViewModel
                 if (node == _srcNode)
                     return;
 
-                var p1 = _newEdge.Data.Points[_newEdge.Data.Points.Count - 1];
-                var p2 = _newEdge.Data.Points[_newEdge.Data.Points.Count - 2];
-                var p = node.Data.GetShapePort(p2);
+                var p1 = _newEdge.Points[_newEdge.Points.Count - 1];
+                var p2 = _newEdge.Points[_newEdge.Points.Count - 2];
+                var p = node.GetShapePort(p2);
                 if (p1 != p)
                 {
                     p1.X = p.X;
@@ -106,14 +106,14 @@ namespace GraphLight.ViewModel
                 return;
 
             var point = GetPoint(e);
-            if (_newEdge.Data.Points.Count == 1)
+            if (_newEdge.Points.Count == 1)
                 addNewControlPoint(point);
             else
             {
-                var lastPoint = _newEdge.Data.Points.Last();
+                var lastPoint = _newEdge.Points.Last();
                 lastPoint.X = point.X;
                 lastPoint.Y = point.Y;
-                if (_newEdge.Data.Points.Count == 2)
+                if (_newEdge.Points.Count == 2)
                     _newEdge.UpdateSrcPort();
                 _newEdge.FixDraggablePoints(lastPoint);
             }

@@ -170,9 +170,9 @@ namespace GraphLight.Drawing
             DataTemplate vertexTemplate = null;
             if (VertexTemplateDictionary != null)
             {
-                if (string.IsNullOrWhiteSpace(vertex.Data.Category))
+                if (string.IsNullOrWhiteSpace(vertex.Category))
                     vertexTemplate = VertexTemplateDictionary.DefaultTemplate;
-                else if (!VertexTemplateDictionary.TryGetValue(vertex.Data.Category, out vertexTemplate))
+                else if (!VertexTemplateDictionary.TryGetValue(vertex.Category, out vertexTemplate))
                     vertexTemplate = VertexTemplateDictionary.DefaultTemplate;
             }
             var presenter = new Node { Content = vertex, DataContext = vertex };
@@ -185,8 +185,8 @@ namespace GraphLight.Drawing
             // Update desired size of new UIElement.
             presenter.UpdateLayout();
             // Update properties of vertex model.
-            vertex.Data.Width = presenter.DesiredSize.Width;
-            vertex.Data.Height = presenter.DesiredSize.Height;
+            vertex.Width = presenter.DesiredSize.Width;
+            vertex.Height = presenter.DesiredSize.Height;
             _elementMap.Add(vertex, presenter);
         }
 

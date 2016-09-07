@@ -10,9 +10,9 @@ namespace GraphLight.Drawing
 
         public static void MeasureStatic(IVertex<VertexAttrs, EdgeAttrs> attrs)
         {
-            var textBlock = new TextBlock { Text = attrs.Data.Label };
-            attrs.Data.Width = attrs.Data.IsTmp ? MARGIN / 2 : textBlock.ActualWidth + MARGIN;
-            attrs.Data.Height = attrs.Data.IsTmp ? MARGIN / 2 : textBlock.ActualHeight + MARGIN;
+            var textBlock = new TextBlock { Text = attrs.Label };
+            attrs.Width = attrs.IsTmp ? MARGIN / 2 : textBlock.ActualWidth + MARGIN;
+            attrs.Height = attrs.IsTmp ? MARGIN / 2 : textBlock.ActualHeight + MARGIN;
         }
 
         public void Measure(IVertex<VertexAttrs, EdgeAttrs> vertex)

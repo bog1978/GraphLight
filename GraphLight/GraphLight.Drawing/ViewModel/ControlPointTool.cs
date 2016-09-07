@@ -24,7 +24,7 @@ namespace GraphLight.ViewModel
             if (point == null)
                 return;
 
-            var points = Model.SelectedEdge.Data.Points;
+            var points = Model.SelectedEdge.Points;
             if (points.First() == point || points.Last() == point)
                 return;
 

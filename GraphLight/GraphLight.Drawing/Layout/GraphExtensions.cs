@@ -10,12 +10,12 @@ namespace GraphLight.Layout
         public static IEnumerable<List<IVertex<TVertex, TEdge>>> GetRankList<TVertex, TEdge>(
             this IGraph<TVertex, TEdge> graph)
             where TVertex : IVertexAttrs
-            where TEdge : IEdgeAttrs
+            //where TEdge : IEdgeAttrs
         {
             return
                 from node in graph.Verteces
-                orderby node.Data.Rank, node.Data.Position
-                group node by node.Data.Rank
+                orderby node.Rank, node.Position
+                group node by node.Rank
                     into rank
                     select rank.ToList();
         }
@@ -26,8 +26,8 @@ namespace GraphLight.Layout
         {
             var ranks =
                 from node in graph.Verteces
-                orderby node.Data.Rank, node.Data.Position
-                group node by node.Data.Rank
+                orderby node.Rank, node.Position
+                group node by node.Rank
                     into rank
                     select rank;
             return ranks.ToDictionary(rank => rank.Key, rank => rank.ToList());
@@ -41,7 +41,7 @@ namespace GraphLight.Layout
         /// <param name="graph"></param>
         public static void Acyclic<TVertex, TEdge>(this IGraph<TVertex, TEdge> graph)
             where TVertex : IVertexAttrs
-            where TEdge : IEdgeAttrs
+            //where TEdge : IEdgeAttrs
         {
             var backEdges = new List<IEdge<TVertex, TEdge>>();
             var dfs = new DepthFirstSearch<TVertex, TEdge>(graph);
@@ -52,7 +52,7 @@ namespace GraphLight.Layout
                 var tmp = e.Src;
                 e.Src = e.Dst;
                 e.Dst = tmp;
-                e.Data.IsRevert = true;
+                e.IsRevert = true;
             }
         }
     }

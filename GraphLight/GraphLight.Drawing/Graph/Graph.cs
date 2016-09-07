@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public class Graph<TVertex, TEdge> : IGraph<TVertex, TEdge>
+    public class Graph<TVertex, TEdge> : BaseViewModel, IGraph<TVertex, TEdge>
         where TEdge : new()
     {
         private readonly ICollection<IEdge<TVertex, TEdge>> _edges;
@@ -14,13 +16,14 @@ namespace GraphLight.Graph
         private readonly IDictionary<TVertex, IVertex<TVertex, TEdge>> _vertexMap =
             new Dictionary<TVertex, IVertex<TVertex, TEdge>>();
 
+        private double _width;
+        private double _height;
+
         public Graph()
         {
-            // ReSharper disable DoNotCallOverridableMethodsInConstructor
-            _elements = CreateCollection<object>();
-            _verteces = CreateCollection<IVertex<TVertex, TEdge>>();
-            _edges = CreateCollection<IEdge<TVertex, TEdge>>();
-            // ReSharper restore DoNotCallOverridableMethodsInConstructor
+            _elements = new ObservableCollection<object>();
+            _verteces = new ObservableCollection<IVertex<TVertex, TEdge>>();
+            _edges = new ObservableCollection<IEdge<TVertex, TEdge>>();
         }
 
         public IEnumerable<object> Elements
@@ -30,9 +33,17 @@ namespace GraphLight.Graph
 
         #region IGraph<TVertex,TEdge> Members
 
-        public virtual double Width { get; set; }
+        public double Width
+        {
+            get { return _width; }
+            set { SetProperty(ref _width, value, "Width"); }
+        }
 
-        public virtual double Height { get; set; }
+        public double Height
+        {
+            get { return _height; }
+            set { SetProperty(ref _height, value, "Height"); }
+        }
 
         public IEnumerable<IVertex<TVertex, TEdge>> Verteces
         {
@@ -141,11 +152,6 @@ namespace GraphLight.Graph
         protected virtual IVertex<TVertex, TEdge> CreateVertex(TVertex data)
         {
             return new Vertex<TVertex, TEdge>(data);
-        }
-
-        protected virtual ICollection<T> CreateCollection<T>()
-        {
-            return new List<T>();
         }
     }
 }

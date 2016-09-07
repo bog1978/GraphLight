@@ -9,50 +9,55 @@ namespace GraphLight.Parser
     partial class MyParser
     {
         public DrawingGraph ParsedGraph;
-        private IVertex<VertexAttrs, EdgeAttrs> _node;
-        private IEdge<VertexAttrs, EdgeAttrs> _edge;
-        private ICollection<IEdge<VertexAttrs, EdgeAttrs>> _edgeChain;
+        private DrawingVertex _node;
+        private DrawingEdge _edge;
+        private ICollection<DrawingEdge> _edgeChain;
 
         private void createGraph(string name)
         {
-            ParsedGraph = new DrawingGraph(name);
+            ParsedGraph = new DrawingGraph();
         }
 
         private void createNode()
         {
-            _node = ParsedGraph.AddVertex(new VertexAttrs(t.val));
+            _node = (DrawingVertex) ParsedGraph.AddVertex(new VertexAttrs(t.val));
+            _node.Label = t.val;
         }
 
         private void setNodeLabel()
         {
-            _node.Data.Label = t.val.Trim('\"');
+            _node.Label = t.val.Trim('\"');
         }
 
         private void setNodeRank()
         {
-            _node.Data.Rank = Convert.ToInt32(t.val);
+            _node.Rank = Convert.ToInt32(t.val);
         }
 
         private void setNodePosition()
         {
-            _node.Data.Position = Convert.ToInt32(t.val);
+            _node.Position = Convert.ToInt32(t.val);
         }
 
         private void setNodeCategory()
         {
-            _node.Data.Category = t.val.Trim('\"');
+            _node.Category = t.val.Trim('\"');
         }
 
         string _from;
         private void createEdgeChain()
         {
             _from = t.val;
-            _edgeChain = new List<IEdge<VertexAttrs, EdgeAttrs>>();
+            _edgeChain = new List<DrawingEdge>();
         }
 
         private void createEdge()
         {
-            _edge = ParsedGraph.AddEdge(new VertexAttrs(_from), new VertexAttrs(t.val), new EdgeAttrs());
+            _edge = (DrawingEdge)ParsedGraph.AddEdge(new VertexAttrs(_from), new VertexAttrs(t.val), new EdgeAttrs());
+            if(_edge.Src.Label == null)
+                _edge.Src.Label = _from;
+            if (_edge.Dst.Label == null)
+                _edge.Dst.Label = t.val;
             _edgeChain.Add(_edge);
             _from = t.val;
         }
@@ -60,7 +65,7 @@ namespace GraphLight.Parser
         private void setColor(Color color)
         {
             foreach (var edge in _edgeChain)
-                edge.Data.Color = color.ToString();
+                edge.Color = color.ToString();
         }
 
         private void setThickness()
@@ -68,7 +73,7 @@ namespace GraphLight.Parser
             var format = new NumberFormatInfo { NumberDecimalSeparator = "." };
             var thickness = double.Parse(t.val, format);
             foreach (var edge in _edgeChain)
-                edge.Data.Thickness = thickness;
+                edge.Thickness = thickness;
         }
 
         private void setWeight()

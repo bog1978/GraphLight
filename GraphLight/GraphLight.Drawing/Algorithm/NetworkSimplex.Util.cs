@@ -9,7 +9,7 @@ namespace GraphLight.Algorithm
     {
         private static Graph makeRootedGraph(ICollection<Vertex> vertices, ICollection<Edge> edges)
         {
-            var root = new Vertex("_root_");
+            var root = new Vertex();
             var roots = vertices.Except(edges.Select(x => x.Dst)).ToArray();
             foreach (var vertex in roots)
                 edges.Add(new Edge(root, vertex, 0, 1));

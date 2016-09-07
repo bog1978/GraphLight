@@ -32,7 +32,7 @@ namespace GraphLight.Layout
         {
             IList<IEdge<TVertex, TEdge>> edges = new List<IEdge<TVertex, TEdge>>();
             for (var currEdge = edge; currEdge != null;
-                currEdge = currEdge.Dst.OutEdges.FirstOrDefault(x => x.Src.Data.IsTmp))
+                currEdge = currEdge.Dst.OutEdges.FirstOrDefault(x => x.Src.IsTmp))
                 edges.Add(currEdge);
 
             var points = new List<Point2D>();
@@ -44,7 +44,7 @@ namespace GraphLight.Layout
             }
 
             //edge.SrcPointIndex = 0;
-            edge.Data.DstPointIndex = points.Count - 1;
+            edge.DstPointIndex = points.Count - 1;
 
             foreach (var e in edges.Reverse())
             {
@@ -53,27 +53,27 @@ namespace GraphLight.Layout
             }
 
             var edgePolygon = new Polygon2D(points);
-            edge.Data.DstPointIndex = edgePolygon.Simplify(edge.Data.DstPointIndex)[0];
-            edge.Data.PolygonPoints = edgePolygon.Points;
+            edge.DstPointIndex = edgePolygon.Simplify(edge.DstPointIndex)[0];
+            edge.PolygonPoints = edgePolygon.Points;
         }
 
         #region Вычисление полигона
 
         private void calcSrcRightNode(IEdge<TVertex, TEdge> e, ICollection<Point2D> points)
         {
-            var rank = _rankMap[e.Src.Data.Rank];
+            var rank = _rankMap[e.Src.Rank];
             var index = rank.IndexOf(e.Src);
             IList<IVertex<TVertex, TEdge>> nodes = new List<IVertex<TVertex, TEdge>>();
 
             for (var i = index; i < rank.Count; i++)
             {
                 var node = rank[i];
-                if (i == index && node.Data.IsTmp && i < rank.Count - 1)
+                if (i == index && node.IsTmp && i < rank.Count - 1)
                 {
                     nodes.Add(rank[i + 1]);
                     break;
                 }
-                var btw = between(node.Data.CenterX, e.Src.Data.CenterX, e.Dst.Data.CenterX);
+                var btw = between(node.CenterX, e.Src.CenterX, e.Dst.CenterX);
                 if (!btw)
                     break;
                 nodes.Add(node);
@@ -82,47 +82,47 @@ namespace GraphLight.Layout
             var rightNode = nodes.Last();
             foreach (var n in nodes)
             {
-                if (n.Data.IsTmp)
-                    points.Add(new Point2D(n.Data.Right, e.Src.Data.Bottom));
+                if (n.IsTmp)
+                    points.Add(new Point2D(n.Right, e.Src.Bottom));
                 else if (n == e.Src)
                 {
-                    points.Add(n.Data.CenterPoint());
-                    if (e.Src.Data.CenterX < e.Dst.Data.CenterX)
-                        points.Add(n.Data.CustomPoint(1, 0.5));
+                    points.Add(n.CenterPoint());
+                    if (e.Src.CenterX < e.Dst.CenterX)
+                        points.Add(n.CustomPoint(1, 0.5));
                     else
-                        points.Add(n.Data.CustomPoint(1, 1));
-                    if (n == rightNode && n.Data.Right < e.Dst.Data.CenterX)
-                        points.Add(new Point2D(e.Dst.Data.CenterX, n.Data.Bottom));
+                        points.Add(n.CustomPoint(1, 1));
+                    if (n == rightNode && n.Right < e.Dst.CenterX)
+                        points.Add(new Point2D(e.Dst.CenterX, n.Bottom));
                 }
                 else if (n == rightNode)
                 {
-                    points.Add(n.Data.CustomPoint(0, 1));
-                    if (n.Data.Right < e.Dst.Data.CenterX)
-                        points.Add(new Point2D(e.Dst.Data.CenterX, n.Data.Bottom));
+                    points.Add(n.CustomPoint(0, 1));
+                    if (n.Right < e.Dst.CenterX)
+                        points.Add(new Point2D(e.Dst.CenterX, n.Bottom));
                 }
                 else
                 {
-                    points.Add(n.Data.CustomPoint(0, 1));
-                    points.Add(n.Data.CustomPoint(1, 1));
+                    points.Add(n.CustomPoint(0, 1));
+                    points.Add(n.CustomPoint(1, 1));
                 }
             }
         }
 
         private void calcDstRightNode(IEdge<TVertex, TEdge> e, ICollection<Point2D> points)
         {
-            var rank = _rankMap[e.Dst.Data.Rank];
+            var rank = _rankMap[e.Dst.Rank];
             var index = rank.IndexOf(e.Dst);
             IList<IVertex<TVertex, TEdge>> nodes = new List<IVertex<TVertex, TEdge>>();
 
             for (var i = index; i < rank.Count; i++)
             {
                 var node = rank[i];
-                if (i == index && node.Data.IsTmp && i < rank.Count - 1)
+                if (i == index && node.IsTmp && i < rank.Count - 1)
                 {
                     nodes.Add(rank[i + 1]);
                     break;
                 }
-                var btw = between(node.Data.CenterX, e.Src.Data.CenterX, e.Dst.Data.CenterX);
+                var btw = between(node.CenterX, e.Src.CenterX, e.Dst.CenterX);
                 if (!btw)
                     break;
                 nodes.Add(node);
@@ -131,47 +131,47 @@ namespace GraphLight.Layout
             var rightNode = nodes.Last();
             foreach (var n in nodes.Reverse())
             {
-                if (n.Data.IsTmp)
-                    points.Add(new Point2D(n.Data.Right, e.Dst.Data.Top));
+                if (n.IsTmp)
+                    points.Add(new Point2D(n.Right, e.Dst.Top));
                 else if (n == e.Dst)
                 {
-                    if (n == rightNode && n.Data.Right < e.Src.Data.CenterX)
-                        points.Add(new Point2D(e.Src.Data.CenterX, n.Data.Top));
-                    if (e.Src.Data.CenterX > e.Dst.Data.CenterX)
-                        points.Add(n.Data.CustomPoint(1, 0.5));
+                    if (n == rightNode && n.Right < e.Src.CenterX)
+                        points.Add(new Point2D(e.Src.CenterX, n.Top));
+                    if (e.Src.CenterX > e.Dst.CenterX)
+                        points.Add(n.CustomPoint(1, 0.5));
                     else
-                        points.Add(n.Data.CustomPoint(1, 0));
-                    points.Add(n.Data.CenterPoint());
+                        points.Add(n.CustomPoint(1, 0));
+                    points.Add(n.CenterPoint());
                 }
                 else if (n == rightNode)
                 {
-                    if (n.Data.Right < e.Src.Data.CenterX)
-                        points.Add(new Point2D(e.Src.Data.CenterX, n.Data.Top));
-                    points.Add(n.Data.CustomPoint(0, 0));
+                    if (n.Right < e.Src.CenterX)
+                        points.Add(new Point2D(e.Src.CenterX, n.Top));
+                    points.Add(n.CustomPoint(0, 0));
                 }
                 else
                 {
-                    points.Add(n.Data.CustomPoint(1, 0));
-                    points.Add(n.Data.CustomPoint(0, 0));
+                    points.Add(n.CustomPoint(1, 0));
+                    points.Add(n.CustomPoint(0, 0));
                 }
             }
         }
 
         private void calcDstLeftNode(IEdge<TVertex, TEdge> e, ICollection<Point2D> points)
         {
-            var rank = _rankMap[e.Dst.Data.Rank];
+            var rank = _rankMap[e.Dst.Rank];
             var index = rank.IndexOf(e.Dst);
             IList<IVertex<TVertex, TEdge>> nodes = new List<IVertex<TVertex, TEdge>>();
 
             for (var i = index; i >= 0; i--)
             {
                 var node = rank[i];
-                if (i == index && node.Data.IsTmp && i > 0)
+                if (i == index && node.IsTmp && i > 0)
                 {
                     nodes.Add(rank[i - 1]);
                     break;
                 }
-                var btw = between(node.Data.CenterX, e.Src.Data.CenterX, e.Dst.Data.CenterX);
+                var btw = between(node.CenterX, e.Src.CenterX, e.Dst.CenterX);
                 if (!btw)
                     break;
                 nodes.Add(node);
@@ -180,47 +180,47 @@ namespace GraphLight.Layout
             var leftNode = nodes.Last();
             foreach (var n in nodes)
             {
-                if (n.Data.IsTmp)
-                    points.Add(new Point2D(n.Data.Left, e.Dst.Data.Top));
+                if (n.IsTmp)
+                    points.Add(new Point2D(n.Left, e.Dst.Top));
                 else if (n == e.Dst)
                 {
-                    points.Add(n.Data.CenterPoint());
-                    if (e.Src.Data.CenterX < e.Dst.Data.CenterX)
-                        points.Add(n.Data.CustomPoint(0, 0.5));
+                    points.Add(n.CenterPoint());
+                    if (e.Src.CenterX < e.Dst.CenterX)
+                        points.Add(n.CustomPoint(0, 0.5));
                     else
-                        points.Add(n.Data.CustomPoint(0, 0));
-                    if (n == leftNode && n.Data.Left > e.Src.Data.CenterX)
-                        points.Add(new Point2D(e.Src.Data.CenterX, n.Data.Top));
+                        points.Add(n.CustomPoint(0, 0));
+                    if (n == leftNode && n.Left > e.Src.CenterX)
+                        points.Add(new Point2D(e.Src.CenterX, n.Top));
                 }
                 else if (n == leftNode)
                 {
-                    points.Add(n.Data.CustomPoint(1, 0));
-                    if (n.Data.Left > e.Src.Data.CenterX)
-                        points.Add(new Point2D(e.Src.Data.CenterX, e.Dst.Data.Top));
+                    points.Add(n.CustomPoint(1, 0));
+                    if (n.Left > e.Src.CenterX)
+                        points.Add(new Point2D(e.Src.CenterX, e.Dst.Top));
                 }
                 else
                 {
-                    points.Add(n.Data.CustomPoint(1, 0));
-                    points.Add(n.Data.CustomPoint(0, 0));
+                    points.Add(n.CustomPoint(1, 0));
+                    points.Add(n.CustomPoint(0, 0));
                 }
             }
         }
 
         private void calcSrcLeftNode(IEdge<TVertex, TEdge> e, ICollection<Point2D> points)
         {
-            var rank = _rankMap[e.Src.Data.Rank];
+            var rank = _rankMap[e.Src.Rank];
             var index = rank.IndexOf(e.Src);
             IList<IVertex<TVertex, TEdge>> nodes = new List<IVertex<TVertex, TEdge>>();
 
             for (var i = index; i >= 0; i--)
             {
                 var node = rank[i];
-                if (i == index && node.Data.IsTmp && i > 0)
+                if (i == index && node.IsTmp && i > 0)
                 {
                     nodes.Add(rank[i - 1]);
                     break;
                 }
-                var btw = between(node.Data.CenterX, e.Src.Data.CenterX, e.Dst.Data.CenterX);
+                var btw = between(node.CenterX, e.Src.CenterX, e.Dst.CenterX);
                 if (!btw)
                     break;
                 nodes.Add(node);
@@ -229,28 +229,28 @@ namespace GraphLight.Layout
             var leftNode = nodes.Last();
             foreach (var n in nodes.Reverse())
             {
-                if (n.Data.IsTmp)
-                    points.Add(new Point2D(n.Data.Left, e.Src.Data.Bottom));
+                if (n.IsTmp)
+                    points.Add(new Point2D(n.Left, e.Src.Bottom));
                 else if (n == e.Src)
                 {
-                    if (n == leftNode && n.Data.Left > e.Dst.Data.CenterX)
-                        points.Add(new Point2D(e.Dst.Data.CenterX, n.Data.Bottom));
-                    if (e.Src.Data.CenterX > e.Dst.Data.CenterX)
-                        points.Add(n.Data.CustomPoint(0, 0.5));
+                    if (n == leftNode && n.Left > e.Dst.CenterX)
+                        points.Add(new Point2D(e.Dst.CenterX, n.Bottom));
+                    if (e.Src.CenterX > e.Dst.CenterX)
+                        points.Add(n.CustomPoint(0, 0.5));
                     else
-                        points.Add(n.Data.CustomPoint(0, 1));
-                    points.Add(n.Data.CenterPoint());
+                        points.Add(n.CustomPoint(0, 1));
+                    points.Add(n.CenterPoint());
                 }
                 else if (n == leftNode)
                 {
-                    if (n.Data.Left > e.Dst.Data.CenterX)
-                        points.Add(new Point2D(e.Dst.Data.CenterX, n.Data.Bottom));
-                    points.Add(n.Data.CustomPoint(1, 1));
+                    if (n.Left > e.Dst.CenterX)
+                        points.Add(new Point2D(e.Dst.CenterX, n.Bottom));
+                    points.Add(n.CustomPoint(1, 1));
                 }
                 else
                 {
-                    points.Add(n.Data.CustomPoint(0, 1));
-                    points.Add(n.Data.CustomPoint(1, 1));
+                    points.Add(n.CustomPoint(0, 1));
+                    points.Add(n.CustomPoint(1, 1));
                 }
             }
         }
@@ -280,8 +280,8 @@ namespace GraphLight.Layout
                     dump(edge);
                     points = new List<Point2D>
                     {
-                        edge.Src.Data.CenterPoint(),
-                        edge.Dst.Data.CenterPoint(),
+                        edge.Src.CenterPoint(),
+                        edge.Dst.CenterPoint(),
                     };
                 }
                 finally
@@ -291,17 +291,17 @@ namespace GraphLight.Layout
                         dump(edge);
                     }
                     // Replace center points of source and destination nodes by port points.
-                    var srcPort = edge.Src.Data.GetShapePort(points[1]);
-                    var dstPort = edge.Dst.Data.GetShapePort(points[points.Count - 2]);
+                    var srcPort = edge.Src.GetShapePort(points[1]);
+                    var dstPort = edge.Dst.GetShapePort(points[points.Count - 2]);
                     points[0] = srcPort;
                     points[points.Count - 1] = dstPort;
 
-                    if (edge.Data.IsRevert)
+                    if (edge.IsRevert)
                         points.Reverse();
 
-                    edge.Data.Points.Clear();
+                    edge.Points.Clear();
                     foreach (var p in points)
-                        edge.Data.Points.Add(p);
+                        edge.Points.Add(p);
                 }
             }
         }
@@ -310,18 +310,18 @@ namespace GraphLight.Layout
 
         private static List<Point2D> piecewiseLinearCurve(IEdge<TVertex, TEdge> edge)
         {
-            return PiecewiseLinearCurve(edge.Data.PolygonPoints, edge.Data.DstPointIndex);
+            return PiecewiseLinearCurve(edge.PolygonPoints, edge.DstPointIndex);
         }
 
         private static void dump(IEdge<TVertex, TEdge> edge)
         {
-            var strPoints = edge.Data.PolygonPoints
+            var strPoints = edge.PolygonPoints
                 .Select(x => string.Format("new Point2D({0}, {1})", x.X, x.Y))
                 .ToArray();
             Debug.WriteLine("var points = new List<Point2D>{");
             Debug.WriteLine(string.Join(",", strPoints));
             Debug.WriteLine("};");
-            Debug.WriteLine("var result = EdgeRouteJob<VertexAttrs, EdgeAttrs>.PiecewiseLinearCurve(points, {0});", edge.Data.DstPointIndex);
+            Debug.WriteLine("var result = EdgeRouteJob<VertexAttrs, EdgeAttrs>.PiecewiseLinearCurve(points, {0});", edge.DstPointIndex);
             Debug.WriteLine(@"Assert.IsTrue(result.Count > 1, ""Кривая не может состоять из одной точки."");");
         }
 
@@ -427,11 +427,11 @@ namespace GraphLight.Layout
         {
             return new List<Point2D>
             {
-                edge.Src.Data.CenterPoint(),
-                edge.Src.Data.CustomPoint(1,0.5) + new Vector2D(10,10),
-                edge.Src.Data.CustomPoint(1,0.5) + new Vector2D(30,0),
-                edge.Src.Data.CustomPoint(1,0.5) + new Vector2D(10,-10),
-                edge.Src.Data.CenterPoint(),
+                edge.Src.CenterPoint(),
+                edge.Src.CustomPoint(1,0.5) + new Vector2D(10,10),
+                edge.Src.CustomPoint(1,0.5) + new Vector2D(30,0),
+                edge.Src.CustomPoint(1,0.5) + new Vector2D(10,-10),
+                edge.Src.CenterPoint(),
             };
         }
 

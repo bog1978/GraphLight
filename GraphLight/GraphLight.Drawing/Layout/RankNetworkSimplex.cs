@@ -7,7 +7,7 @@ namespace GraphLight.Layout
 {
     internal class RankNetworkSimplex<TVertex, TEdge> : NetworkSimplex
         where TVertex : IVertexAttrs, new()
-        where TEdge : IEdgeAttrs, new()
+        //where TEdge : IEdgeAttrs, new()
     {
         private readonly IGraph<TVertex, TEdge> _graph;
         private Dictionary<IVertex<TVertex, TEdge>, Vertex> _vertexMap;
@@ -22,13 +22,13 @@ namespace GraphLight.Layout
             foreach (var vertex in _graph.Verteces)
             {
                 var v = _vertexMap[vertex];
-                vertex.Data.Rank = v.Value;
+                vertex.Rank = v.Value;
             }
         }
 
         protected override void Initialize(out ICollection<Vertex> vertices, out ICollection<Edge> edges)
         {
-            _vertexMap = _graph.Verteces.ToDictionary(x => x, x => new Vertex(x.Data.Id));
+            _vertexMap = _graph.Verteces.ToDictionary(x => x, x => new Vertex());
 
             vertices = _vertexMap.Values.ToList();
             edges = _graph.Edges.Where(edge => edge.Src != edge.Dst)

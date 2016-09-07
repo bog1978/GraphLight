@@ -8,7 +8,7 @@ namespace GraphLight.Layout
 {
     public class SugiyamaLayout<TVertex, TEdge>
         where TVertex : IVertexAttrs
-        where TEdge : IEdgeAttrs, new()
+        where TEdge : /*IEdgeAttrs,*/ new()
     {
         private IGraph<TVertex, TEdge> _graph;
         private ICollection<IEdge<TVertex, TEdge>> _loops;
@@ -101,7 +101,7 @@ namespace GraphLight.Layout
                 var tmp = e.Src;
                 e.Src = e.Dst;
                 e.Dst = tmp;
-                e.Data.IsRevert = true;
+                e.IsRevert = true;
             }
         }
 

@@ -14,5 +14,14 @@ namespace GraphLight.ViewModel
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(name));
         }
+
+        [NotifyPropertyChangedInvocator("name")]
+        protected void SetProperty<T>(ref T field, T value, string name)
+        {
+            if(Equals(field, value))
+                return;
+            field = value;
+            RaisePropertyChanged(name);
+        }
     }
 }

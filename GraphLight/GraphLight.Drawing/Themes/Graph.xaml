@@ -27,12 +27,12 @@
                 <Grid x:Name="mainGrid" ShowGridLines="True" Background="Transparent"
                         Controls:DragDropManager.AllowDrop="true">
                     <Path x:Name="line" Stroke="Gray" StrokeThickness="0.5" StrokeDashArray="4,8"
-                            Data="{Binding SelectedEdge.Data.Points, Converter={StaticResource polyLineConverter}}"
+                            Data="{Binding SelectedEdge.Points, Converter={StaticResource polyLineConverter}}"
                             Height="{Binding Graph.Height}" Width="{Binding Graph.Width}" />
                     <Canvas x:Name="graphCanvas" Height="{Binding Graph.Height}" Width="{Binding Graph.Width}"
                             Background="Transparent" />
                     <Controls:ItemsControlEx x:Name="controlPoints" HorizontalContentAlignment="Stretch"
-                            ItemsSource="{Binding SelectedEdge.Data.DraggablePoints}"
+                            ItemsSource="{Binding SelectedEdge.DraggablePoints}"
                             ItemsPanel="{StaticResource canvasPanelTemplate}"
                             ItemTemplate="{StaticResource controlPointTemplate}"
                             ItemContainerStyle="{StaticResource controlPointContainerStyle}"

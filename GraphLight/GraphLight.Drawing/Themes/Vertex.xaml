@@ -43,18 +43,18 @@
     </ControlTemplate>
 
     <Style TargetType="Drawing:Node">
-        <Setter Property="Canvas.Left" Value="{Binding Data.Left}" />
-        <Setter Property="Canvas.Top" Value="{Binding Data.Top}" />
-        <Setter Property="Canvas.ZIndex" Value="{Binding Data.ZIndex}" />
+        <Setter Property="Canvas.Left" Value="{Binding Left}" />
+        <Setter Property="Canvas.Top" Value="{Binding Top}" />
+        <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}" />
         <!--Setter Property="Controls:DragDropManager.AllowDrag" Value="True" /-->
-        <Setter Property="Controls:DragDropManager.AllowDrag" Value="{Binding Data.IsSelected}" />
-        <Setter Property="IsSelected" Value="{Binding Data.IsSelected}" />
-        <Setter Property="IsHighlighted" Value="{Binding Data.IsHighlighted}" />
+        <Setter Property="Controls:DragDropManager.AllowDrag" Value="{Binding IsSelected}" />
+        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+        <Setter Property="IsHighlighted" Value="{Binding IsHighlighted}" />
         <Setter Property="Template" Value="{StaticResource nodeTemplate}" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Data.Label}" VerticalAlignment="Center"
+                    <TextBlock Text="{Binding Label}" VerticalAlignment="Center"
                             HorizontalAlignment="Center" />
                 </DataTemplate>
             </Setter.Value>

@@ -7,13 +7,13 @@ namespace GraphLight.Layout
     internal static class EdgeExtensions
     {
         public static bool Cross<TVertex, TEdge>(this IEdge<TVertex, TEdge> edge, IEdge<TVertex, TEdge> otherEdge)
-            where TVertex : IVertexAttrs
-            where TEdge : IEdgeAttrs
+            //where TVertex : IVertexAttrs
+            //where TEdge : IEdgeAttrs
         {
-            var a1 = edge.Src.Data;
-            var b1 = edge.Dst.Data;
-            var a2 = otherEdge.Src.Data;
-            var b2 = otherEdge.Dst.Data;
+            var a1 = edge.Src;
+            var b1 = edge.Dst;
+            var a2 = otherEdge.Src;
+            var b2 = otherEdge.Dst;
             return a1.Position < a2.Position && b1.Position > b2.Position
                 || a1.Position > a2.Position && b1.Position < b2.Position
                 || a1.Position == a2.Position && b1.Position == b2.Position;
@@ -21,9 +21,9 @@ namespace GraphLight.Layout
 
         public static double PositionSpan<TVertex, TEdge>(this IEdge<TVertex, TEdge> edge)
             where TVertex : IVertexAttrs
-            where TEdge : IEdgeAttrs
+            //where TEdge : IEdgeAttrs
         {
-            var delta = edge.Src.Data.Position - edge.Dst.Data.Position;
+            var delta = edge.Src.Position - edge.Dst.Position;
             return Math.Abs(delta) * edge.Weight;
         }
 

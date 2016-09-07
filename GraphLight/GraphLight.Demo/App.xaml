@@ -5,17 +5,17 @@
         <Drawing:DataTemplateDictionary x:Key="vertexTemplateDictionary">
             <Drawing:DataTemplateDictionary.DefaultTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Data.Label}" />
+                    <TextBlock Text="{Binding Label}" />
                 </DataTemplate>
             </Drawing:DataTemplateDictionary.DefaultTemplate>
             <DataTemplate x:Key="large_font">
-                <TextBlock Text="{Binding Data.Label}" FontSize="32" />
+                <TextBlock Text="{Binding Label}" FontSize="32" />
             </DataTemplate>
             <DataTemplate x:Key="small_font">
-                <TextBlock Text="{Binding Data.Label}" FontSize="8" />
+                <TextBlock Text="{Binding Label}" FontSize="8" />
             </DataTemplate>
             <DataTemplate x:Key="with_tooltip">
-                <TextBlock Text="{Binding Data.Label}">
+                <TextBlock Text="{Binding Label}">
                                         <ToolTipService.ToolTip>
                                             <ToolTip>
                                                 <Grid>
@@ -32,9 +32,9 @@
                                                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Top:"
                                         Margin="3" />
                                                     <TextBlock Grid.Row="0" Grid.Column="1"
-                                        Text="{Binding Data.Left}" Margin="3" />
+                                        Text="{Binding Left}" Margin="3" />
                                                     <TextBlock Grid.Row="1" Grid.Column="1"
-                                        Text="{Binding Data.Top}" Margin="3" />
+                                        Text="{Binding Top}" Margin="3" />
                                                 </Grid>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>

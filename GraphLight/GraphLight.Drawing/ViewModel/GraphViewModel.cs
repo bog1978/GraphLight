@@ -39,19 +39,18 @@ namespace GraphLight.ViewModel
             {
                 if (_selectedNode != null)
                 {
-                    _selectedNode.Data.IsSelected = false;
+                    _selectedNode.IsSelected = false;
                     _selectedNode = null;
                 }
                 if (_selectedEdge != null)
-                    _selectedEdge.Data.IsSelected = false;
+                    _selectedEdge.IsSelected = false;
                 _selectedEdge = value;
                 RaisePropertyChanged("SelectedEdge");
                 if (_selectedEdge != null)
                 {
-                    _selectedEdge.Data.IsSelected = true;
+                    _selectedEdge.IsSelected = true;
                     bringToTop(value);
                 }
-
             }
         }
 
@@ -62,16 +61,16 @@ namespace GraphLight.ViewModel
             {
                 if (SelectedEdge != null)
                 {
-                    SelectedEdge.Data.IsSelected = false;
+                    SelectedEdge.IsSelected = false;
                     SelectedEdge = null;
                 }
                 if (_selectedNode != null)
-                    _selectedNode.Data.IsSelected = false;
+                    _selectedNode.IsSelected = false;
                 _selectedNode = value;
                 RaisePropertyChanged("SelectedNode");
                 if (_selectedNode != null)
                 {
-                    _selectedNode.Data.IsSelected = true;
+                    _selectedNode.IsSelected = true;
                     bringToTop(value);
                 }
             }
@@ -87,12 +86,12 @@ namespace GraphLight.ViewModel
             var point = options.Source.DataContext as Point2D;
             if (vertex != null)
             {
-                options.Payload = new Point(vertex.Data.Left, vertex.Data.Top);
-                return vertex.Data.IsSelected;
+                options.Payload = new Point(vertex.Left, vertex.Top);
+                return vertex.IsSelected;
             }
             if (point != null && SelectedEdge != null)
             {
-                var points = SelectedEdge.Data.Points;
+                var points = SelectedEdge.Points;
                 if (points.First() == point || points.Last() == point)
                     return false;
                 options.Payload = new Point(point.X, point.Y);
@@ -113,17 +112,19 @@ namespace GraphLight.ViewModel
             if (vertex != null && options.Mode == DragDropMode.DragExisting)
             {
                 var p = (Point)options.Payload;
-                vertex.Data.Left = p.X + options.DeltaX;
-                vertex.Data.Top = p.Y + options.DeltaY;
+                vertex.Left = p.X + options.DeltaX;
+                vertex.Top = p.Y + options.DeltaY;
                 vertex.Update();
             }
             if (vertex != null && options.Mode == DragDropMode.DragCopy
                 && options.Status == DragDropStatus.Completed)
             {
-                var clone = (VertexAttrs)vertex.Data.Clone();
-                clone.Left = options.Relative.X - vertex.Data.Width / 2;
-                clone.Top = options.Relative.Y - vertex.Data.Height / 2;
-                Graph.AddVertex(clone);
+                var clone = new VertexAttrs();
+                var v = Graph.AddVertex(clone);
+                v.Left = options.Relative.X - vertex.Width / 2;
+                v.Top = options.Relative.Y - vertex.Height / 2;
+                v.Label = vertex.Label;
+                v.Category = vertex.Category;
             }
             if (point != null)
             {
@@ -158,45 +159,45 @@ namespace GraphLight.ViewModel
         {
             var node = element as DrawingVertex;
             if (node != null)
-                node.Data.ZIndex = z++;
+                node.ZIndex = z++;
             var edge = element as DrawingEdge;
             if (edge != null)
-                edge.Data.ZIndex = z++;
+                edge.ZIndex = z++;
             return z;
         }
 
         public void Highlight(DrawingVertex node, bool isHighlighted)
         {
-            if (!node.Data.IsSelected)
-                node.Data.IsHighlighted = isHighlighted;
+            if (!node.IsSelected)
+                node.IsHighlighted = isHighlighted;
 
-            foreach (var edge in node.InEdges)
+            foreach (DrawingEdge edge in node.InEdges)
             {
-                if (!edge.Data.IsSelected)
-                    edge.Data.IsHighlighted = isHighlighted;
-                if (!edge.Src.Data.IsSelected)
-                    edge.Src.Data.IsHighlighted = isHighlighted;
+                if (!edge.IsSelected)
+                    edge.IsHighlighted = isHighlighted;
+                if (!edge.Src.IsSelected)
+                    edge.Src.IsHighlighted = isHighlighted;
             }
-            foreach (var edge in node.OutEdges)
+            foreach (DrawingEdge edge in node.OutEdges)
             {
-                if (!edge.Data.IsSelected)
-                    edge.Data.IsHighlighted = isHighlighted;
-                if (!edge.Dst.Data.IsSelected)
-                    edge.Dst.Data.IsHighlighted = isHighlighted;
+                if (!edge.IsSelected)
+                    edge.IsHighlighted = isHighlighted;
+                if (!edge.Dst.IsSelected)
+                    edge.Dst.IsHighlighted = isHighlighted;
             }
-            foreach (var edge in node.SelfEdges)
-                if (!edge.Data.IsSelected)
-                    edge.Data.IsHighlighted = isHighlighted;
+            foreach (DrawingEdge edge in node.SelfEdges)
+                if (!edge.IsSelected)
+                    edge.IsHighlighted = isHighlighted;
         }
 
         public void Highlight(DrawingEdge edge, bool isHighlighted)
         {
-            if (!edge.Data.IsSelected)
-                edge.Data.IsHighlighted = isHighlighted;
-            if (!edge.Src.Data.IsSelected)
-                edge.Src.Data.IsHighlighted = isHighlighted;
-            if (!edge.Dst.Data.IsSelected)
-                edge.Dst.Data.IsHighlighted = isHighlighted;
+            if (!edge.IsSelected)
+                edge.IsHighlighted = isHighlighted;
+            if (!edge.Src.IsSelected)
+                edge.Src.IsHighlighted = isHighlighted;
+            if (!edge.Dst.IsSelected)
+                edge.Dst.IsHighlighted = isHighlighted;
         }
     }
 }
