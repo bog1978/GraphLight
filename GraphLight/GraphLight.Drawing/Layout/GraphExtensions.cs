@@ -7,9 +7,9 @@ namespace GraphLight.Layout
 {
     internal static class GraphExtensions
     {
-        public static IEnumerable<List<IVertex<TVertex, TEdge>>> GetRankList<TVertex, TEdge>(
-            this IGraph<TVertex, TEdge> graph)
-            where TVertex : IVertexAttrs
+        public static IEnumerable<List<Vertex<TVertex, TEdge>>> GetRankList<TVertex, TEdge>(
+            this Graph<TVertex, TEdge> graph)
+            where TVertex : VertexAttrs where TEdge : new()
             //where TEdge : IEdgeAttrs
         {
             return
@@ -20,9 +20,9 @@ namespace GraphLight.Layout
                     select rank.ToList();
         }
 
-        public static IDictionary<int, List<IVertex<TVertex, TEdge>>> GetRankMap<TVertex, TEdge>(
-            this IGraph<TVertex, TEdge> graph)
-            where TVertex : IVertexAttrs
+        public static IDictionary<int, List<Vertex<TVertex, TEdge>>> GetRankMap<TVertex, TEdge>(
+            this Graph<TVertex, TEdge> graph)
+            where TVertex : VertexAttrs where TEdge : new()
         {
             var ranks =
                 from node in graph.Verteces
@@ -39,11 +39,11 @@ namespace GraphLight.Layout
         /// <typeparam name="TVertex"></typeparam>
         /// <typeparam name="TEdge"></typeparam>
         /// <param name="graph"></param>
-        public static void Acyclic<TVertex, TEdge>(this IGraph<TVertex, TEdge> graph)
-            where TVertex : IVertexAttrs
+        public static void Acyclic<TVertex, TEdge>(this Graph<TVertex, TEdge> graph)
+            where TVertex : VertexAttrs where TEdge : new()
             //where TEdge : IEdgeAttrs
         {
-            var backEdges = new List<IEdge<TVertex, TEdge>>();
+            var backEdges = new List<Edge<TVertex, TEdge>>();
             var dfs = new DepthFirstSearch<TVertex, TEdge>(graph);
             dfs.OnBackEdge = backEdges.Add;
             dfs.Find();

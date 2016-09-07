@@ -6,15 +6,15 @@ using GraphLight.Graph;
 namespace GraphLight.Layout
 {
     internal class PositionNetworkSimplex<TVertex, TEdge> : NetworkSimplex
-        where TVertex : IVertexAttrs, new()
+        where TVertex : VertexAttrs, new() where TEdge : new()
         //where TEdge : IEdgeAttrs, new()
     {
         private const int H_SPACE = 30;
-        private readonly IGraph<TVertex, TEdge> _graph;
+        private readonly Graph<TVertex, TEdge> _graph;
         private int _num = 1;
-        private Dictionary<IVertex<TVertex, TEdge>, Vertex> _vertexMap;
+        private Dictionary<Vertex<TVertex, TEdge>, Vertex> _vertexMap;
 
-        public PositionNetworkSimplex(IGraph<TVertex, TEdge> graph)
+        public PositionNetworkSimplex(Graph<TVertex, TEdge> graph)
         {
             _graph = graph;
         }

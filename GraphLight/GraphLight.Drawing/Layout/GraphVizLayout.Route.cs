@@ -20,7 +20,7 @@ namespace GraphLight.Layout
 
         #region Calculating polygons
 
-        private IDictionary<int, List<IVertex<TVertex, TEdge>>> _rankMap;
+        private IDictionary<int, List<Vertex<TVertex, TEdge>>> _rankMap;
 
         private void calculatePolygons()
         {
@@ -28,9 +28,9 @@ namespace GraphLight.Layout
             Graph.Edges.Iter(calculate);
         }
 
-        private void calculate(IEdge<TVertex, TEdge> edge)
+        private void calculate(Edge<TVertex, TEdge> edge)
         {
-            IList<IEdge<TVertex, TEdge>> edges = new List<IEdge<TVertex, TEdge>>();
+            IList<Edge<TVertex, TEdge>> edges = new List<Edge<TVertex, TEdge>>();
             for (var currEdge = edge; currEdge != null;
                 currEdge = currEdge.Dst.OutEdges.FirstOrDefault(x => x.Src.IsTmp))
                 edges.Add(currEdge);
@@ -59,11 +59,11 @@ namespace GraphLight.Layout
 
         #region Вычисление полигона
 
-        private void calcSrcRightNode(IEdge<TVertex, TEdge> e, ICollection<Point2D> points)
+        private void calcSrcRightNode(Edge<TVertex, TEdge> e, ICollection<Point2D> points)
         {
             var rank = _rankMap[e.Src.Rank];
             var index = rank.IndexOf(e.Src);
-            IList<IVertex<TVertex, TEdge>> nodes = new List<IVertex<TVertex, TEdge>>();
+            IList<Vertex<TVertex, TEdge>> nodes = new List<Vertex<TVertex, TEdge>>();
 
             for (var i = index; i < rank.Count; i++)
             {
@@ -108,11 +108,11 @@ namespace GraphLight.Layout
             }
         }
 
-        private void calcDstRightNode(IEdge<TVertex, TEdge> e, ICollection<Point2D> points)
+        private void calcDstRightNode(Edge<TVertex, TEdge> e, ICollection<Point2D> points)
         {
             var rank = _rankMap[e.Dst.Rank];
             var index = rank.IndexOf(e.Dst);
-            IList<IVertex<TVertex, TEdge>> nodes = new List<IVertex<TVertex, TEdge>>();
+            IList<Vertex<TVertex, TEdge>> nodes = new List<Vertex<TVertex, TEdge>>();
 
             for (var i = index; i < rank.Count; i++)
             {
@@ -157,11 +157,11 @@ namespace GraphLight.Layout
             }
         }
 
-        private void calcDstLeftNode(IEdge<TVertex, TEdge> e, ICollection<Point2D> points)
+        private void calcDstLeftNode(Edge<TVertex, TEdge> e, ICollection<Point2D> points)
         {
             var rank = _rankMap[e.Dst.Rank];
             var index = rank.IndexOf(e.Dst);
-            IList<IVertex<TVertex, TEdge>> nodes = new List<IVertex<TVertex, TEdge>>();
+            IList<Vertex<TVertex, TEdge>> nodes = new List<Vertex<TVertex, TEdge>>();
 
             for (var i = index; i >= 0; i--)
             {
@@ -206,11 +206,11 @@ namespace GraphLight.Layout
             }
         }
 
-        private void calcSrcLeftNode(IEdge<TVertex, TEdge> e, ICollection<Point2D> points)
+        private void calcSrcLeftNode(Edge<TVertex, TEdge> e, ICollection<Point2D> points)
         {
             var rank = _rankMap[e.Src.Rank];
             var index = rank.IndexOf(e.Src);
-            IList<IVertex<TVertex, TEdge>> nodes = new List<IVertex<TVertex, TEdge>>();
+            IList<Vertex<TVertex, TEdge>> nodes = new List<Vertex<TVertex, TEdge>>();
 
             for (var i = index; i >= 0; i--)
             {
@@ -308,12 +308,12 @@ namespace GraphLight.Layout
 
         #region Построение кусочнолинейной кривой
 
-        private static List<Point2D> piecewiseLinearCurve(IEdge<TVertex, TEdge> edge)
+        private static List<Point2D> piecewiseLinearCurve(Edge<TVertex, TEdge> edge)
         {
             return PiecewiseLinearCurve(edge.PolygonPoints, edge.DstPointIndex);
         }
 
-        private static void dump(IEdge<TVertex, TEdge> edge)
+        private static void dump(Edge<TVertex, TEdge> edge)
         {
             var strPoints = edge.PolygonPoints
                 .Select(x => string.Format("new Point2D({0}, {1})", x.X, x.Y))
@@ -423,7 +423,7 @@ namespace GraphLight.Layout
 
         #region Построение петли.
 
-        private static List<Point2D> loopCurve(IEdge<TVertex, TEdge> edge)
+        private static List<Point2D> loopCurve(Edge<TVertex, TEdge> edge)
         {
             return new List<Point2D>
             {

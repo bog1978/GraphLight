@@ -6,14 +6,14 @@ namespace GraphLight.Graph
     {
         double Width { get; set; }
         double Height { get; set; }
-        IEnumerable<IVertex<TVertex, TEdge>> Verteces { get; }
-        IEnumerable<IEdge<TVertex, TEdge>> Edges { get; }
-        IVertex<TVertex, TEdge> this[TVertex key] { get; }
-        IEdge<TVertex, TEdge> AddEdge(TVertex src, TVertex dst, TEdge data);
-        IEdge<TVertex, TEdge> AddEdge(IVertex<TVertex, TEdge> src, IVertex<TVertex, TEdge> dst, TEdge data);
-        IVertex<TVertex, TEdge> AddVertex(TVertex data);
-        void RemoveEdge(IEdge<TVertex, TEdge> edge);
-        void RemoveVertex(IVertex<TVertex, TEdge> vertex);
-        IVertex<TVertex, TEdge> InsertVertex(IEdge<TVertex, TEdge> edge, TVertex vertexData);
+        IEnumerable<Vertex<TVertex, TEdge>> Verteces { get; }
+        IEnumerable<Edge<TVertex, TEdge>> Edges { get; }
+        Vertex<TVertex, TEdge> this[TVertex key] { get; }
+        Edge<TVertex, TEdge> AddEdge(TVertex src, TVertex dst, TEdge data);
+        Edge<TVertex, TEdge> AddEdge(Vertex<TVertex, TEdge> src, Vertex<TVertex, TEdge> dst, TEdge data);
+        Vertex<TVertex, TEdge> AddVertex(TVertex data);
+        void RemoveEdge(Edge<TVertex, TEdge> edge);
+        void RemoveVertex(Vertex<TVertex, TEdge> vertex);
+        Vertex<TVertex, TEdge> InsertVertex(Edge<TVertex, TEdge> edge, TVertex vertexData);
     }
 }

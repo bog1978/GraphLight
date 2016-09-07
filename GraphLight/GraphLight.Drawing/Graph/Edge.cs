@@ -5,10 +5,10 @@ using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public class Edge<TVertex, TEdge> : BaseViewModel, IEdge<TVertex, TEdge>
+    public class Edge<TVertex, TEdge> : BaseViewModel//, IEdge<TVertex, TEdge>
     {
         private TEdge _data;
-        private IVertex<TVertex, TEdge> _dst, _src;
+        private Vertex<TVertex, TEdge> _dst, _src;
         private double _weight = 1;
         private bool _isRevert;
         private int _dstPointIndex;
@@ -77,7 +77,7 @@ namespace GraphLight.Graph
         }
 
 
-        public IVertex<TVertex, TEdge> Src
+        public Vertex<TVertex, TEdge> Src
         {
             get { return _src; }
             set
@@ -94,7 +94,7 @@ namespace GraphLight.Graph
             }
         }
 
-        public IVertex<TVertex, TEdge> Dst
+        public Vertex<TVertex, TEdge> Dst
         {
             get { return _dst; }
             set

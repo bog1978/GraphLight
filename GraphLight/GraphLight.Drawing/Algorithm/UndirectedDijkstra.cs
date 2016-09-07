@@ -6,20 +6,20 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    public class UndirectedDijkstra<TVertex, TEdge> : IShortestPath<TVertex, TEdge>
+    public class UndirectedDijkstra<TVertex, TEdge> : IShortestPath<TVertex, TEdge> where TEdge : new()
     {
-        private readonly IGraph<TVertex, TEdge> _graph;
-        private Action<IEdge<TVertex, TEdge>> _enterEdge = x => { };
-        private Action<IVertex<TVertex, TEdge>> _enterNode = x => { };
+        private readonly Graph<TVertex, TEdge> _graph;
+        private Action<Edge<TVertex, TEdge>> _enterEdge = x => { };
+        private Action<Vertex<TVertex, TEdge>> _enterNode = x => { };
 
-        public UndirectedDijkstra(IGraph<TVertex, TEdge> graph)
+        public UndirectedDijkstra(Graph<TVertex, TEdge> graph)
         {
             _graph = graph;
         }
 
         #region IShortestPath<TNode,TEdge> Members
 
-        public void Find(IVertex<TVertex, TEdge> start, IVertex<TVertex, TEdge> end)
+        public void Find(Vertex<TVertex, TEdge> start, Vertex<TVertex, TEdge> end)
         {
             Find(start.Data, end.Data);
         }
@@ -31,7 +31,7 @@ namespace GraphLight.Algorithm
             var attrs = _graph.Verteces.ToDictionary(x => x, x => new DijkstraAttr());
             attrs[from].Distance = 0;
 
-            var queue = new PriorityQueue<double, IVertex<TVertex,TEdge>>(
+            var queue = new PriorityQueue<double, Vertex<TVertex,TEdge>>(
                 _graph.Verteces, HeapType.Min);
 
             while (!queue.IsEmpty)
@@ -52,8 +52,8 @@ namespace GraphLight.Algorithm
                 }
             }
 
-            var vertexPath = new List<IVertex<TVertex, TEdge>>();
-            var edgePath = new List<IEdge<TVertex, TEdge>>();
+            var vertexPath = new List<Vertex<TVertex, TEdge>>();
+            var edgePath = new List<Edge<TVertex, TEdge>>();
 
             var last = to;
             while (last != from)
@@ -73,7 +73,7 @@ namespace GraphLight.Algorithm
                 EnterEdge(edge);
         }
 
-        public Action<IEdge<TVertex, TEdge>> EnterEdge
+        public Action<Edge<TVertex, TEdge>> EnterEdge
         {
             get { return _enterEdge; }
             set
@@ -84,7 +84,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        public Action<IVertex<TVertex, TEdge>> EnterNode
+        public Action<Vertex<TVertex, TEdge>> EnterNode
         {
             get { return _enterNode; }
             set
@@ -105,7 +105,7 @@ namespace GraphLight.Algorithm
                 Distance = double.MaxValue;
             }
 
-            public IEdge<TVertex, TEdge> Parent;
+            public Edge<TVertex, TEdge> Parent;
             public double Distance;
         }
     }

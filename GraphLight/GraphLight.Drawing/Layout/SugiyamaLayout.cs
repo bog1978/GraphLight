@@ -7,14 +7,14 @@ using GraphLight.Graph;
 namespace GraphLight.Layout
 {
     public class SugiyamaLayout<TVertex, TEdge>
-        where TVertex : IVertexAttrs
+        where TVertex : VertexAttrs
         where TEdge : /*IEdgeAttrs,*/ new()
     {
-        private IGraph<TVertex, TEdge> _graph;
-        private ICollection<IEdge<TVertex, TEdge>> _loops;
-        private IDictionary<IEdge<TVertex, TEdge>, List<IEdge<TVertex, TEdge>>> _merged;
+        private Graph<TVertex, TEdge> _graph;
+        private ICollection<Edge<TVertex, TEdge>> _loops;
+        private IDictionary<Edge<TVertex, TEdge>, List<Edge<TVertex, TEdge>>> _merged;
 
-        public SugiyamaLayout(IGraph<TVertex, TEdge> graph)
+        public SugiyamaLayout(Graph<TVertex, TEdge> graph)
         {
             if (graph == null)
                 throw new ArgumentNullException("graph");
@@ -92,7 +92,7 @@ namespace GraphLight.Layout
         /// </summary>
         private void acyclic()
         {
-            var backEdges = new List<IEdge<TVertex, TEdge>>();
+            var backEdges = new List<Edge<TVertex, TEdge>>();
             var dfs = new DepthFirstSearch<TVertex, TEdge>(_graph);
             dfs.OnBackEdge = backEdges.Add;
             dfs.Find();
@@ -105,15 +105,15 @@ namespace GraphLight.Layout
             }
         }
 
-        private class EdgeComparer : IEqualityComparer<IEdge<TVertex, TEdge>>
+        private class EdgeComparer : IEqualityComparer<Edge<TVertex, TEdge>>
         {
-            public bool Equals(IEdge<TVertex, TEdge> x, IEdge<TVertex, TEdge> y)
+            public bool Equals(Edge<TVertex, TEdge> x, Edge<TVertex, TEdge> y)
             {
                 return x.Src == y.Src && x.Dst == y.Dst
                     || x.Src == y.Dst && x.Dst == y.Src;
             }
 
-            public int GetHashCode(IEdge<TVertex, TEdge> obj)
+            public int GetHashCode(Edge<TVertex, TEdge> obj)
             {
                 return obj.Src.GetHashCode() & obj.Dst.GetHashCode();
             }

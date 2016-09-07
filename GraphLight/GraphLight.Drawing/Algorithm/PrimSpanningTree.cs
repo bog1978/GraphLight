@@ -5,20 +5,20 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    public class PrimSpanningTree<TVertex, TEdge>
+    public class PrimSpanningTree<TVertex, TEdge> where TEdge : new()
     {
-        private readonly IGraph<TVertex, TEdge> _graph;
-        private readonly Func<IEdge<TVertex, TEdge>, double> _weightFunc;
-        private Action<IEdge<TVertex, TEdge>> _enterEdge = x => { };
+        private readonly Graph<TVertex, TEdge> _graph;
+        private readonly Func<Edge<TVertex, TEdge>, double> _weightFunc;
+        private Action<Edge<TVertex, TEdge>> _enterEdge = x => { };
 
-        public PrimSpanningTree(IGraph<TVertex, TEdge> graph,
-            Func<IEdge<TVertex, TEdge>, double> weightFunc)
+        public PrimSpanningTree(Graph<TVertex, TEdge> graph,
+            Func<Edge<TVertex, TEdge>, double> weightFunc)
         {
             _graph = graph;
             _weightFunc = weightFunc;
         }
 
-        public Action<IEdge<TVertex, TEdge>> EnterEdge
+        public Action<Edge<TVertex, TEdge>> EnterEdge
         {
             get { return _enterEdge; }
             set
@@ -29,7 +29,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        public void Execute(IVertex<TVertex, TEdge> root)
+        public void Execute(Vertex<TVertex, TEdge> root)
         {
             var attrs = _graph.Verteces.ToDictionary(x => x, x => new PrimAttr());
             var i = 0;
@@ -38,7 +38,7 @@ namespace GraphLight.Algorithm
                 item.HeapKey = i == 0 ? 0 : double.MaxValue;
                 i++;
             }
-            var q = new PriorityQueue<double, IVertex<TVertex, TEdge>>(_graph.Verteces, HeapType.Min);
+            var q = new PriorityQueue<double, Vertex<TVertex, TEdge>>(_graph.Verteces, HeapType.Min);
             while (!q.IsEmpty)
             {
                 var u = q.Dequeue();
@@ -69,7 +69,7 @@ namespace GraphLight.Algorithm
         private class PrimAttr
         {
             public VertexColor Color;
-            public IEdge<TVertex, TEdge> Parent;
+            public Edge<TVertex, TEdge> Parent;
 
             public PrimAttr()
             {

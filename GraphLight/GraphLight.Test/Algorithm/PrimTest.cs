@@ -54,7 +54,7 @@ namespace GraphLight.Test.Algorithm
             de.Weight = 9;
             fe.Weight = 10;
 
-            var edges = new List<IEdge<string, object>>();
+            var edges = new List<Edge<string, object>>();
 
             var alg = new PrimSpanningTree<string, object>(graph, x => x.Weight);
             alg.EnterEdge += edges.Add;

@@ -3,7 +3,7 @@ using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public interface IVertex : IBinaryHeapItem<double>
+    /*public interface IVertex : IBinaryHeapItem<double>
     {
         int Rank { get; set; }
         int Position { get; set; }
@@ -24,11 +24,11 @@ namespace GraphLight.Graph
     public interface IVertex<TVertex, TEdge> : IVertex
     {
         TVertex Data { get; set; }
-        IEnumerable<IEdge<TVertex, TEdge>> Edges { get; }
-        IEnumerable<IEdge<TVertex, TEdge>> InEdges { get; }
-        IEnumerable<IEdge<TVertex, TEdge>> OutEdges { get; }
-        IEnumerable<IEdge<TVertex, TEdge>> SelfEdges { get; }
-        void RegisterEdge(IEdge<TVertex, TEdge> edge);
-        void UnregisterEdge(IEdge<TVertex, TEdge> edge);
-    }
+        IEnumerable<Edge<TVertex, TEdge>> Edges { get; }
+        IEnumerable<Edge<TVertex, TEdge>> InEdges { get; }
+        IEnumerable<Edge<TVertex, TEdge>> OutEdges { get; }
+        IEnumerable<Edge<TVertex, TEdge>> SelfEdges { get; }
+        void RegisterEdge(Edge<TVertex, TEdge> edge);
+        void UnregisterEdge(Edge<TVertex, TEdge> edge);
+    }*/
 }

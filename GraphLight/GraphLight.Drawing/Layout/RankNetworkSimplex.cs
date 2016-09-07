@@ -6,13 +6,13 @@ using GraphLight.Graph;
 namespace GraphLight.Layout
 {
     internal class RankNetworkSimplex<TVertex, TEdge> : NetworkSimplex
-        where TVertex : IVertexAttrs, new()
+        where TVertex : VertexAttrs, new() where TEdge : new()
         //where TEdge : IEdgeAttrs, new()
     {
-        private readonly IGraph<TVertex, TEdge> _graph;
-        private Dictionary<IVertex<TVertex, TEdge>, Vertex> _vertexMap;
+        private readonly Graph<TVertex, TEdge> _graph;
+        private Dictionary<Vertex<TVertex, TEdge>, Vertex> _vertexMap;
 
-        public RankNetworkSimplex(IGraph<TVertex, TEdge> graph)
+        public RankNetworkSimplex(Graph<TVertex, TEdge> graph)
         {
             _graph = graph;
         }

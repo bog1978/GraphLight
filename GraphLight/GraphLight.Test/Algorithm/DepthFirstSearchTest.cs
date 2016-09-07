@@ -9,7 +9,7 @@ namespace GraphLight.Test.Algorithm
     [TestClass]
     public class DepthFirstSearchTest
     {
-        private readonly IEnumerable<IEdge<string, object>> _emptyEdges = Enumerable.Empty<IEdge<string, object>>();
+        private readonly IEnumerable<Edge<string, object>> _emptyEdges = Enumerable.Empty<Edge<string, object>>();
 
         [TestMethod]
         public void DfsTest1()
@@ -147,18 +147,18 @@ namespace GraphLight.Test.Algorithm
         }
 
         private static void checkResults(
-            IGraph<string, object> graph,
-            IEnumerable<IVertex<string, object>> nodesExpected,
-            IEnumerable<IEdge<string, object>> treeEdgesExpected,
-            IEnumerable<IEdge<string, object>> forwardExpected,
-            IEnumerable<IEdge<string, object>> backwardExpected,
-            IEnumerable<IEdge<string, object>> crossExpected)
+            Graph<string, object> graph,
+            IEnumerable<Vertex<string, object>> nodesExpected,
+            IEnumerable<Edge<string, object>> treeEdgesExpected,
+            IEnumerable<Edge<string, object>> forwardExpected,
+            IEnumerable<Edge<string, object>> backwardExpected,
+            IEnumerable<Edge<string, object>> crossExpected)
         {
-            var nodes = new List<IVertex<string, object>>();
-            var backward = new List<IEdge<string, object>>();
-            var forward = new List<IEdge<string, object>>();
-            var tree = new List<IEdge<string, object>>();
-            var cross = new List<IEdge<string, object>>();
+            var nodes = new List<Vertex<string, object>>();
+            var backward = new List<Edge<string, object>>();
+            var forward = new List<Edge<string, object>>();
+            var tree = new List<Edge<string, object>>();
+            var cross = new List<Edge<string, object>>();
 
             var alg = new DepthFirstSearch<string, object>(graph)
                 {

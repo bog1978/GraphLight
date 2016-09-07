@@ -6,14 +6,15 @@ using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public class Vertex<TVertex, TEdge> : BaseViewModel, IVertex<TVertex, TEdge>
+    public class Vertex<TVertex, TEdge> : BaseViewModel, IBinaryHeapItem<double>
+//, IVertex<TVertex, TEdge>
     {
         #region Private fields
 
-        private readonly ICollection<IEdge<TVertex, TEdge>> _edges;
-        private readonly ICollection<IEdge<TVertex, TEdge>> _inEdges;
-        private readonly ICollection<IEdge<TVertex, TEdge>> _outEdges;
-        private readonly ICollection<IEdge<TVertex, TEdge>> _selfEdges;
+        private readonly ICollection<Edge<TVertex, TEdge>> _edges;
+        private readonly ICollection<Edge<TVertex, TEdge>> _inEdges;
+        private readonly ICollection<Edge<TVertex, TEdge>> _outEdges;
+        private readonly ICollection<Edge<TVertex, TEdge>> _selfEdges;
         private TVertex _data;
         private int _rank;
         private int _position;
@@ -26,10 +27,10 @@ namespace GraphLight.Graph
 
         public Vertex(TVertex data)
         {
-            _edges = new ObservableCollection<IEdge<TVertex, TEdge>>();
-            _inEdges = new ObservableCollection<IEdge<TVertex, TEdge>>();
-            _outEdges = new ObservableCollection<IEdge<TVertex, TEdge>>();
-            _selfEdges = new ObservableCollection<IEdge<TVertex, TEdge>>();
+            _edges = new ObservableCollection<Edge<TVertex, TEdge>>();
+            _inEdges = new ObservableCollection<Edge<TVertex, TEdge>>();
+            _outEdges = new ObservableCollection<Edge<TVertex, TEdge>>();
+            _selfEdges = new ObservableCollection<Edge<TVertex, TEdge>>();
             _data = data;
         }
 
@@ -67,27 +68,27 @@ namespace GraphLight.Graph
             set { SetProperty(ref _category, value, "Category"); }
         }
 
-        public IEnumerable<IEdge<TVertex, TEdge>> Edges
+        public IEnumerable<Edge<TVertex, TEdge>> Edges
         {
             get { return _edges; }
         }
 
-        public IEnumerable<IEdge<TVertex, TEdge>> InEdges
+        public IEnumerable<Edge<TVertex, TEdge>> InEdges
         {
             get { return _inEdges; }
         }
 
-        public IEnumerable<IEdge<TVertex, TEdge>> OutEdges
+        public IEnumerable<Edge<TVertex, TEdge>> OutEdges
         {
             get { return _outEdges; }
         }
 
-        public IEnumerable<IEdge<TVertex, TEdge>> SelfEdges
+        public IEnumerable<Edge<TVertex, TEdge>> SelfEdges
         {
             get { return _selfEdges; }
         }
 
-        void IVertex<TVertex, TEdge>.RegisterEdge(IEdge<TVertex, TEdge> edge)
+        public void RegisterEdge(Edge<TVertex, TEdge> edge)
         {
             var collection = edge.Src == this && edge.Dst == this
                 ? _selfEdges
@@ -120,7 +121,7 @@ namespace GraphLight.Graph
             }
         }
 
-        void IVertex<TVertex, TEdge>.UnregisterEdge(IEdge<TVertex, TEdge> edge)
+        public void UnregisterEdge(Edge<TVertex, TEdge> edge)
         {
             _edges.Remove(edge);
             _selfEdges.Remove(edge);
@@ -128,9 +129,9 @@ namespace GraphLight.Graph
             _outEdges.Remove(edge);
         }
 
-        int IBinaryHeapItem<double>.HeapIndex { get; set; }
+        public int HeapIndex { get; set; }
 
-        double IBinaryHeapItem<double>.HeapKey { get; set; }
+        public double HeapKey { get; set; }
 
         #endregion
 
@@ -249,7 +250,7 @@ namespace GraphLight.Graph
 
         public override bool Equals(object obj)
         {
-            var other = obj as IVertex<TVertex, TEdge>;
+            var other = obj as Vertex<TVertex, TEdge>;
             if (other == null)
                 return false;
             return Equals(Data, other.Data);

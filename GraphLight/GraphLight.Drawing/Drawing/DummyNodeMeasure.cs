@@ -5,7 +5,7 @@ namespace GraphLight.Drawing
 {
     public class DummyNodeMeasure : INodeMeasure<VertexAttrs, EdgeAttrs>
     {
-        public void Measure(IVertex<VertexAttrs, EdgeAttrs> vertex)
+        public void Measure(Vertex<VertexAttrs, EdgeAttrs> vertex)
         {
         }
     }

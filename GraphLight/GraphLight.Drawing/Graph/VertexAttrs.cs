@@ -3,7 +3,7 @@ using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public class VertexAttrs : BaseViewModel, IVertexAttrs
+    public class VertexAttrs : BaseViewModel
     {
         private static int _cnt;
         private string _id;
@@ -32,7 +32,7 @@ namespace GraphLight.Graph
 
         public override bool Equals(object obj)
         {
-            var other = obj as IVertexAttrs;
+            var other = obj as VertexAttrs;
             if (other == null)
                 return false;
             return Id == other.Id;

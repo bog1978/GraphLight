@@ -8,7 +8,8 @@ using GraphLight.Graph;
 namespace GraphLight.Layout
 {
     public partial class GraphVizLayout<TVertex, TEdge> : GraphLayout<TVertex, TEdge>
-        where TVertex : IVertexAttrs, new()
+        where TVertex : VertexAttrs, new()
+        where TEdge : new()
         //where TEdge : IEdgeAttrs, new()
     {
         private const double V_SPACE = 50;
@@ -33,7 +34,7 @@ namespace GraphLight.Layout
 
         protected virtual void Acyclic()
         {
-            var backEdges = new List<IEdge<TVertex, TEdge>>();
+            var backEdges = new List<Edge<TVertex, TEdge>>();
             var dfs = new DepthFirstSearch<TVertex, TEdge>(Graph);
             dfs.OnBackEdge += backEdges.Add;
             dfs.Find();

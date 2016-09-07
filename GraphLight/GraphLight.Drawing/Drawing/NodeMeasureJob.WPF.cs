@@ -12,12 +12,12 @@ namespace GraphLight.Drawing
         private static readonly Size _maxSize = new Size(
             double.PositiveInfinity, double.PositiveInfinity);
 
-        public void Measure(IVertex<VertexAttrs, EdgeAttrs> vertex)
+        public void Measure(Vertex<VertexAttrs, EdgeAttrs> vertex)
         {
             MeasureStatic(vertex);
         }
 
-        public static void MeasureStatic(IVertex<VertexAttrs, EdgeAttrs> attrs)
+        public static void MeasureStatic(Vertex<VertexAttrs, EdgeAttrs> attrs)
         {
             var textBlock = new TextBlock { Text = attrs.Label };
             textBlock.Measure(_maxSize);

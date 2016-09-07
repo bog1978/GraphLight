@@ -14,11 +14,11 @@ namespace GraphLight.Test
         {
             var graph = new DrawingGraph();
             DrawingGraph g = graph;
-            IEdge<VertexAttrs, EdgeAttrs> ab = graph.AddEdge(new VertexAttrs("A"), new VertexAttrs("B"), new EdgeAttrs());
-            IVertex<VertexAttrs, EdgeAttrs> a = ab.Src;
-            IVertex<VertexAttrs, EdgeAttrs> b = ab.Dst;
+            Edge<VertexAttrs, EdgeAttrs> ab = graph.AddEdge(new VertexAttrs("A"), new VertexAttrs("B"), new EdgeAttrs());
+            Vertex<VertexAttrs, EdgeAttrs> a = ab.Src;
+            Vertex<VertexAttrs, EdgeAttrs> b = ab.Dst;
 
-            IVertex<VertexAttrs, EdgeAttrs> cp = g.InsertControlPoint(ab);
+            Vertex<VertexAttrs, EdgeAttrs> cp = g.InsertControlPoint(ab);
             Assert.IsTrue(ReferenceEquals(ab, graph.Edges.First()));
             Assert.IsTrue(ReferenceEquals(ab, a.OutEdges.First()));
             Assert.IsTrue(ReferenceEquals(ab, cp.InEdges.First()));

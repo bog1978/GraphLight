@@ -50,12 +50,12 @@ namespace GraphLight.Graph
 
         #endregion
 
-        protected override IEdge<VertexAttrs, EdgeAttrs> CreateEdge(EdgeAttrs data)
+        protected override Edge<VertexAttrs, EdgeAttrs> CreateEdge(EdgeAttrs data)
         {
             return new DrawingEdge(data);
         }
 
-        protected override IVertex<VertexAttrs, EdgeAttrs> CreateVertex(VertexAttrs data)
+        protected override Vertex<VertexAttrs, EdgeAttrs> CreateVertex(VertexAttrs data)
         {
             return new DrawingVertex(data);
         }

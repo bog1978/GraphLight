@@ -11,7 +11,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void FindShortestPathTest()
         {
-            IGraph<string, object> graph = new Graph<string, object>();
+            Graph<string, object> graph = new Graph<string, object>();
 
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
@@ -27,8 +27,8 @@ namespace GraphLight.Test.Algorithm
             cd.Weight = 1;
             ad.Weight = 10;
 
-            var vertices = new List<IVertex<string, object>>();
-            var edges = new List<IEdge<string, object>>();
+            var vertices = new List<Vertex<string, object>>();
+            var edges = new List<Edge<string, object>>();
 
             var alg = new UndirectedDijkstra<string, object>(graph);
             alg.EnterNode += vertices.Add;

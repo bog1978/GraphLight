@@ -106,7 +106,7 @@ namespace GraphLight.Test.Layout
             }
         }
 
-        private static void checkRanks(DrawingGraph graph, IDictionary<IVertex<VertexAttrs, EdgeAttrs>, int> expectedRanks)
+        private static void checkRanks(DrawingGraph graph, IDictionary<Vertex<VertexAttrs, EdgeAttrs>, int> expectedRanks)
         {
             foreach (var vertex in graph.Verteces)
             {

@@ -25,24 +25,24 @@ namespace GraphLight.Algorithm
     /// More details can be found here:
     /// http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/depthSearch.htm
     /// </remarks>
-    public class DepthFirstSearch<TVertex, TEdge>
+    public class DepthFirstSearch<TVertex, TEdge> where TEdge : new()
     {
-        private readonly IGraph<TVertex, TEdge> _graph;
-        private Dictionary<IVertex<TVertex, TEdge>, DfsVertexAttr> _attrs;
+        private readonly Graph<TVertex, TEdge> _graph;
+        private Dictionary<Vertex<TVertex, TEdge>, DfsVertexAttr> _attrs;
         private int _time;
 
-        private Action<IEdge<TVertex, TEdge>> _onBackEdge = x => { };
-        private Action<IEdge<TVertex, TEdge>> _onCrossEdge = x => { };
-        private Action<IEdge<TVertex, TEdge>> _onForwardEdge = x => { };
-        private Action<IVertex<TVertex, TEdge>> _onNode = x => { };
-        private Action<IEdge<TVertex, TEdge>> _onTreeEdge = x => { };
+        private Action<Edge<TVertex, TEdge>> _onBackEdge = x => { };
+        private Action<Edge<TVertex, TEdge>> _onCrossEdge = x => { };
+        private Action<Edge<TVertex, TEdge>> _onForwardEdge = x => { };
+        private Action<Vertex<TVertex, TEdge>> _onNode = x => { };
+        private Action<Edge<TVertex, TEdge>> _onTreeEdge = x => { };
 
-        public DepthFirstSearch(IGraph<TVertex, TEdge> graph)
+        public DepthFirstSearch(Graph<TVertex, TEdge> graph)
         {
             _graph = graph;
         }
 
-        public Action<IVertex<TVertex, TEdge>> OnNode
+        public Action<Vertex<TVertex, TEdge>> OnNode
         {
             get { return _onNode; }
             set
@@ -53,7 +53,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        public Action<IEdge<TVertex, TEdge>> OnTreeEdge
+        public Action<Edge<TVertex, TEdge>> OnTreeEdge
         {
             get { return _onTreeEdge; }
             set
@@ -64,7 +64,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        public Action<IEdge<TVertex, TEdge>> OnBackEdge
+        public Action<Edge<TVertex, TEdge>> OnBackEdge
         {
             get { return _onBackEdge; }
             set
@@ -75,7 +75,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        public Action<IEdge<TVertex, TEdge>> OnForwardEdge
+        public Action<Edge<TVertex, TEdge>> OnForwardEdge
         {
             get { return _onForwardEdge; }
             set
@@ -86,7 +86,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        public Action<IEdge<TVertex, TEdge>> OnCrossEdge
+        public Action<Edge<TVertex, TEdge>> OnCrossEdge
         {
             get { return _onCrossEdge; }
             set
@@ -105,7 +105,7 @@ namespace GraphLight.Algorithm
                 dfs(node);
         }
 
-        private void dfs(IVertex<TVertex, TEdge> vertex)
+        private void dfs(Vertex<TVertex, TEdge> vertex)
         {
             OnNode(vertex);
             var srcAttr = _attrs[vertex];
