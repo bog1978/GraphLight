@@ -100,7 +100,7 @@ namespace GraphLight
 
         private void loadGraph(Stream stream)
         {
-            var graph = DrawingGraph.ReadFromFile(stream);
+            var graph = GraphExtensions.ReadFromFile(stream);
             //var engine = new GraphVizLayout<VertexAttrs, EdgeAttrs>
             //    {
             //        NodeMeasure = new NodeMeasure(),

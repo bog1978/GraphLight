@@ -1,13 +1,38 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using GraphLight.Collections;
 using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public class Vertex<TVertex, TEdge> : BaseViewModel, IBinaryHeapItem<double>
-//, IVertex<TVertex, TEdge>
+    public interface IVertex
+    {
+        int Rank { get; set; }
+        int Position { get; set; }
+        bool IsTmp { get; set; }
+        string Category { get; set; }
+        int ZIndex { get; set; }
+        bool IsSelected { get; set; }
+        bool IsHighlighted { get; set; }
+        string Label { get; set; }
+        double Width { get; set; }
+        double Height { get; set; }
+        double Left { get; set; }
+        double Top { get; set; }
+        double Right { get; }
+        double Bottom { get; }
+        double CenterX { get; set; }
+        double CenterY { get; }
+        string ShapeData { get; set; }
+        IEnumerable<IEdge> Edges { get; }
+        IEnumerable<IEdge> InEdges { get; }
+        IEnumerable<IEdge> OutEdges { get; }
+        IEnumerable<IEdge> SelfEdges { get; }
+        void Update();
+    }
+
+    public class Vertex<TVertex, TEdge> : BaseViewModel, IBinaryHeapItem<double>, IVertex
     {
         #region Private fields
 
@@ -32,6 +57,7 @@ namespace GraphLight.Graph
             _outEdges = new ObservableCollection<Edge<TVertex, TEdge>>();
             _selfEdges = new ObservableCollection<Edge<TVertex, TEdge>>();
             _data = data;
+            ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1"; // έλλθορ
         }
 
         #endregion
@@ -84,6 +110,26 @@ namespace GraphLight.Graph
         }
 
         public IEnumerable<Edge<TVertex, TEdge>> SelfEdges
+        {
+            get { return _selfEdges; }
+        }
+
+        IEnumerable<IEdge> IVertex.Edges
+        {
+            get { return _edges; }
+        }
+
+        IEnumerable<IEdge> IVertex.InEdges
+        {
+            get { return _inEdges; }
+        }
+
+        IEnumerable<IEdge> IVertex.OutEdges
+        {
+            get { return _outEdges; }
+        }
+
+        IEnumerable<IEdge> IVertex.SelfEdges
         {
             get { return _selfEdges; }
         }
@@ -144,6 +190,7 @@ namespace GraphLight.Graph
         private double _top;
         private double _width;
         private int _zIndex;
+        private string _shapeData;
 
         public int ZIndex
         {
@@ -248,6 +295,17 @@ namespace GraphLight.Graph
             }
         }
 
+        public double CenterY
+        {
+            get { return Top + Height / 2; }
+        }
+
+        public string ShapeData
+        {
+            get { return _shapeData; }
+            set { SetProperty(ref _shapeData, value, "ShapeData"); }
+        }
+
         public override bool Equals(object obj)
         {
             var other = obj as Vertex<TVertex, TEdge>;
@@ -259,6 +317,30 @@ namespace GraphLight.Graph
         public override int GetHashCode()
         {
             return Data.GetHashCode();
+        }
+
+        public void Update()
+        {
+            foreach (var e in Edges)
+            {
+                var pts = e.Points;
+                using (e.DeferRefresh())
+                {
+                    if (pts.Count == 2 || e.Src == e.Dst)
+                    {
+                        e.UpdateSrcPort();
+                        e.UpdateDstPort();
+                    }
+                    else if (e.Src == this)
+                        e.UpdateSrcPort();
+                    else
+                        e.UpdateDstPort();
+                    var first = e.Points.First();
+                    var last = e.Points.Last();
+                    e.FixDraggablePoints(first);
+                    e.FixDraggablePoints(last);
+                }
+            }
         }
     }
 }

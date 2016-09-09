@@ -6,6 +6,7 @@ using GraphLight.Graph;
 using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using GraphExtensions = GraphLight.Graph.GraphExtensions;
 
 namespace GraphLight.Test.Layout
 {
@@ -63,7 +64,7 @@ namespace GraphLight.Test.Layout
             {
                 DrawingGraph graph;
                 using (var stream = lazy.Value)
-                    graph = DrawingGraph.ReadFromFile(stream);
+                    graph = GraphExtensions.ReadFromFile(stream);
                 graph.Acyclic();
                 var expectedRanks = graph.Verteces.ToDictionary(x => x, x => x.Rank);
                 var alg = new RankNetworkSimplex<VertexAttrs, EdgeAttrs>(graph);
@@ -80,7 +81,7 @@ namespace GraphLight.Test.Layout
             {
                 DrawingGraph graph;
                 using (var stream = lazy.Value)
-                    graph = DrawingGraph.ReadFromFile(stream);
+                    graph = GraphExtensions.ReadFromFile(stream);
 
                 var expectedRanks = graph.Verteces.ToDictionary(x => x, x => x.Rank);
 

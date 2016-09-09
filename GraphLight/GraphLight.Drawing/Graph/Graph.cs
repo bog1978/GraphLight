@@ -6,8 +6,16 @@ using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public class Graph<TVertex, TEdge> : BaseViewModel//, IGraph<TVertex, TEdge>
-        where TEdge : new()
+    public interface IGraph
+    {
+        IEnumerable<object> Elements { get; }
+        double Width { get; set; }
+        double Height { get; set; }
+        IEnumerable<IEdge> Edges { get; }
+        IEnumerable<IVertex> Verteces { get; }
+    }
+
+    public class Graph<TVertex, TEdge> : BaseViewModel, IGraph where TEdge : new()
     {
         private readonly ICollection<Edge<TVertex, TEdge>> _edges;
         private readonly ICollection<object> _elements;
@@ -53,6 +61,16 @@ namespace GraphLight.Graph
         public IEnumerable<Edge<TVertex, TEdge>> Edges
         {
             get { return _edges; }
+        }
+
+        IEnumerable<IEdge> IGraph.Edges
+        {
+            get { return _edges; }
+        }
+
+        IEnumerable<IVertex> IGraph.Verteces
+        {
+            get { return _verteces; }
         }
 
         public Vertex<TVertex, TEdge> this[TVertex key]

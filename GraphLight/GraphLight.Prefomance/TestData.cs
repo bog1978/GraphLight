@@ -32,7 +32,7 @@ namespace GraphLight.Prefomance
                 {
                     var lazy = GraphStreams.First();
                     using (lazy.Value)
-                        _graphToTest = DrawingGraph.ReadFromFile(lazy.Value);
+                        _graphToTest = GraphExtensions.ReadFromFile(lazy.Value);
                 }
                 return _graphToTest;
             }

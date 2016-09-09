@@ -36,8 +36,13 @@
                 <ei:DataStateBehavior Value="True" TrueState="HighlightOn" FalseState="HighlightOff"
                         Binding="{Binding Path=IsHighlighted, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
             </i:Interaction.Behaviors>
-            <Path x:Name="arrow" StrokeThickness="{Binding Thickness}" Stroke="{Binding StrokeBrush}"
-                    Data="{Binding Points, Converter={StaticResource bezierConverter}}" />
+            <Path x:Name="arrow" StrokeThickness="{Binding Thickness}"
+                Data="{Binding Points, Converter={StaticResource bezierConverter}}">
+                <!-- BUG: Если привязать Stroke={Binding StrokeBrush}, то в WPF валится с ошибкой: Не удается анимировать (Stroke).(0) в постоянном экземпляре объекта. --> 
+                <Path.Stroke>
+                    <SolidColorBrush Color="{Binding Color}"/>
+                </Path.Stroke>
+            </Path>
         </Grid>
     </ControlTemplate>
 
