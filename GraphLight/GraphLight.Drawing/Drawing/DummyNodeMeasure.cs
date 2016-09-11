@@ -3,9 +3,9 @@ using GraphLight.Layout;
 
 namespace GraphLight.Drawing
 {
-    public class DummyNodeMeasure : INodeMeasure<VertexAttrs, EdgeAttrs>
+    public class DummyNodeMeasure : INodeMeasure
     {
-        public void Measure(Vertex<VertexAttrs, EdgeAttrs> vertex)
+        public void Measure(IVertex vertex)
         {
         }
     }

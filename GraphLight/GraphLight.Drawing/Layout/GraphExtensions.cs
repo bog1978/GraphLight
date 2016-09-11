@@ -7,10 +7,7 @@ namespace GraphLight.Layout
 {
     internal static class GraphExtensions
     {
-        public static IEnumerable<List<Vertex<TVertex, TEdge>>> GetRankList<TVertex, TEdge>(
-            this Graph<TVertex, TEdge> graph)
-            where TVertex : VertexAttrs where TEdge : new()
-            //where TEdge : IEdgeAttrs
+        public static IEnumerable<List<IVertex>> GetRankList(this IGraph graph)
         {
             return
                 from node in graph.Verteces
@@ -20,9 +17,7 @@ namespace GraphLight.Layout
                     select rank.ToList();
         }
 
-        public static IDictionary<int, List<Vertex<TVertex, TEdge>>> GetRankMap<TVertex, TEdge>(
-            this Graph<TVertex, TEdge> graph)
-            where TVertex : VertexAttrs where TEdge : new()
+        public static IDictionary<int, List<IVertex>> GetRankMap(this IGraph graph)
         {
             var ranks =
                 from node in graph.Verteces
@@ -36,15 +31,11 @@ namespace GraphLight.Layout
         /// <summary>
         /// Makes graph acyclic by reversing some edges.
         /// </summary>
-        /// <typeparam name="TVertex"></typeparam>
-        /// <typeparam name="TEdge"></typeparam>
         /// <param name="graph"></param>
-        public static void Acyclic<TVertex, TEdge>(this Graph<TVertex, TEdge> graph)
-            where TVertex : VertexAttrs where TEdge : new()
-            //where TEdge : IEdgeAttrs
+        public static void Acyclic(this IGraph graph)
         {
-            var backEdges = new List<Edge<TVertex, TEdge>>();
-            var dfs = new DepthFirstSearch<TVertex, TEdge>(graph);
+            var backEdges = new List<IEdge>();
+            var dfs = new DepthFirstSearch(graph);
             dfs.OnBackEdge = backEdges.Add;
             dfs.Find();
             foreach (var e in backEdges)

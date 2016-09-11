@@ -1,4 +1,5 @@
-﻿using GraphLight.Graph;
+﻿using GraphLight.Drawing;
+using GraphLight.Graph;
 using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,16 +11,16 @@ namespace GraphLight.Test.Layout
         [TestMethod]
         public void TestMethod1()
         {
-            var graph = new Graph<VertexAttrs, EdgeAttrs>();
-            var a = graph.AddVertex(new VertexAttrs("A"));
-            var b = graph.AddVertex(new VertexAttrs("B"));
-            var c = graph.AddVertex(new VertexAttrs("C"));
+            var graph = new DrawingGraph();
+            var a = graph.AddVertex("A");
+            var b = graph.AddVertex("B");
+            var c = graph.AddVertex("C");
 
-            var ab = graph.AddEdge(a.Data, b.Data, new EdgeAttrs());
-            var bc = graph.AddEdge(b.Data, c.Data, new EdgeAttrs());
-            var ca = graph.AddEdge(c.Data, a.Data, new EdgeAttrs());
-            var ba = graph.AddEdge(b.Data, a.Data, new EdgeAttrs());
-            var alg = new SugiyamaLayout<VertexAttrs, EdgeAttrs>(graph);
+            var ab = graph.AddEdge(a.Data, b.Data);
+            var bc = graph.AddEdge(b.Data, c.Data);
+            var ca = graph.AddEdge(c.Data, a.Data);
+            var ba = graph.AddEdge(b.Data, a.Data);
+            var alg = new SugiyamaLayout(graph);
             alg.Layout();
         }
     }

@@ -9,12 +9,12 @@ namespace GraphLight.Test.Algorithm
     [TestClass]
     public class DepthFirstSearchTest
     {
-        private readonly IEnumerable<Edge<string, object>> _emptyEdges = Enumerable.Empty<Edge<string, object>>();
+        private readonly IEnumerable<IEdge> _emptyEdges = Enumerable.Empty<IEdge>();
 
         [TestMethod]
         public void DfsTest1()
         {
-            var graph = new Graph<string, object>();
+            var graph = new Graph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -35,7 +35,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest2()
         {
-            var graph = new Graph<string, object>();
+            var graph = new Graph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -57,7 +57,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest3()
         {
-            var graph = new Graph<string, object>();
+            var graph = new Graph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
 
@@ -81,7 +81,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest4()
         {
-            var graph = new Graph<string, object>();
+            var graph = new Graph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -115,7 +115,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest5()
         {
-            var graph = new Graph<string, object>();
+            var graph = new Graph<object, object>();
             var n1 = graph.AddVertex("1");
             var n2 = graph.AddVertex("2");
             var n3 = graph.AddVertex("3");
@@ -147,20 +147,20 @@ namespace GraphLight.Test.Algorithm
         }
 
         private static void checkResults(
-            Graph<string, object> graph,
-            IEnumerable<Vertex<string, object>> nodesExpected,
-            IEnumerable<Edge<string, object>> treeEdgesExpected,
-            IEnumerable<Edge<string, object>> forwardExpected,
-            IEnumerable<Edge<string, object>> backwardExpected,
-            IEnumerable<Edge<string, object>> crossExpected)
+            Graph<object, object> graph,
+            IEnumerable<IVertex> nodesExpected,
+            IEnumerable<IEdge> treeEdgesExpected,
+            IEnumerable<IEdge> forwardExpected,
+            IEnumerable<IEdge> backwardExpected,
+            IEnumerable<IEdge> crossExpected)
         {
-            var nodes = new List<Vertex<string, object>>();
-            var backward = new List<Edge<string, object>>();
-            var forward = new List<Edge<string, object>>();
-            var tree = new List<Edge<string, object>>();
-            var cross = new List<Edge<string, object>>();
+            var nodes = new List<IVertex>();
+            var backward = new List<IEdge>();
+            var forward = new List<IEdge>();
+            var tree = new List<IEdge>();
+            var cross = new List<IEdge>();
 
-            var alg = new DepthFirstSearch<string, object>(graph)
+            var alg = new DepthFirstSearch(graph)
                 {
                     OnNode = nodes.Add,
                     OnTreeEdge = tree.Add,

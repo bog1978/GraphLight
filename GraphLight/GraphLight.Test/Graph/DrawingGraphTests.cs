@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GraphLight.Drawing;
 using GraphLight.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,13 +16,13 @@ namespace GraphLight.Test.Graph
         public void Test1()
         {
             var g = new DrawingGraph();
-            var a = g.AddVertex(new VertexAttrs("a"));
-            var b = g.AddVertex(new VertexAttrs("b"));
-            var c = g.AddVertex(new VertexAttrs("c"));
-            var aa = g.AddEdge(a.Data, a.Data, new EdgeAttrs());
-            var ab = g.AddEdge(a.Data, b.Data, new EdgeAttrs());
-            var ac = g.AddEdge(a.Data, c.Data, new EdgeAttrs());
-            var bc = g.AddEdge(b.Data, c.Data, new EdgeAttrs());
+            var a = g.AddVertex("a");
+            var b = g.AddVertex("b");
+            var c = g.AddVertex("c");
+            var aa = g.AddEdge(a.Data, a.Data);
+            var ab = g.AddEdge(a.Data, b.Data);
+            var ac = g.AddEdge(a.Data, c.Data);
+            var bc = g.AddEdge(b.Data, c.Data);
 
             checkEdges(a, new[] { aa, ab, ac }, _emptyEdges, new[] { ab, ac }, new[] { aa });
             checkEdges(b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
@@ -89,7 +90,7 @@ namespace GraphLight.Test.Graph
         }
 
         private static void checkEdges(
-            Vertex<VertexAttrs, EdgeAttrs> vertex,
+            IVertex vertex,
             ICollection allEdges,
             ICollection inEdges,
             ICollection outEdges,
@@ -101,7 +102,7 @@ namespace GraphLight.Test.Graph
             CollectionAssert.AreEquivalent(vertex.SelfEdges.ToList(), selfEdges);
         }
 
-        private static void checkGraph(DrawingGraph graph, ICollection edges, ICollection verteces)
+        private static void checkGraph(IGraph graph, ICollection edges, ICollection verteces)
         {
             CollectionAssert.AreEquivalent(edges, graph.Edges.ToArray());
             CollectionAssert.AreEquivalent(verteces, graph.Verteces.ToArray());

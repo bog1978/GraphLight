@@ -22,8 +22,9 @@ namespace GraphLight.Graph
         string Color { get; set; }
         double Thickness { get; set; }
         int ZIndex { get; set; }
-        IVertex Src { get; }
-        IVertex Dst { get; }
+        IVertex Src { get; set; }
+        IVertex Dst { get; set; }
+        object Data { get; }
         void Revert();
         void UpdatePoint(Point2D data);
         void FixDraggablePoints(Point2D data);
@@ -154,12 +155,14 @@ namespace GraphLight.Graph
 
         IVertex IEdge.Src
         {
-            get { return _src; }
+            get { return Src; }
+            set { Src = (Vertex<TVertex, TEdge>)value; }
         }
 
         IVertex IEdge.Dst
         {
-            get { return _dst; }
+            get { return Dst; }
+            set { Dst = (Vertex<TVertex, TEdge>) value; }
         }
 
         public IList<Point2D> DraggablePoints
@@ -202,6 +205,11 @@ namespace GraphLight.Graph
         {
             get { return _zIndex; }
             set { SetProperty(ref _zIndex, value, "ZIndex"); }
+        }
+
+        object IEdge.Data
+        {
+            get { return _data; }
         }
 
         public void Revert()
@@ -375,7 +383,7 @@ namespace GraphLight.Graph
         {
             return new RefreshHelper(this);
         }
-
+        
         private class RefreshHelper : IDisposable
         {
             private readonly Edge<TVertex, TEdge> _edge;

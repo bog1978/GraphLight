@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using GraphLight.Drawing;
 using GraphLight.Graph;
 using GraphLight.ViewModel;
 
@@ -20,16 +21,16 @@ namespace GraphLight
             ExampleCollection = resources.Where(x => x.EndsWith(".graph")).ToList();
             SelectedExample = ExampleCollection.FirstOrDefault();
             Palette = new DrawingGraph();
-            var v1 = Palette.AddVertex(new VertexAttrs("1"));
+            var v1 = Palette.AddVertex("1");
             v1.Category = "large_font";
             v1.Label = "AAA";
-            var v2 = Palette.AddVertex(new VertexAttrs("2"));
+            var v2 = Palette.AddVertex("2");
             v2.Category = "small_font";
             v2.Label = "BBB";
-            var v3 = Palette.AddVertex(new VertexAttrs("3"));
+            var v3 = Palette.AddVertex("3");
             v3.Category = "with_tooltip";
             v3.Label = "CCC";
-            var v4 = Palette.AddVertex(new VertexAttrs("4"));
+            var v4 = Palette.AddVertex("4");
             v4.Label = "DDD";
         }
 

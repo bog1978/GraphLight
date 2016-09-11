@@ -7,6 +7,7 @@ using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using GraphExtensions = GraphLight.Graph.GraphExtensions;
+using GraphVizLayout = GraphLight.Layout.GraphVizLayout;
 
 namespace GraphLight.Test.Layout
 {
@@ -66,8 +67,8 @@ namespace GraphLight.Test.Layout
                 using (var stream = lazy.Value)
                     graph = GraphExtensions.ReadFromFile(stream);
                 graph.Acyclic();
-                var expectedRanks = graph.Verteces.ToDictionary(x => x, x => x.Rank);
-                var alg = new RankNetworkSimplex<VertexAttrs, EdgeAttrs>(graph);
+                var expectedRanks = graph.Verteces.ToDictionary(x => x as IVertex, x => x.Rank);
+                var alg = new RankNetworkSimplex(graph);
 
                 alg.Execute();
                 checkRanks(graph, expectedRanks);
@@ -83,11 +84,11 @@ namespace GraphLight.Test.Layout
                 using (var stream = lazy.Value)
                     graph = GraphExtensions.ReadFromFile(stream);
 
-                var expectedRanks = graph.Verteces.ToDictionary(x => x, x => x.Rank);
+                var expectedRanks = graph.Verteces.ToDictionary(x => x as IVertex, x => x.Rank);
 
                 using (var f1 = File.Create("d:\\temp\\out0.graph"))
                     graph.WriteToFile(f1);
-                var engine = new GraphVizLayout<VertexAttrs, EdgeAttrs>
+                var engine = new GraphVizLayout
                     {
                         NodeMeasure = new NodeMeasure(),
                         Graph = graph
@@ -107,7 +108,7 @@ namespace GraphLight.Test.Layout
             }
         }
 
-        private static void checkRanks(DrawingGraph graph, IDictionary<Vertex<VertexAttrs, EdgeAttrs>, int> expectedRanks)
+        private static void checkRanks(DrawingGraph graph, IDictionary<IVertex, int> expectedRanks)
         {
             foreach (var vertex in graph.Verteces)
             {

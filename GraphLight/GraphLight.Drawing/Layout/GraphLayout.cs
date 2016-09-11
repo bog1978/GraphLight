@@ -2,20 +2,16 @@
 
 namespace GraphLight.Layout
 {
-    public interface INodeMeasure<TVertex, TEdge>
-        where TVertex : VertexAttrs, new()
-        //where TEdge : IEdgeAttrs, new()
+    public interface INodeMeasure
     {
-        void Measure(Vertex<TVertex, TEdge> vertex);
+        void Measure(IVertex vertex);
     }
 
-    public abstract class GraphLayout<TVertex, TEdge>
-        where TVertex : VertexAttrs, new() where TEdge : new()
-        //where TEdge : IEdgeAttrs, new()
+    public abstract class GraphLayout
     {
-        public INodeMeasure<TVertex, TEdge> NodeMeasure { get; set; }
+        public INodeMeasure NodeMeasure { get; set; }
 
-        public Graph<TVertex, TEdge> Graph { get; set; }
+        public IGraph Graph { get; set; }
 
         public abstract void Layout();
     }

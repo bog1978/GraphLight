@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using GraphLight.Controls;
+using GraphLight.Drawing;
 using GraphLight.Geometry;
 using GraphLight.Graph;
 
@@ -119,8 +120,7 @@ namespace GraphLight.ViewModel
             if (vertex != null && options.Mode == DragDropMode.DragCopy
                 && options.Status == DragDropStatus.Completed)
             {
-                var clone = new VertexAttrs();
-                var v = Graph.AddVertex(clone);
+                var v = Graph.AddVertex();
                 v.Left = options.Relative.X - vertex.Width / 2;
                 v.Top = options.Relative.Y - vertex.Height / 2;
                 v.Label = vertex.Label;

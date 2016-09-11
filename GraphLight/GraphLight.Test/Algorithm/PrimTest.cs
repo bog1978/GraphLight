@@ -12,7 +12,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void FindSpanningTree()
         {
-            var graph = new Graph<string, object>();
+            var graph = new Graph<object, object>();
 
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
@@ -54,9 +54,9 @@ namespace GraphLight.Test.Algorithm
             de.Weight = 9;
             fe.Weight = 10;
 
-            var edges = new List<Edge<string, object>>();
+            var edges = new List<IEdge>();
 
-            var alg = new PrimSpanningTree<string, object>(graph, x => x.Weight);
+            var alg = new PrimSpanningTree(graph, x => x.Weight);
             alg.EnterEdge += edges.Add;
             alg.Execute(graph.Verteces.First());
 

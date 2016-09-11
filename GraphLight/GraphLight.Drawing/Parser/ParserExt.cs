@@ -3,15 +3,16 @@ using System.Windows.Media;
 using GraphLight.Graph;
 using System.Globalization;
 using System;
+using GraphLight.Drawing;
 
 namespace GraphLight.Parser
 {
     partial class MyParser
     {
         public DrawingGraph ParsedGraph;
-        private DrawingVertex _node;
-        private DrawingEdge _edge;
-        private ICollection<DrawingEdge> _edgeChain;
+        private IVertex _node;
+        private IEdge _edge;
+        private ICollection<IEdge> _edgeChain;
 
         private void createGraph(string name)
         {
@@ -20,7 +21,7 @@ namespace GraphLight.Parser
 
         private void createNode()
         {
-            _node = (DrawingVertex) ParsedGraph.AddVertex(new VertexAttrs(t.val));
+            _node = ParsedGraph.AddVertex(t.val);
             _node.Label = t.val;
         }
 
@@ -48,12 +49,12 @@ namespace GraphLight.Parser
         private void createEdgeChain()
         {
             _from = t.val;
-            _edgeChain = new List<DrawingEdge>();
+            _edgeChain = new List<IEdge>();
         }
 
         private void createEdge()
         {
-            _edge = (DrawingEdge)ParsedGraph.AddEdge(new VertexAttrs(_from), new VertexAttrs(t.val), new EdgeAttrs());
+            _edge = (DrawingEdge)ParsedGraph.AddEdge(_from, t.val);
             if(_edge.Src.Label == null)
                 _edge.Src.Label = _from;
             if (_edge.Dst.Label == null)

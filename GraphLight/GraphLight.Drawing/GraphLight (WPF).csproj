@@ -101,6 +101,9 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Drawing\BaseGraphControl.cs" />
     <Compile Include="Drawing\DataTemplateDictionary.cs" />
+    <Compile Include="Drawing\DrawingEdge.cs" />
+    <Compile Include="Drawing\DrawingGraph.cs" />
+    <Compile Include="Drawing\DrawingVertex.cs" />
     <Compile Include="Drawing\Graph.cs" />
     <Compile Include="Drawing\Palette.cs" />
     <Compile Include="Geometry\CrossType.cs" />
@@ -110,11 +113,9 @@
     <Compile Include="Geometry\Polygon2D.cs" />
     <Compile Include="Geometry\Vector2D.cs" />
     <Compile Include="Graph\Edge.cs" />
-    <Compile Include="Graph\EdgeAttrs.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="Graph\GraphExtensions.cs" />
     <Compile Include="Graph\Vertex.cs" />
-    <Compile Include="Graph\VertexAttrs.cs" />
     <Compile Include="Graph\VertexColor.cs" />
     <Compile Include="Layout\EdgeExtensions.cs" />
     <Compile Include="Layout\GraphExtensions.cs" />
@@ -134,9 +135,6 @@
     <Compile Include="Controls\DragDropManager.cs" />
     <Compile Include="Drawing\Edge.cs" />
     <Compile Include="Drawing\GraphVizLayout.cs" />
-    <Compile Include="Graph\DrawingEdge.cs" />
-    <Compile Include="Graph\DrawingGraph.cs" />
-    <Compile Include="Graph\DrawingVertex.cs" />
     <Compile Include="Controls\ItemsControlEx.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -6,9 +6,7 @@ namespace GraphLight.Layout
 {
     internal static class EdgeExtensions
     {
-        public static bool Cross<TVertex, TEdge>(this Edge<TVertex, TEdge> edge, Edge<TVertex, TEdge> otherEdge)
-            //where TVertex : IVertexAttrs
-            //where TEdge : IEdgeAttrs
+        public static bool Cross(this IEdge edge, IEdge otherEdge)
         {
             var a1 = edge.Src;
             var b1 = edge.Dst;
@@ -19,24 +17,18 @@ namespace GraphLight.Layout
                 || a1.Position == a2.Position && b1.Position == b2.Position;
         }
 
-        public static double PositionSpan<TVertex, TEdge>(this Edge<TVertex, TEdge> edge)
-            where TVertex : VertexAttrs
-            //where TEdge : IEdgeAttrs
+        public static double PositionSpan(this IEdge edge)
         {
             var delta = edge.Src.Position - edge.Dst.Position;
             return Math.Abs(delta) * edge.Weight;
         }
 
-        public static Vertex<TVertex, TEdge> InsertControlPoint<TVertex, TEdge>(this Graph<TVertex, TEdge> graph,
-            Edge<TVertex, TEdge> edge)
-            where TVertex : VertexAttrs, new() where TEdge : new()
+        public static IVertex InsertControlPoint(this IGraph graph, IEdge edge)
         {
-            var va = new TVertex();
-            return graph.InsertVertex(edge, va);
+            return graph.InsertVertex(edge);
         }
 
-        public static void RemoveControlPoint<TVertex, TEdge>(this Graph<TVertex, TEdge> graph,
-            Vertex<TVertex, TEdge> vertex) where TEdge : new()
+        public static void RemoveControlPoint(this IGraph graph, IVertex vertex)
         {
             var inCnt = vertex.InEdges.Count();
             var outCnt = vertex.OutEdges.Count();

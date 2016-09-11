@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GraphLight.Controls;
-using GraphLight.Graph;
 using GraphLight.ViewModel;
 using GraphLight.Geometry;
 

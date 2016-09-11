@@ -16,7 +16,7 @@ namespace GraphLight.Drawing
             return true;
         }
 
-        protected override void OnGraphChanged(Graph.DrawingGraph oldVal, Graph.DrawingGraph newVal)
+        protected override void OnGraphChanged(DrawingGraph oldVal, DrawingGraph newVal)
         {
             base.OnGraphChanged(oldVal, newVal);
             Layout();

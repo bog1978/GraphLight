@@ -13,7 +13,7 @@ namespace GraphLight.Prefomance
         {
             var graph = TestData.GraphToTest;
             graph.Acyclic();
-            var alg = new RankNetworkSimplex<VertexAttrs, EdgeAttrs>(graph);
+            var alg = new RankNetworkSimplex(graph);
             alg.Execute();
         }
     }

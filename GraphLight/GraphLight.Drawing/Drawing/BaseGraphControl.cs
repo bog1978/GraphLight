@@ -73,12 +73,12 @@ namespace GraphLight.Drawing
         #region Graph
 
         public static readonly DependencyProperty GraphProperty =
-            DependencyProperty.Register("Graph", typeof(DrawingGraph), typeof(BaseGraphControl),
+            DependencyProperty.Register("Graph", typeof(IGraph), typeof(BaseGraphControl),
                 new PropertyMetadata(onGraphChanged));
 
-        public DrawingGraph Graph
+        public IGraph Graph
         {
-            get { return (DrawingGraph)GetValue(GraphProperty); }
+            get { return (IGraph)GetValue(GraphProperty); }
             set { SetValue(GraphProperty, value); }
         }
 
@@ -141,7 +141,7 @@ namespace GraphLight.Drawing
         private void onVertexCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
-                foreach (var vertex in e.NewItems.OfType<Vertex<VertexAttrs, EdgeAttrs>>())
+                foreach (var vertex in e.NewItems.OfType<IVertex>())
                     addVertex(vertex);
             if (e.OldItems != null)
                 foreach (var vertex in e.OldItems)
@@ -151,21 +151,21 @@ namespace GraphLight.Drawing
         private void onEdgesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
-                foreach (var edge in e.NewItems.OfType<Edge<VertexAttrs, EdgeAttrs>>())
+                foreach (var edge in e.NewItems.OfType<IEdge>())
                     addEdge(edge);
             if (e.OldItems != null)
                 foreach (var edge in e.OldItems)
                     delItem(edge);
         }
 
-        private void addEdge(Edge<VertexAttrs, EdgeAttrs> edge)
+        private void addEdge(IEdge edge)
         {
             var presenter = new Edge { Content = edge, DataContext = edge };
             GraphPanel.Children.Add(presenter);
             _elementMap.Add(edge, presenter);
         }
 
-        private void addVertex(Vertex<VertexAttrs, EdgeAttrs> vertex)
+        private void addVertex(IVertex vertex)
         {
             DataTemplate vertexTemplate = null;
             if (VertexTemplateDictionary != null)

@@ -3,6 +3,7 @@ using GraphLight.Drawing;
 using GraphLight.Graph;
 using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using GraphVizLayout = GraphLight.Layout.GraphVizLayout;
 
 namespace GraphLight.Test
 {
@@ -13,12 +14,12 @@ namespace GraphLight.Test
         public void TestAddInsertRemove()
         {
             var graph = new DrawingGraph();
-            DrawingGraph g = graph;
-            Edge<VertexAttrs, EdgeAttrs> ab = graph.AddEdge(new VertexAttrs("A"), new VertexAttrs("B"), new EdgeAttrs());
-            Vertex<VertexAttrs, EdgeAttrs> a = ab.Src;
-            Vertex<VertexAttrs, EdgeAttrs> b = ab.Dst;
+            var g = graph;
+            var ab = graph.AddEdge("A", "B");
+            var a = ab.Src;
+            var b = ab.Dst;
 
-            Vertex<VertexAttrs, EdgeAttrs> cp = g.InsertControlPoint(ab);
+            var cp = g.InsertControlPoint(ab);
             Assert.IsTrue(ReferenceEquals(ab, graph.Edges.First()));
             Assert.IsTrue(ReferenceEquals(ab, a.OutEdges.First()));
             Assert.IsTrue(ReferenceEquals(ab, cp.InEdges.First()));
@@ -45,10 +46,10 @@ namespace GraphLight.Test
         public void Issue7610Test_1()
         {
             var graph = new DrawingGraph();
-            graph.AddEdge(new VertexAttrs("A"), new VertexAttrs("B"), new EdgeAttrs());
-            graph.AddEdge(new VertexAttrs("B"), new VertexAttrs("C"), new EdgeAttrs());
-            graph.AddEdge(new VertexAttrs("A"), new VertexAttrs("C"), new EdgeAttrs());
-            var engine = new GraphVizLayout<VertexAttrs, EdgeAttrs>
+            graph.AddEdge("A", "B");
+            graph.AddEdge("B", "C");
+            graph.AddEdge("A", "C");
+            var engine = new GraphVizLayout
                 {
                     NodeMeasure = new NodeMeasure(),
                     Graph = graph
@@ -60,11 +61,11 @@ namespace GraphLight.Test
         public void Issue7610Test_2()
         {
             var graph = new DrawingGraph();
-            graph.AddEdge(new VertexAttrs("A"), new VertexAttrs("B"), new EdgeAttrs());
-            graph.AddEdge(new VertexAttrs("B"), new VertexAttrs("C"), new EdgeAttrs());
-            graph.AddEdge(new VertexAttrs("C"), new VertexAttrs("D"), new EdgeAttrs());
-            graph.AddEdge(new VertexAttrs("D"), new VertexAttrs("A"), new EdgeAttrs());
-            var engine = new GraphVizLayout<VertexAttrs, EdgeAttrs>
+            graph.AddEdge("A", "B");
+            graph.AddEdge("B", "C");
+            graph.AddEdge("C", "D");
+            graph.AddEdge("D", "A");
+            var engine = new GraphVizLayout
                 {
                     NodeMeasure = new NodeMeasure(),
                     Graph = graph

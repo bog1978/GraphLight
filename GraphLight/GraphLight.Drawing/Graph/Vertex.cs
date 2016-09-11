@@ -6,7 +6,7 @@ using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public interface IVertex
+    public interface IVertex : IBinaryHeapItem<double>
     {
         int Rank { get; set; }
         int Position { get; set; }
@@ -29,6 +29,7 @@ namespace GraphLight.Graph
         IEnumerable<IEdge> InEdges { get; }
         IEnumerable<IEdge> OutEdges { get; }
         IEnumerable<IEdge> SelfEdges { get; }
+        object Data { get; }
         void Update();
     }
 
@@ -132,6 +133,11 @@ namespace GraphLight.Graph
         IEnumerable<IEdge> IVertex.SelfEdges
         {
             get { return _selfEdges; }
+        }
+
+        object IVertex.Data
+        {
+            get { return _data; }
         }
 
         public void RegisterEdge(Edge<TVertex, TEdge> edge)

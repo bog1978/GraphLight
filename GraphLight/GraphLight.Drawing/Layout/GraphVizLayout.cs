@@ -7,10 +7,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    public partial class GraphVizLayout<TVertex, TEdge> : GraphLayout<TVertex, TEdge>
-        where TVertex : VertexAttrs, new()
-        where TEdge : new()
-        //where TEdge : IEdgeAttrs, new()
+    public partial class GraphVizLayout : GraphLayout
     {
         private const double V_SPACE = 50;
         private const double H_SPACE = 30;
@@ -34,8 +31,8 @@ namespace GraphLight.Layout
 
         protected virtual void Acyclic()
         {
-            var backEdges = new List<Edge<TVertex, TEdge>>();
-            var dfs = new DepthFirstSearch<TVertex, TEdge>(Graph);
+            var backEdges = new List<IEdge>();
+            var dfs = new DepthFirstSearch(Graph);
             dfs.OnBackEdge += backEdges.Add;
             dfs.Find();
             foreach (var e in backEdges)
@@ -44,7 +41,7 @@ namespace GraphLight.Layout
 
         protected virtual void RankVerteces()
         {
-            var alg = new RankNetworkSimplex<TVertex, TEdge>(Graph);
+            var alg = new RankNetworkSimplex(Graph);
             alg.Execute();
         }
 
@@ -82,7 +79,7 @@ namespace GraphLight.Layout
         /// </summary>
         private void setLeftPositions()
         {
-            var alg = new PositionNetworkSimplex<TVertex, TEdge>(Graph);
+            var alg = new PositionNetworkSimplex(Graph);
             alg.Execute();
         }
 

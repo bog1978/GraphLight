@@ -13,9 +13,32 @@ namespace GraphLight.Graph
         double Height { get; set; }
         IEnumerable<IEdge> Edges { get; }
         IEnumerable<IVertex> Verteces { get; }
+        IVertex this[object key] { get; }
+        IVertex InsertVertex(IEdge edge);
+        IVertex AddVertex();
+        IVertex AddVertex(object data);
+        void RemoveEdge(IEdge edge);
+        void RemoveVertex(IVertex vertex);
+        IEdge AddEdge(object src, object dst);
+        IEdge AddEdge(object src, object dst, object data);
     }
 
-    public class Graph<TVertex, TEdge> : BaseViewModel, IGraph where TEdge : new()
+    public class Graph<TVertex, TEdge> : BaseGraph<TVertex, TEdge>
+        where TVertex : new()
+        where TEdge : new()
+    {
+        protected override TEdge CreateEdgeData()
+        {
+            return new TEdge();
+        }
+
+        protected override TVertex CreateVertexData()
+        {
+            return new TVertex();
+        }
+    }
+
+    public abstract class BaseGraph<TVertex, TEdge> : BaseViewModel, IGraph
     {
         private readonly ICollection<Edge<TVertex, TEdge>> _edges;
         private readonly ICollection<object> _elements;
@@ -27,7 +50,7 @@ namespace GraphLight.Graph
         private double _width;
         private double _height;
 
-        public Graph()
+        protected BaseGraph()
         {
             _elements = new ObservableCollection<object>();
             _verteces = new ObservableCollection<Vertex<TVertex, TEdge>>();
@@ -78,7 +101,12 @@ namespace GraphLight.Graph
             get { return _vertexMap[key]; }
         }
 
-        public Edge<TVertex, TEdge> AddEdge(TVertex src, TVertex dst, TEdge data = default(TEdge))
+        public Edge<TVertex, TEdge> AddEdge(TVertex src, TVertex dst)
+        {
+            return AddEdge(src, dst, CreateEdgeData());
+        }
+
+        public Edge<TVertex, TEdge> AddEdge(TVertex src, TVertex dst, TEdge data)
         {
             var src1 = AddVertex(src);
             var dst1 = AddVertex(dst);
@@ -88,6 +116,16 @@ namespace GraphLight.Graph
             _elements.Add(edge);
             _edges.Add(edge);
             return edge;
+        }
+
+        IEdge IGraph.AddEdge(object src, object dst)
+        {
+            return AddEdge((TVertex)src, (TVertex)dst);
+        }
+
+        IEdge IGraph.AddEdge(object src, object dst, object data)
+        {
+            return AddEdge((TVertex)src, (TVertex)dst, (TEdge)data);
         }
 
         public Vertex<TVertex, TEdge> AddVertex(TVertex data)
@@ -127,9 +165,39 @@ namespace GraphLight.Graph
         {
             if (!Edges.Contains(edge))
                 throw new Exception("Данное ребро не принадлежит графу");
-            var newEdge = AddEdge(vertexData, edge.Dst.Data, new TEdge());
+            var newEdge = AddEdge(vertexData, edge.Dst.Data, CreateEdgeData());
             edge.Dst = newEdge.Src;
             return newEdge.Src;
+        }
+
+        IVertex IGraph.InsertVertex(IEdge edge)
+        {
+            return InsertVertex((Edge<TVertex, TEdge>)edge, CreateVertexData());
+        }
+
+        void IGraph.RemoveEdge(IEdge edge)
+        {
+            RemoveEdge((Edge<TVertex, TEdge>)edge);
+        }
+
+        void IGraph.RemoveVertex(IVertex vertex)
+        {
+            RemoveVertex((Vertex<TVertex, TEdge>)vertex);
+        }
+
+        IVertex IGraph.this[object key]
+        {
+            get { return _vertexMap[(TVertex)key]; }
+        }
+
+        public IVertex AddVertex()
+        {
+            return AddVertex(CreateVertexData());
+        }
+
+        IVertex IGraph.AddVertex(object data)
+        {
+            return AddVertex((TVertex) data);
         }
 
         public Edge<TVertex, TEdge> AddEdge(Vertex<TVertex, TEdge> src, Vertex<TVertex, TEdge> dst,
@@ -171,5 +239,9 @@ namespace GraphLight.Graph
         {
             return new Vertex<TVertex, TEdge>(data);
         }
+
+        protected abstract TEdge CreateEdgeData();
+
+        protected abstract TVertex CreateVertexData();
     }
 }

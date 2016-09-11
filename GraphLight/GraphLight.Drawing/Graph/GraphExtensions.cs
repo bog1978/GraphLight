@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using GraphLight.Drawing;
 using GraphLight.Parser;
 
 namespace GraphLight.Graph

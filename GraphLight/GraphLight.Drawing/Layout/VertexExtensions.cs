@@ -6,17 +6,17 @@ namespace GraphLight.Layout
 {
     public static class VertexExtensions
     {
-        public static Point2D CenterPoint<TVertex, TEdge>(this Vertex<TVertex, TEdge> node)
+        public static Point2D CenterPoint(this IVertex node)
         {
             return new Point2D(node.Left + node.Width / 2, node.Top + node.Height / 2);
         }
 
-        public static Point2D CustomPoint<TVertex, TEdge>(this Vertex<TVertex, TEdge> node, double wK, double hK)
+        public static Point2D CustomPoint(this IVertex node, double wK, double hK)
         {
             return new Point2D(node.Left + node.Width * wK, node.Top + node.Height * hK);
         }
 
-        public static Point2D GetShapePort<TVertex, TEdge>(this Vertex<TVertex, TEdge> node, Point2D point)
+        public static Point2D GetShapePort(this IVertex node, Point2D point)
         {
             var center = node.CenterPoint();
             var a = node.Width / 2;

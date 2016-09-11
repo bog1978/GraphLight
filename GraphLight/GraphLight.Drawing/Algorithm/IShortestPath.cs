@@ -3,10 +3,10 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    public interface IShortestPath<TVertex, TEdge>
+    public interface IShortestPath
     {
-        void Find(TVertex start, TVertex end);
-        Action<Edge<TVertex, TEdge>> EnterEdge { get; set; }
-        Action<Vertex<TVertex, TEdge>> EnterNode { get; set; }
+        void Find(object start, object end);
+        Action<IEdge> EnterEdge { get; set; }
+        Action<IVertex> EnterNode { get; set; }
     }
 }

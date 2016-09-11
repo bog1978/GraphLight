@@ -5,14 +5,12 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    internal class RankNetworkSimplex<TVertex, TEdge> : NetworkSimplex
-        where TVertex : VertexAttrs, new() where TEdge : new()
-        //where TEdge : IEdgeAttrs, new()
+    internal class RankNetworkSimplex : NetworkSimplex
     {
-        private readonly Graph<TVertex, TEdge> _graph;
-        private Dictionary<Vertex<TVertex, TEdge>, Vertex> _vertexMap;
+        private readonly IGraph _graph;
+        private Dictionary<IVertex, Vertex> _vertexMap;
 
-        public RankNetworkSimplex(Graph<TVertex, TEdge> graph)
+        public RankNetworkSimplex(IGraph graph)
         {
             _graph = graph;
         }

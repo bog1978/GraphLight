@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using GraphLight.Controls;
+using GraphLight.Drawing;
 using GraphLight.Graph;
 
 namespace GraphLight.ViewModel

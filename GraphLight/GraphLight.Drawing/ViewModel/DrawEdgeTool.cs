@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows.Input;
+using GraphLight.Drawing;
 using GraphLight.Geometry;
 using GraphLight.Graph;
 using GraphLight.Layout;
@@ -45,7 +46,7 @@ namespace GraphLight.ViewModel
         {
             var p = srcNode.CenterPoint();
             _srcNode = srcNode;
-            _newEdge = (DrawingEdge) Model.Graph.AddEdge(srcNode.Data, srcNode.Data, new EdgeAttrs());
+            _newEdge = (DrawingEdge) Model.Graph.AddEdge(srcNode.Data, srcNode.Data);
             _newEdge.Points.Add(p);
             _newEdge.RaisePointsChanged();
             IsInProgress = true;

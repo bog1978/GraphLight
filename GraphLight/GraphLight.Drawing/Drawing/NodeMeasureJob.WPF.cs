@@ -5,19 +5,19 @@ using GraphLight.Layout;
 
 namespace GraphLight.Drawing
 {
-    public class NodeMeasure : INodeMeasure<VertexAttrs, EdgeAttrs>
+    public class NodeMeasure : INodeMeasure
     {
         private const double MARGIN = 20;
 
         private static readonly Size _maxSize = new Size(
             double.PositiveInfinity, double.PositiveInfinity);
 
-        public void Measure(Vertex<VertexAttrs, EdgeAttrs> vertex)
+        public void Measure(IVertex vertex)
         {
             MeasureStatic(vertex);
         }
 
-        public static void MeasureStatic(Vertex<VertexAttrs, EdgeAttrs> attrs)
+        public static void MeasureStatic(IVertex attrs)
         {
             var textBlock = new TextBlock { Text = attrs.Label };
             textBlock.Measure(_maxSize);

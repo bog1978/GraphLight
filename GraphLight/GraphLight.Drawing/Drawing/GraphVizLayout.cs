@@ -1,9 +1,6 @@
-using GraphLight.Graph;
-using GraphLight.Layout;
-
 namespace GraphLight.Drawing
 {
-    public sealed class GraphVizLayout : GraphVizLayout<VertexAttrs, EdgeAttrs>
+    public sealed class GraphVizLayout : Layout.GraphVizLayout
     {
 
     }

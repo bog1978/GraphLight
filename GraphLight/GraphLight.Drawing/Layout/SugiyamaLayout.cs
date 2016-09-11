@@ -6,15 +6,13 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    public class SugiyamaLayout<TVertex, TEdge>
-        where TVertex : VertexAttrs
-        where TEdge : /*IEdgeAttrs,*/ new()
+    public class SugiyamaLayout
     {
-        private Graph<TVertex, TEdge> _graph;
-        private ICollection<Edge<TVertex, TEdge>> _loops;
-        private IDictionary<Edge<TVertex, TEdge>, List<Edge<TVertex, TEdge>>> _merged;
+        private readonly IGraph _graph;
+        private ICollection<IEdge> _loops;
+        private IDictionary<IEdge, List<IEdge>> _merged;
 
-        public SugiyamaLayout(Graph<TVertex, TEdge> graph)
+        public SugiyamaLayout(IGraph graph)
         {
             if (graph == null)
                 throw new ArgumentNullException("graph");
@@ -48,8 +46,7 @@ namespace GraphLight.Layout
                     {
                         var e = _graph.AddEdge(
                             x.Key.Src.Data,
-                            x.Key.Dst.Data,
-                            new TEdge());
+                            x.Key.Dst.Data);
                         e.Weight = x.Sum(y => y.Weight);
                         return e;
                     },
@@ -92,8 +89,8 @@ namespace GraphLight.Layout
         /// </summary>
         private void acyclic()
         {
-            var backEdges = new List<Edge<TVertex, TEdge>>();
-            var dfs = new DepthFirstSearch<TVertex, TEdge>(_graph);
+            var backEdges = new List<IEdge>();
+            var dfs = new DepthFirstSearch(_graph);
             dfs.OnBackEdge = backEdges.Add;
             dfs.Find();
             foreach (var e in backEdges)
@@ -105,15 +102,15 @@ namespace GraphLight.Layout
             }
         }
 
-        private class EdgeComparer : IEqualityComparer<Edge<TVertex, TEdge>>
+        private class EdgeComparer : IEqualityComparer<IEdge>
         {
-            public bool Equals(Edge<TVertex, TEdge> x, Edge<TVertex, TEdge> y)
+            public bool Equals(IEdge x, IEdge y)
             {
                 return x.Src == y.Src && x.Dst == y.Dst
                     || x.Src == y.Dst && x.Dst == y.Src;
             }
 
-            public int GetHashCode(Edge<TVertex, TEdge> obj)
+            public int GetHashCode(IEdge obj)
             {
                 return obj.Src.GetHashCode() & obj.Dst.GetHashCode();
             }

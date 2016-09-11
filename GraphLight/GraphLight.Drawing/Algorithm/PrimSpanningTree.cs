@@ -5,20 +5,19 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    public class PrimSpanningTree<TVertex, TEdge> where TEdge : new()
+    public class PrimSpanningTree
     {
-        private readonly Graph<TVertex, TEdge> _graph;
-        private readonly Func<Edge<TVertex, TEdge>, double> _weightFunc;
-        private Action<Edge<TVertex, TEdge>> _enterEdge = x => { };
+        private readonly IGraph _graph;
+        private readonly Func<IEdge, double> _weightFunc;
+        private Action<IEdge> _enterEdge = x => { };
 
-        public PrimSpanningTree(Graph<TVertex, TEdge> graph,
-            Func<Edge<TVertex, TEdge>, double> weightFunc)
+        public PrimSpanningTree(IGraph graph, Func<IEdge, double> weightFunc)
         {
             _graph = graph;
             _weightFunc = weightFunc;
         }
 
-        public Action<Edge<TVertex, TEdge>> EnterEdge
+        public Action<IEdge> EnterEdge
         {
             get { return _enterEdge; }
             set
@@ -29,7 +28,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        public void Execute(Vertex<TVertex, TEdge> root)
+        public void Execute(IVertex root)
         {
             var attrs = _graph.Verteces.ToDictionary(x => x, x => new PrimAttr());
             var i = 0;
@@ -38,7 +37,7 @@ namespace GraphLight.Algorithm
                 item.HeapKey = i == 0 ? 0 : double.MaxValue;
                 i++;
             }
-            var q = new PriorityQueue<double, Vertex<TVertex, TEdge>>(_graph.Verteces, HeapType.Min);
+            var q = new PriorityQueue<double, IVertex>(_graph.Verteces, HeapType.Min);
             while (!q.IsEmpty)
             {
                 var u = q.Dequeue();
@@ -69,7 +68,7 @@ namespace GraphLight.Algorithm
         private class PrimAttr
         {
             public VertexColor Color;
-            public Edge<TVertex, TEdge> Parent;
+            public IEdge Parent;
 
             public PrimAttr()
             {
