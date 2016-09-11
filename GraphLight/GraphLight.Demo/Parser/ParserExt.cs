@@ -3,20 +3,19 @@ using System.Windows.Media;
 using GraphLight.Graph;
 using System.Globalization;
 using System;
-using GraphLight.Drawing;
 
 namespace GraphLight.Parser
 {
     partial class MyParser
     {
-        public DrawingGraph ParsedGraph;
+        public IGraph ParsedGraph;
         private IVertex _node;
         private IEdge _edge;
         private ICollection<IEdge> _edgeChain;
 
         private void createGraph(string name)
         {
-            ParsedGraph = new DrawingGraph();
+            ParsedGraph = new GraphModel();
         }
 
         private void createNode()
@@ -54,7 +53,7 @@ namespace GraphLight.Parser
 
         private void createEdge()
         {
-            _edge = (DrawingEdge)ParsedGraph.AddEdge(_from, t.val);
+            _edge = ParsedGraph.AddEdge(_from, t.val);
             if(_edge.Src.Label == null)
                 _edge.Src.Label = _from;
             if (_edge.Dst.Label == null)

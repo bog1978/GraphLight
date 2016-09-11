@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using GraphLight.Controls;
 using GraphLight.ViewModel;
 using GraphLight.Geometry;
+using GraphLight.Graph;
 
 namespace GraphLight.Drawing
 {
@@ -141,7 +142,7 @@ namespace GraphLight.Drawing
                     vertex.Left += leftShift;
                     vertex.Top += topShift;
                 }
-                foreach (DrawingEdge edge in Graph.Edges)
+                foreach (var edge in Graph.Edges)
                 {
                     foreach (var point2D in edge.DraggablePoints)
                     {
@@ -197,8 +198,8 @@ namespace GraphLight.Drawing
             var element = (FrameworkElement)e.OriginalSource;
             var data = element.DataContext;
 
-            var vertex = data as DrawingVertex;
-            var edge = data as DrawingEdge;
+            var vertex = data as IVertex;
+            var edge = data as IEdge;
             var point = data as Point2D;
             var vm = data as GraphViewModel;
 
@@ -298,7 +299,7 @@ namespace GraphLight.Drawing
 
         #endregion
 
-        protected override void OnGraphChanged(DrawingGraph oldVal, DrawingGraph newVal)
+        protected override void OnGraphChanged(IGraph oldVal, IGraph newVal)
         {
             base.OnGraphChanged(oldVal, newVal);
             _viewModel.Graph = newVal;

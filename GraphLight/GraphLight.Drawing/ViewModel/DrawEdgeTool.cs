@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Windows.Input;
-using GraphLight.Drawing;
 using GraphLight.Geometry;
 using GraphLight.Graph;
 using GraphLight.Layout;
@@ -9,8 +8,8 @@ namespace GraphLight.ViewModel
 {
     public class DrawEdgeTool : GraphTool
     {
-        private DrawingEdge _newEdge;
-        private DrawingVertex _srcNode;
+        private IEdge _newEdge;
+        private IVertex _srcNode;
 
         public DrawEdgeTool(GraphViewModel viewModel)
             : base(viewModel)
@@ -22,7 +21,7 @@ namespace GraphLight.ViewModel
         public override void HandleLButtonUp(object sender, MouseButtonEventArgs e)
         {
             var point = GetPoint(e);
-            var node = GetOriginalDataContext<DrawingVertex>(e);
+            var node = GetOriginalDataContext<IVertex>(e);
             if (_newEdge != null && node == _srcNode && _newEdge.Points.Count <= 2)
             {
                 Cancel();
@@ -37,16 +36,16 @@ namespace GraphLight.ViewModel
         public override void HandleLButtonDown(object sender, MouseButtonEventArgs e)
         {
             var point = GetPoint(e);
-            var node = GetOriginalDataContext<DrawingVertex>(e);
+            var node = GetOriginalDataContext<IVertex>(e);
             if (node != null && _newEdge == null)
                 beginDrawEdge(point, node);
         }
 
-        private void beginDrawEdge(Point2D point, DrawingVertex srcNode)
+        private void beginDrawEdge(Point2D point, IVertex srcNode)
         {
             var p = srcNode.CenterPoint();
             _srcNode = srcNode;
-            _newEdge = (DrawingEdge) Model.Graph.AddEdge(srcNode.Data, srcNode.Data);
+            _newEdge = (IEdge) Model.Graph.AddEdge(srcNode.Data, srcNode.Data);
             _newEdge.Points.Add(p);
             _newEdge.RaisePointsChanged();
             IsInProgress = true;
@@ -64,7 +63,7 @@ namespace GraphLight.ViewModel
             _newEdge.RaisePointsChanged();
         }
 
-        private void endDrawEdge(Point2D point, DrawingVertex dstNode)
+        private void endDrawEdge(Point2D point, IVertex dstNode)
         {
             //_newEdge.Points.Add(point);
             _newEdge.Dst = dstNode;
@@ -83,7 +82,7 @@ namespace GraphLight.ViewModel
             if (_newEdge == null)
                 return;
 
-            var node = GetOriginalDataContext<DrawingVertex>(e);
+            var node = GetOriginalDataContext<IVertex>(e);
             if (node != null)
             {
                 if (node == _srcNode)

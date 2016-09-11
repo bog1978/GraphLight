@@ -84,13 +84,13 @@ namespace GraphLight.Drawing
 
         private static void onGraphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var oldVal = (DrawingGraph)e.OldValue;
-            var newVal = (DrawingGraph)e.NewValue;
+            var oldVal = (IGraph)e.OldValue;
+            var newVal = (IGraph)e.NewValue;
             var control = (BaseGraphControl)d;
             control.OnGraphChanged(oldVal, newVal);
         }
 
-        protected virtual void OnGraphChanged(DrawingGraph oldVal, DrawingGraph newVal)
+        protected virtual void OnGraphChanged(IGraph oldVal, IGraph newVal)
         {
             if (oldVal != null)
             {

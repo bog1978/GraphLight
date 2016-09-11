@@ -91,6 +91,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Parser\GraphHelper.cs" />
+    <Compile Include="Parser\Parser.cs">
+      <DependentUpon>Graph.atg</DependentUpon>
+    </Compile>
+    <Compile Include="Parser\ParserExt.cs">
+      <DependentUpon>Graph.atg</DependentUpon>
+    </Compile>
+    <Compile Include="Parser\Scanner.cs">
+      <DependentUpon>Graph.atg</DependentUpon>
+    </Compile>
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -165,6 +175,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Examples\large.graph" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Parser\Graph.atg">
+      <Generator>CocoFileGenerator</Generator>
+      <LastGenOutput>Graph.log</LastGenOutput>
+    </None>
+    <None Include="Parser\Parser.frame" />
+    <None Include="Parser\Scanner.frame" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

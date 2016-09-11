@@ -3,15 +3,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using GraphLight.Drawing;
 using GraphLight.Graph;
+using GraphLight.Parser;
 using GraphLight.ViewModel;
 
 namespace GraphLight
 {
     public class DemoViewModel : BaseViewModel
     {
-        private DrawingGraph _graph;
+        private IGraph _graph;
         private string _selectedExample;
         private int _tabIndex;
 
@@ -20,7 +20,7 @@ namespace GraphLight
             var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
             ExampleCollection = resources.Where(x => x.EndsWith(".graph")).ToList();
             SelectedExample = ExampleCollection.FirstOrDefault();
-            Palette = new DrawingGraph();
+            Palette = new GraphModel();
             var v1 = Palette.AddVertex("1");
             v1.Category = "large_font";
             v1.Label = "AAA";
@@ -34,7 +34,7 @@ namespace GraphLight
             v4.Label = "DDD";
         }
 
-        public DrawingGraph Graph
+        public IGraph Graph
         {
             get { return _graph; }
             set
@@ -44,7 +44,7 @@ namespace GraphLight
             }
         }
 
-        public DrawingGraph Palette { get; private set; }
+        public IGraph Palette { get; private set; }
 
         public int TabIndex
         {
@@ -101,7 +101,7 @@ namespace GraphLight
 
         private void loadGraph(Stream stream)
         {
-            var graph = GraphExtensions.ReadFromFile(stream);
+            var graph = GraphHelper.ReadFromFile(stream);
             //var engine = new GraphVizLayout<VertexAttrs, EdgeAttrs>
             //    {
             //        NodeMeasure = new NodeMeasure(),

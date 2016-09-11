@@ -1,11 +1,10 @@
 using System;
 using System.IO;
-using GraphLight.Drawing;
-using GraphLight.Parser;
+using GraphLight.Graph;
 
-namespace GraphLight.Graph
+namespace GraphLight.Parser
 {
-    public static class GraphExtensions
+    public static class GraphHelper
     {
         #region Файловые операции
 
@@ -14,7 +13,7 @@ namespace GraphLight.Graph
         /// </summary>
         /// <param name = "fileStream">Поток, из которого читать данные</param>
         /// <returns>Считанный граф</returns>
-        public static DrawingGraph ReadFromFile(Stream fileStream)
+        public static IGraph ReadFromFile(Stream fileStream)
         {
             var ws = new StringWriter();
             var scanner = new MyScanner(fileStream);
@@ -25,13 +24,13 @@ namespace GraphLight.Graph
             return parser.ParsedGraph;
         }
 
-        public static void WriteToFile(this DrawingGraph graph, Stream fileStream)
+        public static void WriteToFile(this IGraph graph, Stream fileStream)
         {
             using (var sw = new StreamWriter(fileStream))
                 graph.WriteToFile(sw);
         }
 
-        public static void WriteToFile(this DrawingGraph graph, StreamWriter sw)
+        public static void WriteToFile(this IGraph graph, StreamWriter sw)
         {
             sw.WriteLine("digraph {0}", "Label");
             sw.WriteLine("{");

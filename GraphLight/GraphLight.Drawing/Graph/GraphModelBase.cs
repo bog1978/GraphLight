@@ -6,7 +6,7 @@ using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public abstract class BaseGraph<TVertex, TEdge> : BaseViewModel, IGraph
+    public abstract class GraphModelBase<TVertex, TEdge> : BaseViewModel, IGraph
     {
         private readonly ICollection<Edge<TVertex, TEdge>> _edges;
         private readonly ICollection<IElement> _elements;
@@ -16,7 +16,7 @@ namespace GraphLight.Graph
         private double _width;
         private double _height;
 
-        protected BaseGraph()
+        protected GraphModelBase()
         {
             _elements = new ObservableCollection<IElement>();
             _verteces = new ObservableCollection<Vertex<TVertex, TEdge>>();

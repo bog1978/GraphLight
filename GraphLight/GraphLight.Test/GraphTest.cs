@@ -13,7 +13,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void TestAddInsertRemove()
         {
-            var graph = new DrawingGraph();
+            var graph = new GraphModel();
             var g = graph;
             var ab = graph.AddEdge("A", "B");
             var a = ab.Src;
@@ -45,7 +45,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_1()
         {
-            var graph = new DrawingGraph();
+            var graph = new GraphModel();
             graph.AddEdge("A", "B");
             graph.AddEdge("B", "C");
             graph.AddEdge("A", "C");
@@ -60,7 +60,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_2()
         {
-            var graph = new DrawingGraph();
+            var graph = new GraphModel();
             graph.AddEdge("A", "B");
             graph.AddEdge("B", "C");
             graph.AddEdge("C", "D");

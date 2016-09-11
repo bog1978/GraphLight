@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
 using GraphLight.Controls;
-using GraphLight.Drawing;
 using GraphLight.Geometry;
 using GraphLight.Graph;
 
@@ -11,9 +10,9 @@ namespace GraphLight.ViewModel
     {
         #region Graph
 
-        private DrawingGraph _graph;
+        private IGraph _graph;
 
-        public DrawingGraph Graph
+        public IGraph Graph
         {
             get { return _graph; }
             set
@@ -29,11 +28,11 @@ namespace GraphLight.ViewModel
 
         #region Selections
 
-        private DrawingEdge _selectedEdge;
+        private IEdge _selectedEdge;
 
-        private DrawingVertex _selectedNode;
+        private IVertex _selectedNode;
 
-        public DrawingEdge SelectedEdge
+        public IEdge SelectedEdge
         {
             get { return _selectedEdge; }
             set
@@ -55,7 +54,7 @@ namespace GraphLight.ViewModel
             }
         }
 
-        public DrawingVertex SelectedNode
+        public IVertex SelectedNode
         {
             get { return _selectedNode; }
             set
@@ -83,7 +82,7 @@ namespace GraphLight.ViewModel
 
         internal bool OnDragQuery(IDragDropOptions options)
         {
-            var vertex = options.Source.DataContext as DrawingVertex;
+            var vertex = options.Source.DataContext as IVertex;
             var point = options.Source.DataContext as Point2D;
             if (vertex != null)
             {
@@ -108,7 +107,7 @@ namespace GraphLight.ViewModel
 
         internal void OnDropInfo(IDragDropOptions options)
         {
-            var vertex = options.Source.DataContext as DrawingVertex;
+            var vertex = options.Source.DataContext as IVertex;
             var point = options.Source.DataContext as Point2D;
             if (vertex != null && options.Mode == DragDropMode.DragExisting)
             {
@@ -157,40 +156,40 @@ namespace GraphLight.ViewModel
 
         private static int setZIndex(object element, int z)
         {
-            var node = element as DrawingVertex;
+            var node = element as IVertex;
             if (node != null)
                 node.ZIndex = z++;
-            var edge = element as DrawingEdge;
+            var edge = element as IEdge;
             if (edge != null)
                 edge.ZIndex = z++;
             return z;
         }
 
-        public void Highlight(DrawingVertex node, bool isHighlighted)
+        public void Highlight(IVertex node, bool isHighlighted)
         {
             if (!node.IsSelected)
                 node.IsHighlighted = isHighlighted;
 
-            foreach (DrawingEdge edge in node.InEdges)
+            foreach (IEdge edge in node.InEdges)
             {
                 if (!edge.IsSelected)
                     edge.IsHighlighted = isHighlighted;
                 if (!edge.Src.IsSelected)
                     edge.Src.IsHighlighted = isHighlighted;
             }
-            foreach (DrawingEdge edge in node.OutEdges)
+            foreach (IEdge edge in node.OutEdges)
             {
                 if (!edge.IsSelected)
                     edge.IsHighlighted = isHighlighted;
                 if (!edge.Dst.IsSelected)
                     edge.Dst.IsHighlighted = isHighlighted;
             }
-            foreach (DrawingEdge edge in node.SelfEdges)
+            foreach (IEdge edge in node.SelfEdges)
                 if (!edge.IsSelected)
                     edge.IsHighlighted = isHighlighted;
         }
 
-        public void Highlight(DrawingEdge edge, bool isHighlighted)
+        public void Highlight(IEdge edge, bool isHighlighted)
         {
             if (!edge.IsSelected)
                 edge.IsHighlighted = isHighlighted;

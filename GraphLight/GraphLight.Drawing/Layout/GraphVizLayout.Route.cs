@@ -356,7 +356,7 @@ namespace GraphLight.Layout
                 }
 
             // Создаем граф полигонов.
-            var polygonGraph = new Graph<Polygon2D, Line2D>();
+            var polygonGraph = new GraphModel<Polygon2D, Line2D>();
             foreach (var item in linePolMap)
                 switch (item.Value.Count)
                 {
@@ -371,7 +371,7 @@ namespace GraphLight.Layout
                 }
 
             // Создаем граф точек.
-            var pointGraph = new Graph<Point2D, object>();
+            var pointGraph = new GraphModel<Point2D, object>();
             foreach (var node in polygonGraph.Verteces)
             {
                 var midPoints = node.Edges

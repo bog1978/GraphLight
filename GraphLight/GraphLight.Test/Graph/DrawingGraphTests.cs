@@ -10,12 +10,12 @@ namespace GraphLight.Test.Graph
     [TestClass]
     public class DrawingGraphTests
     {
-        private static readonly ICollection _emptyEdges = new List<DrawingEdge>();
+        private static readonly ICollection _emptyEdges = new List<IEdge>();
 
         [TestMethod]
         public void Test1()
         {
-            var g = new DrawingGraph();
+            var g = new GraphModel();
             var a = g.AddVertex("a");
             var b = g.AddVertex("b");
             var c = g.AddVertex("c");

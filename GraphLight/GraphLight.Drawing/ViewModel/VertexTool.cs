@@ -17,7 +17,7 @@ namespace GraphLight.ViewModel
 
         public override void HandleLButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Model.SelectedNode = e.OriginalSource.GetDataContext<DrawingVertex>();
+            Model.SelectedNode = e.OriginalSource.GetDataContext<IVertex>();
             if (_last == e.OriginalSource)
                 return;
             setHighlight(_last, false);
@@ -48,7 +48,7 @@ namespace GraphLight.ViewModel
         {
             if (obj == null)
                 return;
-            var node = obj.GetDataContext<DrawingVertex>();
+            var node = obj.GetDataContext<IVertex>();
             if (node != null)
                 Model.Highlight(node, isHighlighted);
         }

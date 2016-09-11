@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using GraphLight.Drawing;
 using GraphLight.Graph;
+using GraphLight.Parser;
 
 namespace GraphLight.Prefomance
 {
@@ -24,8 +24,8 @@ namespace GraphLight.Prefomance
             }
         }
 
-        private static DrawingGraph _graphToTest;
-        public static DrawingGraph GraphToTest
+        private static IGraph _graphToTest;
+        public static IGraph GraphToTest
         {
             get
             {
@@ -33,7 +33,7 @@ namespace GraphLight.Prefomance
                 {
                     var lazy = GraphStreams.First();
                     using (lazy.Value)
-                        _graphToTest = GraphExtensions.ReadFromFile(lazy.Value);
+                        _graphToTest = GraphHelper.ReadFromFile(lazy.Value);
                 }
                 return _graphToTest;
             }

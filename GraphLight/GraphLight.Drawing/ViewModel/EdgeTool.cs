@@ -18,7 +18,7 @@ namespace GraphLight.ViewModel
 
         public override void HandleLButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Model.SelectedEdge = e.OriginalSource.GetDataContext<DrawingEdge>();
+            Model.SelectedEdge = e.OriginalSource.GetDataContext<IEdge>();
             if (_last == e.OriginalSource)
                 return;
             setHighlight(_last, false);
@@ -48,7 +48,7 @@ namespace GraphLight.ViewModel
         {
             if (obj == null)
                 return;
-            var edge = obj.GetDataContext<DrawingEdge>();
+            var edge = obj.GetDataContext<IEdge>();
             if (edge != null)
                 Model.Highlight(edge, isHighlighted);
         }

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using GraphLight.Controls;
+using GraphLight.Graph;
 
 namespace GraphLight.Drawing
 {
@@ -16,7 +17,7 @@ namespace GraphLight.Drawing
             return true;
         }
 
-        protected override void OnGraphChanged(DrawingGraph oldVal, DrawingGraph newVal)
+        protected override void OnGraphChanged(IGraph oldVal, IGraph newVal)
         {
             base.OnGraphChanged(oldVal, newVal);
             Layout();

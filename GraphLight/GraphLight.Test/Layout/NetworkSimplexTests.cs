@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using GraphLight.Drawing;
 using GraphLight.Graph;
 using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using GraphExtensions = GraphLight.Graph.GraphExtensions;
+using GraphLight.Parser;
 using GraphVizLayout = GraphLight.Layout.GraphVizLayout;
 
 namespace GraphLight.Test.Layout
@@ -63,11 +62,11 @@ namespace GraphLight.Test.Layout
         {
             foreach (var lazy in TestData.GraphStreams)
             {
-                DrawingGraph graph;
+                IGraph graph;
                 using (var stream = lazy.Value)
-                    graph = GraphExtensions.ReadFromFile(stream);
+                    graph = GraphHelper.ReadFromFile(stream);
                 graph.Acyclic();
-                var expectedRanks = graph.Verteces.ToDictionary(x => x as IVertex, x => x.Rank);
+                var expectedRanks = graph.Verteces.ToDictionary(x => x, x => x.Rank);
                 var alg = new RankNetworkSimplex(graph);
 
                 alg.Execute();
@@ -80,11 +79,11 @@ namespace GraphLight.Test.Layout
         {
             foreach (var lazy in TestData.GraphStreams)
             {
-                DrawingGraph graph;
+                IGraph graph;
                 using (var stream = lazy.Value)
-                    graph = GraphExtensions.ReadFromFile(stream);
+                    graph = GraphHelper.ReadFromFile(stream);
 
-                var expectedRanks = graph.Verteces.ToDictionary(x => x as IVertex, x => x.Rank);
+                var expectedRanks = graph.Verteces.ToDictionary(x => x, x => x.Rank);
 
                 using (var f1 = File.Create("d:\\temp\\out0.graph"))
                     graph.WriteToFile(f1);
@@ -108,7 +107,7 @@ namespace GraphLight.Test.Layout
             }
         }
 
-        private static void checkRanks(DrawingGraph graph, IDictionary<IVertex, int> expectedRanks)
+        private static void checkRanks(IGraph graph, IDictionary<IVertex, int> expectedRanks)
         {
             foreach (var vertex in graph.Verteces)
             {

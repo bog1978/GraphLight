@@ -109,6 +109,16 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Parser\GraphHelper.cs" />
+    <Compile Include="Parser\Parser.cs">
+      <DependentUpon>Graph.atg</DependentUpon>
+    </Compile>
+    <Compile Include="Parser\ParserExt.cs">
+      <DependentUpon>Graph.atg</DependentUpon>
+    </Compile>
+    <Compile Include="Parser\Scanner.cs">
+      <DependentUpon>Graph.atg</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +150,12 @@
     <EmbeddedResource Include="Examples\Bugs\Issue7610Test_1.graph" />
     <EmbeddedResource Include="Examples\Bugs\Issue7610Test_2.graph" />
     <EmbeddedResource Include="Examples\category.graph" />
+    <None Include="Parser\Graph.atg">
+      <Generator>CocoFileGenerator</Generator>
+      <LastGenOutput>Graph.log</LastGenOutput>
+    </None>
+    <None Include="Parser\Parser.frame" />
+    <None Include="Parser\Scanner.frame" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
