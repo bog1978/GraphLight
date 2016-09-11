@@ -6,50 +6,27 @@ using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public interface IVertex : IBinaryHeapItem<double>
+    public class Vertex<TVertex, TEdge> : BaseViewModel, IVertex
     {
-        int Rank { get; set; }
-        int Position { get; set; }
-        bool IsTmp { get; set; }
-        string Category { get; set; }
-        int ZIndex { get; set; }
-        bool IsSelected { get; set; }
-        bool IsHighlighted { get; set; }
-        string Label { get; set; }
-        double Width { get; set; }
-        double Height { get; set; }
-        double Left { get; set; }
-        double Top { get; set; }
-        double Right { get; }
-        double Bottom { get; }
-        double CenterX { get; set; }
-        double CenterY { get; }
-        string ShapeData { get; set; }
-        IEnumerable<IEdge> Edges { get; }
-        IEnumerable<IEdge> InEdges { get; }
-        IEnumerable<IEdge> OutEdges { get; }
-        IEnumerable<IEdge> SelfEdges { get; }
-        object Data { get; }
-        void Update();
-    }
-
-    public class Vertex<TVertex, TEdge> : BaseViewModel, IBinaryHeapItem<double>, IVertex
-    {
-        #region Private fields
-
         private readonly ICollection<Edge<TVertex, TEdge>> _edges;
         private readonly ICollection<Edge<TVertex, TEdge>> _inEdges;
         private readonly ICollection<Edge<TVertex, TEdge>> _outEdges;
         private readonly ICollection<Edge<TVertex, TEdge>> _selfEdges;
-        private TVertex _data;
-        private int _rank;
-        private int _position;
-        private bool _isTmp;
         private string _category;
-
-        #endregion
-
-        #region Constructors
+        private double _centerX;
+        private TVertex _data;
+        private double _height;
+        private bool _isHighlighted;
+        private bool _isSelected;
+        private bool _isTmp;
+        private string _label;
+        private double _left;
+        private int _position;
+        private int _rank;
+        private string _shapeData;
+        private double _top;
+        private double _width;
+        private int _zIndex;
 
         public Vertex(TVertex data)
         {
@@ -61,38 +38,10 @@ namespace GraphLight.Graph
             ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1"; // έλλθορ
         }
 
-        #endregion
-
-        #region IVertex<TVertex,TEdge> Members
-
         public TVertex Data
         {
             get { return _data; }
             set { SetProperty(ref _data, value, "Data"); }
-        }
-
-        public int Rank
-        {
-            get { return _rank; }
-            set { SetProperty(ref _rank, value, "Rank"); }
-        }
-
-        public int Position
-        {
-            get { return _position; }
-            set { SetProperty(ref _position, value, "Position"); }
-        }
-
-        public bool IsTmp
-        {
-            get { return _isTmp; }
-            set { SetProperty(ref _isTmp, value, "IsTmp"); }
-        }
-
-        public string Category
-        {
-            get { return _category; }
-            set { SetProperty(ref _category, value, "Category"); }
         }
 
         public IEnumerable<Edge<TVertex, TEdge>> Edges
@@ -114,89 +63,6 @@ namespace GraphLight.Graph
         {
             get { return _selfEdges; }
         }
-
-        IEnumerable<IEdge> IVertex.Edges
-        {
-            get { return _edges; }
-        }
-
-        IEnumerable<IEdge> IVertex.InEdges
-        {
-            get { return _inEdges; }
-        }
-
-        IEnumerable<IEdge> IVertex.OutEdges
-        {
-            get { return _outEdges; }
-        }
-
-        IEnumerable<IEdge> IVertex.SelfEdges
-        {
-            get { return _selfEdges; }
-        }
-
-        object IVertex.Data
-        {
-            get { return _data; }
-        }
-
-        public void RegisterEdge(Edge<TVertex, TEdge> edge)
-        {
-            var collection = edge.Src == this && edge.Dst == this
-                ? _selfEdges
-                : edge.Src == this
-                    ? _outEdges
-                    : edge.Dst == this
-                        ? _inEdges
-                        : null;
-
-            if (collection == null)
-            {
-                _edges.Remove(edge);
-                _selfEdges.Remove(edge);
-                _inEdges.Remove(edge);
-                _outEdges.Remove(edge);
-            }
-            else if (_edges.Contains(edge))
-            {
-                if (collection.Contains(edge))
-                    return;
-                _selfEdges.Remove(edge);
-                _inEdges.Remove(edge);
-                _outEdges.Remove(edge);
-                collection.Add(edge);
-            }
-            else
-            {
-                _edges.Add(edge);
-                collection.Add(edge);
-            }
-        }
-
-        public void UnregisterEdge(Edge<TVertex, TEdge> edge)
-        {
-            _edges.Remove(edge);
-            _selfEdges.Remove(edge);
-            _inEdges.Remove(edge);
-            _outEdges.Remove(edge);
-        }
-
-        public int HeapIndex { get; set; }
-
-        public double HeapKey { get; set; }
-
-        #endregion
-
-        private double _centerX;
-        private double _height;
-        private bool _isHighlighted;
-        private bool _isSelected;
-        private string _label;
-        private double _left;
-        private double _top;
-        private double _width;
-        private int _zIndex;
-        private string _shapeData;
 
         public int ZIndex
         {
@@ -301,28 +167,63 @@ namespace GraphLight.Graph
             }
         }
 
-        public double CenterY
-        {
-            get { return Top + Height / 2; }
-        }
-
         public string ShapeData
         {
             get { return _shapeData; }
             set { SetProperty(ref _shapeData, value, "ShapeData"); }
         }
 
-        public override bool Equals(object obj)
+        public int Rank
         {
-            var other = obj as Vertex<TVertex, TEdge>;
-            if (other == null)
-                return false;
-            return Equals(Data, other.Data);
+            get { return _rank; }
+            set { SetProperty(ref _rank, value, "Rank"); }
         }
 
-        public override int GetHashCode()
+        public int Position
         {
-            return Data.GetHashCode();
+            get { return _position; }
+            set { SetProperty(ref _position, value, "Position"); }
+        }
+
+        public bool IsTmp
+        {
+            get { return _isTmp; }
+            set { SetProperty(ref _isTmp, value, "IsTmp"); }
+        }
+
+        public string Category
+        {
+            get { return _category; }
+            set { SetProperty(ref _category, value, "Category"); }
+        }
+
+        int IBinaryHeapItem<double>.HeapIndex { get; set; }
+
+        double IBinaryHeapItem<double>.HeapKey { get; set; }
+
+        IEnumerable<IEdge> IVertex.Edges
+        {
+            get { return _edges; }
+        }
+
+        IEnumerable<IEdge> IVertex.InEdges
+        {
+            get { return _inEdges; }
+        }
+
+        IEnumerable<IEdge> IVertex.OutEdges
+        {
+            get { return _outEdges; }
+        }
+
+        IEnumerable<IEdge> IVertex.SelfEdges
+        {
+            get { return _selfEdges; }
+        }
+
+        object IElement.Data
+        {
+            get { return _data; }
         }
 
         public void Update()
@@ -347,6 +248,60 @@ namespace GraphLight.Graph
                     e.FixDraggablePoints(last);
                 }
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Vertex<TVertex, TEdge>;
+            if (other == null)
+                return false;
+            return Equals(Data, other.Data);
+        }
+
+        public override int GetHashCode()
+        {
+            return Data.GetHashCode();
+        }
+
+        public void RegisterEdge(Edge<TVertex, TEdge> edge)
+        {
+            var collection = edge.Src == this && edge.Dst == this
+                ? _selfEdges
+                : edge.Src == this
+                    ? _outEdges
+                    : edge.Dst == this
+                        ? _inEdges
+                        : null;
+
+            if (collection == null)
+            {
+                _edges.Remove(edge);
+                _selfEdges.Remove(edge);
+                _inEdges.Remove(edge);
+                _outEdges.Remove(edge);
+            }
+            else if (_edges.Contains(edge))
+            {
+                if (collection.Contains(edge))
+                    return;
+                _selfEdges.Remove(edge);
+                _inEdges.Remove(edge);
+                _outEdges.Remove(edge);
+                collection.Add(edge);
+            }
+            else
+            {
+                _edges.Add(edge);
+                collection.Add(edge);
+            }
+        }
+
+        public void UnregisterEdge(Edge<TVertex, TEdge> edge)
+        {
+            _edges.Remove(edge);
+            _selfEdges.Remove(edge);
+            _inEdges.Remove(edge);
+            _outEdges.Remove(edge);
         }
     }
 }

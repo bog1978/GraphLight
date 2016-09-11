@@ -8,46 +8,19 @@ using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public interface IEdge
-    {
-        double Weight { get; set; }
-        bool IsRevert { get; set; }
-        int DstPointIndex { get; set; }
-        IList<Point2D> PolygonPoints { get; set; }
-        IList<Point2D> Points { get; set; }
-        bool IsSelected { get; set; }
-        bool IsHighlighted { get; set; }
-        IList<Point2D> DraggablePoints { get; set; }
-        double Lenght { get; }
-        string Color { get; set; }
-        double Thickness { get; set; }
-        int ZIndex { get; set; }
-        IVertex Src { get; set; }
-        IVertex Dst { get; set; }
-        object Data { get; }
-        void Revert();
-        void UpdatePoint(Point2D data);
-        void FixDraggablePoints(Point2D data);
-        void UpdateSrcPort();
-        void UpdateDstPort();
-        void RaisePointsChanged();
-        IDisposable DeferRefresh();
-    }
-
     public class Edge<TVertex, TEdge> : BaseViewModel, IEdge
     {
-        private TEdge _data;
-        private Vertex<TVertex, TEdge> _dst, _src;
-        private double _weight = 1;
-        private bool _isRevert;
-        private int _dstPointIndex;
-        private IList<Point2D> _polygonPoints;
-        private IList<Point2D> _points;
-        private bool _isSelected;
-        private bool _isHighlighted;
-        private IList<Point2D> _draggablePoints;
+        private string _category;
         private string _color;
+        private TEdge _data;
+        private IList<Point2D> _draggablePoints;
+        private Vertex<TVertex, TEdge> _dst, _src;
+        private bool _isHighlighted;
+        private bool _isRevert;
+        private bool _isSelected;
+        private IList<Point2D> _points;
         private double _thickness;
+        private double _weight = 1;
         private int _zIndex;
 
         public Edge(TEdge data)
@@ -64,58 +37,10 @@ namespace GraphLight.Graph
             DraggablePoints = draggablePoints;
         }
 
-        #region IEdge<TVertex,TEdge> Members
-
         public TEdge Data
         {
             get { return _data; }
             set { SetProperty(ref _data, value, "Data"); }
-        }
-
-        public double Weight
-        {
-            get { return _weight; }
-            set { SetProperty(ref _weight, value, "Weight"); }
-        }
-
-        public bool IsRevert
-        {
-            get { return _isRevert; }
-            set { SetProperty(ref _isRevert, value, "IsRevert"); }
-        }
-
-        public int DstPointIndex
-        {
-            get { return _dstPointIndex; }
-            set { SetProperty(ref _dstPointIndex, value, "DstPointIndex"); }
-        }
-
-        public IList<Point2D> PolygonPoints
-        {
-            get { return _polygonPoints; }
-            set { SetProperty(ref _polygonPoints, value, "PolygonPoints"); }
-        }
-
-        public IList<Point2D> Points
-        {
-            get { return _points; }
-            set { SetProperty(ref _points, value, "Points"); }
-        }
-
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                SetProperty(ref _isSelected, value, "IsSelected");
-                IsHighlighted = value;
-            }
-        }
-
-        public bool IsHighlighted
-        {
-            get { return _isHighlighted; }
-            set { SetProperty(ref _isHighlighted, value, "IsHighlighted"); }
         }
 
 
@@ -153,16 +78,47 @@ namespace GraphLight.Graph
             }
         }
 
-        IVertex IEdge.Src
+        public string StrokeBrush
         {
-            get { return Src; }
-            set { Src = (Vertex<TVertex, TEdge>)value; }
+            get { return Color; }
         }
 
-        IVertex IEdge.Dst
+        public double Weight
         {
-            get { return Dst; }
-            set { Dst = (Vertex<TVertex, TEdge>) value; }
+            get { return _weight; }
+            set { SetProperty(ref _weight, value, "Weight"); }
+        }
+
+        public bool IsRevert
+        {
+            get { return _isRevert; }
+            set { SetProperty(ref _isRevert, value, "IsRevert"); }
+        }
+
+        int IEdge.DstPointIndex { get; set; }
+
+        IList<Point2D> IEdge.PolygonPoints { get; set; }
+
+        public IList<Point2D> Points
+        {
+            get { return _points; }
+            set { SetProperty(ref _points, value, "Points"); }
+        }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                SetProperty(ref _isSelected, value, "IsSelected");
+                IsHighlighted = value;
+            }
+        }
+
+        public bool IsHighlighted
+        {
+            get { return _isHighlighted; }
+            set { SetProperty(ref _isHighlighted, value, "IsHighlighted"); }
         }
 
         public IList<Point2D> DraggablePoints
@@ -180,17 +136,12 @@ namespace GraphLight.Graph
             }
         }
 
-        public string StrokeBrush
-        {
-            get { return Color; }
-        }
-
         public string Color
         {
             get { return _color; }
             set
             {
-                SetProperty(ref _color, value, "Color"); 
+                SetProperty(ref _color, value, "Color");
                 RaisePropertyChanged("StrokeBrush");
             }
         }
@@ -207,7 +158,25 @@ namespace GraphLight.Graph
             set { SetProperty(ref _zIndex, value, "ZIndex"); }
         }
 
-        object IEdge.Data
+        public string Category
+        {
+            get { return _category; }
+            set { SetProperty(ref _category, value, "Category"); }
+        }
+
+        IVertex IEdge.Src
+        {
+            get { return Src; }
+            set { Src = (Vertex<TVertex, TEdge>)value; }
+        }
+
+        IVertex IEdge.Dst
+        {
+            get { return Dst; }
+            set { Dst = (Vertex<TVertex, TEdge>)value; }
+        }
+
+        object IElement.Data
         {
             get { return _data; }
         }
@@ -220,68 +189,6 @@ namespace GraphLight.Graph
             Src = Dst;
             Dst = tmp;
             IsRevert = true;
-        }
-
-        #endregion
-
-        protected void pointsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            Point2D p1, p2, p3, p4, p5;
-            int i;
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    i = 2 * e.NewStartingIndex;
-                    if (e.NewStartingIndex == 0)
-                    {
-                        // First point. Do nothing.
-                        DraggablePoints.Insert(0, Points[0]);
-                    }
-                    else if (e.NewStartingIndex == Points.Count - 1)
-                    {
-                        // Last point.
-                        p1 = DraggablePoints[i - 2];
-                        p3 = Points[e.NewStartingIndex];
-                        p2 = p1 + (p3 - p1) / 2;
-                        DraggablePoints.Add(p2);
-                        DraggablePoints.Add(p3);
-                    }
-                    else
-                    {
-                        // Middle point
-                        p1 = DraggablePoints[i - 2];
-                        p3 = DraggablePoints[i - 1];
-                        p5 = DraggablePoints[i];
-                        p2 = p1 + (p3 - p1) / 2;
-                        p4 = p3 + (p5 - p3) / 2;
-                        DraggablePoints.Insert(i - 1, p2);
-                        DraggablePoints.Insert(i + 1, p4);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    i = 2 * e.OldStartingIndex;
-                    // Сначала фиксим порты, чтобы правильно вычислить координаты средней точки.
-                    UpdateSrcPort();
-                    UpdateDstPort();
-                    p1 = DraggablePoints[i - 2];
-                    p2 = DraggablePoints[i - 1];
-                    p3 = DraggablePoints[i];
-                    p4 = DraggablePoints[i + 1];
-                    p5 = DraggablePoints[i + 2];
-                    DraggablePoints.Remove(p2);
-                    DraggablePoints.Remove(p4);
-                    p3.X = (p1.X + p5.X) / 2;
-                    p3.Y = (p1.Y + p5.Y) / 2;
-                    RaisePointsChanged();
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    DraggablePoints.Clear();
-                    foreach (var point in Points)
-                        DraggablePoints.Add(point);
-                    break;
-            }
         }
 
         public void UpdatePoint(Point2D data)
@@ -383,7 +290,67 @@ namespace GraphLight.Graph
         {
             return new RefreshHelper(this);
         }
-        
+
+        protected void pointsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Point2D p1, p2, p3, p4, p5;
+            int i;
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    i = 2 * e.NewStartingIndex;
+                    if (e.NewStartingIndex == 0)
+                    {
+                        // First point. Do nothing.
+                        DraggablePoints.Insert(0, Points[0]);
+                    }
+                    else if (e.NewStartingIndex == Points.Count - 1)
+                    {
+                        // Last point.
+                        p1 = DraggablePoints[i - 2];
+                        p3 = Points[e.NewStartingIndex];
+                        p2 = p1 + (p3 - p1) / 2;
+                        DraggablePoints.Add(p2);
+                        DraggablePoints.Add(p3);
+                    }
+                    else
+                    {
+                        // Middle point
+                        p1 = DraggablePoints[i - 2];
+                        p3 = DraggablePoints[i - 1];
+                        p5 = DraggablePoints[i];
+                        p2 = p1 + (p3 - p1) / 2;
+                        p4 = p3 + (p5 - p3) / 2;
+                        DraggablePoints.Insert(i - 1, p2);
+                        DraggablePoints.Insert(i + 1, p4);
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    i = 2 * e.OldStartingIndex;
+                    // Сначала фиксим порты, чтобы правильно вычислить координаты средней точки.
+                    UpdateSrcPort();
+                    UpdateDstPort();
+                    p1 = DraggablePoints[i - 2];
+                    p2 = DraggablePoints[i - 1];
+                    p3 = DraggablePoints[i];
+                    p4 = DraggablePoints[i + 1];
+                    p5 = DraggablePoints[i + 2];
+                    DraggablePoints.Remove(p2);
+                    DraggablePoints.Remove(p4);
+                    p3.X = (p1.X + p5.X) / 2;
+                    p3.Y = (p1.Y + p5.Y) / 2;
+                    RaisePointsChanged();
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    DraggablePoints.Clear();
+                    foreach (var point in Points)
+                        DraggablePoints.Add(point);
+                    break;
+            }
+        }
+
         private class RefreshHelper : IDisposable
         {
             private readonly Edge<TVertex, TEdge> _edge;
