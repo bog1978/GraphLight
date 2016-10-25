@@ -26,20 +26,23 @@
                     VerticalScrollBarVisibility="Auto" Background="{x:Null}">
                 <Grid x:Name="mainGrid" Background="LightGray" Controls:DragDropManager.AllowDrop="true"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <Canvas x:Name="graphCanvas" Background="LightBlue"
-                            MinHeight="{Binding Graph.Height}" MinWidth="{Binding Graph.Width}"
-                            VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <Path x:Name="line" Stroke="Black" StrokeThickness="1" StrokeDashArray="4,8"
-                            Data="{Binding SelectedEdge.Points, Converter={StaticResource polyLineConverter}}"
-                            MinHeight="{Binding Graph.Height}" MinWidth="{Binding Graph.Width}"
-                            VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <Controls:ItemsControlEx x:Name="controlPoints" HorizontalContentAlignment="Stretch"
-                            ItemsSource="{Binding SelectedEdge.DraggablePoints}"
+                    <Canvas x:Name="graphCanvas"
+                            Background="LightBlue" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            MinHeight="{Binding Graph.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                            MinWidth="{Binding Graph.Width, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    <Path x:Name="line"
+                            Stroke="Black" StrokeThickness="1" StrokeDashArray="4,8" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Data="{Binding Path=SelectedEdge.Points, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource polyLineConverter}}"
+                            MinHeight="{Binding Graph.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                            MinWidth="{Binding Graph.Width, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    <Controls:ItemsControlEx x:Name="controlPoints"
+                            HorizontalContentAlignment="Stretch" VerticalAlignment="Center" HorizontalAlignment="Center"
                             ItemsPanel="{StaticResource canvasPanelTemplate}"
                             ItemTemplate="{StaticResource controlPointTemplate}"
                             ItemContainerStyle="{StaticResource controlPointContainerStyle}"
-                            MinHeight="{Binding Graph.Height}" MinWidth="{Binding Graph.Width}"
-                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            ItemsSource="{Binding Path=SelectedEdge.DraggablePoints, RelativeSource={RelativeSource TemplatedParent}}"
+                            MinHeight="{Binding Graph.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                            MinWidth="{Binding Graph.Width, RelativeSource={RelativeSource TemplatedParent}}"/>
                 </Grid>
             </ScrollViewer>
         </Grid>

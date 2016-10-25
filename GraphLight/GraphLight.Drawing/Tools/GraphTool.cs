@@ -1,13 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using GraphLight.Controls;
+using GraphLight.Drawing;
 using GraphLight.Geometry;
 
-namespace GraphLight.ViewModel
+namespace GraphLight.Tools
 {
     public abstract class GraphTool
     {
-        protected GraphTool(GraphViewModel model)
+        protected GraphTool(GraphControl model)
         {
             Model = model;
             IsInProgress = false;
@@ -19,7 +20,7 @@ namespace GraphLight.ViewModel
         public virtual void HandleKeyUp(object sender, KeyEventArgs e) { }
         public virtual void Cancel() { }
 
-        protected GraphViewModel Model { get; private set; }
+        protected GraphControl Model { get; private set; }
 
         protected T GetOriginalDataContext<T>(MouseEventArgs e) where T : class
         {

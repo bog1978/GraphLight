@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using GraphLight.Annotations;
 
-namespace GraphLight.ViewModel
+namespace GraphLight
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {

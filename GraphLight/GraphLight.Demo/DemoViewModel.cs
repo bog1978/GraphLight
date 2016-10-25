@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using GraphLight.Graph;
 using GraphLight.Parser;
-using GraphLight.ViewModel;
 
 namespace GraphLight
 {

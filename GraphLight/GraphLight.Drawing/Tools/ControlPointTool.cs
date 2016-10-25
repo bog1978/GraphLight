@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Input;
+using GraphLight.Drawing;
 using GraphLight.Geometry;
 
-namespace GraphLight.ViewModel
+namespace GraphLight.Tools
 {
     public class ControlPointTool : GraphTool
     {
-        public ControlPointTool(GraphViewModel viewModel)
+        public ControlPointTool(GraphControl viewModel)
             : base(viewModel)
         {
         }
@@ -36,7 +36,7 @@ namespace GraphLight.ViewModel
             }
             if (!points.Contains(point))
             {
-                var draggablePoints = (IList<Point2D>)Model.SelectedEdge.DraggablePoints;
+                var draggablePoints = Model.SelectedEdge.DraggablePoints;
                 var i = draggablePoints.IndexOf(point);
                 points.Insert((i + 1) / 2, point);
             }

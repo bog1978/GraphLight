@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace GraphLight
 {
-    public class DelegateCommand<T> : ICommand
+    internal class DelegateCommand<T> : ICommand
     {
         private readonly Action<T> _action;
         private readonly Func<T,bool> _canExecute;

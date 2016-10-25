@@ -136,7 +136,6 @@
     <Compile Include="Controls\DependecyObjectExtensions.cs" />
     <Compile Include="Controls\DragDropManager.cs" />
     <Compile Include="Drawing\Edge.cs" />
-    <Compile Include="Drawing\GraphVizLayout.cs" />
     <Compile Include="Controls\ItemsControlEx.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -146,13 +145,13 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Drawing\DummyNodeMeasure.cs" />
-    <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="ViewModel\ControlPointTool.cs" />
-    <Compile Include="ViewModel\DrawEdgeTool.cs" />
-    <Compile Include="ViewModel\EdgeTool.cs" />
-    <Compile Include="ViewModel\GraphTool.cs" />
-    <Compile Include="ViewModel\GraphViewModel.cs" />
-    <Compile Include="ViewModel\VertexTool.cs" />
+    <Compile Include="BaseViewModel.cs" />
+    <Compile Include="Tools\ControlPointTool.cs" />
+    <Compile Include="Tools\DrawEdgeTool.cs" />
+    <Compile Include="Tools\EdgeTool.cs" />
+    <Compile Include="Tools\GraphTool.cs" />
+    <Compile Include="Tools\GraphViewModel.cs" />
+    <Compile Include="Tools\VertexTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

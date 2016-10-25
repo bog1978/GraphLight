@@ -1,17 +1,18 @@
 ﻿using System.Linq;
 using System.Windows.Input;
+using GraphLight.Drawing;
 using GraphLight.Geometry;
 using GraphLight.Graph;
 using GraphLight.Layout;
 
-namespace GraphLight.ViewModel
+namespace GraphLight.Tools
 {
     public class DrawEdgeTool : GraphTool
     {
         private IEdge _newEdge;
         private IVertex _srcNode;
 
-        public DrawEdgeTool(GraphViewModel viewModel)
+        public DrawEdgeTool(GraphControl viewModel)
             : base(viewModel)
         {
         }
@@ -25,7 +26,7 @@ namespace GraphLight.ViewModel
             if (_newEdge != null && node == _srcNode && _newEdge.Points.Count <= 2)
             {
                 Cancel();
-                Model.SelectedNode = node;
+                Model.SelectedElement = node;
             }
             else if (node == null && _newEdge != null)
                 addNewControlPoint(point);
@@ -102,7 +103,7 @@ namespace GraphLight.ViewModel
             }
 
             var vm = GetOriginalDataContext<GraphViewModel>(e);
-            if (vm != Model)
+            if (vm == null)
                 return;
 
             var point = GetPoint(e);

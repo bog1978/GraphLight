@@ -1,11 +1,12 @@
-﻿using System;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using GraphLight.Controls;
-using GraphLight.ViewModel;
 using GraphLight.Geometry;
 using GraphLight.Graph;
+using GraphLight.Layout;
+using GraphLight.Tools;
 
 namespace GraphLight.Drawing
 {
@@ -13,14 +14,14 @@ namespace GraphLight.Drawing
     {
         #region Private fields
 
-        private readonly GraphViewModel _viewModel;
         private readonly GraphVizLayout _layout;
         private readonly DummyNodeMeasure _measure;
-        private Grid _mainGrid;
         private readonly GraphTool _edgeDrawingTool;
         private readonly GraphTool _edgeTool;
         private readonly GraphTool _vertexTool;
         private readonly GraphTool _pointTool;
+        private GraphTool _currentTool;
+        private Grid _mainGrid;
 
         #endregion
 
@@ -31,11 +32,10 @@ namespace GraphLight.Drawing
             DefaultStyleKey = typeof(GraphControl);
             _measure = new DummyNodeMeasure();
             _layout = new GraphVizLayout { NodeMeasure = _measure };
-            _viewModel = new GraphViewModel();
-            _edgeDrawingTool = new DrawEdgeTool(_viewModel);
-            _edgeTool = new EdgeTool(_viewModel);
-            _vertexTool = new VertexTool(_viewModel);
-            _pointTool = new ControlPointTool(_viewModel);
+            _edgeDrawingTool = new DrawEdgeTool(this);
+            _edgeTool = new EdgeTool(this);
+            _vertexTool = new VertexTool(this);
+            _pointTool = new ControlPointTool(this);
 
             LayoutCommand = new DelegateCommand(Layout);
         }
@@ -46,15 +46,16 @@ namespace GraphLight.Drawing
 
             _mainGrid = GetTemplateChild<Grid>("mainGrid");
             var layoutRoot = GetTemplateChild<FrameworkElement>("LayoutRoot");
-            layoutRoot.DataContext = _viewModel;
+            // Теперь это просто маркер
+            layoutRoot.DataContext = new GraphViewModel();
             _mainGrid.MouseMove += onMouseMove;
             _mainGrid.MouseLeftButtonDown += onMouseLeftButtonDown;
             _mainGrid.MouseLeftButtonUp += onMouseLeftButtonUp;
             KeyUp += onKeyUp;
 
-            DragDropManager.AddDropQueryHandler(_mainGrid, _viewModel.OnDropQuery);
-            DragDropManager.AddDropInfoHandler(_mainGrid, _viewModel.OnDropInfo);
-            DragDropManager.AddDragQueryHandler(_mainGrid, _viewModel.OnDragQuery);
+            DragDropManager.AddDropQueryHandler(_mainGrid, onDropQuery);
+            DragDropManager.AddDropInfoHandler(_mainGrid, onDropInfo);
+            DragDropManager.AddDragQueryHandler(_mainGrid, onDragQuery);
         }
 
         #endregion
@@ -134,8 +135,6 @@ namespace GraphLight.Drawing
 
         #region Graph event handlers
 
-        private GraphTool _currentTool;
-
         private void onMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             selectTool(e);
@@ -177,8 +176,12 @@ namespace GraphLight.Drawing
             var point = data as Point2D;
             var vm = data as GraphViewModel;
 
+            //if (vertex != null)
+            //    _currentTool = !vertex.IsSelected
+            //        ? _edgeDrawingTool
+            //        : _vertexTool;
             if (vertex != null)
-                _currentTool = !vertex.IsSelected
+                _currentTool = Keyboard.Modifiers == ModifierKeys.Control
                     ? _edgeDrawingTool
                     : _vertexTool;
             else if (edge != null)
@@ -187,14 +190,99 @@ namespace GraphLight.Drawing
                 _currentTool = _pointTool;
             else if (vm != null)
             {
-                _viewModel.SelectedEdge = null;
-                _viewModel.SelectedNode = null;
+                SelectedElement = null;
                 if (_currentTool != null)
                 {
                     _currentTool.Cancel();
                     _currentTool = null;
                 }
             }
+        }
+
+        #endregion
+
+        #region SelectedEdge
+
+        public static readonly DependencyProperty SelectedEdgeProperty = DependencyProperty.Register(
+            "SelectedEdge", typeof (IEdge), typeof (GraphControl), new PropertyMetadata(OnSelectedEdgePropertyChanged));
+
+        public IEdge SelectedEdge
+        {
+            get { return (IEdge) GetValue(SelectedEdgeProperty); }
+            private set { SetValue(SelectedEdgeProperty, value); }
+        }
+
+        private static void OnSelectedEdgePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var ctrl = (GraphControl)d;
+            var oldVal = (IEdge)e.OldValue;
+            var newVal = (IEdge)e.NewValue;
+            ctrl.OnSelectedEdgePropertyChanged(oldVal,newVal);
+        }
+
+        private void OnSelectedEdgePropertyChanged(IEdge oldEdge, IEdge newEdge)
+        {
+        }
+
+        #endregion
+
+        #region SelectedNode
+
+        public static readonly DependencyProperty SelectedNodeProperty = DependencyProperty.Register(
+            "SelectedNode", typeof (IVertex), typeof (GraphControl), new PropertyMetadata(OnSelectedNodePropertyChanged));
+
+        public IVertex SelectedNode
+        {
+            get { return (IVertex) GetValue(SelectedNodeProperty); }
+            private set { SetValue(SelectedNodeProperty, value); }
+        }
+
+        private static void OnSelectedNodePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var ctrl = (GraphControl)d;
+            var oldVal = (IVertex)e.OldValue;
+            var newVal = (IVertex)e.NewValue;
+            ctrl.OnSelectedNodePropertyChanged(oldVal, newVal);
+        }
+
+        private void OnSelectedNodePropertyChanged(IVertex oldVertex, IVertex newVertex)
+        {
+        }
+
+        #endregion
+
+        #region SelectedElement
+
+        public static readonly DependencyProperty SelectedElementProperty = DependencyProperty.Register(
+            "SelectedElement", typeof (IElement), typeof (GraphControl), new PropertyMetadata(OnSelectedElementPropertyChanged));
+
+        public IElement SelectedElement
+        {
+            get { return (IElement) GetValue(SelectedElementProperty); }
+            set { SetValue(SelectedElementProperty, value); }
+        }
+
+        private static void OnSelectedElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var ctrl = (GraphControl)d;
+            var oldVal = (IElement)e.OldValue;
+            var newVal = (IElement)e.NewValue;
+            ctrl.OnSelectedElementPropertyChanged(oldVal, newVal);
+        }
+
+        private void OnSelectedElementPropertyChanged(IElement oldElement, IElement newElement)
+        {
+            if (oldElement != null)
+                oldElement.IsSelected = false;
+
+            if (newElement != null)
+                newElement.IsSelected = true;
+
+            SelectedNode = newElement as IVertex;
+            SelectedEdge = newElement as IEdge;
+
+            if (newElement != null)
+                bringToTop(newElement);
         }
 
         #endregion
@@ -273,12 +361,98 @@ namespace GraphLight.Drawing
 
         #endregion
 
+        #region Drag & Drop
+
+        private bool onDragQuery(IDragDropOptions options)
+        {
+            var vertex = options.Source.DataContext as IVertex;
+            var point = options.Source.DataContext as Point2D;
+            if (vertex != null)
+            {
+                options.Payload = new Point(vertex.Left, vertex.Top);
+                return vertex.IsSelected;
+            }
+            if (point != null && SelectedEdge != null)
+            {
+                var points = SelectedEdge.Points;
+                if (points.First() == point || points.Last() == point)
+                    return false;
+                options.Payload = new Point(point.X, point.Y);
+                return true;
+            }
+            return false;
+        }
+
+        private bool onDropQuery(IDragDropOptions options)
+        {
+            return true;
+        }
+
+        private void onDropInfo(IDragDropOptions options)
+        {
+            var vertex = options.Source.DataContext as IVertex;
+            var point = options.Source.DataContext as Point2D;
+            if (vertex != null && options.Mode == DragDropMode.DragExisting)
+            {
+                var p = (Point)options.Payload;
+                vertex.Left = p.X + options.DeltaX;
+                vertex.Top = p.Y + options.DeltaY;
+                vertex.Update();
+            }
+            if (vertex != null && options.Mode == DragDropMode.DragCopy
+                && options.Status == DragDropStatus.Completed)
+            {
+                var v = Graph.AddVertex();
+                v.Left = options.Relative.X - vertex.Width / 2;
+                v.Top = options.Relative.Y - vertex.Height / 2;
+                v.Label = vertex.Label;
+                v.Category = vertex.Category;
+            }
+            if (point != null)
+            {
+                var p = (Point)options.Payload;
+                if (SelectedEdge != null)
+                {
+                    using (SelectedEdge.DeferRefresh())
+                    {
+                        point.X = p.X + options.DeltaX;
+                        point.Y = p.Y + options.DeltaY;
+                        SelectedEdge.UpdatePoint(point);
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         protected override void OnGraphChanged(IGraph oldVal, IGraph newVal)
         {
             base.OnGraphChanged(oldVal, newVal);
-            _viewModel.Graph = newVal;
             if (newVal != null)
                 Layout();
+        }
+
+        private void bringToTop(IElement item)
+        {
+            var z = 0;
+            foreach (var element in Graph.Elements)
+            {
+                if (ReferenceEquals(element, item))
+                    continue;
+                z = setZIndex(element, z);
+            }
+            setZIndex(item, z);
+        }
+
+        private static int setZIndex(object element, int z)
+        {
+            var node = element as IVertex;
+            if (node != null)
+                node.ZIndex = z++;
+            var edge = element as IEdge;
+            if (edge != null)
+                edge.ZIndex = z++;
+            return z;
         }
     }
 }

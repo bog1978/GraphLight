@@ -98,6 +98,7 @@
     <Compile Include="Algorithm\SimplexSolver.cs" />
     <Compile Include="Algorithm\SimplexTask.cs" />
     <Compile Include="Algorithm\UndirectedDijkstra.cs" />
+    <Compile Include="BaseViewModel.cs" />
     <Compile Include="Collections\BinaryHeap.cs" />
     <Compile Include="Collections\HeapType.cs" />
     <Compile Include="Collections\IBinaryHeapItem.cs" />
@@ -116,7 +117,6 @@
     <Compile Include="Drawing\DummyNodeMeasure.cs" />
     <Compile Include="Drawing\Edge.cs" />
     <Compile Include="Drawing\Graph.cs" />
-    <Compile Include="Drawing\GraphVizLayout.cs" />
     <Compile Include="Drawing\Node.cs" />
     <Compile Include="Drawing\Palette.cs" />
     <Compile Include="Geometry\CrossType.cs" />
@@ -148,14 +148,13 @@
     <Compile Include="Layout\VertexExtensions.cs" />
     <Compile Include="Point2DExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="ViewModel\ControlPointTool.cs" />
-    <Compile Include="ViewModel\EdgeTool.cs" />
-    <Compile Include="ViewModel\VertexTool.cs" />
-    <Compile Include="ViewModel\DrawEdgeTool.cs" />
-    <Compile Include="ViewModel\GraphViewModel.cs" />
+    <Compile Include="Tools\ControlPointTool.cs" />
+    <Compile Include="Tools\DrawEdgeTool.cs" />
+    <Compile Include="Tools\EdgeTool.cs" />
+    <Compile Include="Tools\GraphTool.cs" />
+    <Compile Include="Tools\GraphViewModel.cs" />
+    <Compile Include="Tools\VertexTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel\GraphTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Palette.xaml">

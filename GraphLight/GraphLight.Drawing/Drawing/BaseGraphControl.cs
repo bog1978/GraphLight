@@ -10,7 +10,7 @@ namespace GraphLight.Drawing
 {
     public abstract class BaseGraphControl : Control
     {
-        protected Panel GraphPanel { get; private set; }
+        private Panel _graphPanel;
         protected bool _isLoaded;
         private readonly IDictionary<object, FrameworkElement>
             _elementMap = new Dictionary<object, FrameworkElement>();
@@ -45,7 +45,7 @@ namespace GraphLight.Drawing
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            GraphPanel = GetTemplateChild<Panel>("graphCanvas");
+            _graphPanel = GetTemplateChild<Panel>("graphCanvas");
         }
 
         #region VertexTemplateDictionary
@@ -161,7 +161,7 @@ namespace GraphLight.Drawing
         private void addEdge(IEdge edge)
         {
             var presenter = new Edge { Content = edge, DataContext = edge };
-            GraphPanel.Children.Add(presenter);
+            _graphPanel.Children.Add(presenter);
             _elementMap.Add(edge, presenter);
         }
 
@@ -181,7 +181,7 @@ namespace GraphLight.Drawing
             if (vertexTemplate != null)
                 presenter.ContentTemplate = vertexTemplate;
 
-            GraphPanel.Children.Add(presenter);
+            _graphPanel.Children.Add(presenter);
             // Update desired size of new UIElement.
             presenter.UpdateLayout();
             // Update properties of vertex model.
@@ -194,7 +194,7 @@ namespace GraphLight.Drawing
         {
             FrameworkElement elt;
             if (_elementMap.TryGetValue(item, out elt))
-                GraphPanel.Children.Remove(elt);
+                _graphPanel.Children.Remove(elt);
         }
 
         protected T GetTemplateChild<T>(string childName)
@@ -208,15 +208,15 @@ namespace GraphLight.Drawing
 
         protected void clearAllItems()
         {
-            if (GraphPanel == null || Graph == null)
+            if (_graphPanel == null || Graph == null)
                 return;
-            GraphPanel.Children.Clear();
+            _graphPanel.Children.Clear();
             _elementMap.Clear();
         }
 
         protected void fillVerteces()
         {
-            if (GraphPanel == null || Graph == null)
+            if (_graphPanel == null || Graph == null)
                 return;
             foreach (var vertex in Graph.Verteces)
                 addVertex(vertex);
@@ -224,7 +224,7 @@ namespace GraphLight.Drawing
 
         protected void fillEdges()
         {
-            if (GraphPanel == null || Graph == null)
+            if (_graphPanel == null || Graph == null)
                 return;
             foreach (var vertex in Graph.Edges)
                 addEdge(vertex);

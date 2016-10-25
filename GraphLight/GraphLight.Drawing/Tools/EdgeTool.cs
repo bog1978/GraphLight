@@ -3,13 +3,13 @@ using GraphLight.Controls;
 using GraphLight.Drawing;
 using GraphLight.Graph;
 
-namespace GraphLight.ViewModel
+namespace GraphLight.Tools
 {
     public class EdgeTool : GraphTool
     {
         private object _last;
 
-        public EdgeTool(GraphViewModel viewModel)
+        public EdgeTool(GraphControl viewModel)
             : base(viewModel)
         {
         }
@@ -18,7 +18,7 @@ namespace GraphLight.ViewModel
 
         public override void HandleLButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Model.SelectedEdge = e.OriginalSource.GetDataContext<IEdge>();
+            Model.SelectedElement = e.OriginalSource.GetDataContext<IEdge>();
             if (_last == e.OriginalSource)
                 return;
             setHighlight(_last, false);
@@ -31,26 +31,36 @@ namespace GraphLight.ViewModel
             if (e.Key == Key.Delete && Model.SelectedEdge != null)
             {
                 Model.Graph.RemoveEdge(Model.SelectedEdge);
-                Model.SelectedEdge = null;
+                Model.SelectedElement = null;
             }
         }
 
         public override void Cancel()
         {
-            Model.SelectedEdge = null;
+            Model.SelectedElement = null;
             setHighlight(_last, false);
             _last = null;
         }
 
         #endregion
 
-        private void setHighlight(object obj, bool isHighlighted)
+        private static void setHighlight(object obj, bool isHighlighted)
         {
             if (obj == null)
                 return;
             var edge = obj.GetDataContext<IEdge>();
             if (edge != null)
-                Model.Highlight(edge, isHighlighted);
+                highlight(edge, isHighlighted);
+        }
+
+        private static void highlight(IEdge edge, bool isHighlighted)
+        {
+            if (!edge.IsSelected)
+                edge.IsHighlighted = isHighlighted;
+            if (edge.Src != null && !edge.Src.IsSelected)
+                edge.Src.IsHighlighted = isHighlighted;
+            if (edge.Dst != null && !edge.Dst.IsSelected)
+                edge.Dst.IsHighlighted = isHighlighted;
         }
     }
 }
