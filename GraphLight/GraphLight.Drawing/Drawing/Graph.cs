@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
+//using System.Windows.Threading;
 using GraphLight.Controls;
 using GraphLight.ViewModel;
 using GraphLight.Geometry;
@@ -19,11 +19,11 @@ namespace GraphLight.Drawing
         private readonly DummyNodeMeasure _measure;
         private Grid _mainGrid;
         private ScrollViewer _scrollViewer;
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
-        private GraphTool _edgeDrawingTool;
-        private GraphTool _edgeTool;
-        private GraphTool _vertexTool;
-        private GraphTool _pointTool;
+        //private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly GraphTool _edgeDrawingTool;
+        private readonly GraphTool _edgeTool;
+        private readonly GraphTool _vertexTool;
+        private readonly GraphTool _pointTool;
 
         #endregion
 
@@ -42,18 +42,18 @@ namespace GraphLight.Drawing
 
             LayoutCommand = new DelegateCommand(Layout);
 
-            _timer.Interval = TimeSpan.FromMilliseconds(500);
-            _timer.Tick += onTimerTick;
+            //_timer.Interval = TimeSpan.FromMilliseconds(100);
+            //_timer.Tick += onTimerTick;
         }
 
-        void onTimerTick(object sender, EventArgs e)
+        /*void onTimerTick(object sender, EventArgs e)
         {
             _timer.Stop();
             clearAllItems();
             shift();
             fillVerteces();
             fillEdges();
-        }
+        }*/
 
         public override void OnApplyTemplate()
         {
@@ -66,7 +66,7 @@ namespace GraphLight.Drawing
             _mainGrid.MouseMove += onMouseMove;
             _mainGrid.MouseLeftButtonDown += onMouseLeftButtonDown;
             _mainGrid.MouseLeftButtonUp += onMouseLeftButtonUp;
-            _mainGrid.SizeChanged += onSizeChanged;
+            _scrollViewer.SizeChanged += onSizeChanged;
             KeyUp += onKeyUp;
 
             DragDropManager.AddDropQueryHandler(_mainGrid, _viewModel.OnDropQuery);
@@ -78,8 +78,8 @@ namespace GraphLight.Drawing
         {
             if (!_isLoaded || Graph == null)
                 return;
-            _timer.Stop();
-            _timer.Start();
+            //_timer.Stop();
+            //_timer.Start();
         }
 
         #endregion
@@ -101,15 +101,11 @@ namespace GraphLight.Drawing
 
         private void shift()
         {
-            var viewWidth = _scrollViewer.ViewportWidth - 1;
-            var viewHeight = _scrollViewer.ViewportHeight - 1;
-            if (double.IsNaN(viewWidth) || double.IsNaN(viewHeight))
-                return;
-
             var minX = double.MaxValue;
             var maxX = double.MinValue;
             var minY = double.MaxValue;
             var maxY = double.MinValue;
+
             foreach (var vertex in Graph.Verteces)
             {
                 if (vertex.Left < minX)
@@ -121,39 +117,42 @@ namespace GraphLight.Drawing
                 if (vertex.Bottom > maxY)
                     maxY = vertex.Bottom;
             }
+
+            foreach (var edge in Graph.Edges)
+            {
+                foreach (var point2D in edge.DraggablePoints)
+                {
+                    if (point2D.X < minX)
+                        minX = point2D.X;
+                    if (point2D.X > maxX)
+                        maxX = point2D.X;
+                    if (point2D.Y < minY)
+                        minY = point2D.Y;
+                    if (point2D.Y > maxY)
+                        maxY = point2D.Y;
+                }
+            }
+
             var graphWidth = maxX - minX;
             var graphHeight = maxY - minY;
 
-            var leftSpace = graphWidth < viewWidth
-                ? (viewWidth - graphWidth) / 2
-                : 0.0;
-
-            var topSpace = (graphHeight < viewHeight)
-                ? (viewHeight - graphHeight) / 2
-                : 0.0;
-
-            var leftShift = leftSpace - minX;
-            var topShift = topSpace - minY;
-
-            if (leftShift != 0 || topShift != 0)
+            foreach (var vertex in Graph.Verteces)
             {
-                foreach (var vertex in Graph.Verteces)
-                {
-                    vertex.Left += leftShift;
-                    vertex.Top += topShift;
-                }
-                foreach (var edge in Graph.Edges)
-                {
-                    foreach (var point2D in edge.DraggablePoints)
-                    {
-                        point2D.X += leftShift;
-                        point2D.Y += topShift;
-                    }
-                }
-
-                Graph.Width = Math.Max(graphWidth, viewWidth);
-                Graph.Height = Math.Max(graphHeight, viewHeight);
+                vertex.Left -= minX;
+                vertex.Top -= minY;
             }
+
+            foreach (var edge in Graph.Edges)
+            {
+                foreach (var point2D in edge.DraggablePoints)
+                {
+                    point2D.X -= minX;
+                    point2D.Y -= minY;
+                }
+            }
+
+            Graph.Width = graphWidth;
+            Graph.Height = graphHeight;
         }
 
         #endregion

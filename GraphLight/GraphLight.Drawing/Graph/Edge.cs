@@ -4,17 +4,14 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using GraphLight.Geometry;
 using GraphLight.Layout;
-using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public class Edge<TVertex, TEdge> : BaseViewModel, IEdge
+    public class Edge<TVertex, TEdge> : GraphModelBase<TVertex, TEdge>.Edge, IEdge
     {
         private string _category;
         private string _color;
-        private TEdge _data;
         private IList<Point2D> _draggablePoints;
-        private Vertex<TVertex, TEdge> _dst, _src;
         private bool _isHighlighted;
         private bool _isRevert;
         private bool _isSelected;
@@ -23,9 +20,8 @@ namespace GraphLight.Graph
         private double _weight = 1;
         private int _zIndex;
 
-        public Edge(TEdge data)
+        public Edge()
         {
-            _data = data;
             Color = "Black";
             Thickness = 1;
 
@@ -37,45 +33,9 @@ namespace GraphLight.Graph
             DraggablePoints = draggablePoints;
         }
 
-        public TEdge Data
+        public Edge(TEdge data) : this()
         {
-            get { return _data; }
-            set { SetProperty(ref _data, value, "Data"); }
-        }
-
-
-        public Vertex<TVertex, TEdge> Src
-        {
-            get { return _src; }
-            set
-            {
-                var oldValue = _src;
-                if (oldValue == value)
-                    return;
-                _src = value;
-                if (oldValue != null)
-                    oldValue.RegisterEdge(this);
-                if (value != null)
-                    value.RegisterEdge(this);
-                RaisePropertyChanged("Src");
-            }
-        }
-
-        public Vertex<TVertex, TEdge> Dst
-        {
-            get { return _dst; }
-            set
-            {
-                var oldValue = _dst;
-                if (oldValue == value)
-                    return;
-                _dst = value;
-                if (oldValue != null)
-                    oldValue.RegisterEdge(this);
-                if (value != null)
-                    value.RegisterEdge(this);
-                RaisePropertyChanged("Dst");
-            }
+            Data = data;
         }
 
         public string StrokeBrush
@@ -178,7 +138,7 @@ namespace GraphLight.Graph
 
         object IElement.Data
         {
-            get { return _data; }
+            get { return Data; }
         }
 
         public void Revert()

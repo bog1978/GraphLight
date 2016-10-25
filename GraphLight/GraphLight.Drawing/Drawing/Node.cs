@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GraphLight.Drawing
 {
@@ -8,6 +9,18 @@ namespace GraphLight.Drawing
         public Node()
         {
             DefaultStyleKey = typeof(Node);
+        }
+
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "MouseEnter", true);
+            base.OnMouseEnter(e);
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "MouseLeave", true);
+            base.OnMouseLeave(e);
         }
 
         #region IsSelected

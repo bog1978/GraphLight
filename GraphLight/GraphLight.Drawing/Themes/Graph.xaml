@@ -24,19 +24,22 @@
         <Grid Background="Transparent" x:Name="LayoutRoot">
             <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Auto"
                     VerticalScrollBarVisibility="Auto" Background="{x:Null}">
-                <Grid x:Name="mainGrid" ShowGridLines="True" Background="Transparent"
-                        Controls:DragDropManager.AllowDrop="true">
-                    <Path x:Name="line" Stroke="Gray" StrokeThickness="0.5" StrokeDashArray="4,8"
+                <Grid x:Name="mainGrid" Background="LightGray" Controls:DragDropManager.AllowDrop="true"
+                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Canvas x:Name="graphCanvas" Background="LightBlue"
+                            MinHeight="{Binding Graph.Height}" MinWidth="{Binding Graph.Width}"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Path x:Name="line" Stroke="Black" StrokeThickness="1" StrokeDashArray="4,8"
                             Data="{Binding SelectedEdge.Points, Converter={StaticResource polyLineConverter}}"
-                            Height="{Binding Graph.Height}" Width="{Binding Graph.Width}" />
-                    <Canvas x:Name="graphCanvas" Height="{Binding Graph.Height}" Width="{Binding Graph.Width}"
-                            Background="Transparent" />
+                            MinHeight="{Binding Graph.Height}" MinWidth="{Binding Graph.Width}"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Controls:ItemsControlEx x:Name="controlPoints" HorizontalContentAlignment="Stretch"
                             ItemsSource="{Binding SelectedEdge.DraggablePoints}"
                             ItemsPanel="{StaticResource canvasPanelTemplate}"
                             ItemTemplate="{StaticResource controlPointTemplate}"
                             ItemContainerStyle="{StaticResource controlPointContainerStyle}"
-                            Height="{Binding Graph.Height}" Width="{Binding Graph.Width}" />
+                            MinHeight="{Binding Graph.Height}" MinWidth="{Binding Graph.Width}"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Grid>
             </ScrollViewer>
         </Grid>

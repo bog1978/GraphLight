@@ -21,7 +21,7 @@
                         </Storyboard>
                     </VisualState>
                     <VisualState x:Name="HighlightOff">
-                        <Storyboard BeginTime="00:00:00.3">
+                        <Storyboard>
                             <ColorAnimation To="Black" Duration="00:00:00" Storyboard.TargetName="path"
                                     Storyboard.TargetProperty="(Stroke).(SolidColorBrush.Color)" />
                             <DoubleAnimation Storyboard.TargetName="path" Duration="00:00:00"
@@ -29,6 +29,15 @@
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>
+                <VisualStateGroup x:Name="HoverStates">
+                    <VisualState x:Name="MouseEnter">
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="path" Duration="00:00:00"
+                                    Storyboard.TargetProperty="StrokeThickness" To="3" />
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="MouseLeave" />
+                </VisualStateGroup>                
             </VisualStateManager.VisualStateGroups>
             <i:Interaction.Behaviors>
                 <ei:DataStateBehavior Value="True" TrueState="SelectionOn" FalseState="SelectionOff"

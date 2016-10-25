@@ -170,14 +170,14 @@ namespace GraphLight.ViewModel
             if (!node.IsSelected)
                 node.IsHighlighted = isHighlighted;
 
-            foreach (IEdge edge in node.InEdges)
+            foreach (var edge in node.InEdges)
             {
                 if (!edge.IsSelected)
                     edge.IsHighlighted = isHighlighted;
                 if (!edge.Src.IsSelected)
                     edge.Src.IsHighlighted = isHighlighted;
             }
-            foreach (IEdge edge in node.OutEdges)
+            foreach (var edge in node.OutEdges)
             {
                 if (!edge.IsSelected)
                     edge.IsHighlighted = isHighlighted;
@@ -193,9 +193,9 @@ namespace GraphLight.ViewModel
         {
             if (!edge.IsSelected)
                 edge.IsHighlighted = isHighlighted;
-            if (!edge.Src.IsSelected)
+            if (edge.Src != null && !edge.Src.IsSelected)
                 edge.Src.IsHighlighted = isHighlighted;
-            if (!edge.Dst.IsSelected)
+            if (edge.Dst !=null && !edge.Dst.IsSelected)
                 edge.Dst.IsHighlighted = isHighlighted;
         }
     }

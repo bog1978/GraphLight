@@ -4,8 +4,8 @@
 
     <!-- Palette -->
     <ControlTemplate x:Key="paletteTemplate" TargetType="Drawing:Palette">
-        <Grid Background="AliceBlue" x:Name="LayoutRoot" Height="{Binding Graph.Height}"
-                Width="{Binding Graph.Width}">
+        <Grid Background="AliceBlue" x:Name="LayoutRoot" MinHeight="{Binding Graph.Height}"
+                MinWidth="{Binding Graph.Width}">
             <Canvas x:Name="graphCanvas" Background="Transparent" />
         </Grid>
     </ControlTemplate>

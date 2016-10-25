@@ -1,20 +1,13 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using GraphLight.Collections;
-using GraphLight.ViewModel;
 
 namespace GraphLight.Graph
 {
-    public class Vertex<TVertex, TEdge> : BaseViewModel, IVertex
+    public class Vertex<TVertex, TEdge> : GraphModelBase<TVertex, TEdge>.Vertex, IVertex
     {
-        private readonly ICollection<Edge<TVertex, TEdge>> _edges;
-        private readonly ICollection<Edge<TVertex, TEdge>> _inEdges;
-        private readonly ICollection<Edge<TVertex, TEdge>> _outEdges;
-        private readonly ICollection<Edge<TVertex, TEdge>> _selfEdges;
         private string _category;
         private double _centerX;
-        private TVertex _data;
         private double _height;
         private bool _isHighlighted;
         private bool _isSelected;
@@ -28,40 +21,14 @@ namespace GraphLight.Graph
         private double _width;
         private int _zIndex;
 
-        public Vertex(TVertex data)
+        public Vertex()
         {
-            _edges = new ObservableCollection<Edge<TVertex, TEdge>>();
-            _inEdges = new ObservableCollection<Edge<TVertex, TEdge>>();
-            _outEdges = new ObservableCollection<Edge<TVertex, TEdge>>();
-            _selfEdges = new ObservableCollection<Edge<TVertex, TEdge>>();
-            _data = data;
             ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1"; // έλλθορ
         }
 
-        public TVertex Data
+        public Vertex(TVertex data) : this()
         {
-            get { return _data; }
-            set { SetProperty(ref _data, value, "Data"); }
-        }
-
-        public IEnumerable<Edge<TVertex, TEdge>> Edges
-        {
-            get { return _edges; }
-        }
-
-        public IEnumerable<Edge<TVertex, TEdge>> InEdges
-        {
-            get { return _inEdges; }
-        }
-
-        public IEnumerable<Edge<TVertex, TEdge>> OutEdges
-        {
-            get { return _outEdges; }
-        }
-
-        public IEnumerable<Edge<TVertex, TEdge>> SelfEdges
-        {
-            get { return _selfEdges; }
+            Data = data;
         }
 
         public int ZIndex
@@ -203,27 +170,27 @@ namespace GraphLight.Graph
 
         IEnumerable<IEdge> IVertex.Edges
         {
-            get { return _edges; }
+            get { return Edges; }
         }
 
         IEnumerable<IEdge> IVertex.InEdges
         {
-            get { return _inEdges; }
+            get { return InEdges; }
         }
 
         IEnumerable<IEdge> IVertex.OutEdges
         {
-            get { return _outEdges; }
+            get { return OutEdges; }
         }
 
         IEnumerable<IEdge> IVertex.SelfEdges
         {
-            get { return _selfEdges; }
+            get { return SelfEdges; }
         }
 
         object IElement.Data
         {
-            get { return _data; }
+            get { return Data; }
         }
 
         public void Update()
@@ -261,47 +228,6 @@ namespace GraphLight.Graph
         public override int GetHashCode()
         {
             return Data.GetHashCode();
-        }
-
-        public void RegisterEdge(Edge<TVertex, TEdge> edge)
-        {
-            var collection = edge.Src == this && edge.Dst == this
-                ? _selfEdges
-                : edge.Src == this
-                    ? _outEdges
-                    : edge.Dst == this
-                        ? _inEdges
-                        : null;
-
-            if (collection == null)
-            {
-                _edges.Remove(edge);
-                _selfEdges.Remove(edge);
-                _inEdges.Remove(edge);
-                _outEdges.Remove(edge);
-            }
-            else if (_edges.Contains(edge))
-            {
-                if (collection.Contains(edge))
-                    return;
-                _selfEdges.Remove(edge);
-                _inEdges.Remove(edge);
-                _outEdges.Remove(edge);
-                collection.Add(edge);
-            }
-            else
-            {
-                _edges.Add(edge);
-                collection.Add(edge);
-            }
-        }
-
-        public void UnregisterEdge(Edge<TVertex, TEdge> edge)
-        {
-            _edges.Remove(edge);
-            _selfEdges.Remove(edge);
-            _inEdges.Remove(edge);
-            _outEdges.Remove(edge);
         }
     }
 }
