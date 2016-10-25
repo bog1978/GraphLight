@@ -1,6 +1,6 @@
 ﻿<Window x:Class="GraphLight.Window1" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight.Drawing" Title="Window1"
+        xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight" Title="Window1"
         WindowState="Maximized" Loaded="userControlLoaded">
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>

@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="GraphLight.MainPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
-        xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight.Drawing"
-        xmlns:Controls="clr-namespace:GraphLight.Controls;assembly=GraphLight.Drawing"
+        xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight"
+        xmlns:Controls="clr-namespace:GraphLight.Controls;assembly=GraphLight"
         Loaded="userControlLoaded">
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>

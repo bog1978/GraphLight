@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-//using System.Windows.Threading;
 using GraphLight.Controls;
 using GraphLight.ViewModel;
 using GraphLight.Geometry;
@@ -18,8 +17,6 @@ namespace GraphLight.Drawing
         private readonly GraphVizLayout _layout;
         private readonly DummyNodeMeasure _measure;
         private Grid _mainGrid;
-        private ScrollViewer _scrollViewer;
-        //private readonly DispatcherTimer _timer = new DispatcherTimer();
         private readonly GraphTool _edgeDrawingTool;
         private readonly GraphTool _edgeTool;
         private readonly GraphTool _vertexTool;
@@ -41,45 +38,23 @@ namespace GraphLight.Drawing
             _pointTool = new ControlPointTool(_viewModel);
 
             LayoutCommand = new DelegateCommand(Layout);
-
-            //_timer.Interval = TimeSpan.FromMilliseconds(100);
-            //_timer.Tick += onTimerTick;
         }
-
-        /*void onTimerTick(object sender, EventArgs e)
-        {
-            _timer.Stop();
-            clearAllItems();
-            shift();
-            fillVerteces();
-            fillEdges();
-        }*/
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
             _mainGrid = GetTemplateChild<Grid>("mainGrid");
-            _scrollViewer = GetTemplateChild<ScrollViewer>("scrollViewer");
             var layoutRoot = GetTemplateChild<FrameworkElement>("LayoutRoot");
             layoutRoot.DataContext = _viewModel;
             _mainGrid.MouseMove += onMouseMove;
             _mainGrid.MouseLeftButtonDown += onMouseLeftButtonDown;
             _mainGrid.MouseLeftButtonUp += onMouseLeftButtonUp;
-            _scrollViewer.SizeChanged += onSizeChanged;
             KeyUp += onKeyUp;
 
             DragDropManager.AddDropQueryHandler(_mainGrid, _viewModel.OnDropQuery);
             DragDropManager.AddDropInfoHandler(_mainGrid, _viewModel.OnDropInfo);
             DragDropManager.AddDragQueryHandler(_mainGrid, _viewModel.OnDragQuery);
-        }
-
-        void onSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (!_isLoaded || Graph == null)
-                return;
-            //_timer.Stop();
-            //_timer.Start();
         }
 
         #endregion
