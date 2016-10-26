@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Input;
+using GraphLight.Controls;
 using GraphLight.Drawing;
 using GraphLight.Geometry;
 
@@ -7,16 +9,7 @@ namespace GraphLight.Tools
 {
     public class ControlPointTool : GraphTool
     {
-        public ControlPointTool(GraphControl viewModel)
-            : base(viewModel)
-        {
-        }
-
-        #region IGraphTool Members
-
-        public override void HandleLButtonUp(object sender, MouseButtonEventArgs e)
-        {
-        }
+        public ControlPointTool(GraphControl viewModel) : base(viewModel) { }
 
         public override void HandleLButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -42,16 +35,33 @@ namespace GraphLight.Tools
             }
         }
 
-        public override void HandleMouseMove(object sender, MouseEventArgs e)
+        public override bool HandleDragQuery(IDragDropOptions options)
         {
+            var point = options.Source.DataContext as Point2D;
+            if (point == null || Model.SelectedEdge == null)
+                return false;
+            var points = Model.SelectedEdge.Points;
+            if (points.First() == point || points.Last() == point)
+                return false;
+            options.Payload = new Point(point.X, point.Y);
+            return true;
         }
 
-        public override void HandleKeyUp(object sender, KeyEventArgs e)
+        public override void HandleDropInfo(IDragDropOptions options)
         {
+            var point = options.Source.DataContext as Point2D;
+            if (point == null)
+                return;
+            var p = (Point)options.Payload;
+            if (Model.SelectedEdge != null)
+            {
+                using (Model.SelectedEdge.DeferRefresh())
+                {
+                    point.X = p.X + options.DeltaX;
+                    point.Y = p.Y + options.DeltaY;
+                    Model.SelectedEdge.UpdatePoint(point);
+                }
+            }
         }
-
-        public override void Cancel() { }
-
-        #endregion
     }
 }

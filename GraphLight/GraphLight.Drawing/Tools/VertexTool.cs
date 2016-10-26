@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using GraphLight.Controls;
 using GraphLight.Drawing;
 using GraphLight.Graph;
@@ -9,9 +10,7 @@ namespace GraphLight.Tools
     {
         private object _last;
 
-        public VertexTool(GraphControl viewModel) : base(viewModel)
-        {
-        }
+        public VertexTool(GraphControl viewModel) : base(viewModel) { }
 
         #region IGraphTool Members
 
@@ -40,6 +39,41 @@ namespace GraphLight.Tools
             Model.SelectedElement = null;
             setHighlight(_last, false);
             _last = null;
+        }
+
+        public override bool HandleDragQuery(IDragDropOptions options)
+        {
+            var vertex = options.Source.DataContext as IVertex;
+            if (vertex == null)
+                return false;
+            options.Payload = new Point(vertex.Left, vertex.Top);
+            return vertex.IsSelected;
+        }
+
+        public override void HandleDropInfo(IDragDropOptions options)
+        {
+            var vertex = options.Source.DataContext as IVertex;
+            if (vertex == null)
+                return;
+            switch (options.Mode)
+            {
+                case DragDropMode.DragExisting:
+                    var p = (Point)options.Payload;
+                    vertex.Left = p.X + options.DeltaX;
+                    vertex.Top = p.Y + options.DeltaY;
+                    vertex.Update();
+                    break;
+                case DragDropMode.DragCopy:
+                    if (options.Status == DragDropStatus.Completed)
+                    {
+                        var v = Model.Graph.AddVertex();
+                        v.Left = options.Relative.X - vertex.Width / 2;
+                        v.Top = options.Relative.Y - vertex.Height / 2;
+                        v.Label = vertex.Label;
+                        v.Category = vertex.Category;
+                    }
+                    break;
+            }
         }
 
         #endregion
