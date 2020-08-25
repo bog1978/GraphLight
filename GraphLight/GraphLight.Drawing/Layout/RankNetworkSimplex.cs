@@ -17,7 +17,7 @@ namespace GraphLight.Layout
 
         protected override void Finalze()
         {
-            foreach (var vertex in _graph.Verteces)
+            foreach (var vertex in _graph.Vertices)
             {
                 var v = _vertexMap[vertex];
                 vertex.Rank = v.Value;
@@ -26,7 +26,7 @@ namespace GraphLight.Layout
 
         protected override void Initialize(out ICollection<Vertex> vertices, out ICollection<Edge> edges)
         {
-            _vertexMap = _graph.Verteces.ToDictionary(x => x, x => new Vertex());
+            _vertexMap = _graph.Vertices.ToDictionary(x => x, x => new Vertex());
 
             vertices = _vertexMap.Values.ToList();
             edges = _graph.Edges.Where(edge => edge.Src != edge.Dst)

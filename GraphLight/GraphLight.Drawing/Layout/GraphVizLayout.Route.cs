@@ -316,7 +316,7 @@ namespace GraphLight.Layout
         private static void dump(IEdge edge)
         {
             var strPoints = edge.PolygonPoints
-                .Select(x => string.Format("new Point2D({0}, {1})", x.X, x.Y))
+                .Select(x => $"new Point2D({x.X}, {x.Y})")
                 .ToArray();
             Debug.WriteLine("var points = new List<Point2D>{");
             Debug.WriteLine(string.Join(",", strPoints));
@@ -342,8 +342,7 @@ namespace GraphLight.Layout
             foreach (var polygon in convexPolygons)
                 foreach (var l in polygon.Edges)
                 {
-                    List<Polygon2D> pols;
-                    if (!linePolMap.TryGetValue(l, out pols))
+                    if (!linePolMap.TryGetValue(l, out var pols))
                     {
                         pols = new List<Polygon2D>();
                         linePolMap[l] = pols;
@@ -372,7 +371,7 @@ namespace GraphLight.Layout
 
             // Создаем граф точек.
             var pointGraph = new GraphModel<Point2D, object>();
-            foreach (var node in polygonGraph.Verteces)
+            foreach (var node in polygonGraph.Vertices)
             {
                 var midPoints = node.Edges
                     .Select(x => x.Data.GetPoint(0.5))

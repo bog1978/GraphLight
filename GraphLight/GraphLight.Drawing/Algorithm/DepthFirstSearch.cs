@@ -42,64 +42,39 @@ namespace GraphLight.Algorithm
 
         public Action<IVertex> OnNode
         {
-            get { return _onNode; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onNode = value;
-            }
+            get => _onNode;
+            set => _onNode = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<IEdge> OnTreeEdge
         {
-            get { return _onTreeEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onTreeEdge = value;
-            }
+            get => _onTreeEdge;
+            set => _onTreeEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<IEdge> OnBackEdge
         {
-            get { return _onBackEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onBackEdge = value;
-            }
+            get => _onBackEdge;
+            set => _onBackEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<IEdge> OnForwardEdge
         {
-            get { return _onForwardEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onForwardEdge = value;
-            }
+            get => _onForwardEdge;
+            set => _onForwardEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<IEdge> OnCrossEdge
         {
-            get { return _onCrossEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onCrossEdge = value;
-            }
+            get => _onCrossEdge;
+            set => _onCrossEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public void Find()
         {
             // Initially we mark all nodes as white.
-            _attrs = _graph.Verteces.ToDictionary(x => x, x => new DfsVertexAttr());
-            foreach (var node in _graph.Verteces.Where(node => _attrs[node].Color == VertexColor.White))
+            _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());
+            foreach (var node in _graph.Vertices.Where(node => _attrs[node].Color == VertexColor.White))
                 dfs(node);
         }
 
@@ -175,64 +150,39 @@ namespace GraphLight.Algorithm
 
         public Action<TVertex> OnNode
         {
-            get { return _onNode; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onNode = value;
-            }
+            get => _onNode;
+            set => _onNode = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<TEdge> OnTreeEdge
         {
-            get { return _onTreeEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onTreeEdge = value;
-            }
+            get => _onTreeEdge;
+            set => _onTreeEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<TEdge> OnBackEdge
         {
-            get { return _onBackEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onBackEdge = value;
-            }
+            get => _onBackEdge;
+            set => _onBackEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<TEdge> OnForwardEdge
         {
-            get { return _onForwardEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onForwardEdge = value;
-            }
+            get => _onForwardEdge;
+            set => _onForwardEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<TEdge> OnCrossEdge
         {
-            get { return _onCrossEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _onCrossEdge = value;
-            }
+            get => _onCrossEdge;
+            set => _onCrossEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public void Find()
         {
             // Initially we mark all nodes as white.
-            _attrs = _graph.Verteces.ToDictionary(x => x, x => new DfsVertexAttr());
-            foreach (var node in _graph.Verteces.Where(node => _attrs[node].Color == VertexColor.White))
+            _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());
+            foreach (var node in _graph.Vertices.Where(node => _attrs[node].Color == VertexColor.White))
                 dfs(node);
         }
 

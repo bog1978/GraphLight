@@ -13,20 +13,11 @@ namespace GraphLight.Algorithm
 
         private sealed class TaskMax : SimplexTask
         {
-            public override double InitialValue
-            {
-                get { return double.MinValue; }
-            }
+            public override double InitialValue => double.MinValue;
 
-            public override bool CheckForInclude(double current, double testing)
-            {
-                return current < testing;
-            }
+            public override bool CheckForInclude(double current, double testing) => current < testing;
 
-            public override bool CheckForSolution(double x)
-            {
-                return x <= 0;
-            }
+            public override bool CheckForSolution(double x) => x <= 0;
         }
 
         #endregion
@@ -35,20 +26,11 @@ namespace GraphLight.Algorithm
 
         private sealed class TaskMin : SimplexTask
         {
-            public override double InitialValue
-            {
-                get { return double.MaxValue; }
-            }
+            public override double InitialValue => double.MaxValue;
 
-            public override bool CheckForInclude(double current, double testing)
-            {
-                return current > testing;
-            }
+            public override bool CheckForInclude(double current, double testing) => current > testing;
 
-            public override bool CheckForSolution(double x)
-            {
-                return x >= 0;
-            }
+            public override bool CheckForSolution(double x) => x >= 0;
         }
 
         #endregion

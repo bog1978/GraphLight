@@ -19,25 +19,20 @@ namespace GraphLight.Algorithm
 
         public Action<IEdge> EnterEdge
         {
-            get { return _enterEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _enterEdge = value;
-            }
+            get => _enterEdge;
+            set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public void Execute(IVertex root)
         {
-            var attrs = _graph.Verteces.ToDictionary(x => x, x => new PrimAttr());
+            var attrs = _graph.Vertices.ToDictionary(x => x, x => new PrimAttr());
             var i = 0;
-            foreach (var item in _graph.Verteces)
+            foreach (var item in _graph.Vertices)
             {
                 item.HeapKey = i == 0 ? 0 : double.MaxValue;
                 i++;
             }
-            var q = new PriorityQueue<double, IVertex>(_graph.Verteces, HeapType.Min);
+            var q = new PriorityQueue<double, IVertex>(_graph.Vertices, HeapType.Min);
             while (!q.IsEmpty)
             {
                 var u = q.Dequeue();

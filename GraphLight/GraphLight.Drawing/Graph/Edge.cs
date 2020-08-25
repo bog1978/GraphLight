@@ -38,21 +38,18 @@ namespace GraphLight.Graph
             Data = data;
         }
 
-        public string StrokeBrush
-        {
-            get { return Color; }
-        }
+        public string StrokeBrush => Color;
 
         public double Weight
         {
-            get { return _weight; }
-            set { SetProperty(ref _weight, value, "Weight"); }
+            get => _weight;
+            set => SetProperty(ref _weight, value);
         }
 
         public bool IsRevert
         {
-            get { return _isRevert; }
-            set { SetProperty(ref _isRevert, value, "IsRevert"); }
+            get => _isRevert;
+            set => SetProperty(ref _isRevert, value);
         }
 
         int IEdge.DstPointIndex { get; set; }
@@ -61,33 +58,33 @@ namespace GraphLight.Graph
 
         public IList<Point2D> Points
         {
-            get { return _points; }
-            set { SetProperty(ref _points, value, "Points"); }
+            get => _points;
+            set => SetProperty(ref _points, value);
         }
 
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
-                SetProperty(ref _isSelected, value, "IsSelected");
+                SetProperty(ref _isSelected, value);
                 IsHighlighted = value;
             }
         }
 
         public bool IsHighlighted
         {
-            get { return _isHighlighted; }
-            set { SetProperty(ref _isHighlighted, value, "IsHighlighted"); }
+            get => _isHighlighted;
+            set => SetProperty(ref _isHighlighted, value);
         }
 
         public IList<Point2D> DraggablePoints
         {
-            get { return _draggablePoints; }
-            set { SetProperty(ref _draggablePoints, value, "DraggablePoints"); }
+            get => _draggablePoints;
+            set => SetProperty(ref _draggablePoints, value);
         }
 
-        public double Lenght
+        public double Length
         {
             get
             {
@@ -98,48 +95,45 @@ namespace GraphLight.Graph
 
         public string Color
         {
-            get { return _color; }
+            get => _color;
             set
             {
-                SetProperty(ref _color, value, "Color");
-                RaisePropertyChanged("StrokeBrush");
+                SetProperty(ref _color, value);
+                RaisePropertyChanged(nameof(StrokeBrush));
             }
         }
 
         public double Thickness
         {
-            get { return _thickness; }
-            set { SetProperty(ref _thickness, value, "Thickness"); }
+            get => _thickness;
+            set => SetProperty(ref _thickness, value);
         }
 
         public int ZIndex
         {
-            get { return _zIndex; }
-            set { SetProperty(ref _zIndex, value, "ZIndex"); }
+            get => _zIndex;
+            set => SetProperty(ref _zIndex, value);
         }
 
         public string Category
         {
-            get { return _category; }
-            set { SetProperty(ref _category, value, "Category"); }
+            get => _category;
+            set => SetProperty(ref _category, value);
         }
 
         IVertex IEdge.Src
         {
-            get { return Src; }
-            set { Src = (Vertex<TVertex, TEdge>)value; }
+            get => Src;
+            set => Src = (Vertex<TVertex, TEdge>)value;
         }
 
         IVertex IEdge.Dst
         {
-            get { return Dst; }
-            set { Dst = (Vertex<TVertex, TEdge>)value; }
+            get => Dst;
+            set => Dst = (Vertex<TVertex, TEdge>)value;
         }
 
-        object IElement.Data
-        {
-            get { return Data; }
-        }
+        object IElement.Data => Data;
 
         public void Revert()
         {
@@ -241,15 +235,9 @@ namespace GraphLight.Graph
             }
         }
 
-        public void RaisePointsChanged()
-        {
-            RaisePropertyChanged("Points");
-        }
+        public void RaisePointsChanged() => RaisePropertyChanged(nameof(Points));
 
-        public IDisposable DeferRefresh()
-        {
-            return new RefreshHelper(this);
-        }
+        public IDisposable DeferRefresh() => new RefreshHelper(this);
 
         protected void pointsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -315,17 +303,11 @@ namespace GraphLight.Graph
         {
             private readonly Edge<TVertex, TEdge> _edge;
 
-            internal RefreshHelper(Edge<TVertex, TEdge> edge)
-            {
-                _edge = edge;
-            }
+            internal RefreshHelper(Edge<TVertex, TEdge> edge) => _edge = edge;
 
             #region IDisposable Members
 
-            public void Dispose()
-            {
-                _edge.RaisePointsChanged();
-            }
+            public void Dispose() => _edge.RaisePointsChanged();
 
             #endregion
         }

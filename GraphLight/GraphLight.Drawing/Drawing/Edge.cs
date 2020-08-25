@@ -30,8 +30,8 @@ namespace GraphLight.Drawing
 
         public bool IsSelected
         {
-            get { return (bool)GetValue(IsSelectedProperty); }
-            set { SetValue(IsSelectedProperty, value); }
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
         }
 
         #endregion
@@ -43,8 +43,8 @@ namespace GraphLight.Drawing
 
         public bool IsHighlighted
         {
-            get { return (bool)GetValue(IsHighlightedProperty); }
-            set { SetValue(IsHighlightedProperty, value); }
+            get => (bool)GetValue(IsHighlightedProperty);
+            set => SetValue(IsHighlightedProperty, value);
         }
 
         #endregion

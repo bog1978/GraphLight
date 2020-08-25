@@ -23,7 +23,7 @@ namespace GraphLight.Geometry
 
         #region Свойства
 
-        public List<Point2D> Points { get; private set; }
+        public List<Point2D> Points { get; }
 
         public IEnumerable<Line2D> Edges
         {
@@ -52,9 +52,7 @@ namespace GraphLight.Geometry
         /// </returns>
         public bool IsConvex()
         {
-            IList<Point2D> convex;
-            IList<Point2D> concave;
-            ClassifyPoints(out convex, out concave);
+            ClassifyPoints(out var convex, out var concave);
 
             var cnt = Points.Count;
             for (var i = 0; i < cnt; i++)
@@ -158,9 +156,7 @@ namespace GraphLight.Geometry
 
         private static void split(Polygon2D srcPol, ICollection<Polygon2D> splitLines)
         {
-            IList<Point2D> convex;
-            IList<Point2D> concave;
-            srcPol.ClassifyPoints(out convex, out concave);
+            srcPol.ClassifyPoints(out var convex, out var concave);
 
             if (concave.Count == 0)
             {
@@ -273,15 +269,13 @@ namespace GraphLight.Geometry
             //points.Add(Points[0]);
             var xs = points.Select(x => x.X.ToString()).ToArray();
             var ys = points.Select(x => x.Y.ToString()).ToArray();
-            var cmd = string.Format(@"plot([{0}],[{1}], ""-o"")",
-                string.Join(" ", xs).Replace(",", "."),
-                string.Join(" ", ys).Replace(",", "."));
+            var cmd = $@"plot([{string.Join(" ", xs).Replace(",", ".")}],[{string.Join(" ", ys).Replace(",", ".")}], ""-o"")";
             return cmd;
         }
 
         public string ToTestCode()
         {
-            var strs = Points.Select(p => string.Format("new Point2D({0},{1}),", p.X, p.Y)).ToArray();
+            var strs = Points.Select(p => $"new Point2D({p.X},{p.Y}),").ToArray();
             return string.Join(" \r\n", strs);
         }
 

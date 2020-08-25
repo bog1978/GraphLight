@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using GraphLight.Annotations;
 
 namespace GraphLight
@@ -7,16 +8,12 @@ namespace GraphLight
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected void RaisePropertyChanged(string name)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(name));
-        }
+        [NotifyPropertyChangedInvocator("name")]
+        protected void RaisePropertyChanged([CallerMemberName] string name = null) => 
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         [NotifyPropertyChangedInvocator("name")]
-        protected void SetProperty<T>(ref T field, T value, string name)
+        protected void SetProperty<T>(ref T field, T value, [CallerMemberName] string name = null)
         {
             if(Equals(field, value))
                 return;

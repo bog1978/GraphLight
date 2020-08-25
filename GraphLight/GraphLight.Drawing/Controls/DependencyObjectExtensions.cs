@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace GraphLight.Controls
 {
-    public static class DependecyObjectExtensions
+    public static class DependencyObjectExtensions
     {
         public static T GetParent<T>(this DependencyObject obj) where T : class
         {

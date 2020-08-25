@@ -8,71 +8,38 @@ namespace GraphLight.Graph
         private double _width;
         private double _height;
 
-        public IEnumerable<IElement> Elements
-        {
-            get { return Verteces.OfType<IElement>().Union(Edges); }
-        }
+        public IEnumerable<IElement> Elements => Vertices.OfType<IElement>().Union(Edges);
 
         public double Width
         {
-            get { return _width; }
-            set { SetProperty(ref _width, value, "Width"); }
+            get => _width;
+            set => SetProperty(ref _width, value);
         }
 
         public double Height
         {
-            get { return _height; }
-            set { SetProperty(ref _height, value, "Height"); }
+            get => _height;
+            set => SetProperty(ref _height, value);
         }
 
-        IEnumerable<IEdge> IGraph.Edges
-        {
-            get { return Edges; }
-        }
+        IEnumerable<IEdge> IGraph.Edges => Edges;
 
-        IEnumerable<IVertex> IGraph.Verteces
-        {
-            get { return Verteces; }
-        }
+        IEnumerable<IVertex> IGraph.Vertices => Vertices;
 
-        IEdge IGraph.AddEdge(object src, object dst)
-        {
-            return AddEdge((TVertex)src, (TVertex)dst);
-        }
+        IEdge IGraph.AddEdge(object src, object dst) => AddEdge((TVertex)src, (TVertex)dst);
 
-        IEdge IGraph.AddEdge(object src, object dst, object data)
-        {
-            return AddEdge((TVertex)src, (TVertex)dst, (TEdge)data);
-        }
+        IEdge IGraph.AddEdge(object src, object dst, object data) => AddEdge((TVertex)src, (TVertex)dst, (TEdge)data);
 
-        IVertex IGraph.InsertVertex(IEdge edge)
-        {
-            return InsertVertex((Edge<TVertex, TEdge>)edge, CreateVertexData());
-        }
+        IVertex IGraph.InsertVertex(IEdge edge) => InsertVertex((Edge<TVertex, TEdge>)edge, CreateVertexData());
 
-        void IGraph.RemoveEdge(IEdge edge)
-        {
-            RemoveEdge((Edge<TVertex, TEdge>)edge);
-        }
+        void IGraph.RemoveEdge(IEdge edge) => RemoveEdge((Edge<TVertex, TEdge>)edge);
 
-        void IGraph.RemoveVertex(IVertex vertex)
-        {
-            RemoveVertex((Vertex<TVertex, TEdge>)vertex);
-        }
+        void IGraph.RemoveVertex(IVertex vertex) => RemoveVertex((Vertex<TVertex, TEdge>)vertex);
 
-        IVertex IGraph.this[object key]
-        {
-            get { return this[(TVertex)key]; }
-        }
+        IVertex IGraph.this[object key] => this[(TVertex)key];
 
-        public IVertex AddVertex()
-        {
-            return AddVertex(CreateVertexData());
-        }
+        public IVertex AddVertex() => AddVertex(CreateVertexData());
 
-        IVertex IGraph.AddVertex(object data)
-        {
-            return AddVertex((TVertex) data);
-        }
+        IVertex IGraph.AddVertex(object data) => AddVertex((TVertex) data);
     }
 }

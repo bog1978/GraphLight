@@ -12,10 +12,7 @@ namespace GraphLight.Drawing
             DragDropManager.AddDragQueryHandler(this, OnDragQuery);
         }
 
-        private bool OnDragQuery(IDragDropOptions arg)
-        {
-            return true;
-        }
+        private bool OnDragQuery(IDragDropOptions arg) => true;
 
         protected override void OnGraphChanged(IGraph oldVal, IGraph newVal)
         {
@@ -29,10 +26,10 @@ namespace GraphLight.Drawing
                 return;
             clearAllItems();
             fillVerteces();
-            Graph.Width = Graph.Verteces.Max(x => x.Width);
-            Graph.Height = Graph.Verteces.Sum(x => x.Height);
+            Graph.Width = Graph.Vertices.Max(x => x.Width);
+            Graph.Height = Graph.Vertices.Sum(x => x.Height);
             var top = 0.0;
-            foreach (var vertex in Graph.Verteces)
+            foreach (var vertex in Graph.Vertices)
             {
                 vertex.Left = (Graph.Width - vertex.Width) / 2;
                 vertex.Top = top;

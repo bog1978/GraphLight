@@ -66,7 +66,7 @@ namespace GraphLight.Test.Layout
                 using (var stream = lazy.Value)
                     graph = GraphHelper.ReadFromFile(stream);
                 graph.Acyclic();
-                var expectedRanks = graph.Verteces.ToDictionary(x => x, x => x.Rank);
+                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Rank);
                 var alg = new RankNetworkSimplex(graph);
 
                 alg.Execute();
@@ -83,7 +83,7 @@ namespace GraphLight.Test.Layout
                 using (var stream = lazy.Value)
                     graph = GraphHelper.ReadFromFile(stream);
 
-                var expectedRanks = graph.Verteces.ToDictionary(x => x, x => x.Rank);
+                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Rank);
 
                 using (var f1 = File.Create("d:\\temp\\out0.graph"))
                     graph.WriteToFile(f1);
@@ -109,7 +109,7 @@ namespace GraphLight.Test.Layout
 
         private static void checkRanks(IGraph graph, IDictionary<IVertex, int> expectedRanks)
         {
-            foreach (var vertex in graph.Verteces)
+            foreach (var vertex in graph.Vertices)
             {
                 var expected = expectedRanks[vertex];
                 var actual = vertex.Rank;

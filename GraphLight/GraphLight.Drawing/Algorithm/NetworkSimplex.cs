@@ -14,9 +14,7 @@ namespace GraphLight.Algorithm
 
         public void Execute()
         {
-            ICollection<Vertex> vertices;
-            ICollection<Edge> edges;
-            Initialize(out vertices, out edges);
+            Initialize(out var vertices, out var edges);
 
             _graph = makeRootedGraph(vertices, edges);
 
@@ -33,17 +31,17 @@ namespace GraphLight.Algorithm
         }
 
         /// <summary>
-        /// Initializes vertex values to sutisfy all restrictions.
+        /// Initializes vertex values to satisfy all restrictions.
         /// Single rooted graph is required to work properly.
         /// </summary>
         private void feasibleTree()
         {
-            foreach (var vertex in _graph.Verteces)
+            foreach (var vertex in _graph.Vertices)
                 vertex.Value = 0;
             foreach (var edge in _graph.Edges)
                 edge.IsVisited = false;
 
-            var root = _graph.Verteces.Single(x => x.InEdges.Length == 0);
+            var root = _graph.Vertices.Single(x => x.InEdges.Length == 0);
             var q = new Queue<Vertex>();
             q.Enqueue(root);
 
@@ -68,10 +66,10 @@ namespace GraphLight.Algorithm
         private void initCutValues()
         {
             spanningTree(_graph);
-            foreach (var v in _graph.Verteces)
+            foreach (var v in _graph.Vertices)
                 updateTreeEdges(v);
-            postorderTraversal(_graph, _graph.Root);
-            updateCutValues(_graph.Verteces);
+            postOrderTraversal(_graph, _graph.Root);
+            updateCutValues(_graph.Vertices);
         }
 
         private static void updateTreeEdges(Vertex v)
@@ -92,10 +90,10 @@ namespace GraphLight.Algorithm
         /// <summary>
         /// vertices must be sorted by Lim.
         /// </summary>
-        /// <param name="verteces"></param>
-        private static void updateCutValues(IEnumerable<Vertex> verteces)
+        /// <param name="vertices"></param>
+        private static void updateCutValues(IEnumerable<Vertex> vertices)
         {
-            foreach (var w in verteces)
+            foreach (var w in vertices)
             {
                 var breakingEdge = w.ParentEdge;
                 if (breakingEdge == null)
@@ -206,9 +204,8 @@ namespace GraphLight.Algorithm
         private bool selectEdgeToExclude()
         {
             _exclude = null;
-            for (var i = 0; i < _graph.Edges.Length; i++)
+            foreach (var edge in _graph.Edges)
             {
-                var edge = _graph.Edges[i];
                 if (!edge.IsTree || edge.CutValue >= 0)
                     continue;
                 if (_exclude == null || edge.CutValue < _exclude.CutValue)
@@ -219,8 +216,7 @@ namespace GraphLight.Algorithm
 
         private void exchange()
         {
-            Vertex localRoot;
-            var path = getVertecesToUpdate(out localRoot);
+            var path = getVerticesToUpdate(out var localRoot);
 
             fixValues(_include.Slack());
             _exclude.IsTree = false;
@@ -231,7 +227,7 @@ namespace GraphLight.Algorithm
             updateTreeEdges(_include.Dst);
 
             _exclude.CutValue = 0;
-            postorderTraversal(_graph, localRoot);
+            postOrderTraversal(_graph, localRoot);
             updateCutValues(path.OrderBy(x => x.Lim));
         }
 
@@ -250,12 +246,12 @@ namespace GraphLight.Algorithm
             }
             for (var i = min; i <= max; i++)
             {
-                var v = _graph.Verteces[i];
+                var v = _graph.Vertices[i];
                 v.Value += slack;
             }
         }
 
-        private IEnumerable<Vertex> getVertecesToUpdate(out Vertex root)
+        private IEnumerable<Vertex> getVerticesToUpdate(out Vertex root)
         {
             var w = _include.Dst;
             var x = _include.Src;
@@ -285,10 +281,10 @@ namespace GraphLight.Algorithm
         private void normalize()
         {
             // Add 1 to ignore artificial root vertex.
-            var minValue = _graph.Verteces.Min(x => x.Value) + 1;
+            var minValue = _graph.Vertices.Min(x => x.Value) + 1;
             if (minValue == 0)
                 return;
-            foreach (var vertex in _graph.Verteces)
+            foreach (var vertex in _graph.Vertices)
                 vertex.Value -= minValue;
         }
 

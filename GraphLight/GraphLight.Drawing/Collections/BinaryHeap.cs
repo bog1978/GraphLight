@@ -33,20 +33,11 @@ namespace GraphLight.Collections
                 swap(p, i);
         }
 
-        public void Clear()
-        {
-            _heap.Clear();
-        }
+        public void Clear() => _heap.Clear();
 
-        public bool Contains(TValue item)
-        {
-            return _heap.Contains(item);
-        }
+        public bool Contains(TValue item) => _heap.Contains(item);
 
-        public void CopyTo(TValue[] array, int arrayIndex)
-        {
-            _heap.CopyTo(array, arrayIndex);
-        }
+        public void CopyTo(TValue[] array, int arrayIndex) => _heap.CopyTo(array, arrayIndex);
 
         public bool Remove(TValue item)
         {
@@ -64,37 +55,19 @@ namespace GraphLight.Collections
             return true;
         }
 
-        public int Count
-        {
-            get { return _heap.Count; }
-        }
+        public int Count => _heap.Count;
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
-        public IEnumerator<TValue> GetEnumerator()
-        {
-            return _heap.GetEnumerator();
-        }
+        public IEnumerator<TValue> GetEnumerator() => _heap.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _heap.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _heap.GetEnumerator();
 
         #endregion
 
-        public TValue Root
-        {
-            get
-            {
-                if (_heap.Count == 0)
-                    throw new InvalidOperationException("Heap is empty.");
-                return _heap[0];
-            }
-        }
+        public TValue Root => _heap.Count == 0
+            ? throw new InvalidOperationException("Heap is empty.")
+            : _heap[0];
 
         public TValue RemoveRoot()
         {
@@ -128,10 +101,7 @@ namespace GraphLight.Collections
             heapify(largest);
         }
 
-        private int compare(int i, int j)
-        {
-            return _sgn * _heap[i].HeapKey.CompareTo(_heap[j].HeapKey);
-        }
+        private int compare(int i, int j) => _sgn * _heap[i].HeapKey.CompareTo(_heap[j].HeapKey);
 
         private void swap(int i, int j)
         {
@@ -143,19 +113,10 @@ namespace GraphLight.Collections
             b.HeapIndex = i;
         }
 
-        private static int parent(int i)
-        {
-            return (i - 1) >> 1;
-        }
+        private static int parent(int i) => (i - 1) >> 1;
 
-        private static int left(int i)
-        {
-            return (i << 1) + 1;
-        }
+        private static int left(int i) => (i << 1) + 1;
 
-        private static int right(int i)
-        {
-            return (i << 1) + 2;
-        }
+        private static int right(int i) => (i << 1) + 2;
     }
 }

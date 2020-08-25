@@ -21,177 +21,123 @@ namespace GraphLight.Graph
         private double _width;
         private int _zIndex;
 
-        public Vertex()
-        {
-            ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1"; // έλλθορ
-        }
+        public Vertex() => ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1";
 
-        public Vertex(TVertex data) : this()
-        {
-            Data = data;
-        }
+        public Vertex(TVertex data) : this() => Data = data;
 
         public int ZIndex
         {
-            get { return _zIndex; }
-            set
-            {
-                _zIndex = value;
-                RaisePropertyChanged("ZIndex");
-            }
+            get => _zIndex;
+            set => SetProperty(ref _zIndex, value);
         }
 
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get => _isSelected;
             set
             {
-                _isSelected = value;
-                RaisePropertyChanged("IsSelected");
+                SetProperty(ref _isSelected, value);
                 IsHighlighted = value;
             }
         }
 
         public bool IsHighlighted
         {
-            get { return _isHighlighted; }
-            set
-            {
-                _isHighlighted = value;
-                RaisePropertyChanged("IsHighlighted");
-            }
+            get => _isHighlighted;
+            set => SetProperty(ref _isHighlighted, value);
         }
 
         public string Label
         {
-            get { return _label; }
-            set
-            {
-                _label = value;
-                RaisePropertyChanged("Label");
-            }
+            get => _label;
+            set => SetProperty(ref _label, value);
         }
 
         public double Width
         {
-            get { return _width; }
+            get => _width;
             set
             {
-                _width = value;
-                RaisePropertyChanged("Width");
-                RaisePropertyChanged("Right");
+                SetProperty(ref _width, value);
+                RaisePropertyChanged(nameof(Right));
             }
         }
 
         public double Height
         {
-            get { return _height; }
+            get => _height;
             set
             {
-                _height = value;
-                RaisePropertyChanged("Height");
-                RaisePropertyChanged("Bottom");
+                SetProperty(ref _height, value);
+                RaisePropertyChanged(nameof(Bottom));
             }
         }
 
         public double Left
         {
-            get { return _left; }
-            set
-            {
-                _left = value;
-                RaisePropertyChanged("Left");
-            }
+            get => _left;
+            set => SetProperty(ref _left, value);
         }
 
         public double Top
         {
-            get { return _top; }
-            set
-            {
-                _top = value;
-                RaisePropertyChanged("Top");
-            }
+            get => _top;
+            set => SetProperty(ref _top, value);
         }
 
-        public double Right
-        {
-            get { return _left + _width; }
-        }
+        public double Right => _left + _width;
 
-        public double Bottom
-        {
-            get { return _top + _height; }
-        }
+        public double Bottom => _top + _height;
 
         public double CenterX
         {
-            get { return _centerX; }
-            set
-            {
-                _centerX = value;
-                RaisePropertyChanged("CenterX");
-            }
+            get => _centerX;
+            set => SetProperty(ref _centerX, value);
         }
 
         public string ShapeData
         {
-            get { return _shapeData; }
-            set { SetProperty(ref _shapeData, value, "ShapeData"); }
+            get => _shapeData;
+            set => SetProperty(ref _shapeData, value);
         }
 
         public int Rank
         {
-            get { return _rank; }
-            set { SetProperty(ref _rank, value, "Rank"); }
+            get => _rank;
+            set => SetProperty(ref _rank, value);
         }
 
         public int Position
         {
-            get { return _position; }
-            set { SetProperty(ref _position, value, "Position"); }
+            get => _position;
+            set => SetProperty(ref _position, value);
         }
 
         public bool IsTmp
         {
-            get { return _isTmp; }
-            set { SetProperty(ref _isTmp, value, "IsTmp"); }
+            get => _isTmp;
+            set => SetProperty(ref _isTmp, value);
         }
 
         public string Category
         {
-            get { return _category; }
-            set { SetProperty(ref _category, value, "Category"); }
+            get => _category;
+            set => SetProperty(ref _category, value);
         }
 
         int IBinaryHeapItem<double>.HeapIndex { get; set; }
 
         double IBinaryHeapItem<double>.HeapKey { get; set; }
 
-        IEnumerable<IEdge> IVertex.Edges
-        {
-            get { return Edges; }
-        }
+        IEnumerable<IEdge> IVertex.Edges => Edges;
 
-        IEnumerable<IEdge> IVertex.InEdges
-        {
-            get { return InEdges; }
-        }
+        IEnumerable<IEdge> IVertex.InEdges => InEdges;
 
-        IEnumerable<IEdge> IVertex.OutEdges
-        {
-            get { return OutEdges; }
-        }
+        IEnumerable<IEdge> IVertex.OutEdges => OutEdges;
 
-        IEnumerable<IEdge> IVertex.SelfEdges
-        {
-            get { return SelfEdges; }
-        }
+        IEnumerable<IEdge> IVertex.SelfEdges => SelfEdges;
 
-        object IElement.Data
-        {
-            get { return Data; }
-        }
+        object IElement.Data => Data;
 
         public void Update()
         {
@@ -219,15 +165,9 @@ namespace GraphLight.Graph
 
         public override bool Equals(object obj)
         {
-            var other = obj as Vertex<TVertex, TEdge>;
-            if (other == null)
-                return false;
-            return Equals(Data, other.Data);
+            return obj is Vertex<TVertex, TEdge> other && Equals(Data, other.Data);
         }
 
-        public override int GetHashCode()
-        {
-            return Data.GetHashCode();
-        }
+        public override int GetHashCode() => Data.GetHashCode();
     }
 }

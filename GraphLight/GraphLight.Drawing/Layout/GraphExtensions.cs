@@ -10,7 +10,7 @@ namespace GraphLight.Layout
         public static IEnumerable<List<IVertex>> GetRankList(this IGraph graph)
         {
             return
-                from node in graph.Verteces
+                from node in graph.Vertices
                 orderby node.Rank, node.Position
                 group node by node.Rank
                     into rank
@@ -20,7 +20,7 @@ namespace GraphLight.Layout
         public static IDictionary<int, List<IVertex>> GetRankMap(this IGraph graph)
         {
             var ranks =
-                from node in graph.Verteces
+                from node in graph.Vertices
                 orderby node.Rank, node.Position
                 group node by node.Rank
                     into rank

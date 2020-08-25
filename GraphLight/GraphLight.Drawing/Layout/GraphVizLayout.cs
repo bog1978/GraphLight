@@ -16,7 +16,7 @@ namespace GraphLight.Layout
         {
             var weights = Graph.Edges.Backup(x => x.Weight);
 
-            foreach (var vertex in Graph.Verteces)
+            foreach (var vertex in Graph.Vertices)
                 NodeMeasure.Measure(vertex);
 
             Acyclic();
@@ -49,14 +49,14 @@ namespace GraphLight.Layout
         {
             setTopPositions();
             setLeftPositions();
-            Graph.Width = Graph.Verteces.Min(x => x.Left) + Graph.Verteces.Max(x => x.Right);
-            Graph.Height = Graph.Verteces.Min(x => x.Top) + Graph.Verteces.Max(x => x.Bottom);
+            Graph.Width = Graph.Vertices.Min(x => x.Left) + Graph.Vertices.Max(x => x.Right);
+            Graph.Height = Graph.Vertices.Min(x => x.Top) + Graph.Vertices.Max(x => x.Bottom);
         }
 
         private void setTopPositions()
         {
             var rows =
-                (from node in Graph.Verteces
+                (from node in Graph.Vertices
                  group node by node.Rank
                      into row
                      let r = row.Key
@@ -64,7 +64,7 @@ namespace GraphLight.Layout
                      select new { r, h })
                     .ToDictionary(x => x.r, x => x.h);
 
-            foreach (var node in Graph.Verteces)
+            foreach (var node in Graph.Vertices)
             {
                 var rank = node.Rank;
                 var y = (rows[rank] - node.Height) / 2
@@ -113,7 +113,7 @@ namespace GraphLight.Layout
 
         private void removeTmpNodes()
         {
-            var tmpNodes = Graph.Verteces
+            var tmpNodes = Graph.Vertices
                 .Where(x => x.IsTmp)
                 .ToList();
             tmpNodes.Iter(x => Graph.RemoveControlPoint(x));

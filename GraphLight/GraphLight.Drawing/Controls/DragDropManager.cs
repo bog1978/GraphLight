@@ -110,8 +110,7 @@ namespace GraphLight.Controls
 
         public static void AddDragQueryHandler(FrameworkElement element, Func<IDragDropOptions, bool> handler)
         {
-            Subscription subscription;
-            if (!_subscriptions.TryGetValue(element, out subscription))
+            if (!_subscriptions.TryGetValue(element, out var subscription))
             {
                 subscription = new Subscription(element);
                 _subscriptions.Add(element, subscription);
@@ -123,8 +122,7 @@ namespace GraphLight.Controls
 
         public static void AddDropQueryHandler(FrameworkElement element, Func<IDragDropOptions, bool> handler)
         {
-            Subscription subscription;
-            if (!_subscriptions.TryGetValue(element, out subscription))
+            if (!_subscriptions.TryGetValue(element, out var subscription))
             {
                 subscription = new Subscription(element);
                 _subscriptions.Add(element, subscription);
@@ -136,8 +134,7 @@ namespace GraphLight.Controls
 
         public static void AddDropInfoHandler(FrameworkElement element, Action<IDragDropOptions> handler)
         {
-            Subscription subscription;
-            if (!_subscriptions.TryGetValue(element, out subscription))
+            if (!_subscriptions.TryGetValue(element, out var subscription))
             {
                 subscription = new Subscription(element);
                 _subscriptions.Add(element, subscription);
@@ -149,8 +146,7 @@ namespace GraphLight.Controls
 
         public static void RemoveAllHandlers(FrameworkElement element)
         {
-            Subscription subscription;
-            if (!_subscriptions.TryGetValue(element, out subscription))
+            if (!_subscriptions.TryGetValue(element, out var subscription))
                 return;
             subscription.DropQuery = null;
             subscription.DropInfo = null;
@@ -159,7 +155,7 @@ namespace GraphLight.Controls
         }
 
         /// <summary>
-        /// Find nearest element in visual tree labeld with AllowDrag=true.
+        /// Find nearest element in visual tree labeled with AllowDrag=true.
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -173,14 +169,10 @@ namespace GraphLight.Controls
             return getDragSource(VisualTreeHelper.GetParent(element));
         }
 
-        private static Subscription getSubscription(object key)
-        {
-            var element = key as FrameworkElement;
-            Subscription subscription;
-            return element != null && _subscriptions.TryGetValue(element, out subscription)
+        private static Subscription getSubscription(object key) =>
+            key is FrameworkElement element && _subscriptions.TryGetValue(element, out var subscription)
                 ? subscription
                 : null;
-        }
 
         #region Mouse handlers
 
@@ -296,10 +288,7 @@ namespace GraphLight.Controls
 
             public DragDropStatus Status { get; internal set; }
 
-            internal Popup Popup
-            {
-                get { return _popup ?? (_popup = createPopup()); }
-            }
+            internal Popup Popup => _popup ?? (_popup = createPopup());
 
             public UIElement PopupContent { get; set; }
 
@@ -307,7 +296,7 @@ namespace GraphLight.Controls
 
             public FrameworkElement Source
             {
-                get { return _source; }
+                get => _source;
                 private set
                 {
                     _source = value;
@@ -317,20 +306,14 @@ namespace GraphLight.Controls
 
             public FrameworkElement Target { get; internal set; }
             public object Payload { get; set; }
-            public Point Start { get; private set; }
+            public Point Start { get; }
             public Point Current { get; internal set; }
             public Point Relative { get; internal set; }
-            public DragDropMode Mode { get { return GetMode(Source); } }
+            public DragDropMode Mode => GetMode(Source);
 
-            public double DeltaX
-            {
-                get { return Current.X - Start.X; }
-            }
+            public double DeltaX => Current.X - Start.X;
 
-            public double DeltaY
-            {
-                get { return Current.Y - Start.Y; }
-            }
+            public double DeltaY => Current.Y - Start.Y;
 
             #endregion
 

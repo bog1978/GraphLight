@@ -20,14 +20,14 @@ namespace GraphLight.Layout
         protected override void Finalze()
         {
             var minValue = int.MaxValue;
-            foreach (var vertex in _graph.Verteces)
+            foreach (var vertex in _graph.Vertices)
             {
                 var v = _vertexMap[vertex];
                 if (v.Value - vertex.Width / 2 < minValue)
                     minValue = v.Value - (int)(vertex.Width / 2);
             }
 
-            foreach (var vertex in _graph.Verteces)
+            foreach (var vertex in _graph.Vertices)
             {
                 var v = _vertexMap[vertex];
                 vertex.CenterX = v.Value - minValue;
@@ -37,7 +37,7 @@ namespace GraphLight.Layout
 
         protected override void Initialize(out ICollection<Vertex> vertices, out ICollection<Edge> edges)
         {
-            _vertexMap = _graph.Verteces.ToDictionary(x => x, vertex => new Vertex());
+            _vertexMap = _graph.Vertices.ToDictionary(x => x, vertex => new Vertex());
 
             vertices = _vertexMap.Values.ToList();
             edges = new List<Edge>();

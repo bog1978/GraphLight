@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using GraphLight.Collections;
 using GraphLight.Graph;
 
@@ -30,15 +29,9 @@ namespace GraphLight.Algorithm
                 MinLength = minLength;
             }
 
-            public int Lenght
-            {
-                get { return Math.Abs(Dst.Value - Src.Value); }
-            }
+            public int Length => Math.Abs(Dst.Value - Src.Value);
 
-            public int Slack()
-            {
-                return (Dst.Value - Src.Value) - MinLength;
-            }
+            public int Slack() => Dst.Value - Src.Value - MinLength;
         }
 
         #endregion
@@ -59,7 +52,7 @@ namespace GraphLight.Algorithm
         protected class Graph
         {
             public Edge[] Edges;
-            public Vertex[] Verteces;
+            public Vertex[] Vertices;
             public Vertex Root;
         }
 
@@ -82,17 +75,12 @@ namespace GraphLight.Algorithm
             internal int ScanIndex;
             internal int TreeEdgeCount;
             public int Value;
-            private int _heapKey = int.MaxValue;
 
             #region IBinaryHeapItem<int> Members
 
             public int HeapIndex { get; set; }
 
-            public int HeapKey
-            {
-                get { return _heapKey; }
-                set { _heapKey = value; }
-            }
+            public int HeapKey { get; set; } = int.MaxValue;
 
             #endregion
         }

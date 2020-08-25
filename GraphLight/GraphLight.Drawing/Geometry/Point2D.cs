@@ -24,7 +24,7 @@ namespace GraphLight.Geometry
         private double _x;
         public double X
         {
-            get { return _x; }
+            get => _x;
             set
             {
                 _x = value;
@@ -35,7 +35,7 @@ namespace GraphLight.Geometry
         private double _y;
         public double Y
         {
-            get { return _y; }
+            get => _y;
             set
             {
                 _y = value;
@@ -45,29 +45,17 @@ namespace GraphLight.Geometry
 
         public int Sgn { get; set; }
 
-        public bool IsEmpty
-        {
-            get { return double.IsNaN(X) || double.IsNaN(Y); }
-        }
+        public bool IsEmpty => double.IsNaN(X) || double.IsNaN(Y);
 
         #endregion
 
         #region Операторы
 
-        public static Vector2D operator -(Point2D p1, Point2D p2)
-        {
-            return new Vector2D(p2, p1);
-        }
+        public static Vector2D operator -(Point2D p1, Point2D p2) => new Vector2D(p2, p1);
 
-        public static Point2D operator +(Point2D p, Vector2D v)
-        {
-            return new Point2D(p.X + v.X, p.Y + v.Y);
-        }
+        public static Point2D operator +(Point2D p, Vector2D v) => new Point2D(p.X + v.X, p.Y + v.Y);
 
-        public static Point2D operator -(Point2D p, Vector2D v)
-        {
-            return new Point2D(p.X - v.X, p.Y - v.Y);
-        }
+        public static Point2D operator -(Point2D p, Vector2D v) => new Point2D(p.X - v.X, p.Y - v.Y);
 
         public static bool operator ==(Point2D a, Point2D b)
         {
@@ -76,10 +64,7 @@ namespace GraphLight.Geometry
             return aIsNull ? bIsNull : a.Equals(b);
         }
 
-        public static bool operator !=(Point2D p1, Point2D p2)
-        {
-            return !(p1 == p2);
-        }
+        public static bool operator !=(Point2D p1, Point2D p2) => !(p1 == p2);
 
         #endregion
 
@@ -100,24 +85,14 @@ namespace GraphLight.Geometry
             return Equals((Point2D)obj);
         }
 
-        public override int GetHashCode()
-        {
-            return (X.GetHashCode() * 397) ^ Y.GetHashCode();
-        }
+        public override int GetHashCode() => (X.GetHashCode() * 397) ^ Y.GetHashCode();
 
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void RaisePropertyChanged(string  name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
+        public void RaisePropertyChanged(string  name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        public override string ToString()
-        {
-            return string.Format("x={0}, y={1}", X, Y);
-        }
+        public override string ToString() => $"x={X}, y={Y}";
     }
 }

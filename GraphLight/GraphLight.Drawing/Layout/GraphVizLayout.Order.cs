@@ -21,9 +21,9 @@ namespace GraphLight.Layout
         private void nodeOrderDfs()
         {
             // Все узлы белые
-            _nodeColors = Graph.Verteces.ToDictionary(x => x, x => -1);
+            _nodeColors = Graph.Vertices.ToDictionary(x => x, x => -1);
 
-            foreach (var node in Graph.Verteces.Where(node => _nodeColors[node] == -1))
+            foreach (var node in Graph.Vertices.Where(node => _nodeColors[node] == -1))
             {
                 dfs(node);
                 _nodeColors[node] = 1;
@@ -138,13 +138,13 @@ namespace GraphLight.Layout
         private void nodeOrderMinCross()
         {
             var ranks =
-                from node in Graph.Verteces
+                from node in Graph.Vertices
                 orderby node.Rank, node.Position
                 group node by node.Rank
                     into rank
                     select rank.ToList();
 
-            var bestPositions = Graph.Verteces.ToDictionary(x => x, x => x.Position);
+            var bestPositions = Graph.Vertices.ToDictionary(x => x, x => x.Position);
             var bestCrossing = double.MaxValue;
             var bestLenght = double.MaxValue;
 
@@ -166,7 +166,7 @@ namespace GraphLight.Layout
 
                 if (currCrossing < bestCrossing || currCrossing == bestCrossing && currLength < bestLenght)
                 {
-                    bestPositions = Graph.Verteces.ToDictionary(x => x, x => x.Position);
+                    bestPositions = Graph.Vertices.ToDictionary(x => x, x => x.Position);
                     bestCrossing = currCrossing;
                     bestLenght = currLength;
                     i = 0;

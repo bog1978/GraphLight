@@ -14,9 +14,7 @@ namespace GraphLight.Layout
 
         public SugiyamaLayout(IGraph graph)
         {
-            if (graph == null)
-                throw new ArgumentNullException("graph");
-            _graph = graph;
+            _graph = graph ?? throw new ArgumentNullException(nameof(graph));
         }
 
         public void Layout()

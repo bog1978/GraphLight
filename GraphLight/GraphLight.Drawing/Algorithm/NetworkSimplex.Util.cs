@@ -30,14 +30,14 @@ namespace GraphLight.Algorithm
                 vertex.Edges = vertex.InEdges.Union(vertex.OutEdges).ToArray();
             }
 
-            var graph = new Graph { Verteces = vertices.ToArray(), Edges = edges.ToArray(), Root = root };
+            var graph = new Graph { Vertices = vertices.ToArray(), Edges = edges.ToArray(), Root = root };
             return graph;
         }
 
         private static void spanningTree(Graph graph)
         {
             graph.Root.HeapKey = 0;
-            var heap = new BinaryHeap<int, Vertex>(graph.Verteces, HeapType.Min);
+            var heap = new BinaryHeap<int, Vertex>(graph.Vertices, HeapType.Min);
             while (heap.Count > 0)
             {
                 var u = heap.RemoveRoot();
@@ -49,7 +49,7 @@ namespace GraphLight.Algorithm
                 foreach (var e in u.Edges)
                 {
                     var v = e.Src == u ? e.Dst : e.Src;
-                    var weight = e.Lenght;
+                    var weight = e.Length;
                     if (v.Color != VertexColor.White || weight >= v.HeapKey)
                         continue;
                     v.ParentEdge = e;
@@ -60,7 +60,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        private static void postorderTraversal(Graph graph, Vertex root)
+        private static void postOrderTraversal(Graph graph, Vertex root)
         {
             int min, max, lim;
 
@@ -75,7 +75,7 @@ namespace GraphLight.Algorithm
             else
             {
                 min = 0;
-                max = graph.Verteces.Length - 1;
+                max = graph.Vertices.Length - 1;
                 lim = 0;
                 root.ScanIndex = 0;
             }
@@ -83,7 +83,7 @@ namespace GraphLight.Algorithm
             // root has index max in _graph.Vertices.
             for (var i = min; i < max; i++)
             {
-                var v = graph.Verteces[i];
+                var v = graph.Vertices[i];
                 v.Low = int.MaxValue;
                 v.Lim = int.MaxValue;
                 v.ParentEdge = null;
@@ -123,7 +123,7 @@ namespace GraphLight.Algorithm
                     if (curr.Lim != lim)
                     {
                         curr.Lim = lim;
-                        graph.Verteces[lim] = curr;
+                        graph.Vertices[lim] = curr;
                     }
                     lim++;
                     var prev = curr.ParentVertex;

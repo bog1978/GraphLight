@@ -31,29 +31,17 @@ namespace GraphLight.Geometry
         public Point2D P1 { get; set; }
         public Point2D P2 { get; set; }
 
-        public bool IsEmpty
-        {
-            get { return P1.IsEmpty || P2.IsEmpty; }
-        }
+        public bool IsEmpty => P1.IsEmpty || P2.IsEmpty;
 
-        public double Len
-        {
-            get { return (P2 - P1).Len; }
-        }
+        public double Len => (P2 - P1).Len;
 
         #endregion
 
         #region Методы
 
-        public bool Overlap(Point2D q1, Point2D q2)
-        {
-            return Overlap(P1, P2, q1, q2);
-        }
+        public bool Overlap(Point2D q1, Point2D q2) => Overlap(P1, P2, q1, q2);
 
-        public bool Overlap(Line2D line)
-        {
-            return Overlap(P1, P2, line.P1, line.P2);
-        }
+        public bool Overlap(Line2D line) => Overlap(P1, P2, line.P1, line.P2);
 
         public static bool Overlap(Point2D p1, Point2D p2, Point2D q1, Point2D q2)
         {
@@ -65,10 +53,7 @@ namespace GraphLight.Geometry
                 == PointLocation.Between;
         }
 
-        public PointLocation Classify(Point2D p)
-        {
-            return Classify(p, P1, P2);
-        }
+        public PointLocation Classify(Point2D p) => Classify(p, P1, P2);
 
         public static PointLocation Classify(Point2D p, Point2D p1, Point2D p2)
         {
@@ -90,15 +75,9 @@ namespace GraphLight.Geometry
             return PointLocation.Between;
         }
 
-        public CrossType Cross(Line2D line)
-        {
-            return Cross(P1, P2, line.P1, line.P2);
-        }
+        public CrossType Cross(Line2D line) => Cross(P1, P2, line.P1, line.P2);
 
-        public CrossType Cross(Point2D q1, Point2D q2)
-        {
-            return Cross(P1, P2, q1, q2);
-        }
+        public CrossType Cross(Point2D q1, Point2D q2) => Cross(P1, P2, q1, q2);
 
         public static CrossType Cross(Point2D p1, Point2D p2, Point2D q1, Point2D q2)
         {
@@ -133,10 +112,7 @@ namespace GraphLight.Geometry
         /// </summary>
         /// <param name="k"></param>
         /// <returns></returns>
-        public Point2D GetPoint(double k)
-        {
-            return new Point2D(P1.X + k * (P2.X - P1.X), P1.Y + k * (P2.Y - P1.Y));
-        }
+        public Point2D GetPoint(double k) => new Point2D(P1.X + k * (P2.X - P1.X), P1.Y + k * (P2.Y - P1.Y));
 
         #endregion
 
@@ -149,10 +125,7 @@ namespace GraphLight.Geometry
             return aIsNull ? bIsNull : a.Equals(b);
         }
 
-        public static bool operator !=(Line2D a, Line2D b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(Line2D a, Line2D b) => !(a == b);
 
         #endregion
 

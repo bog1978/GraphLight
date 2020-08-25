@@ -21,29 +21,19 @@ namespace GraphLight.Graph
                 NewVertex = newVertex;
             }
 
-            public TVertex OldVertex { get; private set; }
-            public TVertex NewVertex { get; private set; }
+            public TVertex OldVertex { get; }
+            public TVertex NewVertex { get; }
         }
 
-        public IEnumerable<TVertex> Verteces
-        {
-            get { return _vertices; }
-        }
+        public IEnumerable<TVertex> Vertices => _vertices;
 
-        public IEnumerable<TEdge> Edges
-        {
-            get { return _edges; }
-        }
+        public IEnumerable<TEdge> Edges => _edges;
 
-        public TVertex this[TVertexData key]
-        {
-            get { return _map[key]; }
-        }
+        public TVertex this[TVertexData key] => _map[key];
 
         public TVertex AddVertex(TVertexData data)
         {
-            TVertex vertex;
-            if (!_map.TryGetValue(data, out vertex))
+            if (!_map.TryGetValue(data, out var vertex))
             {
                 vertex = new TVertex { Data = data };
                 _vertices.Add(vertex);
@@ -77,24 +67,22 @@ namespace GraphLight.Graph
             return AddEdge(srcData, dstData, CreateEdgeData());
         }
 
-        public TEdge AddEdge(TVertex src, TVertex dst, TEdgeData data = default(TEdgeData))
+        public TEdge AddEdge(TVertex src, TVertex dst, TEdgeData data = default)
         {
             if (src == null)
-                throw new ArgumentNullException("src");
+                throw new ArgumentNullException(nameof(src));
 
             if (dst == null)
-                throw new ArgumentNullException("dst");
+                throw new ArgumentNullException(nameof(dst));
 
-            TVertex existingSrc, existingDst;
-
-            _map.TryGetValue(src.Data, out existingSrc);
-            _map.TryGetValue(dst.Data, out existingDst);
+            _map.TryGetValue(src.Data, out var existingSrc);
+            _map.TryGetValue(dst.Data, out var existingDst);
 
             if (existingSrc != src)
-                throw new ArgumentOutOfRangeException("src");
+                throw new ArgumentOutOfRangeException(nameof(src));
 
             if (existingDst != dst)
-                throw new ArgumentOutOfRangeException("dst");
+                throw new ArgumentOutOfRangeException(nameof(dst));
 
             return AddEdge(src.Data, dst.Data, data);
         }
@@ -113,7 +101,7 @@ namespace GraphLight.Graph
         public void RemoveEdge(TEdge edge)
         {
             _edges.Remove(edge);
-            edge.Data = default(TEdgeData);
+            edge.Data = default;
             edge.Src = null;
             edge.Dst = null;
             edge.EdgeChanged -= OnEdgeChanged;
@@ -121,10 +109,8 @@ namespace GraphLight.Graph
 
         private void OnEdgeChanged(object sender, EdgeChangedEventArgs args)
         {
-            if (args.OldVertex != null)
-                args.OldVertex.UnregisterEdge((TEdge)sender);
-            if (args.NewVertex != null)
-                args.NewVertex.RegisterEdge((TEdge)sender);
+            args.OldVertex?.UnRegisterEdge((TEdge)sender);
+            args.NewVertex?.RegisterEdge((TEdge)sender);
         }
 
         protected abstract TVertexData CreateVertexData();
@@ -140,29 +126,17 @@ namespace GraphLight.Graph
 
             public TVertexData Data
             {
-                get { return _data; }
-                internal set { SetProperty(ref _data, value, "Data"); }
+                get => _data;
+                internal set => SetProperty(ref _data, value);
             }
 
-            public IEnumerable<TEdge> Edges
-            {
-                get { return _edges; }
-            }
+            public IEnumerable<TEdge> Edges => _edges;
 
-            public IEnumerable<TEdge> InEdges
-            {
-                get { return _inEdges; }
-            }
+            public IEnumerable<TEdge> InEdges => _inEdges;
 
-            public IEnumerable<TEdge> OutEdges
-            {
-                get { return _outEdges; }
-            }
+            public IEnumerable<TEdge> OutEdges => _outEdges;
 
-            public IEnumerable<TEdge> SelfEdges
-            {
-                get { return _selfEdges; }
-            }
+            public IEnumerable<TEdge> SelfEdges => _selfEdges;
 
             internal void RegisterEdge(TEdge edge)
             {
@@ -197,7 +171,7 @@ namespace GraphLight.Graph
                 }
             }
 
-            internal void UnregisterEdge(TEdge edge)
+            internal void UnRegisterEdge(TEdge edge)
             {
                 if (_selfEdges.Remove(edge))
                 {
@@ -211,10 +185,7 @@ namespace GraphLight.Graph
                 }
             }
 
-            public override string ToString()
-            {
-                return Data.ToString();
-            }
+            public override string ToString() => Data.ToString();
         }
 
         public abstract class Edge : BaseViewModel
@@ -225,51 +196,44 @@ namespace GraphLight.Graph
 
             public TEdgeData Data
             {
-                get { return _data; }
-                set { SetProperty(ref _data, value, "Data"); }
+                get => _data;
+                set => SetProperty(ref _data, value);
             }
 
             public TVertex Src
             {
-                get { return _src; }
+                get => _src;
                 set
                 {
                     if (_src == value)
                         return;
                     var oldValue = _src;
                     _src = value;
-                    RaisePropertyChanged("Src");
+                    RaisePropertyChanged();
                     OnEdgeChanged(oldValue, value);
                 }
             }
 
             public TVertex Dst
             {
-                get { return _dst; }
+                get => _dst;
                 set
                 {
                     var oldValue = _dst;
                     if (oldValue == value)
                         return;
                     _dst = value;
-                    RaisePropertyChanged("Dst");
+                    RaisePropertyChanged();
                     OnEdgeChanged(oldValue, value);
                 }
             }
 
             internal event EventHandler<EdgeChangedEventArgs> EdgeChanged;
 
-            public override string ToString()
-            {
-                return string.Format("{0} -> {1}: {2}", Src, Dst, Data);
-            }
+            public override string ToString() => $"{Src} -> {Dst}: {Data}";
 
-            private void OnEdgeChanged(TVertex oldVertex, TVertex newVertex)
-            {
-                var handler = EdgeChanged;
-                if (handler != null)
-                    handler(this, new EdgeChangedEventArgs(oldVertex, newVertex));
-            }
+            private void OnEdgeChanged(TVertex oldVertex, TVertex newVertex) => 
+                EdgeChanged?.Invoke(this, new EdgeChangedEventArgs(oldVertex, newVertex));
         }
     }
 }

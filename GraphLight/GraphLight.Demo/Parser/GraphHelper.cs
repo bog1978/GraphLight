@@ -36,7 +36,7 @@ namespace GraphLight.Parser
             sw.WriteLine("{");
 
             sw.WriteLine("\t nodes:");
-            foreach (var vertex in graph.Verteces)
+            foreach (var vertex in graph.Vertices)
                 sw.WriteLine("\t\t{0} [label=\"{1}\" rank={2} order={3}];",
                     vertex.Data, vertex.Label, vertex.Rank, vertex.Position);
 

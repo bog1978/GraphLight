@@ -122,8 +122,8 @@ namespace GraphLight.Drawing
 
         public IEdge SelectedEdge
         {
-            get { return (IEdge) GetValue(SelectedEdgeProperty); }
-            private set { SetValue(SelectedEdgeProperty, value); }
+            get => (IEdge) GetValue(SelectedEdgeProperty);
+            private set => SetValue(SelectedEdgeProperty, value);
         }
 
         #endregion
@@ -135,8 +135,8 @@ namespace GraphLight.Drawing
 
         public IVertex SelectedNode
         {
-            get { return (IVertex) GetValue(SelectedNodeProperty); }
-            private set { SetValue(SelectedNodeProperty, value); }
+            get => (IVertex) GetValue(SelectedNodeProperty);
+            private set => SetValue(SelectedNodeProperty, value);
         }
 
         #endregion
@@ -148,8 +148,8 @@ namespace GraphLight.Drawing
 
         public IElement SelectedElement
         {
-            get { return (IElement) GetValue(SelectedElementProperty); }
-            set { SetValue(SelectedElementProperty, value); }
+            get => (IElement) GetValue(SelectedElementProperty);
+            set => SetValue(SelectedElementProperty, value);
         }
 
         private static void onSelectedElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -184,8 +184,8 @@ namespace GraphLight.Drawing
 
         public GraphTool CurrentTool
         {
-            get { return (GraphTool)GetValue(CurrentToolProperty); }
-            private set { SetValue(CurrentToolProperty, value); }
+            get => (GraphTool)GetValue(CurrentToolProperty);
+            private set => SetValue(CurrentToolProperty, value);
         }
 
         #endregion
@@ -197,8 +197,8 @@ namespace GraphLight.Drawing
 
         public GraphTool EdgeDrawingTool
         {
-            get { return (GraphTool)GetValue(EdgeDrawingToolProperty); }
-            set { SetValue(EdgeDrawingToolProperty, value); }
+            get => (GraphTool)GetValue(EdgeDrawingToolProperty);
+            set => SetValue(EdgeDrawingToolProperty, value);
         }
 
         #endregion
@@ -210,8 +210,8 @@ namespace GraphLight.Drawing
 
         public GraphTool DraggingTool
         {
-            get { return (GraphTool)GetValue(DraggingToolProperty); }
-            set { SetValue(DraggingToolProperty, value); }
+            get => (GraphTool)GetValue(DraggingToolProperty);
+            set => SetValue(DraggingToolProperty, value);
         }
 
         #endregion
@@ -223,8 +223,8 @@ namespace GraphLight.Drawing
 
         public GraphTool PanningTool
         {
-            get { return (GraphTool)GetValue(PanningToolProperty); }
-            set { SetValue(PanningToolProperty, value); }
+            get => (GraphTool)GetValue(PanningToolProperty);
+            set => SetValue(PanningToolProperty, value);
         }
 
         #endregion
@@ -236,8 +236,8 @@ namespace GraphLight.Drawing
 
         public ICommand LayoutCommand
         {
-            get { return (ICommand)GetValue(LayoutCommandProperty); }
-            private set { SetValue(LayoutCommandProperty, value); }
+            get => (ICommand)GetValue(LayoutCommandProperty);
+            private set => SetValue(LayoutCommandProperty, value);
         }
 
         #endregion
@@ -305,7 +305,7 @@ namespace GraphLight.Drawing
             var minY = double.MaxValue;
             var maxY = double.MinValue;
 
-            foreach (var vertex in Graph.Verteces)
+            foreach (var vertex in Graph.Vertices)
             {
                 if (vertex.Left < minX)
                     minX = vertex.Left;
@@ -335,7 +335,7 @@ namespace GraphLight.Drawing
             var graphWidth = maxX - minX;
             var graphHeight = maxY - minY;
 
-            foreach (var vertex in Graph.Verteces)
+            foreach (var vertex in Graph.Vertices)
             {
                 vertex.Left -= minX;
                 vertex.Top -= minY;
@@ -368,12 +368,16 @@ namespace GraphLight.Drawing
 
         private static int setZIndex(object element, int z)
         {
-            var node = element as IVertex;
-            if (node != null)
-                node.ZIndex = z++;
-            var edge = element as IEdge;
-            if (edge != null)
-                edge.ZIndex = z++;
+            switch (element)
+            {
+                case IVertex node:
+                    node.ZIndex = z++;
+                    break;
+                case IEdge edge:
+                    edge.ZIndex = z++;
+                    break;
+            }
+
             return z;
         }
     }

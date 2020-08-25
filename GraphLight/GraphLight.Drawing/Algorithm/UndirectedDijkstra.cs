@@ -23,10 +23,10 @@ namespace GraphLight.Algorithm
         {
             var from = _graph[start];
             var to = _graph[end];
-            var attrs = _graph.Verteces.ToDictionary(x => x, x => new DijkstraAttr());
+            var attrs = _graph.Vertices.ToDictionary(x => x, x => new DijkstraAttr());
             attrs[from].Distance = 0;
 
-            var queue = new PriorityQueue<double, IVertex>(_graph.Verteces, HeapType.Min);
+            var queue = new PriorityQueue<double, IVertex>(_graph.Vertices, HeapType.Min);
 
             while (!queue.IsEmpty)
             {
@@ -69,24 +69,14 @@ namespace GraphLight.Algorithm
 
         public Action<IEdge> EnterEdge
         {
-            get { return _enterEdge; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _enterEdge = value;
-            }
+            get => _enterEdge;
+            set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         public Action<IVertex> EnterNode
         {
-            get { return _enterNode; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                _enterNode = value;
-            }
+            get => _enterNode;
+            set => _enterNode = value ?? throw new ArgumentNullException(nameof(value));
         }
 
 

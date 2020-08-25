@@ -56,8 +56,8 @@ namespace GraphLight.Drawing
 
         public DataTemplateDictionary VertexTemplateDictionary
         {
-            get { return (DataTemplateDictionary)GetValue(VertexTemplateDictionaryProperty); }
-            set { SetValue(VertexTemplateDictionaryProperty, value); }
+            get => (DataTemplateDictionary)GetValue(VertexTemplateDictionaryProperty);
+            set => SetValue(VertexTemplateDictionaryProperty, value);
         }
 
         private static void onVertexTemplateDictionaryPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -78,8 +78,8 @@ namespace GraphLight.Drawing
 
         public IGraph Graph
         {
-            get { return (IGraph)GetValue(GraphProperty); }
-            set { SetValue(GraphProperty, value); }
+            get => (IGraph)GetValue(GraphProperty);
+            set => SetValue(GraphProperty, value);
         }
 
         private static void onGraphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -95,22 +95,22 @@ namespace GraphLight.Drawing
             if (oldVal != null)
             {
                 var edges = oldVal.Edges as INotifyCollectionChanged;
-                var verteces = oldVal.Verteces as INotifyCollectionChanged;
+                var vertices = oldVal.Vertices as INotifyCollectionChanged;
                 if (edges != null)
                     edges.CollectionChanged -= onEdgesCollectionChanged;
-                if (verteces != null)
-                    verteces.CollectionChanged -= onVertexCollectionChanged;
+                if (vertices != null)
+                    vertices.CollectionChanged -= onVertexCollectionChanged;
                 clearAllItems();
             }
 
             if (newVal != null)
             {
                 var edges = newVal.Edges as INotifyCollectionChanged;
-                var verteces = newVal.Verteces as INotifyCollectionChanged;
+                var vertices = newVal.Vertices as INotifyCollectionChanged;
                 if (edges != null)
                     edges.CollectionChanged += onEdgesCollectionChanged;
-                if (verteces != null)
-                    verteces.CollectionChanged += onVertexCollectionChanged;
+                if (vertices != null)
+                    vertices.CollectionChanged += onVertexCollectionChanged;
             }
         }
 
@@ -124,8 +124,8 @@ namespace GraphLight.Drawing
 
         public Style VertexStyle
         {
-            get { return (Style) GetValue(VertexStyleProperty); }
-            set { SetValue(VertexStyleProperty, value); }
+            get => (Style) GetValue(VertexStyleProperty);
+            set => SetValue(VertexStyleProperty, value);
         }
 
         private static void onVertexStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -192,8 +192,7 @@ namespace GraphLight.Drawing
 
         private void delItem(object item)
         {
-            FrameworkElement elt;
-            if (_elementMap.TryGetValue(item, out elt))
+            if (_elementMap.TryGetValue(item, out var elt))
                 _graphPanel.Children.Remove(elt);
         }
 
@@ -202,7 +201,7 @@ namespace GraphLight.Drawing
         {
             var child = (T)GetTemplateChild(childName);
             if (child == null)
-                throw new ArgumentOutOfRangeException(string.Format("Template does not contain child <{0}>", childName));
+                throw new ArgumentOutOfRangeException($"Template does not contain child <{childName}>");
             return child;
         }
 
@@ -218,7 +217,7 @@ namespace GraphLight.Drawing
         {
             if (_graphPanel == null || Graph == null)
                 return;
-            foreach (var vertex in Graph.Verteces)
+            foreach (var vertex in Graph.Vertices)
                 addVertex(vertex);
         }
 

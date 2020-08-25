@@ -139,7 +139,7 @@
     <Compile Include="Converters\PointsToPolyLineConverter.cs" />
     <Compile Include="Converters\PointsToQuadraticBezierConverter.cs" />
     <Compile Include="Controls\DragDropManager.WPF.cs" />
-    <Compile Include="Controls\DependecyObjectExtensions.cs" />
+    <Compile Include="Controls\DependencyObjectExtensions.cs" />
     <Compile Include="Controls\DragDropManager.cs" />
     <Compile Include="Drawing\Edge.cs" />
     <Compile Include="Controls\ItemsControlEx.cs">
