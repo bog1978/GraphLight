@@ -1,18 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLight (Silverlight)", "GraphLight.Drawing\GraphLight (Silverlight).csproj", "{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A4216E20-0A13-495F-B5A3-882E8E5C5BC9} = {A4216E20-0A13-495F-B5A3-882E8E5C5BC9}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLight.Demo (Silverligth)", "GraphLight.Demo\GraphLight.Demo (Silverligth).csproj", "{C8A147CC-7D9E-4FC8-9100-7A955B47C893}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A4216E20-0A13-495F-B5A3-882E8E5C5BC9} = {A4216E20-0A13-495F-B5A3-882E8E5C5BC9}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLight (WPF)", "GraphLight.Drawing\GraphLight (WPF).csproj", "{19D6A2B3-2A59-4408-9492-3EDC35303CCC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLight.Demo (WPF)", "GraphLight.Demo\GraphLight.Demo (WPF).csproj", "{2AB7C669-B3AD-4530-932F-6C4ABE1CD00D}"
@@ -39,24 +29,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{AA5CDEB9-5887-4D00-9EAF-E8344B164D94}.Release|x86.ActiveCfg = Release|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{C8A147CC-7D9E-4FC8-9100-7A955B47C893}.Release|x86.ActiveCfg = Release|Any CPU
 		{19D6A2B3-2A59-4408-9492-3EDC35303CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19D6A2B3-2A59-4408-9492-3EDC35303CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19D6A2B3-2A59-4408-9492-3EDC35303CCC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -114,6 +86,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{12957628-3C32-40C9-B24A-85EBC6FD124C} = {68EDD0B3-692C-4F6A-A6B0-5ABCAB9F5508}
 		{684ECC46-830B-487B-AF21-DF66F38C03CC} = {68EDD0B3-692C-4F6A-A6B0-5ABCAB9F5508}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F73AA790-0472-4FF4-A3F8-4BF29821022D}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = GraphLight1.vsmdi
