@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
 using GraphLight.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

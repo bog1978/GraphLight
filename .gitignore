@@ -31,3 +31,4 @@ _ReSharper*/
 *.dbmdl
 packages/
 .vs/
+MigrationBackup/

@@ -86,16 +86,6 @@
     <Compile Include="Algorithm\PrimTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Collections\BinaryHeap2Test.cs" />
-    <Compile Include="Collections\MyData.cs" />
-    <Compile Include="Collections\PriorityQueueTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Geometry\Line2DTest.cs" />
-    <Compile Include="Geometry\Point2DTest.cs" />
-    <Compile Include="Geometry\Polygon2DSplitConvexTest.cs" />
-    <Compile Include="Geometry\Polygon2DTest.cs" />
-    <Compile Include="Geometry\Vector2DTest.cs" />
     <Compile Include="GraphTest.cs" />
     <Compile Include="Algorithm\DepthFirstSearchTest.cs" />
     <Compile Include="Algorithm\DijkstraTest.cs" />
@@ -103,7 +93,6 @@
     <Compile Include="Layout\NetworkSimplexTests.cs" />
     <Compile Include="Layout\SugiyamaTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Algorithm\SimplexTest.cs" />
     <Compile Include="TestData.cs" />
   </ItemGroup>
   <ItemGroup>
