@@ -31,7 +31,7 @@ namespace GraphLight.Converters
 
             var grp = new GeometryGroup();
             for (var i = 0; i < points.Count - 1; i++)
-                grp.Children.Add(new LineGeometry { StartPoint = points[i], EndPoint = points[i + 1] });
+                grp.Children.Add(new LineGeometry { StartPoint = points[i].ToPoint(), EndPoint = points[i + 1].ToPoint() });
 
             var p1 = points[points.Count - 1];
             var p2 = points[points.Count - 2];
@@ -41,14 +41,14 @@ namespace GraphLight.Converters
             var arr = p1 + v * k;
             var l1 = new LineGeometry
             {
-                StartPoint = p1,
-                EndPoint = arr,
+                StartPoint = p1.ToPoint(),
+                EndPoint = arr.ToPoint(),
                 Transform = new RotateTransform { Angle = ArrowAngle, CenterX = p1.X, CenterY = p1.Y }
             };
             var l2 = new LineGeometry
             {
-                StartPoint = p1,
-                EndPoint = arr,
+                StartPoint = p1.ToPoint(),
+                EndPoint = arr.ToPoint(),
                 Transform = new RotateTransform { Angle = -ArrowAngle, CenterX = p1.X, CenterY = p1.Y }
             };
             grp.Children.Add(l1);

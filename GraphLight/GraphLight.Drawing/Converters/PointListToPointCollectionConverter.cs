@@ -16,7 +16,7 @@ namespace GraphLight.Converters
             if (points == null)
                 return null;
             var pointCollection = new PointCollection();
-            points.Iter(x => pointCollection.Add(x));
+            points.Iter(x => pointCollection.Add(x.ToPoint()));
             return pointCollection;
         }
 

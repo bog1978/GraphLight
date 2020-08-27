@@ -5,9 +5,6 @@ namespace GraphLight
 {
     public static class Point2DExtensions
     {
-        public static Point ToPoint(this Point2D point2D)
-        {
-            return new Point(point2D.X, point2D.Y);
-        }
+        public static Point ToPoint(this Point2D point2D) => new Point(point2D.X, point2D.Y);
     }
 }
