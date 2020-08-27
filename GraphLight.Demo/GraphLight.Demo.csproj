@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GraphLight.Core\GraphLight.Core.csproj" />
-    <ProjectReference Include="..\GraphLight.Drawing\GraphLight.csproj" />
+    <ProjectReference Include="..\GraphLight\GraphLight.csproj" />
   </ItemGroup>
 
   <ItemGroup>

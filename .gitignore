@@ -29,5 +29,5 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.svclog
 *.dbmdl
-/*/packages/
-/*/.vs/
+packages/
+.vs/
