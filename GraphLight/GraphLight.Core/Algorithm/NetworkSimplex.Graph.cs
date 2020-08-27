@@ -4,7 +4,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    partial class NetworkSimplex
+    public partial class NetworkSimplex
     {
         #region Nested type: Edge
 

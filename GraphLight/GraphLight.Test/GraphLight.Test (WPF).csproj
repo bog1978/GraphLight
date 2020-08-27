@@ -113,6 +113,10 @@
     <Content Include="AuthoringTests.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GraphLight.Core\GraphLight.Core.csproj">
+      <Project>{55e503c0-1974-428e-9a9d-7213bbc56ff6}</Project>
+      <Name>GraphLight.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphLight.Demo\GraphLight.Demo %28WPF%29.csproj">
       <Project>{2ab7c669-b3ad-4530-932f-6c4abe1cd00d}</Project>
       <Name>GraphLight.Demo %28WPF%29</Name>

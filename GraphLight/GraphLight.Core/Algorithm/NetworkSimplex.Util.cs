@@ -5,7 +5,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    partial class NetworkSimplex
+    public partial class NetworkSimplex
     {
         private static Graph makeRootedGraph(ICollection<Vertex> vertices, ICollection<Edge> edges)
         {
