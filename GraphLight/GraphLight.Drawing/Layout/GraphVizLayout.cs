@@ -20,10 +20,10 @@ namespace GraphLight.Layout
                 NodeMeasure.Measure(vertex);
 
             Acyclic();
-            RankVerteces();
+            RankVertices();
             addTmpNodes();
-            OrderVerteces();
-            ArrangeVerteces();
+            OrderVertices();
+            ArrangeVertices();
             RouteEdges();
 
             weights.Restore((e, x) => e.Weight = x);
@@ -39,13 +39,13 @@ namespace GraphLight.Layout
                 e.Revert();
         }
 
-        protected virtual void RankVerteces()
+        protected virtual void RankVertices()
         {
             var alg = new RankNetworkSimplex(Graph);
             alg.Execute();
         }
 
-        protected virtual void ArrangeVerteces()
+        protected virtual void ArrangeVertices()
         {
             setTopPositions();
             setLeftPositions();

@@ -4,7 +4,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    internal static class EdgeExtensions
+    public static class EdgeExtensions
     {
         public static bool Cross(this IEdge edge, IEdge otherEdge)
         {

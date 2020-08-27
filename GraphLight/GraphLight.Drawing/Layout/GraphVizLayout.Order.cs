@@ -8,7 +8,7 @@ namespace GraphLight.Layout
 {
     partial class GraphVizLayout
     {
-        protected virtual void OrderVerteces()
+        protected virtual void OrderVertices()
         {
             nodeOrderDfs();
             nodeOrderMinCross();

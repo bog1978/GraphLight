@@ -36,7 +36,7 @@ namespace GraphLight.Drawing
             }
             else
             {
-                fillVerteces();
+                fillVertices();
                 fillEdges();
             }
         }
@@ -213,7 +213,7 @@ namespace GraphLight.Drawing
             _elementMap.Clear();
         }
 
-        protected void fillVerteces()
+        protected void fillVertices()
         {
             if (_graphPanel == null || Graph == null)
                 return;

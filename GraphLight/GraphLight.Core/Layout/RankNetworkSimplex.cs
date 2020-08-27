@@ -5,7 +5,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    internal class RankNetworkSimplex : NetworkSimplex
+    public class RankNetworkSimplex : NetworkSimplex
     {
         private readonly IGraph _graph;
         private Dictionary<IVertex, Vertex> _vertexMap;

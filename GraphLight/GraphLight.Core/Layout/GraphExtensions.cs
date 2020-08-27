@@ -5,7 +5,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    internal static class GraphExtensions
+    public static class GraphExtensions
     {
         public static IEnumerable<List<IVertex>> GetRankList(this IGraph graph)
         {

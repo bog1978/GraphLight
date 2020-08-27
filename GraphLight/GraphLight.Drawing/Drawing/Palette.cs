@@ -25,7 +25,7 @@ namespace GraphLight.Drawing
             if (!_isLoaded || Graph == null)
                 return;
             clearAllItems();
-            fillVerteces();
+            fillVertices();
             Graph.Width = Graph.Vertices.Max(x => x.Width);
             Graph.Height = Graph.Vertices.Sum(x => x.Height);
             var top = 0.0;

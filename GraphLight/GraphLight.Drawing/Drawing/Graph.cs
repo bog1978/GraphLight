@@ -66,7 +66,7 @@ namespace GraphLight.Drawing
             if (!_isLoaded || Graph == null)
                 return;
             clearAllItems();
-            fillVerteces();
+            fillVertices();
             _layout.Graph = Graph;
             _layout.NodeMeasure = _measure;
             _layout.Layout();

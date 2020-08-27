@@ -5,7 +5,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    internal class PositionNetworkSimplex : NetworkSimplex
+    public class PositionNetworkSimplex : NetworkSimplex
     {
         private const int H_SPACE = 30;
         private readonly IGraph _graph;
