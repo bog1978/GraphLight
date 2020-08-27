@@ -30,10 +30,10 @@
             </TabControl.Items>
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button x:Name="btnOpen" Content="Open File" Click="btnOpenClick" Margin="5" />
-            <Button x:Name="btnLayout" Content="Layout" Margin="5"
+            <Button x:Name="btnOpen" VerticalAlignment="Center" Content="Open File" Click="btnOpenClick" Margin="5" />
+            <Button x:Name="btnLayout" VerticalAlignment="Center" Content="Layout" Margin="5"
                     Command="{Binding Path=LayoutCommand, ElementName=ctrlGraph}" />
-            <ComboBox x:Name="cbExamples" ItemsSource="{Binding ExampleCollection}"
+            <ComboBox x:Name="cbExamples" VerticalAlignment="Center" ItemsSource="{Binding ExampleCollection}"
                     SelectedItem="{Binding SelectedExample, Mode=TwoWay}" />
         </StackPanel>
     </Grid>
