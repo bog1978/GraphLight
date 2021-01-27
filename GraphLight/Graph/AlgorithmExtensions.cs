@@ -6,10 +6,10 @@ namespace GraphLight.Graph
 {
     public static class AlgorithmExtensions
     {
-        public static void TraverseOutEdgesBfs<TVertex, TEdge>(this BaseGraph<TVertex, TEdge>.Vertex vertex, Action<BaseGraph<TVertex, TEdge>.Vertex> callback)
+        public static void TraverseOutEdgesBfs<V, E>(this IVertex<V, E> vertex, Action<IVertex<V, E>> callback)
         {
-            var map = new Dictionary<BaseGraph<TVertex, TEdge>.Vertex, VertexColor>();
-            var q = new Queue<BaseGraph<TVertex, TEdge>.Vertex>(new[] { vertex });
+            var map = new Dictionary<IVertex<V, E>, VertexColor>();
+            var q = new Queue<IVertex<V, E>>(new[] { vertex });
             while (q.Any())
             {
                 var v = q.Dequeue();

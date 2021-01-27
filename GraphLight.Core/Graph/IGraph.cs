@@ -18,4 +18,9 @@ namespace GraphLight.Graph
         IEdge AddEdge(object src, object dst);
         IEdge AddEdge(object src, object dst, object data);
     }
+
+    public interface IGraph<V,E> : IGraph
+    {
+
+    }
 }

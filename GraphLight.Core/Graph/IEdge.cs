@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using GraphLight.Geometry;
 
 namespace GraphLight.Graph
@@ -24,5 +25,12 @@ namespace GraphLight.Graph
         void UpdateDstPort();
         void RaisePointsChanged();
         IDisposable DeferRefresh();
+    }
+
+    public interface IEdge<V, E> : IEdge
+    {
+        new E Data { get; }
+        new IVertex<V, E> Src { get; set; }
+        new IVertex<V, E> Dst { get; set; }
     }
 }

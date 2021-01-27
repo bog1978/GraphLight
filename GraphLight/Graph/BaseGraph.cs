@@ -10,7 +10,7 @@ using GraphLight.Layout;
 
 namespace GraphLight.Graph
 {
-    public abstract class BaseGraph<V, E> : BaseViewModel, IGraph
+    public abstract class BaseGraph<V, E> : BaseViewModel, IGraph<V, E>
     {
         private readonly IDictionary<V, Vertex> _map = new Dictionary<V, Vertex>();
         private readonly ObservableCollection<Edge> _edges = new ObservableCollection<Edge>();
@@ -158,7 +158,7 @@ namespace GraphLight.Graph
 
         protected abstract E CreateEdgeData();
 
-        public class Vertex : BaseViewModel, IVertex
+        public class Vertex : BaseViewModel, IVertex<V, E>
         {
             private readonly ObservableCollection<Edge> _edges = new ObservableCollection<Edge>();
             private readonly ObservableCollection<Edge> _inEdges = new ObservableCollection<Edge>();
@@ -305,13 +305,21 @@ namespace GraphLight.Graph
 
             public IEnumerable<Edge> SelfEdges => _selfEdges;
 
-            IEnumerable<IEdge> IVertex.Edges => Edges;
+            IEnumerable<IEdge> IVertex.Edges => _edges;
 
-            IEnumerable<IEdge> IVertex.InEdges => InEdges;
+            IEnumerable<IEdge> IVertex.InEdges => _inEdges;
 
-            IEnumerable<IEdge> IVertex.OutEdges => OutEdges;
+            IEnumerable<IEdge> IVertex.OutEdges => _outEdges;
 
-            IEnumerable<IEdge> IVertex.SelfEdges => SelfEdges;
+            IEnumerable<IEdge> IVertex.SelfEdges => _selfEdges;
+
+            IEnumerable<IEdge<V, E>> IVertex<V, E>.Edges => _edges;
+
+            IEnumerable<IEdge<V, E>> IVertex<V, E>.InEdges => _inEdges;
+
+            IEnumerable<IEdge<V, E>> IVertex<V, E>.OutEdges => _outEdges;
+
+            IEnumerable<IEdge<V, E>> IVertex<V, E>.SelfEdges => _selfEdges;
 
             public void Update()
             {
@@ -391,7 +399,7 @@ namespace GraphLight.Graph
             public override int GetHashCode() => Data.GetHashCode();
         }
 
-        public class Edge : BaseViewModel, IEdge
+        public class Edge : BaseViewModel, IEdge<V, E>
         {
             private Vertex _src;
             private Vertex _dst;
@@ -508,18 +516,6 @@ namespace GraphLight.Graph
                 set => SetProperty(ref _category, value);
             }
 
-            IVertex IEdge.Src
-            {
-                get => Src;
-                set => Src = (Vertex)value;
-            }
-
-            IVertex IEdge.Dst
-            {
-                get => Dst;
-                set => Dst = (Vertex)value;
-            }
-
             object IElement.Data => Data;
 
             public E Data
@@ -556,11 +552,35 @@ namespace GraphLight.Graph
                 }
             }
 
+            IVertex IEdge.Src
+            {
+                get => Src;
+                set => Src = (Vertex)value;
+            }
+
+            IVertex IEdge.Dst
+            {
+                get => Dst;
+                set => Dst = (Vertex)value;
+            }
+
+            IVertex<V, E> IEdge<V, E>.Src
+            {
+                get => Src;
+                set => Src = (Vertex)value;
+            }
+
+            IVertex<V, E> IEdge<V, E>.Dst
+            {
+                get => Dst;
+                set => Dst = (Vertex)value;
+            }
+
             internal event EventHandler<EdgeChangedEventArgs> EdgeChanged;
 
             public override string ToString() => $"{Src} -> {Dst}: {Data}";
 
-            private void OnEdgeChanged(Vertex oldVertex, Vertex newVertex) => 
+            private void OnEdgeChanged(Vertex oldVertex, Vertex newVertex) =>
                 EdgeChanged?.Invoke(this, new EdgeChangedEventArgs(oldVertex, newVertex));
 
             private void pointsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

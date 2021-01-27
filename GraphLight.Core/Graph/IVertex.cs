@@ -23,4 +23,13 @@ namespace GraphLight.Graph
         IEnumerable<IEdge> SelfEdges { get; }
         void Update();
     }
+
+    public interface IVertex<V,E> : IVertex
+    {
+        new IEnumerable<IEdge<V, E>> Edges { get; }
+        new IEnumerable<IEdge<V, E>> InEdges { get; }
+        new IEnumerable<IEdge<V, E>> OutEdges { get; }
+        new IEnumerable<IEdge<V, E>> SelfEdges { get; }
+        new V Data { get; }
+    }
 }
