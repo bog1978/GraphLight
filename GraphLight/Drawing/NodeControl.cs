@@ -4,11 +4,11 @@ using System.Windows.Input;
 
 namespace GraphLight.Drawing
 {
-    public class Node : ContentControl
+    public class NodeControl : ContentControl
     {
-        public Node()
+        public NodeControl()
         {
-            DefaultStyleKey = typeof(Node);
+            DefaultStyleKey = typeof(NodeControl);
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
@@ -26,7 +26,7 @@ namespace GraphLight.Drawing
         #region IsSelected
 
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty
-            .Register("IsSelected", typeof(bool), typeof(Node), null);
+            .Register("IsSelected", typeof(bool), typeof(NodeControl), null);
 
         public bool IsSelected
         {
@@ -39,7 +39,7 @@ namespace GraphLight.Drawing
         #region IsHighlighted
 
         public static readonly DependencyProperty IsHighlightedProperty = DependencyProperty
-            .Register("IsHighlighted", typeof(bool), typeof(Node), null);
+            .Register("IsHighlighted", typeof(bool), typeof(NodeControl), null);
 
         public bool IsHighlighted
         {

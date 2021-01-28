@@ -1,0 +1,53 @@
+﻿<Window
+    x:Class="GraphLight.DemoWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight"
+    Title="Window1"
+    Loaded="userControlLoaded"
+    WindowState="Maximized">
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl
+            x:Name="tabCtrl"
+            Background="Transparent"
+            SelectedIndex="{Binding TabIndex, Mode=TwoWay}">
+            <TabControl.Items>
+                <TabItem Header="Graph">
+                    <Drawing:GraphControl
+                        x:Name="ctrlGraph"
+                        Grid.Column="1"
+                        Graph="{Binding Graph, Mode=TwoWay}"
+                        VertexTemplateDictionary="{StaticResource vertexTemplateDictionary}" />
+                </TabItem>
+                <TabItem x:Name="tiText" Header="Text">
+                    <ScrollViewer>
+                        <TextBox x:Name="tbText" Text="{Binding GraphDefinition}" />
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl.Items>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button
+                x:Name="btnOpen"
+                Margin="5"
+                VerticalAlignment="Center"
+                Click="btnOpenClick"
+                Content="Open File" />
+            <Button
+                x:Name="btnLayout"
+                Margin="5"
+                VerticalAlignment="Center"
+                Command="{Binding Path=LayoutCommand, ElementName=ctrlGraph}"
+                Content="Layout" />
+            <ComboBox
+                x:Name="cbExamples"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding ExampleCollection}"
+                SelectedItem="{Binding SelectedExample, Mode=TwoWay}" />
+        </StackPanel>
+    </Grid>
+</Window>

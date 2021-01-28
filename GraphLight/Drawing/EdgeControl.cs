@@ -4,11 +4,11 @@ using System.Windows.Input;
 
 namespace GraphLight.Drawing
 {
-    public class Edge : ContentControl
+    public class EdgeControl : ContentControl
     {
-        public Edge()
+        public EdgeControl()
         {
-            DefaultStyleKey = typeof (Edge);
+            DefaultStyleKey = typeof (EdgeControl);
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
@@ -26,7 +26,7 @@ namespace GraphLight.Drawing
         #region IsSelected
 
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty
-            .Register("IsSelected", typeof(bool), typeof(Edge), null);
+            .Register("IsSelected", typeof(bool), typeof(EdgeControl), null);
 
         public bool IsSelected
         {
@@ -39,7 +39,7 @@ namespace GraphLight.Drawing
         #region IsHighlighted
 
         public static readonly DependencyProperty IsHighlightedProperty = DependencyProperty
-            .Register("IsHighlighted", typeof(bool), typeof(Edge), null);
+            .Register("IsHighlighted", typeof(bool), typeof(EdgeControl), null);
 
         public bool IsHighlighted
         {

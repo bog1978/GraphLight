@@ -447,9 +447,9 @@ namespace GraphLight.Graph
                 set => SetProperty(ref _isRevert, value);
             }
 
-            int IEdge.DstPointIndex { get; set; }
+            public int DstPointIndex { get; set; }
 
-            IList<Point2D> IEdge.PolygonPoints { get; set; }
+            public IList<Point2D> PolygonPoints { get; set; }
 
             public IList<Point2D> Points
             {
