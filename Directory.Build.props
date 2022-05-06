@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<!--Здесь должны быть общие настройки-->
+
+	<!-- C# configuration -->
+	<PropertyGroup>
+		<TargetFramework>net452</TargetFramework>
+		<LangVersion>8</LangVersion>
+		<Version>0.1.0.0</Version>
+		<RootNamespace>GraphLight</RootNamespace>
+	</PropertyGroup>
+
+</Project>

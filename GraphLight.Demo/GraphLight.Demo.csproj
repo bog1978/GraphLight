@@ -2,37 +2,15 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net452</TargetFramework>
     <UseWPF>true</UseWPF>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AssemblyName>GraphLight.Demo</AssemblyName>
-    <RootNamespace>GraphLight</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\GraphLight.Core\GraphLight.Core.csproj" />
     <ProjectReference Include="..\GraphLight\GraphLight.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Examples\**\*.graph" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Parser\Graph.atg">
-      <Generator>CocoFileGenerator</Generator>
-      <LastGenOutput>Graph.log</LastGenOutput>
-    </None>
-    <None Include="Parser\Parser.frame">
-      <DependentUpon>Graph.atg</DependentUpon>
-    </None>
-    <None Include="Parser\Scanner.frame">
-      <DependentUpon>Graph.atg</DependentUpon>
-    </None>
   </ItemGroup>
 
 </Project>

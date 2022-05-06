@@ -2,11 +2,11 @@
 
 namespace GraphLight
 {
-    public partial class Window1
+    public partial class Window
     {
         private readonly DemoViewModel _viewModel = new DemoViewModel();
 
-        public Window1()
+        public Window()
         {
             InitializeComponent();
         }
