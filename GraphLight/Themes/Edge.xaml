@@ -5,7 +5,7 @@
         xmlns:Converters="clr-namespace:GraphLight.Converters"
         xmlns:Drawing="clr-namespace:GraphLight.Drawing">
 
-    <ControlTemplate x:Key="edgeTemplate" TargetType="Drawing:Edge">
+    <ControlTemplate x:Key="edgeTemplate" TargetType="{x:Type Drawing:Edge}">
         <Grid Background="{x:Null}">
             <Grid.Resources>
                 <Converters:PointsToQuadraticBezierConverter x:Key="bezierConverter" />
