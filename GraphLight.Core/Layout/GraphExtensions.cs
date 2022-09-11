@@ -32,10 +32,10 @@ namespace GraphLight.Layout
         /// Makes graph acyclic by reversing some edges.
         /// </summary>
         /// <param name="graph"></param>
-        public static void Acyclic(this IGraph graph)
+        public static void Acyclic<V, E>(this IGraph<V, E> graph)
         {
-            var backEdges = new List<IEdge>();
-            var dfs = new DepthFirstSearch(graph);
+            var backEdges = new List<IEdge<V, E>>();
+            var dfs = graph.DepthFirstSearch();
             dfs.OnBackEdge = backEdges.Add;
             dfs.Find();
             foreach (var e in backEdges)

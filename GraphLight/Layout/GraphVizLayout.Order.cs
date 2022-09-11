@@ -6,7 +6,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    partial class GraphVizLayout
+    partial class GraphVizLayout<V, E>
     {
         protected virtual void OrderVertices()
         {
@@ -20,16 +20,18 @@ namespace GraphLight.Layout
 
         private void nodeOrderDfs()
         {
-            // Все узлы белые
-            _nodeColors = Graph.Vertices.ToDictionary(x => x, x => -1);
+            var g = (IGraph)Graph;
 
-            foreach (var node in Graph.Vertices.Where(node => _nodeColors[node] == -1))
+            // Все узлы белые
+            _nodeColors = g.Vertices.ToDictionary(x => x, x => -1);
+
+            foreach (var node in g.Vertices.Where(node => _nodeColors[node] == -1))
             {
                 dfs(node);
                 _nodeColors[node] = 1;
             }
 
-            var ranks = Graph.GetRankList();
+            var ranks = g.GetRankList();
             foreach (var rank in ranks)
                 for (var i = 0; i < rank.Count; i++)
                     rank[i].Position = i;
@@ -48,7 +50,9 @@ namespace GraphLight.Layout
 
         private void nodeOrderSort()
         {
-            var ranks = Graph.GetRankList();
+            var g = (IGraph)Graph;
+
+            var ranks = g.GetRankList();
 
             var L = 0;
             for (var cnt = 0; cnt < 25; cnt++)
@@ -137,14 +141,16 @@ namespace GraphLight.Layout
 
         private void nodeOrderMinCross()
         {
+            var g = (IGraph)Graph;
+
             var ranks =
-                from node in Graph.Vertices
+                from node in g.Vertices
                 orderby node.Rank, node.Position
                 group node by node.Rank
                     into rank
-                    select rank.ToList();
+                select rank.ToList();
 
-            var bestPositions = Graph.Vertices.ToDictionary(x => x, x => x.Position);
+            var bestPositions = g.Vertices.ToDictionary(x => x, x => x.Position);
             var bestCrossing = double.MaxValue;
             var bestLenght = double.MaxValue;
 
@@ -162,11 +168,11 @@ namespace GraphLight.Layout
                 });
 
                 var currCrossing = ranks.Sum(x => rankCross(x));
-                var currLength = Graph.Edges.Sum(e => e.PositionSpan() * e.PositionSpan());
+                var currLength = g.Edges.Sum(e => e.PositionSpan() * e.PositionSpan());
 
                 if (currCrossing < bestCrossing || currCrossing == bestCrossing && currLength < bestLenght)
                 {
-                    bestPositions = Graph.Vertices.ToDictionary(x => x, x => x.Position);
+                    bestPositions = g.Vertices.ToDictionary(x => x, x => x.Position);
                     bestCrossing = currCrossing;
                     bestLenght = currLength;
                     i = 0;

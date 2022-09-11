@@ -12,7 +12,7 @@ namespace GraphLight.Prefomance
         protected override void RankingSimplexTest()
         {
             var graph = TestData.GraphToTest;
-            graph.Acyclic();
+            ((IGraph<object, object>)graph).Acyclic();
             var alg = new RankNetworkSimplex(graph);
             alg.Execute();
         }

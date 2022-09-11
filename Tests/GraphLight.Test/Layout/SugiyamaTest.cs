@@ -20,7 +20,7 @@ namespace GraphLight.Test.Layout
             var bc = graph.AddEdge(b.Data, c.Data);
             var ca = graph.AddEdge(c.Data, a.Data);
             var ba = graph.AddEdge(b.Data, a.Data);
-            var alg = new SugiyamaLayout(graph);
+            var alg = new SugiyamaLayout<object, object>(graph);
             alg.Layout();
         }
     }

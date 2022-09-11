@@ -3,7 +3,6 @@ using GraphLight.Drawing;
 using GraphLight.Graph;
 using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GraphVizLayout = GraphLight.Layout.GraphVizLayout;
 
 namespace GraphLight.Test
 {
@@ -49,9 +48,9 @@ namespace GraphLight.Test
             graph.AddEdge("A", "B");
             graph.AddEdge("B", "C");
             graph.AddEdge("A", "C");
-            var engine = new GraphVizLayout
+            var engine = new GraphVizLayout<object, object>
                 {
-                    NodeMeasure = new NodeMeasure(),
+                    NodeMeasure = new NodeMeasure<object, object>(),
                     Graph = graph
                 };
             engine.Layout();
@@ -65,9 +64,9 @@ namespace GraphLight.Test
             graph.AddEdge("B", "C");
             graph.AddEdge("C", "D");
             graph.AddEdge("D", "A");
-            var engine = new GraphVizLayout
-                {
-                    NodeMeasure = new NodeMeasure(),
+            var engine = new GraphVizLayout<object, object>
+            {
+                    NodeMeasure = new NodeMeasure<object, object>(),
                     Graph = graph
                 };
             engine.Layout();

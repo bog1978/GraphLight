@@ -8,6 +8,7 @@ namespace GraphLight.Graph
         private IVertex<V, E> _dst;
         private E _data;
         private double _weight = 1;
+        private bool _isRevert;
 
         public E Data
         {
@@ -21,6 +22,11 @@ namespace GraphLight.Graph
             set => SetProperty(ref _weight, value);
         }
 
+        public bool IsRevert
+        {
+            get => _isRevert;
+            set => SetProperty(ref _isRevert, value);
+        }
 
         public IVertex<V, E> Src
         {

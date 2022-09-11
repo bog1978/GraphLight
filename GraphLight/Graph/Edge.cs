@@ -13,7 +13,6 @@ namespace GraphLight.Graph
         private string _color;
         private IList<Point2D> _draggablePoints;
         private bool _isHighlighted;
-        private bool _isRevert;
         private bool _isSelected;
         private IList<Point2D> _points;
         private double _thickness;
@@ -38,12 +37,6 @@ namespace GraphLight.Graph
         }
 
         public string StrokeBrush => Color;
-
-        public bool IsRevert
-        {
-            get => _isRevert;
-            set => SetProperty(ref _isRevert, value);
-        }
 
         int IEdge.DstPointIndex { get; set; }
 

@@ -6,7 +6,6 @@ using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using GraphLight.Parser;
-using GraphVizLayout = GraphLight.Layout.GraphVizLayout;
 
 namespace GraphLight.Test.Layout
 {
@@ -65,7 +64,7 @@ namespace GraphLight.Test.Layout
                 IGraph graph;
                 using (var stream = lazy.Value)
                     graph = GraphHelper.ReadFromFile(stream);
-                graph.Acyclic();
+                ((IGraph<object, object>)graph).Acyclic();
                 var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Rank);
                 var alg = new RankNetworkSimplex(graph);
 
@@ -87,10 +86,10 @@ namespace GraphLight.Test.Layout
 
                 using (var f1 = File.Create("d:\\temp\\out0.graph"))
                     graph.WriteToFile(f1);
-                var engine = new GraphVizLayout
-                    {
-                        NodeMeasure = new NodeMeasure(),
-                        Graph = graph
+                var engine = new GraphVizLayout<object, object>
+                {
+                        NodeMeasure = new NodeMeasure<object, object>(),
+                        Graph = (IGraph<object, object>)graph
                     };
 
                 // First layout works fine

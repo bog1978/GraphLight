@@ -7,7 +7,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    public partial class GraphVizLayout : GraphLayout
+    public partial class GraphVizLayout<V, E> : GraphLayout<V, E>
     {
         private const double V_SPACE = 50;
         private const double H_SPACE = 30;
@@ -31,32 +31,34 @@ namespace GraphLight.Layout
 
         protected virtual void Acyclic()
         {
-            var backEdges = new List<IEdge>();
-            var dfs = new DepthFirstSearch(Graph);
+            var backEdges = new List<IEdge<V, E>>();
+            var dfs = Graph.DepthFirstSearch();
             dfs.OnBackEdge += backEdges.Add;
             dfs.Find();
-            foreach (var e in backEdges)
+            foreach (var e in backEdges.Cast<IEdge>())
                 e.Revert();
         }
 
         protected virtual void RankVertices()
         {
-            var alg = new RankNetworkSimplex(Graph);
+            var alg = new RankNetworkSimplex((IGraph)Graph);
             alg.Execute();
         }
 
         protected virtual void ArrangeVertices()
         {
+            var g = (IGraph)Graph;
             setTopPositions();
             setLeftPositions();
-            Graph.Width = Graph.Vertices.Min(x => x.Left) + Graph.Vertices.Max(x => x.Right);
-            Graph.Height = Graph.Vertices.Min(x => x.Top) + Graph.Vertices.Max(x => x.Bottom);
+            g.Width = g.Vertices.Min(x => x.Left) + g.Vertices.Max(x => x.Right);
+            g.Height = g.Vertices.Min(x => x.Top) + g.Vertices.Max(x => x.Bottom);
         }
 
         private void setTopPositions()
         {
+            var g = (IGraph)Graph;
             var rows =
-                (from node in Graph.Vertices
+                (from node in g.Vertices
                  group node by node.Rank
                      into row
                      let r = row.Key
@@ -64,7 +66,7 @@ namespace GraphLight.Layout
                      select new { r, h })
                     .ToDictionary(x => x.r, x => x.h);
 
-            foreach (var node in Graph.Vertices)
+            foreach (var node in g.Vertices)
             {
                 var rank = node.Rank;
                 var y = (rows[rank] - node.Height) / 2
@@ -79,14 +81,17 @@ namespace GraphLight.Layout
         /// </summary>
         private void setLeftPositions()
         {
-            var alg = new PositionNetworkSimplex(Graph);
+            var g = (IGraph)Graph;
+            var alg = new PositionNetworkSimplex(g);
             alg.Execute();
         }
 
         private void addTmpNodes()
         {
+            var g = (IGraph)Graph;
+
             var edgesToSplit =
-                from e in Graph.Edges
+                from e in g.Edges
                 where Math.Abs(e.Dst.Rank - e.Src.Rank) > 1
                 select e;
 
@@ -97,7 +102,7 @@ namespace GraphLight.Layout
                 var increment = Math.Sign(distance);
                 for (var rankShift = increment; rankShift != distance; rankShift += increment)
                 {
-                    var newNode = Graph.InsertControlPoint(edge1);
+                    var newNode = g.InsertControlPoint(edge1);
                     //newNode.Id = "mid_" + newNode.Id;
                     newNode.IsTmp = true;
                     newNode.Rank = edge.Src.Rank + rankShift;
@@ -105,7 +110,7 @@ namespace GraphLight.Layout
                 }
             }
 
-            foreach (var e in Graph.Edges)
+            foreach (var e in g.Edges)
                 e.Weight = e.Src.IsTmp
                     ? (e.Dst.IsTmp ? 8 : 2)
                     : (e.Dst.IsTmp ? 2 : 1);
@@ -113,10 +118,12 @@ namespace GraphLight.Layout
 
         private void removeTmpNodes()
         {
-            var tmpNodes = Graph.Vertices
+            var g = (IGraph)Graph;
+
+            var tmpNodes = g.Vertices
                 .Where(x => x.IsTmp)
                 .ToList();
-            tmpNodes.Iter(x => Graph.RemoveControlPoint(x));
+            tmpNodes.Iter(x => g.RemoveControlPoint(x));
         }
     }
 }

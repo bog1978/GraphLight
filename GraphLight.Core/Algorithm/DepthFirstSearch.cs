@@ -23,48 +23,48 @@ namespace GraphLight.Algorithm
     /// More details can be found here:
     /// http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/depthSearch.htm
     /// </remarks>
-    public class DepthFirstSearch
+    internal class DepthFirstSearch<V, E> : IDepthFirstSearch<V, E>
     {
-        private readonly IGraph _graph;
-        private Dictionary<IVertex, DfsVertexAttr> _attrs;
+        private readonly IGraph<V, E> _graph;
+        private Dictionary<IVertex<V, E>, DfsVertexAttr> _attrs;
         private int _time;
 
-        private Action<IEdge> _onBackEdge = x => { };
-        private Action<IEdge> _onCrossEdge = x => { };
-        private Action<IEdge> _onForwardEdge = x => { };
-        private Action<IVertex> _onNode = x => { };
-        private Action<IEdge> _onTreeEdge = x => { };
+        private Action<IEdge<V, E>> _onBackEdge = x => { };
+        private Action<IEdge<V, E>> _onCrossEdge = x => { };
+        private Action<IEdge<V, E>> _onForwardEdge = x => { };
+        private Action<IVertex<V, E>> _onNode = x => { };
+        private Action<IEdge<V, E>> _onTreeEdge = x => { };
 
-        public DepthFirstSearch(IGraph graph)
+        public DepthFirstSearch(IGraph<V, E> graph)
         {
             _graph = graph;
         }
 
-        public Action<IVertex> OnNode
+        public Action<IVertex<V, E>> OnNode
         {
             get => _onNode;
             set => _onNode = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public Action<IEdge> OnTreeEdge
+        public Action<IEdge<V, E>> OnTreeEdge
         {
             get => _onTreeEdge;
             set => _onTreeEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public Action<IEdge> OnBackEdge
+        public Action<IEdge<V, E>> OnBackEdge
         {
             get => _onBackEdge;
             set => _onBackEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public Action<IEdge> OnForwardEdge
+        public Action<IEdge<V, E>> OnForwardEdge
         {
             get => _onForwardEdge;
             set => _onForwardEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public Action<IEdge> OnCrossEdge
+        public Action<IEdge<V, E>> OnCrossEdge
         {
             get => _onCrossEdge;
             set => _onCrossEdge = value ?? throw new ArgumentNullException(nameof(value));
@@ -78,7 +78,7 @@ namespace GraphLight.Algorithm
                 dfs(node);
         }
 
-        private void dfs(IVertex vertex)
+        private void dfs(IVertex<V, E> vertex)
         {
             OnNode(vertex);
             var srcAttr = _attrs[vertex];

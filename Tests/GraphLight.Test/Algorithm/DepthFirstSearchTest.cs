@@ -154,20 +154,18 @@ namespace GraphLight.Test.Algorithm
             IEnumerable<IEdge<object, object>> backwardExpected,
             IEnumerable<IEdge<object, object>> crossExpected)
         {
-            var nodes = new List<IVertex>();
-            var backward = new List<IEdge>();
-            var forward = new List<IEdge>();
-            var tree = new List<IEdge>();
-            var cross = new List<IEdge>();
+            var nodes = new List<IVertex<object, object>>();
+            var backward = new List<IEdge<object, object>>();
+            var forward = new List<IEdge<object, object>>();
+            var tree = new List<IEdge<object, object>>();
+            var cross = new List<IEdge<object, object>>();
 
-            var alg = new DepthFirstSearch(graph)
-                {
-                    OnNode = nodes.Add,
-                    OnTreeEdge = tree.Add,
-                    OnBackEdge = backward.Add,
-                    OnForwardEdge = forward.Add,
-                    OnCrossEdge = cross.Add
-                };
+            var alg = graph.DepthFirstSearch();
+            alg.OnNode = nodes.Add;
+            alg.OnTreeEdge = tree.Add;
+            alg.OnBackEdge = backward.Add;
+            alg.OnForwardEdge = forward.Add;
+            alg.OnCrossEdge = cross.Add;
 
             alg.Find();
             CollectionAssert.AreEqual(nodesExpected.ToList(), nodes, "Wrong nodes collection");

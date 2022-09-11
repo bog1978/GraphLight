@@ -13,8 +13,8 @@ namespace GraphLight.Drawing
     {
         #region Private fields
 
-        private readonly GraphVizLayout _layout;
-        private readonly DummyNodeMeasure _measure;
+        private readonly GraphVizLayout<object, object> _layout;
+        private readonly DummyNodeMeasure<object, object> _measure;
         private readonly GraphTool _edgeDrawingTool;
         private readonly GraphTool _edgeTool;
         private readonly GraphTool _vertexTool;
@@ -29,8 +29,8 @@ namespace GraphLight.Drawing
         public GraphControl()
         {
             DefaultStyleKey = typeof(GraphControl);
-            _measure = new DummyNodeMeasure();
-            _layout = new GraphVizLayout { NodeMeasure = _measure };
+            _measure = new DummyNodeMeasure<object, object>();
+            _layout = new GraphVizLayout<object, object> { NodeMeasure = _measure };
             _edgeDrawingTool = new DrawEdgeTool(this);
             _edgeTool = new EdgeTool(this);
             _vertexTool = new VertexTool(this);
@@ -67,7 +67,7 @@ namespace GraphLight.Drawing
                 return;
             clearAllItems();
             fillVertices();
-            _layout.Graph = Graph;
+            _layout.Graph = (IGraph<object, object>)Graph;
             _layout.NodeMeasure = _measure;
             _layout.Layout();
             shift();
@@ -118,11 +118,11 @@ namespace GraphLight.Drawing
         #region SelectedEdge
 
         public static readonly DependencyProperty SelectedEdgeProperty = DependencyProperty.Register(
-            "SelectedEdge", typeof (IEdge), typeof (GraphControl), new PropertyMetadata(default(IEdge)));
+            "SelectedEdge", typeof(IEdge), typeof(GraphControl), new PropertyMetadata(default(IEdge)));
 
         public IEdge SelectedEdge
         {
-            get => (IEdge) GetValue(SelectedEdgeProperty);
+            get => (IEdge)GetValue(SelectedEdgeProperty);
             private set => SetValue(SelectedEdgeProperty, value);
         }
 
@@ -131,11 +131,11 @@ namespace GraphLight.Drawing
         #region SelectedNode
 
         public static readonly DependencyProperty SelectedNodeProperty = DependencyProperty.Register(
-            "SelectedNode", typeof (IVertex), typeof (GraphControl), new PropertyMetadata(default(IVertex)));
+            "SelectedNode", typeof(IVertex), typeof(GraphControl), new PropertyMetadata(default(IVertex)));
 
         public IVertex SelectedNode
         {
-            get => (IVertex) GetValue(SelectedNodeProperty);
+            get => (IVertex)GetValue(SelectedNodeProperty);
             private set => SetValue(SelectedNodeProperty, value);
         }
 
@@ -144,11 +144,11 @@ namespace GraphLight.Drawing
         #region SelectedElement
 
         public static readonly DependencyProperty SelectedElementProperty = DependencyProperty.Register(
-            "SelectedElement", typeof (IElement), typeof (GraphControl), new PropertyMetadata(onSelectedElementPropertyChanged));
+            "SelectedElement", typeof(IElement), typeof(GraphControl), new PropertyMetadata(onSelectedElementPropertyChanged));
 
         public IElement SelectedElement
         {
-            get => (IElement) GetValue(SelectedElementProperty);
+            get => (IElement)GetValue(SelectedElementProperty);
             set => SetValue(SelectedElementProperty, value);
         }
 
@@ -256,7 +256,7 @@ namespace GraphLight.Drawing
 
         private void onDropInfo(IDragDropOptions options)
         {
-            if(_currentTool != null)
+            if (_currentTool != null)
                 _currentTool.HandleDropInfo(options);
         }
 

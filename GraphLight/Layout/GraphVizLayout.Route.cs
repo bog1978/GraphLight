@@ -9,7 +9,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    partial class GraphVizLayout
+    partial class GraphVizLayout<V, E>
     {
         protected virtual void RouteEdges()
         {
@@ -24,8 +24,10 @@ namespace GraphLight.Layout
 
         private void calculatePolygons()
         {
-            _rankMap = Graph.GetRankMap();
-            Graph.Edges.Iter(calculate);
+            var g = (IGraph)Graph;
+
+            _rankMap = g.GetRankMap();
+            g.Edges.Iter(calculate);
         }
 
         private void calculate(IEdge edge)
@@ -268,7 +270,9 @@ namespace GraphLight.Layout
 
         private void route()
         {
-            foreach (var edge in Graph.Edges)
+            var g = (IGraph)Graph;
+
+            foreach (var edge in g.Edges)
             {
                 List<Point2D> points = null;
                 try
