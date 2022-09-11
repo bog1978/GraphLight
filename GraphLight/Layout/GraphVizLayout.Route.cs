@@ -400,8 +400,8 @@ namespace GraphLight.Layout
             pointGraph.Edges.Iter(x => x.Weight = (x.Dst.Data - x.Src.Data).Len);
 
             var shortestPath = new List<Point2D>();
-            var dijkstra = new UndirectedDijkstra(pointGraph);
-            dijkstra.EnterNode += x => shortestPath.Add((Point2D) x.Data);
+            var dijkstra = pointGraph.UndirectedDijkstra();
+            dijkstra.EnterNode += x => shortestPath.Add(x.Data);
             dijkstra.Find(start, end);
 
             for (var i = shortestPath.Count - 2; i > 0; i--)

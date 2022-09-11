@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GraphLight.Graph
 {
-    public abstract class BaseGraph<V, E> : BaseViewModel
+    public abstract class BaseGraph<V, E> : BaseViewModel, IGraph<V, E>
     {
         private readonly IDictionary<V, IVertex<V, E>> _map = new Dictionary<V, IVertex<V, E>>();
         private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();

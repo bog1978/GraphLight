@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public interface IVertex<TVertexData, TEdgeData>
+    public interface IVertex<TVertexData, TEdgeData> : IBinaryHeapItem<double>
     {
         TVertexData Data { get; }
         IEnumerable<IEdge<TVertexData, TEdgeData>> Edges { get; }

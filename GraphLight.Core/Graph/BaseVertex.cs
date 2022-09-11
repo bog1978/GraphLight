@@ -25,6 +25,10 @@ namespace GraphLight.Graph
 
         public IEnumerable<IEdge<V, E>> SelfEdges => _selfEdges;
 
+        int Collections.IBinaryHeapItem<double>.HeapIndex { get; set; }
+
+        double Collections.IBinaryHeapItem<double>.HeapKey { get; set; }
+
         public void RegisterEdge(IEdge<V, E> edge)
         {
             var collection = edge.Src == this && edge.Dst == this

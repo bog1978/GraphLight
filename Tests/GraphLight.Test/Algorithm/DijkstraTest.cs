@@ -27,10 +27,10 @@ namespace GraphLight.Test.Algorithm
             cd.Weight = 1;
             ad.Weight = 10;
 
-            var vertices = new List<IVertex>();
-            var edges = new List<IEdge>();
+            var vertices = new List<IVertex<object, object>>();
+            var edges = new List<IEdge<object, object>>();
 
-            var alg = new UndirectedDijkstra(graph);
+            var alg = graph.UndirectedDijkstra();
             alg.EnterNode += vertices.Add;
             alg.EnterEdge += edges.Add;
             alg.Find(a, d);
