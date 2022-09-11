@@ -54,11 +54,11 @@ namespace GraphLight.Test.Algorithm
             de.Weight = 9;
             fe.Weight = 10;
 
-            var edges = new List<IEdge>();
+            var edges = new List<IEdge<object, object>>();
 
-            var alg = new PrimSpanningTree(graph, x => x.Weight);
+            var alg = graph.PrimSpanningTree(x => x.Weight);
             alg.EnterEdge += edges.Add;
-            alg.Execute((IVertex)graph.Vertices.First());
+            alg.Execute(graph.Vertices.First());
 
             var sum = edges.Sum(x => x.Weight);
             Assert.AreEqual(sum, 37.0, "Found spanning tree is not mimimal.");

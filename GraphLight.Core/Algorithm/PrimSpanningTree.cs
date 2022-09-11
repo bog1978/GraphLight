@@ -5,25 +5,25 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    public class PrimSpanningTree
+    internal class PrimSpanningTree<V, E> : ISpanningTree<V, E>
     {
-        private readonly IGraph _graph;
-        private readonly Func<IEdge, double> _weightFunc;
-        private Action<IEdge> _enterEdge = x => { };
+        private readonly IGraph<V, E> _graph;
+        private readonly Func<IEdge<V, E>, double> _weightFunc;
+        private Action<IEdge<V, E>> _enterEdge = x => { };
 
-        public PrimSpanningTree(IGraph graph, Func<IEdge, double> weightFunc)
+        public PrimSpanningTree(IGraph<V, E> graph, Func<IEdge<V, E>, double> weightFunc)
         {
             _graph = graph;
             _weightFunc = weightFunc;
         }
 
-        public Action<IEdge> EnterEdge
+        public Action<IEdge<V, E>> EnterEdge
         {
             get => _enterEdge;
             set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public void Execute(IVertex root)
+        public void Execute(IVertex<V, E> root)
         {
             var attrs = _graph.Vertices.ToDictionary(x => x, x => new PrimAttr());
             var i = 0;
@@ -32,7 +32,7 @@ namespace GraphLight.Algorithm
                 item.HeapKey = i == 0 ? 0 : double.MaxValue;
                 i++;
             }
-            var q = new PriorityQueue<double, IVertex>(_graph.Vertices, HeapType.Min);
+            var q = new PriorityQueue<double, IVertex<V, E>>(_graph.Vertices, HeapType.Min);
             while (!q.IsEmpty)
             {
                 var u = q.Dequeue();
@@ -63,7 +63,7 @@ namespace GraphLight.Algorithm
         private class PrimAttr
         {
             public VertexColor Color;
-            public IEdge Parent;
+            public IEdge<V, E> Parent;
 
             public PrimAttr()
             {
