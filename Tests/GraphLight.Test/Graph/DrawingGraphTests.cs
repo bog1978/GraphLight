@@ -90,7 +90,7 @@ namespace GraphLight.Test.Graph
         }
 
         private static void checkEdges(
-            IVertex vertex,
+            IVertex<object, object> vertex,
             ICollection allEdges,
             ICollection inEdges,
             ICollection outEdges,

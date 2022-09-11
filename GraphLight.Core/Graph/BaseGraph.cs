@@ -5,32 +5,30 @@ using System.Linq;
 
 namespace GraphLight.Graph
 {
-    public abstract partial class BaseGraph<TVertex, TEdge, TVertexData, TEdgeData> : BaseViewModel
-        where TVertex : BaseGraph<TVertex, TEdge, TVertexData, TEdgeData>.Vertex, new()
-        where TEdge : BaseGraph<TVertex, TEdge, TVertexData, TEdgeData>.Edge, new()
+    public abstract class BaseGraph<V, E> : BaseViewModel
     {
-        private readonly IDictionary<TVertexData, TVertex> _map = new Dictionary<TVertexData, TVertex>();
-        private readonly ICollection<TEdge> _edges = new ObservableCollection<TEdge>();
-        private readonly ICollection<TVertex> _vertices = new ObservableCollection<TVertex>();
+        private readonly IDictionary<V, IVertex<V, E>> _map = new Dictionary<V, IVertex<V, E>>();
+        private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
+        private readonly ICollection<IVertex<V, E>> _vertices = new ObservableCollection<IVertex<V, E>>();
 
-        public IEnumerable<TVertex> Vertices => _vertices;
+        public IEnumerable<IVertex<V, E>> Vertices => _vertices;
 
-        public IEnumerable<TEdge> Edges => _edges;
+        public IEnumerable<IEdge<V, E>> Edges => _edges;
 
-        public TVertex this[TVertexData key] => _map[key];
+        public IVertex<V, E> this[V key] => _map[key];
 
-        public TVertex AddVertex(TVertexData data)
+        public IVertex<V, E> AddVertex(V data)
         {
             if (!_map.TryGetValue(data, out var vertex))
             {
-                vertex = new TVertex { Data = data };
+                vertex = CreateVertex(data);
                 _vertices.Add(vertex);
                 _map.Add(data, vertex);
             }
             return vertex;
         }
 
-        public void RemoveVertex(TVertex vertex)
+        public void RemoveVertex(IVertex<V, E> vertex)
         {
             if (vertex == null)
                 return;
@@ -41,7 +39,7 @@ namespace GraphLight.Graph
             _map.Remove(vertex.Data);
         }
 
-        public TVertex InsertVertex(TEdge edge, TVertexData vertexData)
+        public IVertex<V, E> InsertVertex(IEdge<V, E> edge, V vertexData)
         {
             if (!Edges.Contains(edge))
                 throw new Exception("Данное ребро не принадлежит графу");
@@ -50,12 +48,12 @@ namespace GraphLight.Graph
             return newEdge.Src;
         }
 
-        public TEdge AddEdge(TVertexData srcData, TVertexData dstData)
+        public IEdge<V, E> AddEdge(V srcData, V dstData)
         {
             return AddEdge(srcData, dstData, CreateEdgeData());
         }
 
-        public TEdge AddEdge(TVertex src, TVertex dst, TEdgeData data = default)
+        public IEdge<V, E> AddEdge(IVertex<V, E> src, IVertex<V, E> dst, E data = default)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -75,18 +73,17 @@ namespace GraphLight.Graph
             return AddEdge(src.Data, dst.Data, data);
         }
 
-        public TEdge AddEdge(TVertexData srcData, TVertexData dstData, TEdgeData data)
+        public IEdge<V, E> AddEdge(V srcData, V dstData, E data)
         {
-            var edge = new TEdge();
+            var edge = CreateEdge(data);
             edge.EdgeChanged += OnEdgeChanged;
-            edge.Data = data;
             edge.Src = AddVertex(srcData);
             edge.Dst = AddVertex(dstData);
             _edges.Add(edge);
             return edge;
         }
 
-        public void RemoveEdge(TEdge edge)
+        public void RemoveEdge(IEdge<V, E> edge)
         {
             _edges.Remove(edge);
             edge.Data = default;
@@ -95,14 +92,18 @@ namespace GraphLight.Graph
             edge.EdgeChanged -= OnEdgeChanged;
         }
 
-        private void OnEdgeChanged(object sender, EdgeChangedEventArgs args)
+        private void OnEdgeChanged(object sender, EdgeChangedEventArgs<V, E> args)
         {
-            args.OldVertex?.UnRegisterEdge((TEdge)sender);
-            args.NewVertex?.RegisterEdge((TEdge)sender);
+            args.OldVertex?.UnRegisterEdge((IEdge<V, E>)sender);
+            args.NewVertex?.RegisterEdge((IEdge<V, E>)sender);
         }
 
-        protected abstract TVertexData CreateVertexData();
+        protected abstract IVertex<V, E> CreateVertex(V data);
 
-        protected abstract TEdgeData CreateEdgeData();
+        protected abstract IEdge<V, E> CreateEdge(E data);
+
+        protected abstract V CreateVertexData();
+
+        protected abstract E CreateEdgeData();
     }
 }

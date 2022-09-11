@@ -4,7 +4,7 @@ using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public class Vertex<TVertex, TEdge> : GraphModelBase<TVertex, TEdge>.Vertex, IVertex
+    public class Vertex<TVertex, TEdge> : BaseVertex<TVertex, TEdge>, IVertex
     {
         private string _category;
         private double _centerX;
@@ -129,19 +129,19 @@ namespace GraphLight.Graph
 
         double IBinaryHeapItem<double>.HeapKey { get; set; }
 
-        IEnumerable<IEdge> IVertex.Edges => Edges;
+        IEnumerable<IEdge> IVertex.Edges => Edges.Cast<IEdge>();
 
-        IEnumerable<IEdge> IVertex.InEdges => InEdges;
+        IEnumerable<IEdge> IVertex.InEdges => InEdges.Cast<IEdge>();
 
-        IEnumerable<IEdge> IVertex.OutEdges => OutEdges;
+        IEnumerable<IEdge> IVertex.OutEdges => OutEdges.Cast<IEdge>();
 
-        IEnumerable<IEdge> IVertex.SelfEdges => SelfEdges;
+        IEnumerable<IEdge> IVertex.SelfEdges => SelfEdges.Cast<IEdge>();
 
         object IElement.Data => Data;
 
         public void Update()
         {
-            foreach (var e in Edges)
+            foreach (var e in Edges.Cast<IEdge>())
             {
                 var pts = e.Points;
                 using (e.DeferRefresh())

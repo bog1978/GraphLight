@@ -3,12 +3,14 @@ using System.Linq;
 
 namespace GraphLight.Graph
 {
-    public abstract class GraphModelBase<TVertex, TEdge> : BaseGraph<Vertex<TVertex, TEdge>, Edge<TVertex, TEdge>, TVertex, TEdge>, IGraph
+    public abstract class GraphModelBase<TVertex, TEdge> : BaseGraph<TVertex, TEdge>, IGraph
     {
         private double _width;
         private double _height;
 
-        public IEnumerable<IElement> Elements => Vertices.OfType<IElement>().Union(Edges);
+        public IEnumerable<IElement> Elements => Enumerable.Union(
+            Vertices.Cast<IElement>(),
+            Edges.Cast<IElement>());
 
         public double Width
         {
@@ -22,24 +24,24 @@ namespace GraphLight.Graph
             set => SetProperty(ref _height, value);
         }
 
-        IEnumerable<IEdge> IGraph.Edges => Edges;
+        IEnumerable<IEdge> IGraph.Edges => Edges.Cast<IEdge>();
 
-        IEnumerable<IVertex> IGraph.Vertices => Vertices;
+        IEnumerable<IVertex> IGraph.Vertices => Vertices.Cast<IVertex>();
 
-        IEdge IGraph.AddEdge(object src, object dst) => AddEdge((TVertex)src, (TVertex)dst);
+        IEdge IGraph.AddEdge(object src, object dst) => (IEdge)AddEdge((TVertex)src, (TVertex)dst);
 
-        IEdge IGraph.AddEdge(object src, object dst, object data) => AddEdge((TVertex)src, (TVertex)dst, (TEdge)data);
+        IEdge IGraph.AddEdge(object src, object dst, object data) => (IEdge)AddEdge((TVertex)src, (TVertex)dst, (TEdge)data);
 
-        IVertex IGraph.InsertVertex(IEdge edge) => InsertVertex((Edge<TVertex, TEdge>)edge, CreateVertexData());
+        IVertex IGraph.InsertVertex(IEdge edge) => (IVertex)InsertVertex((Edge<TVertex, TEdge>)edge, CreateVertexData());
 
         void IGraph.RemoveEdge(IEdge edge) => RemoveEdge((Edge<TVertex, TEdge>)edge);
 
         void IGraph.RemoveVertex(IVertex vertex) => RemoveVertex((Vertex<TVertex, TEdge>)vertex);
 
-        IVertex IGraph.this[object key] => this[(TVertex)key];
+        IVertex IGraph.this[object key] => (IVertex)this[(TVertex)key];
 
-        public IVertex AddVertex() => AddVertex(CreateVertexData());
+        public IVertex AddVertex() => (IVertex)AddVertex(CreateVertexData());
 
-        IVertex IGraph.AddVertex(object data) => AddVertex((TVertex) data);
+        IVertex IGraph.AddVertex(object data) => (IVertex)AddVertex((TVertex) data);
     }
 }

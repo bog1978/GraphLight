@@ -9,7 +9,7 @@ namespace GraphLight.Test.Algorithm
     [TestClass]
     public class DepthFirstSearchTest
     {
-        private readonly IEnumerable<IEdge> _emptyEdges = Enumerable.Empty<IEdge>();
+        private readonly IEnumerable<IEdge<object, object>> _emptyEdges = Enumerable.Empty<IEdge<object, object>>();
 
         [TestMethod]
         public void DfsTest1()
@@ -148,11 +148,11 @@ namespace GraphLight.Test.Algorithm
 
         private static void checkResults(
             GraphModel<object, object> graph,
-            IEnumerable<IVertex> nodesExpected,
-            IEnumerable<IEdge> treeEdgesExpected,
-            IEnumerable<IEdge> forwardExpected,
-            IEnumerable<IEdge> backwardExpected,
-            IEnumerable<IEdge> crossExpected)
+            IEnumerable<IVertex<object, object>> nodesExpected,
+            IEnumerable<IEdge<object, object>> treeEdgesExpected,
+            IEnumerable<IEdge<object, object>> forwardExpected,
+            IEnumerable<IEdge<object, object>> backwardExpected,
+            IEnumerable<IEdge<object, object>> crossExpected)
         {
             var nodes = new List<IVertex>();
             var backward = new List<IEdge>();
