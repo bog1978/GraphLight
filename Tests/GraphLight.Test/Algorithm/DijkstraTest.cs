@@ -33,7 +33,7 @@ namespace GraphLight.Test.Algorithm
             var alg = graph.UndirectedDijkstra();
             alg.EnterNode += vertices.Add;
             alg.EnterEdge += edges.Add;
-            alg.Find(a, d);
+            alg.Find(a.Data, d.Data);
 
             CollectionAssert.AreEqual(new[] { ab, bc, cd }, edges);
             CollectionAssert.AreEqual(new[] { a, b, c, d }, vertices);
