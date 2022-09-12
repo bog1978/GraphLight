@@ -46,7 +46,7 @@ namespace GraphLight.Tools
         {
             var p = srcNode.CenterPoint();
             _srcNode = srcNode;
-            _newEdge = Model.Graph.AddEdge(srcNode.Data, srcNode.Data);
+            _newEdge = Model.Graph.AddEdge(srcNode.Data, srcNode.Data, null);
             _newEdge.Points.Add(p);
             _newEdge.RaisePointsChanged();
             IsInProgress = true;

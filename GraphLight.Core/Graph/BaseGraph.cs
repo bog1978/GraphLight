@@ -43,17 +43,12 @@ namespace GraphLight.Graph
         {
             if (!Edges.Contains(edge))
                 throw new Exception("Данное ребро не принадлежит графу");
-            var newEdge = AddEdge(vertexData, edge.Dst.Data, CreateEdgeData());
+            var newEdge = AddEdge(vertexData, edge.Dst.Data, edge.Data);
             edge.Dst = newEdge.Src;
             return newEdge.Src;
         }
 
-        public IEdge<V, E> AddEdge(V srcData, V dstData)
-        {
-            return AddEdge(srcData, dstData, CreateEdgeData());
-        }
-
-        public IEdge<V, E> AddEdge(IVertex<V, E> src, IVertex<V, E> dst, E data = default)
+        public IEdge<V, E> AddEdge(IVertex<V, E> src, IVertex<V, E> dst, E data)
         {
             if (src == null)
                 throw new ArgumentNullException(nameof(src));
@@ -101,9 +96,5 @@ namespace GraphLight.Graph
         protected abstract IVertex<V, E> CreateVertex(V data);
 
         protected abstract IEdge<V, E> CreateEdge(E data);
-
-        protected abstract V CreateVertexData();
-
-        protected abstract E CreateEdgeData();
     }
 }

@@ -28,19 +28,15 @@ namespace GraphLight.Graph
 
         IEnumerable<IVertex> IGraph.Vertices => Vertices.Cast<IVertex>();
 
-        IEdge IGraph.AddEdge(object src, object dst) => (IEdge)AddEdge((TVertex)src, (TVertex)dst);
-
         IEdge IGraph.AddEdge(object src, object dst, object data) => (IEdge)AddEdge((TVertex)src, (TVertex)dst, (TEdge)data);
 
-        IVertex IGraph.InsertVertex(IEdge edge) => (IVertex)InsertVertex((Edge<TVertex, TEdge>)edge, CreateVertexData());
+        IVertex IGraph.InsertVertex(IEdge edge, object data) => (IVertex)InsertVertex((Edge<TVertex, TEdge>)edge, (TVertex)data);
 
         void IGraph.RemoveEdge(IEdge edge) => RemoveEdge((Edge<TVertex, TEdge>)edge);
 
         void IGraph.RemoveVertex(IVertex vertex) => RemoveVertex((Vertex<TVertex, TEdge>)vertex);
 
         IVertex IGraph.this[object key] => (IVertex)this[(TVertex)key];
-
-        public IVertex AddVertex() => (IVertex)AddVertex(CreateVertexData());
 
         IVertex IGraph.AddVertex(object data) => (IVertex)AddVertex((TVertex) data);
     }

@@ -53,7 +53,7 @@ namespace GraphLight.Parser
 
         private void createEdge()
         {
-            _edge = ParsedGraph.AddEdge(_from, t.val);
+            _edge = ParsedGraph.AddEdge(_from, t.val, null);
             if(_edge.Src.Label == null)
                 _edge.Src.Label = _from;
             if (_edge.Dst.Label == null)

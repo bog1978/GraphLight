@@ -366,8 +366,7 @@ namespace GraphLight.Layout
                     case 1: // Внешнее ребро
                         break;
                     case 2: // Смежное ребро.
-                        var e = polygonGraph.AddEdge(item.Value[0], item.Value[1]);
-                        e.Data = item.Key;
+                        var e = polygonGraph.AddEdge(item.Value[0], item.Value[1], item.Key);
                         break;
                     default: // Этого быть не должно.
                         throw new Exception("Ошибка в алгоритме.");
@@ -385,7 +384,7 @@ namespace GraphLight.Layout
                 if (node.Data.Points.Contains(end))
                     midPoints.Add(end);
                 var midLines = combinate(midPoints);
-                midLines.Iter(x => pointGraph.AddEdge(x.P1, x.P2));
+                midLines.Iter(x => pointGraph.AddEdge(x.P1, x.P2, new object()));
             }
 
             // Добавляем в граф начальную точку.
@@ -393,12 +392,12 @@ namespace GraphLight.Layout
             // то добавляем ребро start -> end
             foreach (var startPol in startPols)
                 startPol.Points.CircleIter((a, b) =>
-                    pointGraph.AddEdge(start, b == end ? end : a + (b - a) / 2));
+                    pointGraph.AddEdge(start, b == end ? end : a + (b - a) / 2, null));
 
             // Добавляем в граф конечную точку.
             foreach (var endPol in endPols)
                 endPol.Points.CircleIter((a, b) =>
-                    pointGraph.AddEdge(end, a + (b - a) / 2));
+                    pointGraph.AddEdge(end, a + (b - a) / 2, new object()));
 
             // Инициализируем вес ребер
             pointGraph.Edges.Iter(x => x.Weight = (x.Dst.Data - x.Src.Data).Len);

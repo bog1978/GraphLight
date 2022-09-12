@@ -66,7 +66,7 @@ namespace GraphLight.Tools
                 case DragDropMode.DragCopy:
                     if (options.Status == DragDropStatus.Completed)
                     {
-                        var v = Model.Graph.AddVertex();
+                        var v = Model.Graph.AddVertex(vertex.Data);
                         v.Left = options.Relative.X - vertex.Width / 2;
                         v.Top = options.Relative.Y - vertex.Height / 2;
                         v.Label = vertex.Label;

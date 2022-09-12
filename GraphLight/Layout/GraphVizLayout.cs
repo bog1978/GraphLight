@@ -102,7 +102,7 @@ namespace GraphLight.Layout
                 var increment = Math.Sign(distance);
                 for (var rankShift = increment; rankShift != distance; rankShift += increment)
                 {
-                    var newNode = g.InsertControlPoint(edge1);
+                    var newNode = g.InsertControlPoint(edge1, new object());
                     //newNode.Id = "mid_" + newNode.Id;
                     newNode.IsTmp = true;
                     newNode.Rank = edge.Src.Rank + rankShift;

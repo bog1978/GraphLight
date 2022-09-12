@@ -19,10 +19,10 @@ namespace GraphLight.Test.Graph
             var a = g.AddVertex("a");
             var b = g.AddVertex("b");
             var c = g.AddVertex("c");
-            var aa = g.AddEdge(a.Data, a.Data);
-            var ab = g.AddEdge(a.Data, b.Data);
-            var ac = g.AddEdge(a.Data, c.Data);
-            var bc = g.AddEdge(b.Data, c.Data);
+            var aa = g.AddEdge(a.Data, a.Data, new object());
+            var ab = g.AddEdge(a.Data, b.Data, new object());
+            var ac = g.AddEdge(a.Data, c.Data, new object());
+            var bc = g.AddEdge(b.Data, c.Data, new object());
 
             checkEdges(a, new[] { aa, ab, ac }, _emptyEdges, new[] { ab, ac }, new[] { aa });
             checkEdges(b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);

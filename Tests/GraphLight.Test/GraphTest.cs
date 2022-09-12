@@ -14,11 +14,11 @@ namespace GraphLight.Test
         {
             var graph = new GraphModel();
             var g = graph;
-            var ab = graph.AddEdge("A", "B");
+            var ab = graph.AddEdge("A", "B", new object());
             var a = ab.Src;
             var b = ab.Dst;
 
-            var cp = g.InsertControlPoint((IEdge)ab);
+            var cp = g.InsertControlPoint((IEdge)ab, new object());
             Assert.IsTrue(ReferenceEquals(ab, graph.Edges.First()));
             Assert.IsTrue(ReferenceEquals(ab, a.OutEdges.First()));
             Assert.IsTrue(ReferenceEquals(ab, cp.InEdges.First()));
@@ -45,9 +45,9 @@ namespace GraphLight.Test
         public void Issue7610Test_1()
         {
             var graph = new GraphModel();
-            graph.AddEdge("A", "B");
-            graph.AddEdge("B", "C");
-            graph.AddEdge("A", "C");
+            graph.AddEdge("A", "B", new object());
+            graph.AddEdge("B", "C", new object());
+            graph.AddEdge("A", "C", new object());
             var engine = new GraphVizLayout<object, object>
                 {
                     NodeMeasure = new NodeMeasure<object, object>(),
@@ -60,10 +60,10 @@ namespace GraphLight.Test
         public void Issue7610Test_2()
         {
             var graph = new GraphModel();
-            graph.AddEdge("A", "B");
-            graph.AddEdge("B", "C");
-            graph.AddEdge("C", "D");
-            graph.AddEdge("D", "A");
+            graph.AddEdge("A", "B", new object());
+            graph.AddEdge("B", "C", new object());
+            graph.AddEdge("C", "D", new object());
+            graph.AddEdge("D", "A", new object());
             var engine = new GraphVizLayout<object, object>
             {
                     NodeMeasure = new NodeMeasure<object, object>(),

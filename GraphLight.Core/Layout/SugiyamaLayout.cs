@@ -42,9 +42,11 @@ namespace GraphLight.Layout
                 .ToDictionary(
                     x =>
                     {
+                        // Берем певые попавшиеся данные ребра - все равно это временное ребро.
                         var e = _graph.AddEdge(
                             x.Key.Src.Data,
-                            x.Key.Dst.Data);
+                            x.Key.Dst.Data,
+                            x.Key.Data);
                         e.Weight = x.Sum(y => y.Weight);
                         return e;
                     },
