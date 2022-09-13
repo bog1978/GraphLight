@@ -30,8 +30,6 @@ namespace GraphLight.Graph
 
         IEdge IGraph.AddEdge(object src, object dst, object data) => (IEdge)AddEdge((IVertexData)src, (IVertexData)dst, (IEdgeData)data);
 
-        IVertex IGraph.InsertVertex(IEdge edge, object data) => (IVertex)InsertVertex((Edge)edge, (IVertexData)data);
-
         void IGraph.RemoveEdge(IEdge edge) => RemoveEdge((Edge)edge);
 
         void IGraph.RemoveVertex(IVertex vertex) => RemoveVertex((Vertex)vertex);

@@ -10,7 +10,6 @@ namespace GraphLight.Graph
         IEnumerable<IEdge> Edges { get; }
         IEnumerable<IVertex> Vertices { get; }
         IVertex this[object key] { get; }
-        IVertex InsertVertex(IEdge edge, object data);
         IVertex AddVertex(object data);
         void RemoveEdge(IEdge edge);
         void RemoveVertex(IVertex vertex);
