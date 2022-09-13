@@ -4,26 +4,15 @@ namespace GraphLight.Graph
 {
     public class BaseEdge<V, E> : BaseViewModel, IEdge<V, E>
     {
+        private readonly E _data;
         private IVertex<V, E> _src;
         private IVertex<V, E> _dst;
-        private E _data;
         private double _weight = 1;
         private bool _isRevert;
 
-        public BaseEdge()
-        {
-        }
+        public BaseEdge(E data) => _data = data;
 
-        public BaseEdge(E data)
-        {
-            _data = data;
-        }
-
-        public E Data
-        {
-            get => _data;
-            set => SetProperty(ref _data, value);
-        }
+        public E Data => _data;
 
         public double Weight
         {

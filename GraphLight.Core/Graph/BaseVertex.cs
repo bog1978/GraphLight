@@ -10,22 +10,11 @@ namespace GraphLight.Graph
         private readonly ICollection<IEdge<V, E>> _inEdges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _outEdges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _selfEdges = new ObservableCollection<IEdge<V, E>>();
-        private V _data;
+        private readonly V _data;
 
-        public BaseVertex()
-        {
-        }
+        public BaseVertex(V data) => _data = data;
 
-        public BaseVertex(V data)
-        {
-            _data = data;
-        }
-
-        public V Data
-        {
-            get => _data;
-            protected internal set => SetProperty(ref _data, value);
-        }
+        public V Data => _data;
 
         public IEnumerable<IEdge<V, E>> Edges => _edges;
 

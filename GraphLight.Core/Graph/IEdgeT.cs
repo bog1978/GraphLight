@@ -6,7 +6,7 @@ namespace GraphLight.Graph
     {
         double Weight { get; set; }
         bool IsRevert { get; }
-        TEdgeData Data { get; set; }
+        TEdgeData Data { get; }
         IVertex<TVertexData, TEdgeData> Dst { get; set; }
         IVertex<TVertexData, TEdgeData> Src { get; set; }
 

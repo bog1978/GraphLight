@@ -90,7 +90,6 @@ namespace GraphLight.Graph
         public void RemoveEdge(IEdge<V, E> edge)
         {
             _edges.Remove(edge);
-            edge.Data = default;
             edge.Src = null;
             edge.Dst = null;
             edge.EdgeChanged -= OnEdgeChanged;

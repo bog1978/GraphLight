@@ -5,9 +5,9 @@ namespace GraphLight.Graph
 {
     public class Vertex : BaseVertex<IVertexData, IEdgeData>, IVertex
     {
-        public Vertex() { }
-
-        public Vertex(IVertexData data) : this() => Data = data;
+        public Vertex(IVertexData data) : base(data)
+        {
+        }
 
         IEnumerable<IEdge> IVertex.Edges => Edges.Cast<IEdge>();
 

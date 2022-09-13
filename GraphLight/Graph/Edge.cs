@@ -9,39 +9,24 @@ namespace GraphLight.Graph
 {
     public class Edge : BaseEdge<IVertexData, IEdgeData>, IEdge
     {
-        private IList<Point2D> _draggablePoints;
-        private IList<Point2D> _points;
+        private readonly IList<Point2D> _draggablePoints;
+        private readonly IList<Point2D> _points;
 
-        public Edge()
+        public Edge(IEdgeData data) : base(data)
         {
             var points = new ObservableCollection<Point2D>();
-            Points = points;
             points.CollectionChanged += pointsCollectionChanged;
-
-            var draggablePoints = new ObservableCollection<Point2D>();
-            DraggablePoints = draggablePoints;
-        }
-
-        public Edge(IEdgeData data) : this()
-        {
-            Data = data;
+            _points = points;
+            _draggablePoints = new ObservableCollection<Point2D>();
         }
 
         int IEdge.DstPointIndex { get; set; }
 
         IList<Point2D> IEdge.PolygonPoints { get; set; }
 
-        public IList<Point2D> Points
-        {
-            get => _points;
-            set => SetProperty(ref _points, value);
-        }
+        public IList<Point2D> Points => _points;
 
-        public IList<Point2D> DraggablePoints
-        {
-            get => _draggablePoints;
-            set => SetProperty(ref _draggablePoints, value);
-        }
+        public IList<Point2D> DraggablePoints => _draggablePoints;
 
         public void UpdatePoint(Point2D data)
         {
