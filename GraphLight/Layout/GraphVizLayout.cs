@@ -8,6 +8,7 @@ using GraphLight.Graph;
 namespace GraphLight.Layout
 {
     public partial class GraphVizLayout<V, E> : GraphLayout<V, E>
+        where V : IVertexDataLayered, IVertexDataLocation
     {
         private const double V_SPACE = 50;
         private const double H_SPACE = 30;
@@ -94,27 +95,27 @@ namespace GraphLight.Layout
 
             var edgesToSplit =
                 from e in g.Edges
-                where Math.Abs(e.Dst.Rank - e.Src.Rank) > 1
+                where Math.Abs(e.Dst.Data.Rank - e.Src.Data.Rank) > 1
                 select e;
 
             foreach (var edge in edgesToSplit.ToList())
             {
                 var edge1 = edge;
-                var distance = (edge.Dst.Rank - edge.Src.Rank);
+                var distance = (edge.Dst.Data.Rank - edge.Src.Data.Rank);
                 var increment = Math.Sign(distance);
                 for (var rankShift = increment; rankShift != distance; rankShift += increment)
                 {
                     var newNode = (IVertex)g.InsertControlPoint(edge1, new VertexData($"mid_{++_tmpId}"));
                     newNode.IsTmp = true;
-                    newNode.Rank = edge.Src.Rank + rankShift;
+                    newNode.Rank = edge.Src.Data.Rank + rankShift;
                     edge1 = newNode.OutEdges.First();
                 }
             }
 
             foreach (var e in g.Edges)
-                e.Weight = e.Src.IsTmp
-                    ? (e.Dst.IsTmp ? 8 : 2)
-                    : (e.Dst.IsTmp ? 2 : 1);
+                e.Weight = e.Src.Data.IsTmp
+                    ? (e.Dst.Data.IsTmp ? 8 : 2)
+                    : (e.Dst.Data.IsTmp ? 2 : 1);
         }
 
         private void removeTmpNodes()

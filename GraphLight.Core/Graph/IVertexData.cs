@@ -2,7 +2,11 @@
 
 namespace GraphLight.Graph
 {
-    public interface IVertexData : IEquatable<IVertexData>, IComparable<IVertexData>
+    public interface IVertexData :
+        IEquatable<IVertexData>,
+        IComparable<IVertexData>,
+        IVertexDataLayered,
+        IVertexDataLocation
     {
         string Id { get; }
     }

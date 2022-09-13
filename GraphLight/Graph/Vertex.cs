@@ -7,18 +7,10 @@ namespace GraphLight.Graph
     public class Vertex : BaseVertex<IVertexData, IEdgeData>, IVertex
     {
         private string _category;
-        private double _centerX;
-        private double _height;
         private bool _isHighlighted;
         private bool _isSelected;
-        private bool _isTmp;
         private string _label;
-        private double _left;
-        private int _position;
-        private int _rank;
         private string _shapeData;
-        private double _top;
-        private double _width;
         private int _zIndex;
 
         public Vertex() => ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1";
@@ -55,44 +47,58 @@ namespace GraphLight.Graph
 
         public double Width
         {
-            get => _width;
+            get => Data.Width;
             set
             {
-                SetProperty(ref _width, value);
+                Data.Width = value;
+                RaisePropertyChanged();
                 RaisePropertyChanged(nameof(Right));
             }
         }
 
         public double Height
         {
-            get => _height;
+            get => Data.Height;
             set
             {
-                SetProperty(ref _height, value);
+                Data.Height = value;
+                RaisePropertyChanged();
                 RaisePropertyChanged(nameof(Bottom));
             }
         }
 
         public double Left
         {
-            get => _left;
-            set => SetProperty(ref _left, value);
+            get => Data.Left;
+            set
+            {
+                Data.Left = value;
+                RaisePropertyChanged();
+            }
         }
 
         public double Top
         {
-            get => _top;
-            set => SetProperty(ref _top, value);
+            get => Data.Top;
+            set
+            {
+                Data.Top = value;
+                RaisePropertyChanged();
+            }
         }
 
-        public double Right => _left + _width;
+        public double Right => Data.Right;
 
-        public double Bottom => _top + _height;
+        public double Bottom => Data.Bottom;
 
         public double CenterX
         {
-            get => _centerX;
-            set => SetProperty(ref _centerX, value);
+            get => Data.CenterX;
+            set
+            {
+                Data.CenterX = value;
+                RaisePropertyChanged();
+            }
         }
 
         public string ShapeData
@@ -103,20 +109,32 @@ namespace GraphLight.Graph
 
         public int Rank
         {
-            get => _rank;
-            set => SetProperty(ref _rank, value);
+            get => Data.Rank;
+            set
+            {
+                Data.Rank = value;
+                RaisePropertyChanged();
+            }
         }
 
         public int Position
         {
-            get => _position;
-            set => SetProperty(ref _position, value);
+            get => Data.Position;
+            set
+            {
+                Data.Position = value;
+                RaisePropertyChanged();
+            }
         }
 
         public bool IsTmp
         {
-            get => _isTmp;
-            set => SetProperty(ref _isTmp, value);
+            get => Data.IsTmp;
+            set
+            {
+                Data.IsTmp = value;
+                RaisePropertyChanged();
+            }
         }
 
         public string Category

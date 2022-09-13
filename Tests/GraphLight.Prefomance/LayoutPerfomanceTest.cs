@@ -16,10 +16,10 @@ namespace GraphLight.Prefomance
         private static void doTest()
         {
             var graph = TestData.GraphToTest;
-            var layout = new GraphVizLayout<object, object>
+            var layout = new GraphVizLayout<IVertexData, IEdgeData>
             {
-                NodeMeasure = new NodeMeasure<object, object>(),
-                Graph = (IGraph<object, object>)graph
+                NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
+                Graph = graph
             };
             layout.Layout();
         }

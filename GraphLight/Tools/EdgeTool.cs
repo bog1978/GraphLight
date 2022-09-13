@@ -57,10 +57,10 @@ namespace GraphLight.Tools
         {
             if (!edge.IsSelected)
                 edge.IsHighlighted = isHighlighted;
-            if (edge.Src != null && !edge.Src.IsSelected)
-                edge.Src.IsHighlighted = isHighlighted;
-            if (edge.Dst != null && !edge.Dst.IsSelected)
-                edge.Dst.IsHighlighted = isHighlighted;
+            if (edge.Src != null && !((IVertex)edge.Src).IsSelected)
+                ((IVertex)edge.Src).IsHighlighted = isHighlighted;
+            if (edge.Dst != null && !((IVertex)edge.Dst).IsSelected)
+                ((IVertex)edge.Dst).IsHighlighted = isHighlighted;
         }
     }
 }

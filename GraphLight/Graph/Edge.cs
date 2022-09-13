@@ -107,18 +107,6 @@ namespace GraphLight.Graph
             set => SetProperty(ref _category, value);
         }
 
-        IVertex IEdge.Src
-        {
-            get => (IVertex)Src;
-            set => Src = value;
-        }
-
-        IVertex IEdge.Dst
-        {
-            get => (IVertex)Dst;
-            set => Dst = value;
-        }
-
         public void Revert()
         {
             if (IsRevert)

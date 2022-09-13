@@ -10,7 +10,7 @@ namespace GraphLight.Layout
         private const int H_SPACE = 30;
         private readonly IGraph _graph;
         private int _num = 1;
-        private Dictionary<IVertex, Vertex> _vertexMap;
+        private Dictionary<IVertex<IVertexData, IEdgeData>, Vertex> _vertexMap;
 
         public PositionNetworkSimplex(IGraph graph)
         {
@@ -37,7 +37,7 @@ namespace GraphLight.Layout
 
         protected override void Initialize(out ICollection<Vertex> vertices, out ICollection<Edge> edges)
         {
-            _vertexMap = _graph.Vertices.ToDictionary(x => x, vertex => new Vertex());
+            _vertexMap = _graph.Vertices.ToDictionary(x => (IVertex<IVertexData, IEdgeData>)x, vertex => new Vertex());
 
             vertices = _vertexMap.Values.ToList();
             edges = new List<Edge>();

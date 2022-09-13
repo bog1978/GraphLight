@@ -8,7 +8,7 @@ namespace GraphLight.Layout
     public class RankNetworkSimplex : NetworkSimplex
     {
         private readonly IGraph _graph;
-        private Dictionary<IVertex, Vertex> _vertexMap;
+        private Dictionary<IVertex<IVertexData, IEdgeData>, Vertex> _vertexMap;
 
         public RankNetworkSimplex(IGraph graph)
         {
@@ -26,7 +26,7 @@ namespace GraphLight.Layout
 
         protected override void Initialize(out ICollection<Vertex> vertices, out ICollection<Edge> edges)
         {
-            _vertexMap = _graph.Vertices.ToDictionary(x => x, x => new Vertex());
+            _vertexMap = _graph.Vertices.ToDictionary(x => (IVertex<IVertexData, IEdgeData>)x, x => new Vertex());
 
             vertices = _vertexMap.Values.ToList();
             edges = _graph.Edges.Where(edge => edge.Src != edge.Dst)

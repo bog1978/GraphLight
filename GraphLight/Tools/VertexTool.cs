@@ -96,15 +96,15 @@ namespace GraphLight.Tools
             {
                 if (!edge.IsSelected)
                     edge.IsHighlighted = isHighlighted;
-                if (!edge.Src.IsSelected)
-                    edge.Src.IsHighlighted = isHighlighted;
+                if (!((IVertex)edge.Src).IsSelected)
+                    ((IVertex)edge.Src).IsHighlighted = isHighlighted;
             }
             foreach (var edge in node.OutEdges)
             {
                 if (!edge.IsSelected)
                     edge.IsHighlighted = isHighlighted;
-                if (!edge.Dst.IsSelected)
-                    edge.Dst.IsHighlighted = isHighlighted;
+                if (!((IVertex)edge.Dst).IsSelected)
+                    ((IVertex)edge.Dst).IsHighlighted = isHighlighted;
             }
             foreach (IEdge edge in node.SelfEdges)
                 if (!edge.IsSelected)

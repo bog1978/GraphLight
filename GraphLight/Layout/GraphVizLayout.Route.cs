@@ -34,7 +34,7 @@ namespace GraphLight.Layout
         {
             IList<IEdge> edges = new List<IEdge>();
             for (var currEdge = edge; currEdge != null;
-                currEdge = currEdge.Dst.OutEdges.FirstOrDefault(x => x.Src.IsTmp))
+                currEdge = (IEdge)currEdge.Dst.OutEdges.FirstOrDefault(x => x.Src.Data.IsTmp))
                 edges.Add(currEdge);
 
             var points = new List<Point2D>();
@@ -63,8 +63,8 @@ namespace GraphLight.Layout
 
         private void calcSrcRightNode(IEdge e, ICollection<Point2D> points)
         {
-            var rank = _rankMap[e.Src.Rank];
-            var index = rank.IndexOf(e.Src);
+            var rank = _rankMap[e.Src.Data.Rank];
+            var index = rank.IndexOf((IVertex)e.Src);
             IList<IVertex> nodes = new List<IVertex>();
 
             for (var i = index; i < rank.Count; i++)
@@ -75,7 +75,7 @@ namespace GraphLight.Layout
                     nodes.Add(rank[i + 1]);
                     break;
                 }
-                var btw = between(node.CenterX, e.Src.CenterX, e.Dst.CenterX);
+                var btw = between(node.CenterX, e.Src.Data.CenterX, e.Dst.Data.CenterX);
                 if (!btw)
                     break;
                 nodes.Add(node);
@@ -85,22 +85,22 @@ namespace GraphLight.Layout
             foreach (var n in nodes)
             {
                 if (n.IsTmp)
-                    points.Add(new Point2D(n.Right, e.Src.Bottom));
+                    points.Add(new Point2D(n.Right, e.Src.Data.Bottom));
                 else if (n == e.Src)
                 {
                     points.Add(n.CenterPoint());
-                    if (e.Src.CenterX < e.Dst.CenterX)
+                    if (e.Src.Data.CenterX < e.Dst.Data.CenterX)
                         points.Add(n.CustomPoint(1, 0.5));
                     else
                         points.Add(n.CustomPoint(1, 1));
-                    if (n == rightNode && n.Right < e.Dst.CenterX)
-                        points.Add(new Point2D(e.Dst.CenterX, n.Bottom));
+                    if (n == rightNode && n.Right < e.Dst.Data.CenterX)
+                        points.Add(new Point2D(e.Dst.Data.CenterX, n.Bottom));
                 }
                 else if (n == rightNode)
                 {
                     points.Add(n.CustomPoint(0, 1));
-                    if (n.Right < e.Dst.CenterX)
-                        points.Add(new Point2D(e.Dst.CenterX, n.Bottom));
+                    if (n.Right < e.Dst.Data.CenterX)
+                        points.Add(new Point2D(e.Dst.Data.CenterX, n.Bottom));
                 }
                 else
                 {
@@ -112,8 +112,8 @@ namespace GraphLight.Layout
 
         private void calcDstRightNode(IEdge e, ICollection<Point2D> points)
         {
-            var rank = _rankMap[e.Dst.Rank];
-            var index = rank.IndexOf(e.Dst);
+            var rank = _rankMap[e.Dst.Data.Rank];
+            var index = rank.IndexOf((IVertex)e.Dst);
             IList<IVertex> nodes = new List<IVertex>();
 
             for (var i = index; i < rank.Count; i++)
@@ -124,7 +124,7 @@ namespace GraphLight.Layout
                     nodes.Add(rank[i + 1]);
                     break;
                 }
-                var btw = between(node.CenterX, e.Src.CenterX, e.Dst.CenterX);
+                var btw = between(node.CenterX, e.Src.Data.CenterX, e.Dst.Data.CenterX);
                 if (!btw)
                     break;
                 nodes.Add(node);
@@ -134,12 +134,12 @@ namespace GraphLight.Layout
             foreach (var n in nodes.Reverse())
             {
                 if (n.IsTmp)
-                    points.Add(new Point2D(n.Right, e.Dst.Top));
+                    points.Add(new Point2D(n.Right, e.Dst.Data.Top));
                 else if (n == e.Dst)
                 {
-                    if (n == rightNode && n.Right < e.Src.CenterX)
-                        points.Add(new Point2D(e.Src.CenterX, n.Top));
-                    if (e.Src.CenterX > e.Dst.CenterX)
+                    if (n == rightNode && n.Right < e.Src.Data.CenterX)
+                        points.Add(new Point2D(e.Src.Data.CenterX, n.Top));
+                    if (e.Src.Data.CenterX > e.Dst.Data.CenterX)
                         points.Add(n.CustomPoint(1, 0.5));
                     else
                         points.Add(n.CustomPoint(1, 0));
@@ -147,8 +147,8 @@ namespace GraphLight.Layout
                 }
                 else if (n == rightNode)
                 {
-                    if (n.Right < e.Src.CenterX)
-                        points.Add(new Point2D(e.Src.CenterX, n.Top));
+                    if (n.Right < e.Src.Data.CenterX)
+                        points.Add(new Point2D(e.Src.Data.CenterX, n.Top));
                     points.Add(n.CustomPoint(0, 0));
                 }
                 else
@@ -161,8 +161,8 @@ namespace GraphLight.Layout
 
         private void calcDstLeftNode(IEdge e, ICollection<Point2D> points)
         {
-            var rank = _rankMap[e.Dst.Rank];
-            var index = rank.IndexOf(e.Dst);
+            var rank = _rankMap[e.Dst.Data.Rank];
+            var index = rank.IndexOf((IVertex)e.Dst);
             IList<IVertex> nodes = new List<IVertex>();
 
             for (var i = index; i >= 0; i--)
@@ -173,7 +173,7 @@ namespace GraphLight.Layout
                     nodes.Add(rank[i - 1]);
                     break;
                 }
-                var btw = between(node.CenterX, e.Src.CenterX, e.Dst.CenterX);
+                var btw = between(node.CenterX, e.Src.Data.CenterX, e.Dst.Data.CenterX);
                 if (!btw)
                     break;
                 nodes.Add(node);
@@ -183,22 +183,22 @@ namespace GraphLight.Layout
             foreach (var n in nodes)
             {
                 if (n.IsTmp)
-                    points.Add(new Point2D(n.Left, e.Dst.Top));
+                    points.Add(new Point2D(n.Left, e.Dst.Data.Top));
                 else if (n == e.Dst)
                 {
                     points.Add(n.CenterPoint());
-                    if (e.Src.CenterX < e.Dst.CenterX)
+                    if (e.Src.Data.CenterX < e.Dst.Data.CenterX)
                         points.Add(n.CustomPoint(0, 0.5));
                     else
                         points.Add(n.CustomPoint(0, 0));
-                    if (n == leftNode && n.Left > e.Src.CenterX)
-                        points.Add(new Point2D(e.Src.CenterX, n.Top));
+                    if (n == leftNode && n.Left > e.Src.Data.CenterX)
+                        points.Add(new Point2D(e.Src.Data.CenterX, n.Top));
                 }
                 else if (n == leftNode)
                 {
                     points.Add(n.CustomPoint(1, 0));
-                    if (n.Left > e.Src.CenterX)
-                        points.Add(new Point2D(e.Src.CenterX, e.Dst.Top));
+                    if (n.Left > e.Src.Data.CenterX)
+                        points.Add(new Point2D(e.Src.Data.CenterX, e.Dst.Data.Top));
                 }
                 else
                 {
@@ -210,8 +210,8 @@ namespace GraphLight.Layout
 
         private void calcSrcLeftNode(IEdge e, ICollection<Point2D> points)
         {
-            var rank = _rankMap[e.Src.Rank];
-            var index = rank.IndexOf(e.Src);
+            var rank = _rankMap[e.Src.Data.Rank];
+            var index = rank.IndexOf((IVertex)e.Src);
             IList<IVertex> nodes = new List<IVertex>();
 
             for (var i = index; i >= 0; i--)
@@ -222,7 +222,7 @@ namespace GraphLight.Layout
                     nodes.Add(rank[i - 1]);
                     break;
                 }
-                var btw = between(node.CenterX, e.Src.CenterX, e.Dst.CenterX);
+                var btw = between(node.CenterX, e.Src.Data.CenterX, e.Dst.Data.CenterX);
                 if (!btw)
                     break;
                 nodes.Add(node);
@@ -232,12 +232,12 @@ namespace GraphLight.Layout
             foreach (var n in nodes.Reverse())
             {
                 if (n.IsTmp)
-                    points.Add(new Point2D(n.Left, e.Src.Bottom));
+                    points.Add(new Point2D(n.Left, e.Src.Data.Bottom));
                 else if (n == e.Src)
                 {
-                    if (n == leftNode && n.Left > e.Dst.CenterX)
-                        points.Add(new Point2D(e.Dst.CenterX, n.Bottom));
-                    if (e.Src.CenterX > e.Dst.CenterX)
+                    if (n == leftNode && n.Left > e.Dst.Data.CenterX)
+                        points.Add(new Point2D(e.Dst.Data.CenterX, n.Bottom));
+                    if (e.Src.Data.CenterX > e.Dst.Data.CenterX)
                         points.Add(n.CustomPoint(0, 0.5));
                     else
                         points.Add(n.CustomPoint(0, 1));
@@ -245,8 +245,8 @@ namespace GraphLight.Layout
                 }
                 else if (n == leftNode)
                 {
-                    if (n.Left > e.Dst.CenterX)
-                        points.Add(new Point2D(e.Dst.CenterX, n.Bottom));
+                    if (n.Left > e.Dst.Data.CenterX)
+                        points.Add(new Point2D(e.Dst.Data.CenterX, n.Bottom));
                     points.Add(n.CustomPoint(1, 1));
                 }
                 else

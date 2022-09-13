@@ -57,10 +57,10 @@ namespace GraphLight.Parser
                 new VertexData(_from),
                 new VertexData(t.val),
                 new EdgeData());
-            if(_edge.Src.Label == null)
-                _edge.Src.Label = _from;
-            if (_edge.Dst.Label == null)
-                _edge.Dst.Label = t.val;
+            if(((IVertex)_edge.Src).Label == null)
+                ((IVertex)_edge.Src).Label = _from;
+            if (((IVertex)_edge.Dst).Label == null)
+                ((IVertex)_edge.Dst).Label = t.val;
             _edgeChain.Add(_edge);
             _from = t.val;
         }

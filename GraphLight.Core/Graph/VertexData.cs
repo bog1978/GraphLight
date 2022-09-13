@@ -11,6 +11,19 @@ namespace GraphLight.Graph
 
         public string Id { get; }
 
+        public bool IsTmp { get; set; }
+
+        int IVertexDataLayered.Rank { get; set; }
+        int IVertexDataLayered.Position { get; set; }
+
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double Left { get; set; }
+        public double Top { get; set; }
+        public double Right => Left + Width;
+        public double Bottom => Top + Height;
+        public double CenterX { get; set; }
+
         public bool Equals(IVertexData other) => other?.Id == Id;
 
         public int CompareTo(IVertexData other) => StringComparer.Ordinal.Compare(Id, other?.Id);
