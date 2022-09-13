@@ -12,6 +12,8 @@ namespace GraphLight.Layout
         private const double V_SPACE = 50;
         private const double H_SPACE = 30;
 
+        private int _tmpId;
+
         public override void Layout()
         {
             var weights = Graph.Edges.Backup(x => x.Weight);
@@ -102,8 +104,7 @@ namespace GraphLight.Layout
                 var increment = Math.Sign(distance);
                 for (var rankShift = increment; rankShift != distance; rankShift += increment)
                 {
-                    var newNode = g.InsertControlPoint(edge1, new object());
-                    //newNode.Id = "mid_" + newNode.Id;
+                    var newNode = (IVertex)g.InsertControlPoint(edge1, new VertexData($"mid_{++_tmpId}"));
                     newNode.IsTmp = true;
                     newNode.Rank = edge.Src.Rank + rankShift;
                     edge1 = newNode.OutEdges.First();

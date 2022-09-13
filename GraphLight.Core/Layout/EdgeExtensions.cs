@@ -23,12 +23,12 @@ namespace GraphLight.Layout
             return Math.Abs(delta) * edge.Weight;
         }
 
-        public static IVertex InsertControlPoint(this IGraph graph, IEdge edge, object data)
+        public static IVertex<V, E> InsertControlPoint<V, E>(this IGraph<V, E> graph, IEdge<V, E> edge, V data)
         {
             return graph.InsertVertex(edge, data);
         }
 
-        public static void RemoveControlPoint(this IGraph graph, IVertex vertex)
+        public static void RemoveControlPoint<V, E>(this IGraph<V, E> graph, IVertex<V, E> vertex)
         {
             var inCnt = vertex.InEdges.Count();
             var outCnt = vertex.OutEdges.Count();

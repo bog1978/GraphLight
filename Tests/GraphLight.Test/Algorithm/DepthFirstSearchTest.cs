@@ -14,7 +14,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest1()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -35,7 +35,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest2()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -57,7 +57,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest3()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
 
@@ -81,7 +81,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest4()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -115,7 +115,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest5()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var n1 = graph.AddVertex("1");
             var n2 = graph.AddVertex("2");
             var n3 = graph.AddVertex("3");
@@ -147,7 +147,7 @@ namespace GraphLight.Test.Algorithm
         }
 
         private static void checkResults(
-            GraphModel<object, object> graph,
+            GenericGraph<object, object> graph,
             IEnumerable<IVertex<object, object>> nodesExpected,
             IEnumerable<IEdge<object, object>> treeEdgesExpected,
             IEnumerable<IEdge<object, object>> forwardExpected,

@@ -7,7 +7,7 @@ using GraphLight.Layout;
 
 namespace GraphLight.Graph
 {
-    public class Edge<TVertex, TEdge> : BaseEdge<TVertex, TEdge>, IEdge
+    public class Edge : BaseEdge<IVertexData, IEdgeData>, IEdge
     {
         private string _category;
         private string _color;
@@ -31,7 +31,7 @@ namespace GraphLight.Graph
             DraggablePoints = draggablePoints;
         }
 
-        public Edge(TEdge data) : this()
+        public Edge(IEdgeData data) : this()
         {
             Data = data;
         }
@@ -110,16 +110,14 @@ namespace GraphLight.Graph
         IVertex IEdge.Src
         {
             get => (IVertex)Src;
-            set => Src = (IVertex<TVertex, TEdge>)value;
+            set => Src = value;
         }
 
         IVertex IEdge.Dst
         {
             get => (IVertex)Dst;
-            set => Dst = (IVertex<TVertex, TEdge>)value;
+            set => Dst = value;
         }
-
-        object IElement.Data => Data;
 
         public void Revert()
         {
@@ -287,9 +285,9 @@ namespace GraphLight.Graph
 
         private class RefreshHelper : IDisposable
         {
-            private readonly Edge<TVertex, TEdge> _edge;
+            private readonly Edge _edge;
 
-            internal RefreshHelper(Edge<TVertex, TEdge> edge) => _edge = edge;
+            internal RefreshHelper(Edge edge) => _edge = edge;
 
             #region IDisposable Members
 

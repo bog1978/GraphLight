@@ -15,6 +15,11 @@ namespace GraphLight.Graph
 
         public IEnumerable<IEdge<V, E>> Edges => _edges;
 
+        public IEnumerable<object> All => 
+            Enumerable.Union(
+                Vertices.Cast<object>(),
+                Edges.Cast<object>());
+
         public IVertex<V, E> this[V key] => _map[key];
 
         public IVertex<V, E> AddVertex(V data)

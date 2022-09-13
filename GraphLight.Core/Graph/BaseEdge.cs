@@ -2,13 +2,22 @@
 
 namespace GraphLight.Graph
 {
-    public abstract class BaseEdge<V, E> : BaseViewModel, IEdge<V, E>
+    public class BaseEdge<V, E> : BaseViewModel, IEdge<V, E>
     {
         private IVertex<V, E> _src;
         private IVertex<V, E> _dst;
         private E _data;
         private double _weight = 1;
         private bool _isRevert;
+
+        public BaseEdge()
+        {
+        }
+
+        public BaseEdge(E data)
+        {
+            _data = data;
+        }
 
         public E Data
         {

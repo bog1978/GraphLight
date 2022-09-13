@@ -13,8 +13,8 @@ namespace GraphLight.Drawing
     {
         #region Private fields
 
-        private readonly GraphVizLayout<object, object> _layout;
-        private readonly DummyNodeMeasure<object, object> _measure;
+        private readonly GraphVizLayout<IVertexData, IEdgeData> _layout;
+        private readonly DummyNodeMeasure<IVertexData, IEdgeData> _measure;
         private readonly GraphTool _edgeDrawingTool;
         private readonly GraphTool _edgeTool;
         private readonly GraphTool _vertexTool;
@@ -29,8 +29,8 @@ namespace GraphLight.Drawing
         public GraphControl()
         {
             DefaultStyleKey = typeof(GraphControl);
-            _measure = new DummyNodeMeasure<object, object>();
-            _layout = new GraphVizLayout<object, object> { NodeMeasure = _measure };
+            _measure = new DummyNodeMeasure<IVertexData, IEdgeData>();
+            _layout = new GraphVizLayout<IVertexData, IEdgeData> { NodeMeasure = _measure };
             _edgeDrawingTool = new DrawEdgeTool(this);
             _edgeTool = new EdgeTool(this);
             _vertexTool = new VertexTool(this);
@@ -67,7 +67,7 @@ namespace GraphLight.Drawing
                 return;
             clearAllItems();
             fillVertices();
-            _layout.Graph = (IGraph<object, object>)Graph;
+            _layout.Graph = Graph;
             _layout.NodeMeasure = _measure;
             _layout.Layout();
             shift();

@@ -4,7 +4,7 @@ using GraphLight.Geometry;
 
 namespace GraphLight.Graph
 {
-    public interface IEdge : IElement
+    public interface IEdge : IEdge<IVertexData, IEdgeData>, IElement
     {
         double Weight { get; set; }
         bool IsRevert { get; set; }

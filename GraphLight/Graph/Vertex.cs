@@ -4,7 +4,7 @@ using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public class Vertex<TVertex, TEdge> : BaseVertex<TVertex, TEdge>, IVertex
+    public class Vertex : BaseVertex<IVertexData, IEdgeData>, IVertex
     {
         private string _category;
         private double _centerX;
@@ -23,7 +23,7 @@ namespace GraphLight.Graph
 
         public Vertex() => ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1";
 
-        public Vertex(TVertex data) : this() => Data = data;
+        public Vertex(IVertexData data) : this() => Data = data;
 
         public int ZIndex
         {
@@ -137,8 +137,6 @@ namespace GraphLight.Graph
 
         IEnumerable<IEdge> IVertex.SelfEdges => SelfEdges.Cast<IEdge>();
 
-        object IElement.Data => Data;
-
         public void Update()
         {
             foreach (var e in Edges.Cast<IEdge>())
@@ -165,7 +163,7 @@ namespace GraphLight.Graph
 
         public override bool Equals(object obj)
         {
-            return obj is Vertex<TVertex, TEdge> other && Equals(Data, other.Data);
+            return obj is Vertex other && Equals(Data, other.Data);
         }
 
         public override int GetHashCode() => Data.GetHashCode();

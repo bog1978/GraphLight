@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace GraphLight.Graph
 {
-    public interface IGraph
+    public interface IGraph : IGraph<IVertexData, IEdgeData>
     {
         IEnumerable<IElement> Elements { get; }
         double Width { get; set; }

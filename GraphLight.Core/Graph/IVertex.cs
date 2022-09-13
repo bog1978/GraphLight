@@ -3,7 +3,7 @@ using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public interface IVertex : IElement, IBinaryHeapItem<double>
+    public interface IVertex : IVertex<IVertexData, IEdgeData>, IElement
     {
         int Rank { get; set; }
         int Position { get; set; }

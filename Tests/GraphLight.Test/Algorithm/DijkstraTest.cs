@@ -11,7 +11,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void FindShortestPathTest()
         {
-            GraphModel<object, object> graph = new GraphModel<object, object>();
+            GenericGraph<object, object> graph = new GenericGraph<object, object>();
 
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");

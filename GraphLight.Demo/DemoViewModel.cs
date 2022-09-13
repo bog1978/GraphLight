@@ -19,17 +19,17 @@ namespace GraphLight
             var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
             ExampleCollection = resources.Where(x => x.EndsWith(".graph")).ToList();
             SelectedExample = ExampleCollection.FirstOrDefault();
-            Palette = new GraphModel();
-            var v1 = Palette.AddVertex("1");
+            Palette = new LayoutGraphModel();
+            var v1 = Palette.AddVertex(new VertexData("1"));
             v1.Category = "large_font";
             v1.Label = "AAA";
-            var v2 = Palette.AddVertex("2");
+            var v2 = Palette.AddVertex(new VertexData("2"));
             v2.Category = "small_font";
             v2.Label = "BBB";
-            var v3 = Palette.AddVertex("3");
+            var v3 = Palette.AddVertex(new VertexData("3"));
             v3.Category = "with_tooltip";
             v3.Label = "CCC";
-            var v4 = Palette.AddVertex("4");
+            var v4 = Palette.AddVertex(new VertexData("4"));
             v4.Label = "DDD";
         }
 

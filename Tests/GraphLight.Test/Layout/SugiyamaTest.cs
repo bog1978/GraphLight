@@ -11,7 +11,7 @@ namespace GraphLight.Test.Layout
         [TestMethod]
         public void TestMethod1()
         {
-            var graph = new GraphModel();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");

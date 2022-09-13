@@ -15,12 +15,12 @@ namespace GraphLight.Parser
 
         private void createGraph(string name)
         {
-            ParsedGraph = new GraphModel();
+            ParsedGraph = new LayoutGraphModel();
         }
 
         private void createNode()
         {
-            _node = ParsedGraph.AddVertex(t.val);
+            _node = ParsedGraph.AddVertex(new VertexData(t.val));
             _node.Label = t.val;
         }
 
@@ -53,7 +53,10 @@ namespace GraphLight.Parser
 
         private void createEdge()
         {
-            _edge = ParsedGraph.AddEdge(_from, t.val, null);
+            _edge = ParsedGraph.AddEdge(
+                new VertexData(_from),
+                new VertexData(t.val),
+                new EdgeData());
             if(_edge.Src.Label == null)
                 _edge.Src.Label = _from;
             if (_edge.Dst.Label == null)

@@ -3,13 +3,22 @@ using System.Collections.ObjectModel;
 
 namespace GraphLight.Graph
 {
-    public abstract class BaseVertex<V, E> : BaseViewModel, IVertex<V, E>
+    public class BaseVertex<V, E> : BaseViewModel, IVertex<V, E>
     {
         private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _inEdges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _outEdges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _selfEdges = new ObservableCollection<IEdge<V, E>>();
         private V _data;
+
+        public BaseVertex()
+        {
+        }
+
+        public BaseVertex(V data)
+        {
+            _data = data;
+        }
 
         public V Data
         {
