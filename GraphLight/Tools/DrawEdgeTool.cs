@@ -57,7 +57,7 @@ namespace GraphLight.Tools
             _newEdge.Points.Add(point);
             if (_newEdge.Points.Count == 2)
             {
-                _newEdge.IsSelected = true;
+                _newEdge.Data.IsSelected = true;
                 _newEdge.UpdateSrcPort();
                 _newEdge.FixDraggablePoints(point);
             }
@@ -70,7 +70,7 @@ namespace GraphLight.Tools
             _newEdge.Dst = dstNode;
             if (_newEdge.Points.Count == 2)
                 _newEdge.UpdateSrcPort();
-            _newEdge.IsSelected = false;
+            _newEdge.Data.IsSelected = false;
             _newEdge.UpdateDstPort();
             _newEdge.FixDraggablePoints(_newEdge.Points.Last());
             _newEdge.RaisePointsChanged();

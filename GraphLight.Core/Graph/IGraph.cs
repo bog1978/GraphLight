@@ -4,7 +4,7 @@ namespace GraphLight.Graph
 {
     public interface IGraph : IGraph<IVertexData, IEdgeData>
     {
-        IEnumerable<IElement> Elements { get; }
+        IEnumerable<object> Elements { get; }
         double Width { get; set; }
         double Height { get; set; }
         IEnumerable<IEdge> Edges { get; }

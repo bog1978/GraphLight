@@ -8,9 +8,9 @@ namespace GraphLight.Graph
         private double _width;
         private double _height;
 
-        public IEnumerable<IElement> Elements => Enumerable.Union(
-            Vertices.Cast<IElement>(),
-            Edges.Cast<IElement>());
+        public IEnumerable<object> Elements => Enumerable.Union(
+            Vertices.Cast<object>(),
+            Edges.Cast<object>());
 
         public double Width
         {

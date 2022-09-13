@@ -47,7 +47,7 @@ namespace GraphLight.Tools
             if (vertex == null)
                 return false;
             options.Payload = new Point(vertex.Data.Left, vertex.Data.Top);
-            return vertex.IsSelected;
+            return vertex.Data.IsSelected;
         }
 
         public override void HandleDropInfo(IDragDropOptions options)
@@ -70,7 +70,7 @@ namespace GraphLight.Tools
                         v.Data.Left = options.Relative.X - vertex.Data.Width / 2;
                         v.Data.Top = options.Relative.Y - vertex.Data.Height / 2;
                         v.Data.Label = vertex.Data.Label;
-                        v.Category = vertex.Category;
+                        v.Data.Category = vertex.Data.Category;
                     }
                     break;
             }
@@ -89,26 +89,26 @@ namespace GraphLight.Tools
 
         private static void highlight(IVertex node, bool isHighlighted)
         {
-            if (!node.IsSelected)
-                node.IsHighlighted = isHighlighted;
+            if (!node.Data.IsSelected)
+                node.Data.IsHighlighted = isHighlighted;
 
             foreach (var edge in node.InEdges)
             {
-                if (!edge.IsSelected)
-                    edge.IsHighlighted = isHighlighted;
-                if (!((IVertex)edge.Src).IsSelected)
-                    ((IVertex)edge.Src).IsHighlighted = isHighlighted;
+                if (!edge.Data.IsSelected)
+                    edge.Data.IsHighlighted = isHighlighted;
+                if (!edge.Src.Data.IsSelected)
+                    edge.Src.Data.IsHighlighted = isHighlighted;
             }
             foreach (var edge in node.OutEdges)
             {
-                if (!edge.IsSelected)
-                    edge.IsHighlighted = isHighlighted;
-                if (!((IVertex)edge.Dst).IsSelected)
-                    ((IVertex)edge.Dst).IsHighlighted = isHighlighted;
+                if (!edge.Data.IsSelected)
+                    edge.Data.IsHighlighted = isHighlighted;
+                if (!edge.Dst.Data.IsSelected)
+                    edge.Dst.Data.IsHighlighted = isHighlighted;
             }
             foreach (IEdge edge in node.SelfEdges)
-                if (!edge.IsSelected)
-                    edge.IsHighlighted = isHighlighted;
+                if (!edge.Data.IsSelected)
+                    edge.Data.IsHighlighted = isHighlighted;
         }
     }
 }

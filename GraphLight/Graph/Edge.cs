@@ -9,14 +9,10 @@ namespace GraphLight.Graph
 {
     public class Edge : BaseEdge<IVertexData, IEdgeData>, IEdge
     {
-        private string _category;
-        private string _color;
         private IList<Point2D> _draggablePoints;
-        private bool _isHighlighted;
-        private bool _isSelected;
         private IList<Point2D> _points;
         private double _thickness;
-        private int _zIndex;
+        private string _color;
 
         public Edge()
         {
@@ -48,22 +44,6 @@ namespace GraphLight.Graph
             set => SetProperty(ref _points, value);
         }
 
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                SetProperty(ref _isSelected, value);
-                IsHighlighted = value;
-            }
-        }
-
-        public bool IsHighlighted
-        {
-            get => _isHighlighted;
-            set => SetProperty(ref _isHighlighted, value);
-        }
-
         public IList<Point2D> DraggablePoints
         {
             get => _draggablePoints;
@@ -93,18 +73,6 @@ namespace GraphLight.Graph
         {
             get => _thickness;
             set => SetProperty(ref _thickness, value);
-        }
-
-        public int ZIndex
-        {
-            get => _zIndex;
-            set => SetProperty(ref _zIndex, value);
-        }
-
-        public string Category
-        {
-            get => _category;
-            set => SetProperty(ref _category, value);
         }
 
         public void Revert()

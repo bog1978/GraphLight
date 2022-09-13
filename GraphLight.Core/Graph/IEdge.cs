@@ -4,7 +4,7 @@ using GraphLight.Geometry;
 
 namespace GraphLight.Graph
 {
-    public interface IEdge : IEdge<IVertexData, IEdgeData>, IElement
+    public interface IEdge : IEdge<IVertexData, IEdgeData>
     {
         int DstPointIndex { get; set; }
         IList<Point2D> PolygonPoints { get; set; }

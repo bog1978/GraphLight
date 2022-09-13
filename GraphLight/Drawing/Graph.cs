@@ -144,29 +144,41 @@ namespace GraphLight.Drawing
         #region SelectedElement
 
         public static readonly DependencyProperty SelectedElementProperty = DependencyProperty.Register(
-            "SelectedElement", typeof(IElement), typeof(GraphControl), new PropertyMetadata(onSelectedElementPropertyChanged));
+            "SelectedElement", typeof(object), typeof(GraphControl), new PropertyMetadata(onSelectedElementPropertyChanged));
 
-        public IElement SelectedElement
+        public object SelectedElement
         {
-            get => (IElement)GetValue(SelectedElementProperty);
+            get => GetValue(SelectedElementProperty);
             set => SetValue(SelectedElementProperty, value);
         }
 
         private static void onSelectedElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ctrl = (GraphControl)d;
-            var oldVal = (IElement)e.OldValue;
-            var newVal = (IElement)e.NewValue;
-            ctrl.onSelectedElementPropertyChanged(oldVal, newVal);
+            ctrl.onSelectedElementPropertyChanged(e.OldValue, e.NewValue);
         }
 
-        private void onSelectedElementPropertyChanged(IElement oldElement, IElement newElement)
+        private void onSelectedElementPropertyChanged(object oldElement, object newElement)
         {
-            if (oldElement != null)
-                oldElement.IsSelected = false;
+            switch(oldElement)
+            {
+                case IVertex v:
+                    v.Data.IsSelected = false;
+                    break;
+                case IEdge e:
+                    e.Data.IsSelected = false;
+                    break;
+            }
 
-            if (newElement != null)
-                newElement.IsSelected = true;
+            switch (newElement)
+            {
+                case IVertex v:
+                    v.Data.IsSelected = true;
+                    break;
+                case IEdge e:
+                    e.Data.IsSelected = true;
+                    break;
+            }
 
             SelectedNode = newElement as IVertex;
             SelectedEdge = newElement as IEdge;
@@ -354,7 +366,7 @@ namespace GraphLight.Drawing
             Graph.Height = graphHeight;
         }
 
-        private void bringToTop(IElement item)
+        private void bringToTop(object item)
         {
             var z = 0;
             foreach (var element in Graph.Elements)
@@ -371,10 +383,10 @@ namespace GraphLight.Drawing
             switch (element)
             {
                 case IVertex node:
-                    node.ZIndex = z++;
+                    node.Data.ZIndex = z++;
                     break;
                 case IEdge edge:
-                    edge.ZIndex = z++;
+                    edge.Data.ZIndex = z++;
                     break;
             }
 

@@ -22,19 +22,19 @@ namespace GraphLight
             Palette = new LayoutGraphModel();
             var v1 = Palette.AddVertex(new VertexData("1")
             {
-                Label = "AAA"
+                Label = "AAA",
+                Category = "large_font",
             });
-            v1.Category = "large_font";
             var v2 = Palette.AddVertex(new VertexData("2")
             {
-                Label = "BBB"
+                Label = "BBB",
+                Category = "small_font",
             });
-            v2.Category = "small_font";
             var v3 = Palette.AddVertex(new VertexData("3")
             {
-                Label = "CCC"
+                Label = "CCC",
+                Category = "with_tooltip",
             });
-            v3.Category = "with_tooltip";
             var v4 = Palette.AddVertex(new VertexData("4")
             {
                 Label = "DDD"

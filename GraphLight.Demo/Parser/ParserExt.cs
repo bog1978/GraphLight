@@ -41,7 +41,7 @@ namespace GraphLight.Parser
 
         private void setNodeCategory()
         {
-            _node.Category = t.val.Trim('\"');
+            _node.Data.Category = t.val.Trim('\"');
         }
 
         string _from;

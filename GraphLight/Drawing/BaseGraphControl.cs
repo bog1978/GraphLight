@@ -170,9 +170,9 @@ namespace GraphLight.Drawing
             DataTemplate vertexTemplate = null;
             if (VertexTemplateDictionary != null)
             {
-                if (string.IsNullOrWhiteSpace(vertex.Category))
+                if (string.IsNullOrWhiteSpace(vertex.Data.Category))
                     vertexTemplate = VertexTemplateDictionary.DefaultTemplate;
-                else if (!VertexTemplateDictionary.TryGetValue(vertex.Category, out vertexTemplate))
+                else if (!VertexTemplateDictionary.TryGetValue(vertex.Data.Category, out vertexTemplate))
                     vertexTemplate = VertexTemplateDictionary.DefaultTemplate;
             }
             var presenter = new Node { Content = vertex, DataContext = vertex };
