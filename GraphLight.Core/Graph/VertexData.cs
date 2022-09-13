@@ -2,18 +2,14 @@
 
 namespace GraphLight.Graph
 {
-    public class VertexData : BaseViewModel, IVertexData
+    public class VertexData : CommonData, IVertexData
     {
         private double _width;
         private double _height;
         private double _left;
         private double _top;
-        private string _category;
-        private bool _isHighlighted;
-        private bool _isSelected;
         private string _label;
         private string _shapeData;
-        private int _zIndex;
 
         public VertexData(string id)
         {
@@ -74,28 +70,6 @@ namespace GraphLight.Graph
 
         public double Bottom => Top + Height;
 
-        public int ZIndex
-        {
-            get => _zIndex;
-            set => SetProperty(ref _zIndex, value);
-        }
-
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                SetProperty(ref _isSelected, value);
-                IsHighlighted = value;
-            }
-        }
-
-        public bool IsHighlighted
-        {
-            get => _isHighlighted;
-            set => SetProperty(ref _isHighlighted, value);
-        }
-
         public string Label
         {
             get => _label;
@@ -106,12 +80,6 @@ namespace GraphLight.Graph
         {
             get => _shapeData;
             set => SetProperty(ref _shapeData, value);
-        }
-
-        public string Category
-        {
-            get => _category;
-            set => SetProperty(ref _category, value);
         }
 
         public bool Equals(IVertexData other) => other?.Id == Id;
