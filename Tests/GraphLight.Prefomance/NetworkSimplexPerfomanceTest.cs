@@ -1,4 +1,4 @@
-﻿using GraphLight.Graph;
+﻿using GraphLight.Algorithm;
 using GraphLight.Layout;
 
 namespace GraphLight.Prefomance
@@ -12,8 +12,8 @@ namespace GraphLight.Prefomance
         protected override void RankingSimplexTest()
         {
             var graph = TestData.GraphToTest;
-            ((IGraph<object, object>)graph).Acyclic();
-            var alg = new RankNetworkSimplex(graph);
+            graph.Acyclic();
+            var alg = graph.RankNetworkSimplex();
             alg.Execute();
         }
     }

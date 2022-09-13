@@ -19,7 +19,7 @@ namespace GraphLight.Algorithm
 
         #region IShortestPath<TNode,TEdge> Members
 
-        public void Find(V start, V end)
+        public void Execute(V start, V end)
         {
             var from = _graph[start];
             var to = _graph[end];

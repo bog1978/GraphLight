@@ -167,7 +167,7 @@ namespace GraphLight.Test.Algorithm
             alg.OnForwardEdge = forward.Add;
             alg.OnCrossEdge = cross.Add;
 
-            alg.Find();
+            alg.Execute();
             CollectionAssert.AreEqual(nodesExpected.ToList(), nodes, "Wrong nodes collection");
             CollectionAssert.AreEqual(treeEdgesExpected.ToList(), tree, "Wrong tree edges collection");
             CollectionAssert.AreEqual(forwardExpected.ToList(), forward, "Wrong forward edges collection");

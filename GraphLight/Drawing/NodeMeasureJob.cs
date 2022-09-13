@@ -20,10 +20,10 @@ namespace GraphLight.Drawing
         public static void MeasureStatic(IVertex<V, E> vertex)
         {
             var v = (IVertex)vertex;
-            var textBlock = new TextBlock { Text = v.Label };
+            var textBlock = new TextBlock { Text = v.Data.Label };
             textBlock.Measure(_maxSize);
-            v.Width = v.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Width + MARGIN;
-            v.Height = v.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Height + MARGIN;
+            v.Data.Width = v.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Width + MARGIN;
+            v.Data.Height = v.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Height + MARGIN;
         }
     }
 }

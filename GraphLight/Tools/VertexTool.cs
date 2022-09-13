@@ -46,7 +46,7 @@ namespace GraphLight.Tools
             var vertex = options.Source.DataContext as IVertex;
             if (vertex == null)
                 return false;
-            options.Payload = new Point(vertex.Left, vertex.Top);
+            options.Payload = new Point(vertex.Data.Left, vertex.Data.Top);
             return vertex.IsSelected;
         }
 
@@ -59,17 +59,17 @@ namespace GraphLight.Tools
             {
                 case DragDropMode.DragExisting:
                     var p = (Point)options.Payload;
-                    vertex.Left = p.X + options.DeltaX;
-                    vertex.Top = p.Y + options.DeltaY;
+                    vertex.Data.Left = p.X + options.DeltaX;
+                    vertex.Data.Top = p.Y + options.DeltaY;
                     vertex.Update();
                     break;
                 case DragDropMode.DragCopy:
                     if (options.Status == DragDropStatus.Completed)
                     {
                         var v = Model.Graph.AddVertex(vertex.Data);
-                        v.Left = options.Relative.X - vertex.Width / 2;
-                        v.Top = options.Relative.Y - vertex.Height / 2;
-                        v.Label = vertex.Label;
+                        v.Data.Left = options.Relative.X - vertex.Data.Width / 2;
+                        v.Data.Top = options.Relative.Y - vertex.Data.Height / 2;
+                        v.Data.Label = vertex.Data.Label;
                         v.Category = vertex.Category;
                     }
                     break;

@@ -21,22 +21,22 @@ namespace GraphLight.Parser
         private void createNode()
         {
             _node = ParsedGraph.AddVertex(new VertexData(t.val));
-            _node.Label = t.val;
+            _node.Data.Label = t.val;
         }
 
         private void setNodeLabel()
         {
-            _node.Label = t.val.Trim('\"');
+            _node.Data.Label = t.val.Trim('\"');
         }
 
         private void setNodeRank()
         {
-            _node.Rank = Convert.ToInt32(t.val);
+            _node.Data.Rank = Convert.ToInt32(t.val);
         }
 
         private void setNodePosition()
         {
-            _node.Position = Convert.ToInt32(t.val);
+            _node.Data.Position = Convert.ToInt32(t.val);
         }
 
         private void setNodeCategory()
@@ -57,10 +57,10 @@ namespace GraphLight.Parser
                 new VertexData(_from),
                 new VertexData(t.val),
                 new EdgeData());
-            if(((IVertex)_edge.Src).Label == null)
-                ((IVertex)_edge.Src).Label = _from;
-            if (((IVertex)_edge.Dst).Label == null)
-                ((IVertex)_edge.Dst).Label = t.val;
+            if(_edge.Src.Data.Label == null)
+                _edge.Src.Data.Label = _from;
+            if (_edge.Dst.Data.Label == null)
+                _edge.Dst.Data.Label = t.val;
             _edgeChain.Add(_edge);
             _from = t.val;
         }

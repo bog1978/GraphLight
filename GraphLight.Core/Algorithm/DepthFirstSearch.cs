@@ -70,7 +70,7 @@ namespace GraphLight.Algorithm
             set => _onCrossEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public void Find()
+        public void Execute()
         {
             // Initially we mark all nodes as white.
             _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());

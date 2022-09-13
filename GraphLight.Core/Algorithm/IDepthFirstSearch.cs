@@ -11,6 +11,6 @@ namespace GraphLight.Algorithm
         Action<IVertex<V, E>> OnNode { get; set; }
         Action<IEdge<V, E>> OnTreeEdge { get; set; }
 
-        void Find();
+        void Execute();
     }
 }

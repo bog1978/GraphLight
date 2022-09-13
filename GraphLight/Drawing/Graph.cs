@@ -307,14 +307,14 @@ namespace GraphLight.Drawing
 
             foreach (var vertex in Graph.Vertices)
             {
-                if (vertex.Left < minX)
-                    minX = vertex.Left;
-                if (vertex.Right > maxX)
-                    maxX = vertex.Right;
-                if (vertex.Top < minY)
-                    minY = vertex.Top;
-                if (vertex.Bottom > maxY)
-                    maxY = vertex.Bottom;
+                if (vertex.Data.Left < minX)
+                    minX = vertex.Data.Left;
+                if (vertex.Data.Right > maxX)
+                    maxX = vertex.Data.Right;
+                if (vertex.Data.Top < minY)
+                    minY = vertex.Data.Top;
+                if (vertex.Data.Bottom > maxY)
+                    maxY = vertex.Data.Bottom;
             }
 
             foreach (var edge in Graph.Edges)
@@ -337,8 +337,8 @@ namespace GraphLight.Drawing
 
             foreach (var vertex in Graph.Vertices)
             {
-                vertex.Left -= minX;
-                vertex.Top -= minY;
+                vertex.Data.Left -= minX;
+                vertex.Data.Top -= minY;
             }
 
             foreach (var edge in Graph.Edges)

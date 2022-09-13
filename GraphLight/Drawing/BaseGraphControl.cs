@@ -185,8 +185,8 @@ namespace GraphLight.Drawing
             // Update desired size of new UIElement.
             presenter.UpdateLayout();
             // Update properties of vertex model.
-            vertex.Width = presenter.DesiredSize.Width;
-            vertex.Height = presenter.DesiredSize.Height;
+            vertex.Data.Width = presenter.DesiredSize.Width;
+            vertex.Data.Height = presenter.DesiredSize.Height;
             _elementMap.Add(vertex, presenter);
         }
 

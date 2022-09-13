@@ -45,15 +45,15 @@
                 <ei:DataStateBehavior Value="True" TrueState="HighlightOn" FalseState="HighlightOff"
                         Binding="{Binding Path=IsHighlighted, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
             </i:Interaction.Behaviors>
-            <Path x:Name="path" Stroke="Black" Fill="LightBlue" Stretch="Fill" Data="{Binding ShapeData}" />
+            <Path x:Name="path" Stroke="Black" Fill="LightBlue" Stretch="Fill" Data="{Binding Data.ShapeData}" />
             <ContentPresenter x:Name="content" Content="{TemplateBinding Content}"
                     ContentTemplate="{TemplateBinding ContentTemplate}" Margin="10" />
         </Grid>
     </ControlTemplate>
 
     <Style TargetType="Drawing:Node">
-        <Setter Property="Canvas.Left" Value="{Binding Left}" />
-        <Setter Property="Canvas.Top" Value="{Binding Top}" />
+        <Setter Property="Canvas.Left" Value="{Binding Data.Left}" />
+        <Setter Property="Canvas.Top" Value="{Binding Data.Top}" />
         <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}" />
         <!--Setter Property="Controls:DragDropManager.AllowDrag" Value="True" /-->
         <Setter Property="Controls:DragDropManager.AllowDrag" Value="{Binding IsSelected}" />
@@ -63,7 +63,7 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Label}" VerticalAlignment="Center"
+                    <TextBlock Text="{Binding Data.Label}" VerticalAlignment="Center"
                             HorizontalAlignment="Center" />
                 </DataTemplate>
             </Setter.Value>

@@ -92,7 +92,7 @@ namespace GraphLight.Layout
             var backEdges = new List<IEdge<V, E>>();
             var dfs = _graph.DepthFirstSearch();
             dfs.OnBackEdge = backEdges.Add;
-            dfs.Find();
+            dfs.Execute();
             foreach (var e in backEdges)
             {
                 var tmp = e.Src;

@@ -6,6 +6,7 @@ using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using GraphLight.Parser;
+using GraphLight.Algorithm;
 
 namespace GraphLight.Test.Layout
 {
@@ -65,8 +66,8 @@ namespace GraphLight.Test.Layout
                 using (var stream = lazy.Value)
                     graph = GraphHelper.ReadFromFile(stream);
                 graph.Acyclic();
-                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Rank);
-                var alg = new RankNetworkSimplex(graph);
+                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Data.Rank);
+                var alg = graph.RankNetworkSimplex();
 
                 alg.Execute();
                 checkRanks(graph, expectedRanks);
@@ -82,7 +83,7 @@ namespace GraphLight.Test.Layout
                 using (var stream = lazy.Value)
                     graph = GraphHelper.ReadFromFile(stream);
 
-                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Rank);
+                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Data.Rank);
 
                 using (var f1 = File.Create("d:\\temp\\out0.graph"))
                     graph.WriteToFile(f1);
@@ -111,7 +112,7 @@ namespace GraphLight.Test.Layout
             foreach (var vertex in graph.Vertices)
             {
                 var expected = expectedRanks[vertex];
-                var actual = vertex.Rank;
+                var actual = vertex.Data.Rank;
                 Assert.AreEqual(expected, actual,
                     "Vertex {0}: rank={1} but expected {2}",
                     vertex.Data, actual, expected);
