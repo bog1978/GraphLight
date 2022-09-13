@@ -8,10 +8,6 @@ namespace GraphLight.Graph
         private double _width;
         private double _height;
 
-        public IEnumerable<object> Elements => Enumerable.Union(
-            Vertices.Cast<object>(),
-            Edges.Cast<object>());
-
         public double Width
         {
             get => _width;
@@ -27,16 +23,6 @@ namespace GraphLight.Graph
         IEnumerable<IEdge> IGraph.Edges => Edges.Cast<IEdge>();
 
         IEnumerable<IVertex> IGraph.Vertices => Vertices.Cast<IVertex>();
-
-        IEdge IGraph.AddEdge(object src, object dst, object data) => (IEdge)AddEdge((IVertexData)src, (IVertexData)dst, (IEdgeData)data);
-
-        void IGraph.RemoveEdge(IEdge edge) => RemoveEdge((Edge)edge);
-
-        void IGraph.RemoveVertex(IVertex vertex) => RemoveVertex((Vertex)vertex);
-
-        IVertex IGraph.this[object key] => (IVertex)this[(IVertexData)key];
-
-        IVertex IGraph.AddVertex(object data) => (IVertex)AddVertex((IVertexData) data);
 
         protected override IVertex<IVertexData, IEdgeData> CreateVertex(IVertexData data) => new Vertex(data);
 

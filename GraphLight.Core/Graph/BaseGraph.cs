@@ -15,6 +15,10 @@ namespace GraphLight.Graph
 
         public IEnumerable<IEdge<V, E>> Edges => _edges;
 
+        public IEnumerable<object> Elements => Enumerable.Union(
+            Vertices.Cast<object>(),
+            Edges.Cast<object>());
+
         public IEnumerable<object> All => 
             Enumerable.Union(
                 Vertices.Cast<object>(),
