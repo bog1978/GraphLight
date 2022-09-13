@@ -41,12 +41,7 @@ namespace GraphLight.Layout
             dfs.OnBackEdge = backEdges.Add;
             dfs.Execute();
             foreach (var e in backEdges)
-            {
-                var tmp = e.Src;
-                e.Src = e.Dst;
-                e.Dst = tmp;
-                e.IsRevert = true;
-            }
+                e.Revert();
         }
     }
 }

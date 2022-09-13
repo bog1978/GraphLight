@@ -34,7 +34,7 @@ namespace GraphLight.Graph
         public bool IsRevert
         {
             get => _isRevert;
-            set => SetProperty(ref _isRevert, value);
+            private set => SetProperty(ref _isRevert, value);
         }
 
         public IVertex<V, E> Src
@@ -63,6 +63,16 @@ namespace GraphLight.Graph
                 RaisePropertyChanged();
                 OnEdgeChanged(oldValue, value);
             }
+        }
+
+        public void Revert()
+        {
+            if (IsRevert)
+                throw new Exception("Edge is already reverted.");
+            var tmp = Src;
+            Src = Dst;
+            Dst = tmp;
+            IsRevert = !IsRevert;
         }
 
         public event EventHandler<EdgeChangedEventArgs<V, E>> EdgeChanged;

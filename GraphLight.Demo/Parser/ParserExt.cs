@@ -68,7 +68,7 @@ namespace GraphLight.Parser
         private void setColor(Color color)
         {
             foreach (var edge in _edgeChain)
-                edge.Color = color.ToString();
+                edge.Data.Color = color.ToString();
         }
 
         private void setThickness()
@@ -76,7 +76,7 @@ namespace GraphLight.Parser
             var format = new NumberFormatInfo { NumberDecimalSeparator = "." };
             var thickness = double.Parse(t.val, format);
             foreach (var edge in _edgeChain)
-                edge.Thickness = thickness;
+                edge.Data.Thickness = thickness;
         }
 
         private void setWeight()

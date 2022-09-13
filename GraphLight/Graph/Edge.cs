@@ -11,14 +11,9 @@ namespace GraphLight.Graph
     {
         private IList<Point2D> _draggablePoints;
         private IList<Point2D> _points;
-        private double _thickness;
-        private string _color;
 
         public Edge()
         {
-            Color = "Black";
-            Thickness = 1;
-
             var points = new ObservableCollection<Point2D>();
             Points = points;
             points.CollectionChanged += pointsCollectionChanged;
@@ -31,8 +26,6 @@ namespace GraphLight.Graph
         {
             Data = data;
         }
-
-        public string StrokeBrush => Color;
 
         int IEdge.DstPointIndex { get; set; }
 
@@ -48,41 +41,6 @@ namespace GraphLight.Graph
         {
             get => _draggablePoints;
             set => SetProperty(ref _draggablePoints, value);
-        }
-
-        public double Length
-        {
-            get
-            {
-                var vector = ((IVertex)Src).CenterPoint() - ((IVertex)Dst).CenterPoint();
-                return vector.Len * Weight;
-            }
-        }
-
-        public string Color
-        {
-            get => _color;
-            set
-            {
-                SetProperty(ref _color, value);
-                RaisePropertyChanged(nameof(StrokeBrush));
-            }
-        }
-
-        public double Thickness
-        {
-            get => _thickness;
-            set => SetProperty(ref _thickness, value);
-        }
-
-        public void Revert()
-        {
-            if (IsRevert)
-                throw new Exception("Edge is already reverted.");
-            var tmp = Src;
-            Src = Dst;
-            Dst = tmp;
-            IsRevert = true;
         }
 
         public void UpdatePoint(Point2D data)
@@ -127,7 +85,7 @@ namespace GraphLight.Graph
             {
                 var p1 = Points[Points.Count - 1];
                 var p2 = Points[Points.Count - 2];
-                var p = ((IVertex)Src).GetShapePort(p2);
+                var p = Src.GetShapePort(p2);
                 if (p1 != p)
                 {
                     p1.X = p.X;
@@ -138,7 +96,7 @@ namespace GraphLight.Graph
             {
                 var p1 = Points[0];
                 var p2 = Points[1];
-                var p = ((IVertex)Src).GetShapePort(p2);
+                var p = Src.GetShapePort(p2);
                 if (p1 != p)
                 {
                     p1.X = p.X;
@@ -155,7 +113,7 @@ namespace GraphLight.Graph
             {
                 var p1 = Points[0];
                 var p2 = Points[1];
-                var p = ((IVertex)Dst).GetShapePort(p2);
+                var p = Dst.GetShapePort(p2);
                 if (p1 != p)
                 {
                     p1.X = p.X;
@@ -166,7 +124,7 @@ namespace GraphLight.Graph
             {
                 var p1 = Points[Points.Count - 1];
                 var p2 = Points[Points.Count - 2];
-                var p = ((IVertex)Dst).GetShapePort(p2);
+                var p = Dst.GetShapePort(p2);
                 if (p1 != p)
                 {
                     p1.X = p.X;

@@ -5,10 +5,12 @@ namespace GraphLight.Graph
     public interface IEdge<TVertexData, TEdgeData>
     {
         double Weight { get; set; }
+        bool IsRevert { get; }
         TEdgeData Data { get; set; }
         IVertex<TVertexData, TEdgeData> Dst { get; set; }
         IVertex<TVertexData, TEdgeData> Src { get; set; }
-        bool IsRevert { get; set; }
+
+        void Revert();
 
         event EventHandler<EdgeChangedEventArgs<TVertexData, TEdgeData>> EdgeChanged;
     }

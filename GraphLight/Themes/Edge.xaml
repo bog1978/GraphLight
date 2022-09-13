@@ -26,10 +26,10 @@
             <Path
                 x:Name="arrow"
                 Data="{Binding Points, Converter={StaticResource bezierConverter}}"
-                StrokeThickness="{Binding Thickness}">
+                StrokeThickness="{Binding Data.Thickness}">
                 <!--  BUG: Если привязать Stroke={Binding StrokeBrush}, то в WPF валится с ошибкой: Не удается анимировать (Stroke).(0) в постоянном экземпляре объекта.  -->
                 <Path.Stroke>
-                    <SolidColorBrush Color="{Binding Color}" />
+                    <SolidColorBrush Color="{Binding Data.Color}" />
                 </Path.Stroke>
             </Path>
             <VisualStateManager.VisualStateGroups>
