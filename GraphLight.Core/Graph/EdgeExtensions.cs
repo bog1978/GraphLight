@@ -6,7 +6,9 @@ namespace GraphLight.Graph
 {
     public static class EdgeExtensions
     {
-        public static void UpdatePoint(this IEdge edge, Point2D data)
+        public static void UpdatePoint<V, E>(this IEdge<V,E> edge, Point2D data)
+            where V : IVertexData
+            where E : IEdgeData
         {
             var points = edge.Data.Points;
             var i = points.IndexOf(data);
@@ -21,7 +23,9 @@ namespace GraphLight.Graph
             edge.Data.FixDraggablePoints(data);
         }
 
-        public static void UpdateSrcPort(this IEdge edge)
+        public static void UpdateSrcPort<V, E>(this IEdge<V, E> edge)
+            where V : IVertexData
+            where E : IEdgeData
         {
             var points = edge.Data.Points;
             if (points.Count < 2)
@@ -50,7 +54,9 @@ namespace GraphLight.Graph
             }
         }
 
-        public static void UpdateDstPort(this IEdge edge)
+        public static void UpdateDstPort<V, E>(this IEdge<V, E> edge)
+            where V : IVertexData
+            where E : IEdgeData
         {
             var points = edge.Data.Points;
             if (points.Count < 2)
@@ -79,7 +85,9 @@ namespace GraphLight.Graph
             }
         }
 
-        public static void HandlePointsCollectionChanged(this IEdge edge, NotifyCollectionChangedEventArgs e)
+        public static void HandlePointsCollectionChanged<V, E>(this IEdge<V, E> edge, NotifyCollectionChangedEventArgs e)
+            where V : IVertexData
+            where E : IEdgeData
         {
             var Data = edge.Data;
             var Points = edge.Data.Points;

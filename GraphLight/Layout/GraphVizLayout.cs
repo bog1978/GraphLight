@@ -39,7 +39,7 @@ namespace GraphLight.Layout
             var dfs = Graph.DepthFirstSearch();
             dfs.OnBackEdge += backEdges.Add;
             dfs.Execute();
-            foreach (var e in backEdges.Cast<IEdge>())
+            foreach (var e in backEdges)
                 e.Revert();
         }
 

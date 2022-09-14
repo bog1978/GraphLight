@@ -106,7 +106,7 @@ namespace GraphLight.Tools
                 if (!edge.Dst.Data.IsSelected)
                     edge.Dst.Data.IsHighlighted = isHighlighted;
             }
-            foreach (IEdge edge in node.SelfEdges)
+            foreach (var edge in node.SelfEdges)
                 if (!edge.Data.IsSelected)
                     edge.Data.IsHighlighted = isHighlighted;
         }

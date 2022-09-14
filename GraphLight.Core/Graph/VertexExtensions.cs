@@ -4,9 +4,11 @@ namespace GraphLight.Graph
 {
     public static class VertexExtensions
     {
-        public static void Update(this IVertex vertex)
+        public static void Update<V, E>(this IVertex<V, E> vertex)
+            where V : IVertexData
+            where E : IEdgeData
         {
-            foreach (var e in vertex.Edges.Cast<IEdge>())
+            foreach (var e in vertex.Edges)
             {
                 var pts = e.Data.Points;
                 using (e.Data.DeferRefresh())

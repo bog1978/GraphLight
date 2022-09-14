@@ -270,9 +270,7 @@ namespace GraphLight.Layout
 
         private void route()
         {
-            var g = (IGraph)Graph;
-
-            foreach (var edge in g.Edges)
+            foreach (var edge in Graph.Edges)
             {
                 List<Point2D> points = null;
                 try
@@ -312,12 +310,12 @@ namespace GraphLight.Layout
 
         #region Построение кусочнолинейной кривой
 
-        private static List<Point2D> piecewiseLinearCurve(IEdge edge)
+        private static List<Point2D> piecewiseLinearCurve(IEdge<V, E> edge)
         {
             return PiecewiseLinearCurve(edge.Data.PolygonPoints, edge.Data.DstPointIndex);
         }
 
-        private static void dump(IEdge edge)
+        private static void dump(IEdge<V, E> edge)
         {
             var strPoints = edge.Data.PolygonPoints
                 .Select(x => $"new Point2D({x.X}, {x.Y})")
@@ -425,7 +423,7 @@ namespace GraphLight.Layout
 
         #region Построение петли.
 
-        private static List<Point2D> loopCurve(IEdge edge)
+        private static List<Point2D> loopCurve(IEdge<V, E> edge)
         {
             return new List<Point2D>
             {
