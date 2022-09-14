@@ -46,7 +46,7 @@ namespace GraphLight.Layout
             }
 
             //edge.SrcPointIndex = 0;
-            ((IEdge)edge).DstPointIndex = points.Count - 1;
+            edge.Data.DstPointIndex = points.Count - 1;
 
             foreach (var e in edges.Reverse())
             {
@@ -55,8 +55,8 @@ namespace GraphLight.Layout
             }
 
             var edgePolygon = new Polygon2D(points);
-            ((IEdge)edge).DstPointIndex = edgePolygon.Simplify(((IEdge)edge).DstPointIndex)[0];
-            ((IEdge)edge).PolygonPoints = edgePolygon.Points;
+            edge.Data.DstPointIndex = edgePolygon.Simplify(edge.Data.DstPointIndex)[0];
+            edge.Data.PolygonPoints = edgePolygon.Points;
         }
 
         #region Вычисление полигона
@@ -314,18 +314,18 @@ namespace GraphLight.Layout
 
         private static List<Point2D> piecewiseLinearCurve(IEdge edge)
         {
-            return PiecewiseLinearCurve(edge.PolygonPoints, edge.DstPointIndex);
+            return PiecewiseLinearCurve(edge.Data.PolygonPoints, edge.Data.DstPointIndex);
         }
 
         private static void dump(IEdge edge)
         {
-            var strPoints = edge.PolygonPoints
+            var strPoints = edge.Data.PolygonPoints
                 .Select(x => $"new Point2D({x.X}, {x.Y})")
                 .ToArray();
             Debug.WriteLine("var points = new List<Point2D>{");
             Debug.WriteLine(string.Join(",", strPoints));
             Debug.WriteLine("};");
-            Debug.WriteLine("var result = EdgeRouteJob<VertexAttrs, EdgeAttrs>.PiecewiseLinearCurve(points, {0});", edge.DstPointIndex);
+            Debug.WriteLine("var result = EdgeRouteJob<VertexAttrs, EdgeAttrs>.PiecewiseLinearCurve(points, {0});", edge.Data.DstPointIndex);
             Debug.WriteLine(@"Assert.IsTrue(result.Count > 1, ""Кривая не может состоять из одной точки."");");
         }
 

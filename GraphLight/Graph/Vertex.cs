@@ -35,8 +35,8 @@ namespace GraphLight.Graph
                         e.UpdateDstPort();
                     var first = e.Points.First();
                     var last = e.Points.Last();
-                    e.FixDraggablePoints(first);
-                    e.FixDraggablePoints(last);
+                    e.Data.FixDraggablePoints(first);
+                    e.Data.FixDraggablePoints(last);
                 }
             }
         }

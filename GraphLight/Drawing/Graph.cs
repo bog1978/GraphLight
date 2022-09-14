@@ -331,7 +331,7 @@ namespace GraphLight.Drawing
 
             foreach (var edge in Graph.Edges)
             {
-                foreach (var point2D in edge.DraggablePoints)
+                foreach (var point2D in edge.Data.DraggablePoints)
                 {
                     if (point2D.X < minX)
                         minX = point2D.X;
@@ -355,7 +355,7 @@ namespace GraphLight.Drawing
 
             foreach (var edge in Graph.Edges)
             {
-                foreach (var point2D in edge.DraggablePoints)
+                foreach (var point2D in edge.Data.DraggablePoints)
                 {
                     point2D.X -= minX;
                     point2D.Y -= minY;

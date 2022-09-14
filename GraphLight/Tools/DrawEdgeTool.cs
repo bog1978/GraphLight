@@ -59,7 +59,7 @@ namespace GraphLight.Tools
             {
                 _newEdge.Data.IsSelected = true;
                 _newEdge.UpdateSrcPort();
-                _newEdge.FixDraggablePoints(point);
+                _newEdge.Data.FixDraggablePoints(point);
             }
             _newEdge.RaisePointsChanged();
         }
@@ -72,7 +72,7 @@ namespace GraphLight.Tools
                 _newEdge.UpdateSrcPort();
             _newEdge.Data.IsSelected = false;
             _newEdge.UpdateDstPort();
-            _newEdge.FixDraggablePoints(_newEdge.Points.Last());
+            _newEdge.Data.FixDraggablePoints(_newEdge.Points.Last());
             _newEdge.RaisePointsChanged();
             _newEdge = null;
             IsInProgress = false;
@@ -96,7 +96,7 @@ namespace GraphLight.Tools
                 {
                     p1.X = p.X;
                     p1.Y = p.Y;
-                    _newEdge.FixDraggablePoints(p1);
+                    _newEdge.Data.FixDraggablePoints(p1);
                 }
                 _newEdge.RaisePointsChanged();
                 return;
@@ -116,7 +116,7 @@ namespace GraphLight.Tools
                 lastPoint.Y = point.Y;
                 if (_newEdge.Points.Count == 2)
                     _newEdge.UpdateSrcPort();
-                _newEdge.FixDraggablePoints(lastPoint);
+                _newEdge.Data.FixDraggablePoints(lastPoint);
             }
             _newEdge.RaisePointsChanged();
         }

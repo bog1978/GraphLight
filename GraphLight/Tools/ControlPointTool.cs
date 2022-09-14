@@ -29,7 +29,7 @@ namespace GraphLight.Tools
             }
             if (!points.Contains(point))
             {
-                var draggablePoints = Model.SelectedEdge.DraggablePoints;
+                var draggablePoints = Model.SelectedEdge.Data.DraggablePoints;
                 var i = draggablePoints.IndexOf(point);
                 points.Insert((i + 1) / 2, point);
             }

@@ -9,6 +9,7 @@ namespace GraphLight.Layout
 {
     public partial class GraphVizLayout<V, E> : GraphLayout<V, E>
         where V : IVertexDataLayered, IVertexDataLocation
+        where E : IEdgeData
     {
         private const double V_SPACE = 50;
         private const double H_SPACE = 30;
