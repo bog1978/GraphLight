@@ -8,8 +8,8 @@ namespace GraphLight.Graph
         {
             foreach (var e in vertex.Edges.Cast<IEdge>())
             {
-                var pts = e.Points;
-                using (e.DeferRefresh())
+                var pts = e.Data.Points;
+                using (e.Data.DeferRefresh())
                 {
                     if (pts.Count == 2 || e.Src == e.Dst)
                     {
@@ -20,8 +20,8 @@ namespace GraphLight.Graph
                         e.UpdateSrcPort();
                     else
                         e.UpdateDstPort();
-                    var first = e.Points.First();
-                    var last = e.Points.Last();
+                    var first = e.Data.Points.First();
+                    var last = e.Data.Points.Last();
                     e.Data.FixDraggablePoints(first);
                     e.Data.FixDraggablePoints(last);
                 }

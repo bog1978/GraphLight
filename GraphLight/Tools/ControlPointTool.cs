@@ -18,7 +18,7 @@ namespace GraphLight.Tools
             if (point == null)
                 return;
 
-            var points = Model.SelectedEdge.Points;
+            var points = Model.SelectedEdge.Data.Points;
             if (points.First() == point || points.Last() == point)
                 return;
 
@@ -41,7 +41,7 @@ namespace GraphLight.Tools
             var point = options.Source.DataContext as Point2D;
             if (point == null || Model.SelectedEdge == null)
                 return false;
-            var points = Model.SelectedEdge.Points;
+            var points = Model.SelectedEdge.Data.Points;
             if (points.First() == point || points.Last() == point)
                 return false;
             options.Payload = new Point(point.X, point.Y);
@@ -56,7 +56,7 @@ namespace GraphLight.Tools
             var p = (Point)options.Payload;
             if (Model.SelectedEdge != null)
             {
-                using (Model.SelectedEdge.DeferRefresh())
+                using (Model.SelectedEdge.Data.DeferRefresh())
                 {
                     point.X = p.X + options.DeltaX;
                     point.Y = p.Y + options.DeltaY;

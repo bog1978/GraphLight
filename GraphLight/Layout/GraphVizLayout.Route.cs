@@ -303,9 +303,9 @@ namespace GraphLight.Layout
                     if (edge.IsRevert)
                         points.Reverse();
 
-                    edge.Points.Clear();
+                    edge.Data.Points.Clear();
                     foreach (var p in points)
-                        edge.Points.Add(p);
+                        edge.Data.Points.Add(p);
                 }
             }
         }

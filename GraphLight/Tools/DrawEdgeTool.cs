@@ -23,7 +23,7 @@ namespace GraphLight.Tools
         {
             var point = GetPoint(e);
             var node = GetOriginalDataContext<IVertex>(e);
-            if (_newEdge != null && node == _srcNode && _newEdge.Points.Count <= 2)
+            if (_newEdge != null && node == _srcNode && _newEdge.Data.Points.Count <= 2)
             {
                 Cancel();
                 Model.SelectedElement = node;
@@ -47,33 +47,33 @@ namespace GraphLight.Tools
             var p = srcNode.CenterPoint();
             _srcNode = srcNode;
             _newEdge = (IEdge)Model.Graph.AddEdge(srcNode.Data, srcNode.Data, null);
-            _newEdge.Points.Add(p);
-            _newEdge.RaisePointsChanged();
+            _newEdge.Data.Points.Add(p);
+            _newEdge.Data.RaisePointsChanged();
             IsInProgress = true;
         }
 
         private void addNewControlPoint(Point2D point)
         {
-            _newEdge.Points.Add(point);
-            if (_newEdge.Points.Count == 2)
+            _newEdge.Data.Points.Add(point);
+            if (_newEdge.Data.Points.Count == 2)
             {
                 _newEdge.Data.IsSelected = true;
                 _newEdge.UpdateSrcPort();
                 _newEdge.Data.FixDraggablePoints(point);
             }
-            _newEdge.RaisePointsChanged();
+            _newEdge.Data.RaisePointsChanged();
         }
 
         private void endDrawEdge(Point2D point, IVertex dstNode)
         {
             //_newEdge.Points.Add(point);
             _newEdge.Dst = dstNode;
-            if (_newEdge.Points.Count == 2)
+            if (_newEdge.Data.Points.Count == 2)
                 _newEdge.UpdateSrcPort();
             _newEdge.Data.IsSelected = false;
             _newEdge.UpdateDstPort();
-            _newEdge.Data.FixDraggablePoints(_newEdge.Points.Last());
-            _newEdge.RaisePointsChanged();
+            _newEdge.Data.FixDraggablePoints(_newEdge.Data.Points.Last());
+            _newEdge.Data.RaisePointsChanged();
             _newEdge = null;
             IsInProgress = false;
         }
@@ -89,8 +89,8 @@ namespace GraphLight.Tools
                 if (node == _srcNode)
                     return;
 
-                var p1 = _newEdge.Points[_newEdge.Points.Count - 1];
-                var p2 = _newEdge.Points[_newEdge.Points.Count - 2];
+                var p1 = _newEdge.Data.Points[_newEdge.Data.Points.Count - 1];
+                var p2 = _newEdge.Data.Points[_newEdge.Data.Points.Count - 2];
                 var p = node.GetShapePort(p2);
                 if (p1 != p)
                 {
@@ -98,7 +98,7 @@ namespace GraphLight.Tools
                     p1.Y = p.Y;
                     _newEdge.Data.FixDraggablePoints(p1);
                 }
-                _newEdge.RaisePointsChanged();
+                _newEdge.Data.RaisePointsChanged();
                 return;
             }
 
@@ -107,18 +107,18 @@ namespace GraphLight.Tools
                 return;
 
             var point = GetPoint(e);
-            if (_newEdge.Points.Count == 1)
+            if (_newEdge.Data.Points.Count == 1)
                 addNewControlPoint(point);
             else
             {
-                var lastPoint = _newEdge.Points.Last();
+                var lastPoint = _newEdge.Data.Points.Last();
                 lastPoint.X = point.X;
                 lastPoint.Y = point.Y;
-                if (_newEdge.Points.Count == 2)
+                if (_newEdge.Data.Points.Count == 2)
                     _newEdge.UpdateSrcPort();
                 _newEdge.Data.FixDraggablePoints(lastPoint);
             }
-            _newEdge.RaisePointsChanged();
+            _newEdge.Data.RaisePointsChanged();
         }
 
         public override void HandleKeyUp(object sender, KeyEventArgs e)

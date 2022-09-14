@@ -8,7 +8,7 @@ namespace GraphLight.Graph
     {
         public static void UpdatePoint(this IEdge edge, Point2D data)
         {
-            var points = edge.Points;
+            var points = edge.Data.Points;
             var i = points.IndexOf(data);
             if (i == 1 && !edge.IsRevert)
                 edge.UpdateSrcPort();
@@ -23,7 +23,7 @@ namespace GraphLight.Graph
 
         public static void UpdateSrcPort(this IEdge edge)
         {
-            var points = edge.Points;
+            var points = edge.Data.Points;
             if (points.Count < 2)
                 return;
             if (edge.IsRevert)
@@ -52,7 +52,7 @@ namespace GraphLight.Graph
 
         public static void UpdateDstPort(this IEdge edge)
         {
-            var points = edge.Points;
+            var points = edge.Data.Points;
             if (points.Count < 2)
                 return;
             if (edge.IsRevert)
@@ -82,7 +82,7 @@ namespace GraphLight.Graph
         public static void HandlePointsCollectionChanged(this IEdge edge, NotifyCollectionChangedEventArgs e)
         {
             var Data = edge.Data;
-            var Points = edge.Points;
+            var Points = edge.Data.Points;
 
             Point2D p1, p2, p3, p4, p5;
             int i;
@@ -130,7 +130,7 @@ namespace GraphLight.Graph
                     Data.DraggablePoints.Remove(p4);
                     p3.X = (p1.X + p5.X) / 2;
                     p3.Y = (p1.Y + p5.Y) / 2;
-                    edge.RaisePointsChanged();
+                    edge.Data.RaisePointsChanged();
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     break;

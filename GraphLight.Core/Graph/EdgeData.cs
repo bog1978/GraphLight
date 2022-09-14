@@ -1,4 +1,5 @@
 ﻿using GraphLight.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -11,6 +12,7 @@ namespace GraphLight.Graph
 
         private double _thickness;
         private string _color;
+        private IList<Point2D> polygonPoints;
 
         public EdgeData()
         {
@@ -38,9 +40,16 @@ namespace GraphLight.Graph
 
         public string StrokeBrush => Color;
 
-        IList<Point2D> IEdgeData.Points => _points;
-        IList<Point2D> IEdgeData.PolygonPoints { get; set; }
+        public IList<Point2D> Points => _points;
+        
+        public IList<Point2D> PolygonPoints
+        {
+            get => polygonPoints;
+            set => SetProperty(ref polygonPoints, value);
+        }
+        
         int IEdgeData.DstPointIndex { get; set; }
+
         public IList<Point2D> DraggablePoints => _draggablePoints;
 
         public void FixDraggablePoints(Point2D data)
@@ -62,5 +71,23 @@ namespace GraphLight.Graph
                 p4.Y = (p3.Y + p5.Y) / 2;
             }
         }
+
+        public void RaisePointsChanged() => RaisePropertyChanged(nameof(Points));
+
+        public IDisposable DeferRefresh() => new RefreshHelper(this);
+
+        private class RefreshHelper : IDisposable
+        {
+            private readonly IEdgeData _edgeData;
+
+            internal RefreshHelper(IEdgeData edge) => _edgeData = edge;
+
+            #region IDisposable Members
+
+            public void Dispose() => _edgeData.RaisePointsChanged();
+
+            #endregion
+        }
+
     }
 }

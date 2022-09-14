@@ -1,4 +1,5 @@
 ﻿using GraphLight.Geometry;
+using System;
 using System.Collections.Generic;
 
 namespace GraphLight.Graph
@@ -12,5 +13,7 @@ namespace GraphLight.Graph
         IList<Point2D> PolygonPoints { get; set; }
         IList<Point2D> DraggablePoints { get; }
         void FixDraggablePoints(Point2D data);
+        void RaisePointsChanged();
+        IDisposable DeferRefresh();
     }
 }

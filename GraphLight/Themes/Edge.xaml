@@ -25,7 +25,7 @@
             </i:Interaction.Behaviors>
             <Path
                 x:Name="arrow"
-                Data="{Binding Points, Converter={StaticResource bezierConverter}}"
+                Data="{Binding Data.Points, Converter={StaticResource bezierConverter}}"
                 StrokeThickness="{Binding Data.Thickness}">
                 <!--  BUG: Если привязать Stroke={Binding StrokeBrush}, то в WPF валится с ошибкой: Не удается анимировать (Stroke).(0) в постоянном экземпляре объекта.  -->
                 <Path.Stroke>
