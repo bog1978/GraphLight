@@ -20,10 +20,6 @@ namespace GraphLight.Graph
             set => SetProperty(ref _height, value);
         }
 
-        IEnumerable<IEdge> IGraph.Edges => Edges.Cast<IEdge>();
-
-        IEnumerable<IVertex> IGraph.Vertices => Vertices.Cast<IVertex>();
-
         protected override IVertex<IVertexData, IEdgeData> CreateVertex(IVertexData data) => new Vertex(data);
 
         protected override IEdge<IVertexData, IEdgeData> CreateEdge(IEdgeData data) => new Edge(data);

@@ -107,7 +107,7 @@ namespace GraphLight.Test.Layout
             }
         }
 
-        private static void checkRanks(IGraph graph, IDictionary<IVertex, int> expectedRanks)
+        private static void checkRanks(IGraph<IVertexData, IEdgeData> graph, IDictionary<IVertex<IVertexData, IEdgeData>, int> expectedRanks)
         {
             foreach (var vertex in graph.Vertices)
             {

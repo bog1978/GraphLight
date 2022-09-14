@@ -6,7 +6,5 @@ namespace GraphLight.Graph
     {
         double Width { get; set; }
         double Height { get; set; }
-        IEnumerable<IEdge> Edges { get; }
-        IEnumerable<IVertex> Vertices { get; }
     }
 }
