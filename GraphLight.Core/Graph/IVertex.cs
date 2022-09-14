@@ -8,6 +8,5 @@ namespace GraphLight.Graph
         IEnumerable<IEdge> InEdges { get; }
         IEnumerable<IEdge> OutEdges { get; }
         IEnumerable<IEdge> SelfEdges { get; }
-        void Update();
     }
 }

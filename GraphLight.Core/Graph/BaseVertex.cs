@@ -76,5 +76,11 @@ namespace GraphLight.Graph
         }
 
         public override string ToString() => Data.ToString();
+
+        public override bool Equals(object obj) =>
+            obj is BaseVertex<V, E> other && Equals(Data, other.Data);
+
+        public override int GetHashCode() =>
+            Data.GetHashCode();
     }
 }

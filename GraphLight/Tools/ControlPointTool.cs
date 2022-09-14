@@ -4,6 +4,7 @@ using System.Windows.Input;
 using GraphLight.Controls;
 using GraphLight.Drawing;
 using GraphLight.Geometry;
+using GraphLight.Graph;
 
 namespace GraphLight.Tools
 {
