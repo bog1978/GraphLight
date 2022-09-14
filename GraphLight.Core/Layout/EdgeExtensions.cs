@@ -25,9 +25,9 @@ namespace GraphLight.Layout
             return Math.Abs(delta) * edge.Weight;
         }
 
-        public static IVertex<V, E> InsertControlPoint<V, E>(this IGraph<V, E> graph, IEdge<V, E> edge, V data)
+        public static IVertex<V, E> InsertControlPoint<V, E>(this IGraph<V, E> graph, IEdge<V, E> edge, V vertexData, E edgeData)
         {
-            return graph.InsertVertex(edge, data);
+            return graph.InsertVertex(edge, vertexData, edgeData);
         }
 
         public static void RemoveControlPoint<V, E>(this IGraph<V, E> graph, IVertex<V, E> vertex)

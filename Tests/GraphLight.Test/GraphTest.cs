@@ -18,7 +18,7 @@ namespace GraphLight.Test
             var a = ab.Src;
             var b = ab.Dst;
 
-            var cp = g.InsertControlPoint(ab, new object());
+            var cp = g.InsertControlPoint(ab, new object(), new object());
             Assert.IsTrue(ReferenceEquals(ab, graph.Edges.First()));
             Assert.IsTrue(ReferenceEquals(ab, a.OutEdges.First()));
             Assert.IsTrue(ReferenceEquals(ab, cp.InEdges.First()));

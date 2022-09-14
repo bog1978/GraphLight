@@ -104,7 +104,7 @@ namespace GraphLight.Layout
                 var increment = Math.Sign(distance);
                 for (var rankShift = increment; rankShift != distance; rankShift += increment)
                 {
-                    var newNode = g.InsertControlPoint(edge1, new VertexData($"mid_{++_tmpId}"));
+                    var newNode = g.InsertControlPoint(edge1, new VertexData($"mid_{++_tmpId}"), new EdgeData());
                     newNode.Data.IsTmp = true;
                     newNode.Data.Rank = edge.Src.Data.Rank + rankShift;
                     edge1 = (IEdge)newNode.OutEdges.First();

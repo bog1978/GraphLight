@@ -12,7 +12,7 @@ namespace GraphLight.Graph
 
         public Edge(IEdgeData data) : base(data)
         {
-            var points = new ObservableCollection<Point2D>();
+            var points = (ObservableCollection<Point2D>)data.Points;
             points.CollectionChanged += pointsCollectionChanged;
             _points = points;
         }
@@ -23,7 +23,7 @@ namespace GraphLight.Graph
 
         public IDisposable DeferRefresh() => new RefreshHelper(this);
 
-        protected void pointsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => 
+        protected void pointsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) =>
             this.HandlePointsCollectionChanged(e);
 
         private class RefreshHelper : IDisposable

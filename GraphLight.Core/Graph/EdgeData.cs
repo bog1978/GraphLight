@@ -7,6 +7,7 @@ namespace GraphLight.Graph
     public class EdgeData : CommonData, IEdgeData
     {
         private readonly IList<Point2D> _draggablePoints;
+        private readonly IList<Point2D> _points;
 
         private double _thickness;
         private string _color;
@@ -15,6 +16,7 @@ namespace GraphLight.Graph
         {
             Color = "Black";
             Thickness = 1;
+            _points = new ObservableCollection<Point2D>();
             _draggablePoints = new ObservableCollection<Point2D>();
         }
 
@@ -36,6 +38,7 @@ namespace GraphLight.Graph
 
         public string StrokeBrush => Color;
 
+        IList<Point2D> IEdgeData.Points => _points;
         IList<Point2D> IEdgeData.PolygonPoints { get; set; }
         int IEdgeData.DstPointIndex { get; set; }
         public IList<Point2D> DraggablePoints => _draggablePoints;

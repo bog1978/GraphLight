@@ -48,11 +48,11 @@ namespace GraphLight.Graph
             _map.Remove(vertex.Data);
         }
 
-        public IVertex<V, E> InsertVertex(IEdge<V, E> edge, V vertexData)
+        public IVertex<V, E> InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData)
         {
             if (!Edges.Contains(edge))
                 throw new Exception("Данное ребро не принадлежит графу");
-            var newEdge = AddEdge(vertexData, edge.Dst.Data, edge.Data);
+            var newEdge = AddEdge(vertexData, edge.Dst.Data, edgeData);
             edge.Dst = newEdge.Src;
             return newEdge.Src;
         }
