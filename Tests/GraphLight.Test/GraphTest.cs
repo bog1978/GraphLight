@@ -53,7 +53,7 @@ namespace GraphLight.Test
             graph.AddEdge(a, c, graph.CreateEdgeData());
             var engine = new GraphVizLayout<IVertexData, IEdgeData>
                 {
-                    NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
+                    NodeMeasure = new WpfNodeMeasure<IVertexData, IEdgeData>(),
                     Graph = graph
                 };
             engine.Layout();
@@ -73,7 +73,7 @@ namespace GraphLight.Test
             graph.AddEdge(d, a, graph.CreateEdgeData());
             var engine = new GraphVizLayout<IVertexData, IEdgeData>
             {
-                    NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
+                    NodeMeasure = new WpfNodeMeasure<IVertexData, IEdgeData>(),
                     Graph = graph
                 };
             engine.Layout();

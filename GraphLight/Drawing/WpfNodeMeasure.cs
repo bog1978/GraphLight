@@ -5,7 +5,7 @@ using GraphLight.Layout;
 
 namespace GraphLight.Drawing
 {
-    public class NodeMeasure<V, E> : INodeMeasure<V, E>
+    public class WpfNodeMeasure<V, E> : INodeMeasure<V, E>
         where V : IVertexData
     {
         private const double MARGIN = 20;

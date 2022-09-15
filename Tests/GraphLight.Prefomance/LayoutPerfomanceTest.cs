@@ -18,7 +18,7 @@ namespace GraphLight.Prefomance
             var graph = TestData.GraphToTest;
             var layout = new GraphVizLayout<IVertexData, IEdgeData>
             {
-                NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
+                NodeMeasure = new WpfNodeMeasure<IVertexData, IEdgeData>(),
                 Graph = graph
             };
             layout.Layout();

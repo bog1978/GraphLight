@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GraphLight.Algorithm;
 using GraphLight.Graph;
@@ -42,6 +43,34 @@ namespace GraphLight.Layout
             dfs.Execute();
             foreach (var e in backEdges)
                 e.Revert();
+        }
+
+        public static IVertex<V, E> InsertControlPoint<V, E>(this IGraph<V, E> graph, IEdge<V, E> edge, V vertexData, E edgeData)
+        {
+            return graph.InsertVertex(edge, vertexData, edgeData);
+        }
+
+        public static void RemoveControlPoint<V, E>(this IGraph<V, E> graph, IVertex<V, E> vertex)
+        {
+            var inCnt = vertex.InEdges.Count();
+            var outCnt = vertex.OutEdges.Count();
+
+            if (inCnt > 1 || outCnt > 1)
+                throw new Exception("Can't remove node");
+
+            if (inCnt == 0 && outCnt == 1)
+                graph.RemoveEdge(vertex.OutEdges.First());
+            else if (inCnt == 1 && outCnt == 0)
+                graph.RemoveEdge(vertex.InEdges.First());
+            else if (inCnt == 1 && outCnt == 1)
+            {
+                var inEdge = vertex.InEdges.First();
+                var outEdge = vertex.OutEdges.First();
+
+                inEdge.Dst = outEdge.Dst;
+                graph.RemoveEdge(outEdge);
+            }
+            graph.RemoveVertex(vertex);
         }
     }
 }

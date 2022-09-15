@@ -89,7 +89,7 @@ namespace GraphLight.Test.Layout
                     graph.WriteToFile(f1);
                 var engine = new GraphVizLayout<IVertexData, IEdgeData>
                 {
-                    NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
+                    NodeMeasure = new WpfNodeMeasure<IVertexData, IEdgeData>(),
                     Graph = graph
                 };
 

@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using GraphLight.Geometry;
+using GraphLight.Layout;
 
 namespace GraphLight.Graph
 {
