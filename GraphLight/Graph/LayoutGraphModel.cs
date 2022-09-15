@@ -23,5 +23,9 @@ namespace GraphLight.Graph
         protected override IVertex<IVertexData, IEdgeData> CreateVertex(IVertexData data) => new Vertex(data);
 
         protected override IEdge<IVertexData, IEdgeData> CreateEdge(IEdgeData data) => new Edge(data);
+
+        public override IVertexData CreateVertexData(object id) => new VertexData(id.ToString());
+
+        public override IEdgeData CreateEdgeData() => new EdgeData();
     }
 }

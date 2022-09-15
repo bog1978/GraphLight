@@ -64,9 +64,9 @@ namespace GraphLight.Layout
                 (from node in Graph.Vertices
                  group node by node.Data.Rank
                      into row
-                     let r = row.Key
-                     let h = row.Max(x => x.Data.Height) + V_SPACE
-                     select new { r, h })
+                 let r = row.Key
+                 let h = row.Max(x => x.Data.Height) + V_SPACE
+                 select new { r, h })
                     .ToDictionary(x => x.r, x => x.h);
 
             foreach (var node in Graph.Vertices)
@@ -90,10 +90,8 @@ namespace GraphLight.Layout
 
         private void addTmpNodes()
         {
-            var g = (IGraph)Graph;
-
             var edgesToSplit =
-                from e in g.Edges
+                from e in Graph.Edges
                 where Math.Abs(e.Dst.Data.Rank - e.Src.Data.Rank) > 1
                 select e;
 
@@ -104,14 +102,14 @@ namespace GraphLight.Layout
                 var increment = Math.Sign(distance);
                 for (var rankShift = increment; rankShift != distance; rankShift += increment)
                 {
-                    var newNode = g.InsertControlPoint(edge1, new VertexData($"mid_{++_tmpId}"), new EdgeData());
+                    var newNode = Graph.InsertControlPoint(edge1, Graph.CreateVertexData($"mid_{++_tmpId}"), Graph.CreateEdgeData());
                     newNode.Data.IsTmp = true;
                     newNode.Data.Rank = edge.Src.Data.Rank + rankShift;
-                    edge1 = (IEdge)newNode.OutEdges.First();
+                    edge1 = newNode.OutEdges.First();
                 }
             }
 
-            foreach (var e in g.Edges)
+            foreach (var e in Graph.Edges)
                 e.Weight = e.Src.Data.IsTmp
                     ? (e.Dst.Data.IsTmp ? 8 : 2)
                     : (e.Dst.Data.IsTmp ? 2 : 1);

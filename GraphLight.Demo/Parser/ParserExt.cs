@@ -20,7 +20,7 @@ namespace GraphLight.Parser
 
         private void createNode()
         {
-            _node = (IVertex)ParsedGraph.AddVertex(new VertexData(t.val));
+            _node = (IVertex)ParsedGraph.AddVertex(ParsedGraph.CreateVertexData(t.val));
             _node.Data.Label = t.val;
         }
 
@@ -54,9 +54,9 @@ namespace GraphLight.Parser
         private void createEdge()
         {
             _edge = (IEdge)ParsedGraph.AddEdge(
-                new VertexData(_from),
-                new VertexData(t.val),
-                new EdgeData());
+                ParsedGraph.CreateVertexData(_from),
+                ParsedGraph.CreateVertexData(t.val),
+                ParsedGraph.CreateEdgeData());
             if(_edge.Src.Data.Label == null)
                 _edge.Src.Data.Label = _from;
             if (_edge.Dst.Data.Label == null)

@@ -20,25 +20,25 @@ namespace GraphLight
             ExampleCollection = resources.Where(x => x.EndsWith(".graph")).ToList();
             SelectedExample = ExampleCollection.FirstOrDefault();
             Palette = new LayoutGraphModel();
-            var v1 = Palette.AddVertex(new VertexData("1")
-            {
-                Label = "AAA",
-                Category = "large_font",
-            });
-            var v2 = Palette.AddVertex(new VertexData("2")
-            {
-                Label = "BBB",
-                Category = "small_font",
-            });
-            var v3 = Palette.AddVertex(new VertexData("3")
-            {
-                Label = "CCC",
-                Category = "with_tooltip",
-            });
-            var v4 = Palette.AddVertex(new VertexData("4")
-            {
-                Label = "DDD"
-            });
+
+            var v1 = Palette.CreateVertexData("1");
+            v1.Label = "AAA";
+            v1.Category = "large_font";
+            Palette.AddVertex(v1);
+
+            var v2 = Palette.CreateVertexData("2");
+            v2.Label = "BBB";
+            v2.Category = "small_font";
+            Palette.AddVertex(v2);
+
+            var v3 = Palette.CreateVertexData("3");
+            v3.Label = "CCC";
+            v3.Category = "with_tooltip";
+            Palette.AddVertex(v3);
+
+            var v4 = Palette.CreateVertexData("4");
+            v4.Label = "DDD";
+            Palette.AddVertex(v4);
         }
 
         public IGraph Graph

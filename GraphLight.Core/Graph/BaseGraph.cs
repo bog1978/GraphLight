@@ -102,7 +102,8 @@ namespace GraphLight.Graph
         }
 
         protected abstract IVertex<V, E> CreateVertex(V data);
-
         protected abstract IEdge<V, E> CreateEdge(E data);
+        public abstract V CreateVertexData(object id);
+        public abstract E CreateEdgeData();
     }
 }
