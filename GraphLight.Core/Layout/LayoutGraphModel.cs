@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
+using GraphLight.Graph;
 
-namespace GraphLight.Graph
+namespace GraphLight.Layout
 {
     public class LayoutGraphModel : BaseGraph<IVertexData, IEdgeData>, IGraph
     {

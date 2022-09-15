@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using GraphLight.Graph;
+using GraphLight.Layout;
 using GraphLight.Parser;
 
 namespace GraphLight

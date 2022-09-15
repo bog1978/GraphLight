@@ -1,11 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using GraphLight.Geometry;
-using GraphLight.Layout;
+using GraphLight.Graph;
 
-namespace GraphLight.Graph
+namespace GraphLight.Layout
 {
-    public class Edge : BaseEdge<IVertexData, IEdgeData>, IEdge
+    internal class Edge : BaseEdge<IVertexData, IEdgeData>, IEdge
     {
         public Edge(IEdgeData data) : base(data)
         {

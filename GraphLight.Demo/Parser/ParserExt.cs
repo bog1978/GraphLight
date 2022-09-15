@@ -3,6 +3,7 @@ using System.Windows.Media;
 using GraphLight.Graph;
 using System.Globalization;
 using System;
+using GraphLight.Layout;
 
 namespace GraphLight.Parser
 {
