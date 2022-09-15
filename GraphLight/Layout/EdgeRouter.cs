@@ -9,25 +9,29 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    partial class GraphVizLayout<V, E>
+    internal class SplineEdgeRouter<V, E> : IAlgorithm
+        where V : IVertexDataLayered, IVertexDataLocation
+        where E : IEdgeData
     {
-        protected virtual void RouteEdges()
+        private readonly IGraph<V, E> _graph;
+        private readonly IDictionary<int, List<IVertex<V, E>>> _rankMap;
+
+        public SplineEdgeRouter(IGraph<V, E> graph)
+        {
+            _graph = graph;
+            _rankMap = _graph.GetRankMap();
+        }
+
+        public void Execute()
         {
             calculatePolygons();
             removeTmpNodes();
             route();
         }
 
-        #region Calculating polygons
-
-        private IDictionary<int, List<IVertex<V, E>>> _rankMap;
-
         private void calculatePolygons()
         {
-            var g = Graph;
-
-            _rankMap = g.GetRankMap();
-            g.Edges.Iter(calculate);
+            _graph.Edges.Iter(calculate);
         }
 
         private void calculate(IEdge<V, E> edge)
@@ -58,8 +62,6 @@ namespace GraphLight.Layout
             edge.Data.DstPointIndex = edgePolygon.Simplify(edge.Data.DstPointIndex)[0];
             edge.Data.PolygonPoints = edgePolygon.Points;
         }
-
-        #region Вычисление полигона
 
         private void calcSrcRightNode(IEdge<V, E> e, ICollection<Point2D> points)
         {
@@ -257,20 +259,14 @@ namespace GraphLight.Layout
             }
         }
 
-        #endregion
-
         private static bool between(double x, double a, double b)
         {
             return Math.Min(a, b) <= x && x <= Math.Max(a, b);
         }
 
-        #endregion
-
-        #region Edge routing
-
         private void route()
         {
-            foreach (var edge in Graph.Edges)
+            foreach (var edge in _graph.Edges)
             {
                 List<Point2D> points = null;
                 try
@@ -308,23 +304,9 @@ namespace GraphLight.Layout
             }
         }
 
-        #region Построение кусочнолинейной кривой
-
         private static List<Point2D> piecewiseLinearCurve(IEdge<V, E> edge)
         {
             return PiecewiseLinearCurve(edge.Data.PolygonPoints, edge.Data.DstPointIndex);
-        }
-
-        private static void dump(IEdge<V, E> edge)
-        {
-            var strPoints = edge.Data.PolygonPoints
-                .Select(x => $"new Point2D({x.X}, {x.Y})")
-                .ToArray();
-            Debug.WriteLine("var points = new List<Point2D>{");
-            Debug.WriteLine(string.Join(",", strPoints));
-            Debug.WriteLine("};");
-            Debug.WriteLine("var result = EdgeRouteJob<VertexAttrs, EdgeAttrs>.PiecewiseLinearCurve(points, {0});", edge.Data.DstPointIndex);
-            Debug.WriteLine(@"Assert.IsTrue(result.Count > 1, ""Кривая не может состоять из одной точки."");");
         }
 
         public static List<Point2D> PiecewiseLinearCurve(IEnumerable<Point2D> polygonPoints, int iEnd)
@@ -419,9 +401,25 @@ namespace GraphLight.Layout
                     yield return new Line2D(points[i], points[j]);
         }
 
-        #endregion
+        private void removeTmpNodes()
+        {
+            var tmpNodes = _graph.Vertices
+                .Where(x => x.Data.IsTmp)
+                .ToList();
+            tmpNodes.Iter(x => _graph.RemoveControlPoint(x));
+        }
 
-        #region Построение петли.
+        private static void dump(IEdge<V, E> edge)
+        {
+            var strPoints = edge.Data.PolygonPoints
+                .Select(x => $"new Point2D({x.X}, {x.Y})")
+                .ToArray();
+            Debug.WriteLine("var points = new List<Point2D>{");
+            Debug.WriteLine(string.Join(",", strPoints));
+            Debug.WriteLine("};");
+            Debug.WriteLine("var result = EdgeRouteJob<VertexAttrs, EdgeAttrs>.PiecewiseLinearCurve(points, {0});", edge.Data.DstPointIndex);
+            Debug.WriteLine(@"Assert.IsTrue(result.Count > 1, ""Кривая не может состоять из одной точки."");");
+        }
 
         private static List<Point2D> loopCurve(IEdge<V, E> edge)
         {
@@ -435,8 +433,5 @@ namespace GraphLight.Layout
             };
         }
 
-        #endregion
-
-        #endregion
     }
 }

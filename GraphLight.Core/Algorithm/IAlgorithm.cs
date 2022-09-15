@@ -1,6 +1,6 @@
 ﻿namespace GraphLight.Algorithm
 {
-    public interface INetworkSimplex
+    public interface IAlgorithm
     {
         void Execute();
     }

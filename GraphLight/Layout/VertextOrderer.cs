@@ -1,35 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GraphLight.Algorithm;
 using GraphLight.Collections;
 using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    partial class GraphVizLayout<V, E>
+    internal class VertextOrderer<V, E> : IAlgorithm
+        where V : IVertexDataLayered, IVertexDataLocation
+        where E : IEdgeData
     {
-        protected virtual void OrderVertices()
+        private readonly IGraph<V, E> _graph;
+        private readonly IDictionary<IVertex<V, E>, int> _nodeColors;
+        private int _count;
+
+        public VertextOrderer(IGraph<V, E> graph)
+        {
+            _graph = graph;
+            // Все узлы белые
+            _nodeColors = _graph.Vertices.ToDictionary(x => x, x => -1);
+        }
+
+        public void Execute()
         {
             nodeOrderDfs();
             nodeOrderMinCross();
             nodeOrderSort();
         }
 
-        private Dictionary<IVertex<V, E>, int> _nodeColors;
-        private int _count;
-
         private void nodeOrderDfs()
         {
-            // Все узлы белые
-            _nodeColors = Graph.Vertices.ToDictionary(x => x, x => -1);
-
-            foreach (var node in Graph.Vertices.Where(node => _nodeColors[node] == -1))
+            foreach (var node in _graph.Vertices.Where(node => _nodeColors[node] == -1))
             {
                 dfs(node);
                 _nodeColors[node] = 1;
             }
 
-            var ranks = Graph.GetRankList();
+            var ranks = _graph.GetRankList();
             foreach (var rank in ranks)
                 for (var i = 0; i < rank.Count; i++)
                     rank[i].Data.Position = i;
@@ -48,7 +56,7 @@ namespace GraphLight.Layout
 
         private void nodeOrderSort()
         {
-            var ranks = Graph.GetRankList();
+            var ranks = _graph.GetRankList();
 
             var L = 0;
             for (var cnt = 0; cnt < 25; cnt++)
@@ -138,13 +146,13 @@ namespace GraphLight.Layout
         private void nodeOrderMinCross()
         {
             var ranks =
-                from node in Graph.Vertices
+                from node in _graph.Vertices
                 orderby node.Data.Rank, node.Data.Position
                 group node by node.Data.Rank
                     into rank
                 select rank.ToList();
 
-            var bestPositions = Graph.Vertices.ToDictionary(x => x, x => x.Data.Position);
+            var bestPositions = _graph.Vertices.ToDictionary(x => x, x => x.Data.Position);
             var bestCrossing = double.MaxValue;
             var bestLenght = double.MaxValue;
 
@@ -162,11 +170,11 @@ namespace GraphLight.Layout
                 });
 
                 var currCrossing = ranks.Sum(x => rankCross(x));
-                var currLength = Graph.Edges.Sum(e => e.PositionSpan() * e.PositionSpan());
+                var currLength = _graph.Edges.Sum(e => e.PositionSpan() * e.PositionSpan());
 
                 if (currCrossing < bestCrossing || currCrossing == bestCrossing && currLength < bestLenght)
                 {
-                    bestPositions = Graph.Vertices.ToDictionary(x => x, x => x.Data.Position);
+                    bestPositions = _graph.Vertices.ToDictionary(x => x, x => x.Data.Position);
                     bestCrossing = currCrossing;
                     bestLenght = currLength;
                     i = 0;
@@ -200,7 +208,7 @@ namespace GraphLight.Layout
                 || e1.Src.Data.Position > e2.Src.Data.Position && e1.Dst.Data.Position < e2.Dst.Data.Position;
         }
 
-        public abstract class OrderManager
+        private abstract class OrderManager
         {
             private readonly bool _isRevertPath;
 
@@ -233,7 +241,7 @@ namespace GraphLight.Layout
             protected abstract int GetReverseIndex(IVertex<V, E> node);
         }
 
-        public class BaricenterOrderManager : OrderManager
+        private class BaricenterOrderManager : OrderManager
         {
             public BaricenterOrderManager(int count, bool isRevertPath)
                 : base(count, isRevertPath) { }
@@ -255,7 +263,7 @@ namespace GraphLight.Layout
             }
         }
 
-        public class MedianOrderManager : OrderManager
+        private class MedianOrderManager : OrderManager
         {
             public MedianOrderManager(int count, bool isRevertPath)
                 : base(count, isRevertPath) { }

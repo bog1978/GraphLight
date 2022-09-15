@@ -33,6 +33,11 @@ namespace GraphLight.Layout
             weights.Restore((e, x) => e.Weight = x);
         }
 
+        protected virtual void RouteEdges() => new SplineEdgeRouter<V, E>(Graph).Execute();
+
+        protected virtual void OrderVertices() => new VertextOrderer<V, E>(Graph).Execute();
+
+
         protected virtual void Acyclic()
         {
             var backEdges = new List<IEdge<V, E>>();
