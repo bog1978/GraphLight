@@ -5,24 +5,20 @@ using GraphLight.Layout;
 
 namespace GraphLight.Drawing
 {
-    public class NodeMeasure : INodeMeasure
+    public class NodeMeasure<V, E> : INodeMeasure<V, E>
+        where V : IVertexData
     {
         private const double MARGIN = 20;
 
         private static readonly Size _maxSize = new Size(
             double.PositiveInfinity, double.PositiveInfinity);
 
-        public void Measure(IVertex vertex)
+        public void Measure(IVertex<V, E> vertex)
         {
-            MeasureStatic(vertex);
-        }
-
-        public static void MeasureStatic(IVertex attrs)
-        {
-            var textBlock = new TextBlock { Text = attrs.Label };
+            var textBlock = new TextBlock { Text = vertex.Data.Label };
             textBlock.Measure(_maxSize);
-            attrs.Width = attrs.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Width + MARGIN;
-            attrs.Height = attrs.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Height + MARGIN;
+            vertex.Data.Width = vertex.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Width + MARGIN;
+            vertex.Data.Height = vertex.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Height + MARGIN;
         }
     }
 }

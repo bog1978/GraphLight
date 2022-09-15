@@ -2,16 +2,16 @@
 
 namespace GraphLight.Layout
 {
-    public interface INodeMeasure
+    public interface INodeMeasure<V, E>
     {
-        void Measure(IVertex vertex);
+        void Measure(IVertex<V, E> vertex);
     }
 
-    public abstract class GraphLayout
+    public abstract class GraphLayout<V, E>
     {
-        public INodeMeasure NodeMeasure { get; set; }
+        public INodeMeasure<V, E> NodeMeasure { get; set; }
 
-        public IGraph Graph { get; set; }
+        public IGraph<V, E> Graph { get; set; }
 
         public abstract void Layout();
     }

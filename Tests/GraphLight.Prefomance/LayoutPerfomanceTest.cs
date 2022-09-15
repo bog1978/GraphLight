@@ -3,7 +3,6 @@ using System.Diagnostics;
 using GraphLight.Drawing;
 using GraphLight.Graph;
 using GraphLight.Layout;
-using GraphVizLayout = GraphLight.Layout.GraphVizLayout;
 
 namespace GraphLight.Prefomance
 {
@@ -17,11 +16,11 @@ namespace GraphLight.Prefomance
         private static void doTest()
         {
             var graph = TestData.GraphToTest;
-            var layout = new GraphVizLayout
-                {
-                    NodeMeasure = new NodeMeasure(),
-                    Graph = graph
-                };
+            var layout = new GraphVizLayout<IVertexData, IEdgeData>
+            {
+                NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
+                Graph = graph
+            };
             layout.Layout();
         }
 

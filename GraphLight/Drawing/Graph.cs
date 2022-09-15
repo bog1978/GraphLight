@@ -13,8 +13,8 @@ namespace GraphLight.Drawing
     {
         #region Private fields
 
-        private readonly GraphVizLayout _layout;
-        private readonly DummyNodeMeasure _measure;
+        private readonly GraphVizLayout<IVertexData, IEdgeData> _layout;
+        private readonly DummyNodeMeasure<IVertexData, IEdgeData> _measure;
         private readonly GraphTool _edgeDrawingTool;
         private readonly GraphTool _edgeTool;
         private readonly GraphTool _vertexTool;
@@ -29,8 +29,8 @@ namespace GraphLight.Drawing
         public GraphControl()
         {
             DefaultStyleKey = typeof(GraphControl);
-            _measure = new DummyNodeMeasure();
-            _layout = new GraphVizLayout { NodeMeasure = _measure };
+            _measure = new DummyNodeMeasure<IVertexData, IEdgeData>();
+            _layout = new GraphVizLayout<IVertexData, IEdgeData> { NodeMeasure = _measure };
             _edgeDrawingTool = new DrawEdgeTool(this);
             _edgeTool = new EdgeTool(this);
             _vertexTool = new VertexTool(this);
@@ -118,11 +118,11 @@ namespace GraphLight.Drawing
         #region SelectedEdge
 
         public static readonly DependencyProperty SelectedEdgeProperty = DependencyProperty.Register(
-            "SelectedEdge", typeof (IEdge), typeof (GraphControl), new PropertyMetadata(default(IEdge)));
+            "SelectedEdge", typeof(IEdge), typeof(GraphControl), new PropertyMetadata(default(IEdge)));
 
         public IEdge SelectedEdge
         {
-            get => (IEdge) GetValue(SelectedEdgeProperty);
+            get => (IEdge)GetValue(SelectedEdgeProperty);
             private set => SetValue(SelectedEdgeProperty, value);
         }
 
@@ -131,11 +131,11 @@ namespace GraphLight.Drawing
         #region SelectedNode
 
         public static readonly DependencyProperty SelectedNodeProperty = DependencyProperty.Register(
-            "SelectedNode", typeof (IVertex), typeof (GraphControl), new PropertyMetadata(default(IVertex)));
+            "SelectedNode", typeof(IVertex), typeof(GraphControl), new PropertyMetadata(default(IVertex)));
 
         public IVertex SelectedNode
         {
-            get => (IVertex) GetValue(SelectedNodeProperty);
+            get => (IVertex)GetValue(SelectedNodeProperty);
             private set => SetValue(SelectedNodeProperty, value);
         }
 
@@ -144,29 +144,41 @@ namespace GraphLight.Drawing
         #region SelectedElement
 
         public static readonly DependencyProperty SelectedElementProperty = DependencyProperty.Register(
-            "SelectedElement", typeof (IElement), typeof (GraphControl), new PropertyMetadata(onSelectedElementPropertyChanged));
+            "SelectedElement", typeof(object), typeof(GraphControl), new PropertyMetadata(onSelectedElementPropertyChanged));
 
-        public IElement SelectedElement
+        public object SelectedElement
         {
-            get => (IElement) GetValue(SelectedElementProperty);
+            get => GetValue(SelectedElementProperty);
             set => SetValue(SelectedElementProperty, value);
         }
 
         private static void onSelectedElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var ctrl = (GraphControl)d;
-            var oldVal = (IElement)e.OldValue;
-            var newVal = (IElement)e.NewValue;
-            ctrl.onSelectedElementPropertyChanged(oldVal, newVal);
+            ctrl.onSelectedElementPropertyChanged(e.OldValue, e.NewValue);
         }
 
-        private void onSelectedElementPropertyChanged(IElement oldElement, IElement newElement)
+        private void onSelectedElementPropertyChanged(object oldElement, object newElement)
         {
-            if (oldElement != null)
-                oldElement.IsSelected = false;
+            switch(oldElement)
+            {
+                case IVertex v:
+                    v.Data.IsSelected = false;
+                    break;
+                case IEdge e:
+                    e.Data.IsSelected = false;
+                    break;
+            }
 
-            if (newElement != null)
-                newElement.IsSelected = true;
+            switch (newElement)
+            {
+                case IVertex v:
+                    v.Data.IsSelected = true;
+                    break;
+                case IEdge e:
+                    e.Data.IsSelected = true;
+                    break;
+            }
 
             SelectedNode = newElement as IVertex;
             SelectedEdge = newElement as IEdge;
@@ -256,7 +268,7 @@ namespace GraphLight.Drawing
 
         private void onDropInfo(IDragDropOptions options)
         {
-            if(_currentTool != null)
+            if (_currentTool != null)
                 _currentTool.HandleDropInfo(options);
         }
 
@@ -307,19 +319,19 @@ namespace GraphLight.Drawing
 
             foreach (var vertex in Graph.Vertices)
             {
-                if (vertex.Left < minX)
-                    minX = vertex.Left;
-                if (vertex.Right > maxX)
-                    maxX = vertex.Right;
-                if (vertex.Top < minY)
-                    minY = vertex.Top;
-                if (vertex.Bottom > maxY)
-                    maxY = vertex.Bottom;
+                if (vertex.Data.Left < minX)
+                    minX = vertex.Data.Left;
+                if (vertex.Data.Right > maxX)
+                    maxX = vertex.Data.Right;
+                if (vertex.Data.Top < minY)
+                    minY = vertex.Data.Top;
+                if (vertex.Data.Bottom > maxY)
+                    maxY = vertex.Data.Bottom;
             }
 
             foreach (var edge in Graph.Edges)
             {
-                foreach (var point2D in edge.DraggablePoints)
+                foreach (var point2D in edge.Data.DraggablePoints)
                 {
                     if (point2D.X < minX)
                         minX = point2D.X;
@@ -337,13 +349,13 @@ namespace GraphLight.Drawing
 
             foreach (var vertex in Graph.Vertices)
             {
-                vertex.Left -= minX;
-                vertex.Top -= minY;
+                vertex.Data.Left -= minX;
+                vertex.Data.Top -= minY;
             }
 
             foreach (var edge in Graph.Edges)
             {
-                foreach (var point2D in edge.DraggablePoints)
+                foreach (var point2D in edge.Data.DraggablePoints)
                 {
                     point2D.X -= minX;
                     point2D.Y -= minY;
@@ -354,7 +366,7 @@ namespace GraphLight.Drawing
             Graph.Height = graphHeight;
         }
 
-        private void bringToTop(IElement item)
+        private void bringToTop(object item)
         {
             var z = 0;
             foreach (var element in Graph.Elements)
@@ -371,10 +383,10 @@ namespace GraphLight.Drawing
             switch (element)
             {
                 case IVertex node:
-                    node.ZIndex = z++;
+                    node.Data.ZIndex = z++;
                     break;
                 case IEdge edge:
-                    edge.ZIndex = z++;
+                    edge.Data.ZIndex = z++;
                     break;
             }
 

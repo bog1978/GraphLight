@@ -6,13 +6,13 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    public class SugiyamaLayout
+    public class SugiyamaLayout<V, E>
     {
-        private readonly IGraph _graph;
-        private ICollection<IEdge> _loops;
-        private IDictionary<IEdge, List<IEdge>> _merged;
+        private readonly IGraph<V, E> _graph;
+        private ICollection<IEdge<V, E>> _loops;
+        private IDictionary<IEdge<V, E>, List<IEdge<V, E>>> _merged;
 
-        public SugiyamaLayout(IGraph graph)
+        public SugiyamaLayout(IGraph<V, E> graph)
         {
             _graph = graph ?? throw new ArgumentNullException(nameof(graph));
         }
@@ -42,9 +42,11 @@ namespace GraphLight.Layout
                 .ToDictionary(
                     x =>
                     {
+                        // Берем певые попавшиеся данные ребра - все равно это временное ребро.
                         var e = _graph.AddEdge(
                             x.Key.Src.Data,
-                            x.Key.Dst.Data);
+                            x.Key.Dst.Data,
+                            x.Key.Data);
                         e.Weight = x.Sum(y => y.Weight);
                         return e;
                     },
@@ -87,28 +89,23 @@ namespace GraphLight.Layout
         /// </summary>
         private void acyclic()
         {
-            var backEdges = new List<IEdge>();
-            var dfs = new DepthFirstSearch(_graph);
+            var backEdges = new List<IEdge<V, E>>();
+            var dfs = _graph.DepthFirstSearch();
             dfs.OnBackEdge = backEdges.Add;
-            dfs.Find();
+            dfs.Execute();
             foreach (var e in backEdges)
-            {
-                var tmp = e.Src;
-                e.Src = e.Dst;
-                e.Dst = tmp;
-                e.IsRevert = true;
-            }
+                e.Revert();
         }
 
-        private class EdgeComparer : IEqualityComparer<IEdge>
+        private class EdgeComparer : IEqualityComparer<IEdge<V, E>>
         {
-            public bool Equals(IEdge x, IEdge y)
+            public bool Equals(IEdge<V, E> x, IEdge<V, E> y)
             {
                 return x.Src == y.Src && x.Dst == y.Dst
                     || x.Src == y.Dst && x.Dst == y.Src;
             }
 
-            public int GetHashCode(IEdge obj)
+            public int GetHashCode(IEdge<V, E> obj)
             {
                 return obj.Src.GetHashCode() & obj.Dst.GetHashCode();
             }

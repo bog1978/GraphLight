@@ -12,7 +12,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void FindSpanningTree()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
 
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
@@ -24,20 +24,20 @@ namespace GraphLight.Test.Algorithm
             var h = graph.AddVertex("H");
             var i = graph.AddVertex("I");
 
-            var ab = graph.AddEdge(a, b);
-            var bc = graph.AddEdge(b, c);
-            var ah = graph.AddEdge(a, h);
-            var bh = graph.AddEdge(b, h);
-            var hi = graph.AddEdge(h, i);
-            var hg = graph.AddEdge(h, g);
-            var ig = graph.AddEdge(i, g);
-            var ic = graph.AddEdge(i, c);
-            var gf = graph.AddEdge(g, f);
-            var cf = graph.AddEdge(c, f);
-            var cd = graph.AddEdge(c, d);
-            var df = graph.AddEdge(d, f);
-            var de = graph.AddEdge(d, e);
-            var fe = graph.AddEdge(f, e);
+            var ab = graph.AddEdge(a, b, new object());
+            var bc = graph.AddEdge(b, c, new object());
+            var ah = graph.AddEdge(a, h, new object());
+            var bh = graph.AddEdge(b, h, new object());
+            var hi = graph.AddEdge(h, i, new object());
+            var hg = graph.AddEdge(h, g, new object());
+            var ig = graph.AddEdge(i, g, new object());
+            var ic = graph.AddEdge(i, c, new object());
+            var gf = graph.AddEdge(g, f, new object());
+            var cf = graph.AddEdge(c, f, new object());
+            var cd = graph.AddEdge(c, d, new object());
+            var df = graph.AddEdge(d, f, new object());
+            var de = graph.AddEdge(d, e, new object());
+            var fe = graph.AddEdge(f, e, new object());
 
             ab.Weight = 4;
             ah.Weight = 8;
@@ -54,9 +54,9 @@ namespace GraphLight.Test.Algorithm
             de.Weight = 9;
             fe.Weight = 10;
 
-            var edges = new List<IEdge>();
+            var edges = new List<IEdge<object, object>>();
 
-            var alg = new PrimSpanningTree(graph, x => x.Weight);
+            var alg = graph.PrimSpanningTree(x => x.Weight);
             alg.EnterEdge += edges.Add;
             alg.Execute(graph.Vertices.First());
 

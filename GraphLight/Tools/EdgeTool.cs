@@ -55,12 +55,12 @@ namespace GraphLight.Tools
 
         private static void highlight(IEdge edge, bool isHighlighted)
         {
-            if (!edge.IsSelected)
-                edge.IsHighlighted = isHighlighted;
-            if (edge.Src != null && !edge.Src.IsSelected)
-                edge.Src.IsHighlighted = isHighlighted;
-            if (edge.Dst != null && !edge.Dst.IsSelected)
-                edge.Dst.IsHighlighted = isHighlighted;
+            if (!edge.Data.IsSelected)
+                edge.Data.IsHighlighted = isHighlighted;
+            if (edge.Src != null && !edge.Src.Data.IsSelected)
+                edge.Src.Data.IsHighlighted = isHighlighted;
+            if (edge.Dst != null && !edge.Dst.Data.IsSelected)
+                edge.Dst.Data.IsHighlighted = isHighlighted;
         }
     }
 }

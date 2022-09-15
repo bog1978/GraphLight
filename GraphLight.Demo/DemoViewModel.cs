@@ -19,18 +19,26 @@ namespace GraphLight
             var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
             ExampleCollection = resources.Where(x => x.EndsWith(".graph")).ToList();
             SelectedExample = ExampleCollection.FirstOrDefault();
-            Palette = new GraphModel();
-            var v1 = Palette.AddVertex("1");
-            v1.Category = "large_font";
+            Palette = new LayoutGraphModel();
+
+            var v1 = Palette.CreateVertexData("1");
             v1.Label = "AAA";
-            var v2 = Palette.AddVertex("2");
-            v2.Category = "small_font";
+            v1.Category = "large_font";
+            Palette.AddVertex(v1);
+
+            var v2 = Palette.CreateVertexData("2");
             v2.Label = "BBB";
-            var v3 = Palette.AddVertex("3");
-            v3.Category = "with_tooltip";
+            v2.Category = "small_font";
+            Palette.AddVertex(v2);
+
+            var v3 = Palette.CreateVertexData("3");
             v3.Label = "CCC";
-            var v4 = Palette.AddVertex("4");
+            v3.Category = "with_tooltip";
+            Palette.AddVertex(v3);
+
+            var v4 = Palette.CreateVertexData("4");
             v4.Label = "DDD";
+            Palette.AddVertex(v4);
         }
 
         public IGraph Graph

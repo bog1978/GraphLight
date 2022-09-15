@@ -3,7 +3,6 @@ using GraphLight.Drawing;
 using GraphLight.Graph;
 using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GraphVizLayout = GraphLight.Layout.GraphVizLayout;
 
 namespace GraphLight.Test
 {
@@ -13,13 +12,13 @@ namespace GraphLight.Test
         [TestMethod]
         public void TestAddInsertRemove()
         {
-            var graph = new GraphModel();
+            var graph = new GenericGraph<object, object>();
             var g = graph;
-            var ab = graph.AddEdge("A", "B");
+            var ab = graph.AddEdge("A", "B", new object());
             var a = ab.Src;
             var b = ab.Dst;
 
-            var cp = g.InsertControlPoint(ab);
+            var cp = g.InsertControlPoint(ab, new object(), new object());
             Assert.IsTrue(ReferenceEquals(ab, graph.Edges.First()));
             Assert.IsTrue(ReferenceEquals(ab, a.OutEdges.First()));
             Assert.IsTrue(ReferenceEquals(ab, cp.InEdges.First()));
@@ -45,13 +44,16 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_1()
         {
-            var graph = new GraphModel();
-            graph.AddEdge("A", "B");
-            graph.AddEdge("B", "C");
-            graph.AddEdge("A", "C");
-            var engine = new GraphVizLayout
+            var graph = new LayoutGraphModel();
+            var a = graph.CreateVertexData("A");
+            var b = graph.CreateVertexData("B");
+            var c = graph.CreateVertexData("C");
+            graph.AddEdge(a, b, graph.CreateEdgeData());
+            graph.AddEdge(b, c, graph.CreateEdgeData());
+            graph.AddEdge(a, c, graph.CreateEdgeData());
+            var engine = new GraphVizLayout<IVertexData, IEdgeData>
                 {
-                    NodeMeasure = new NodeMeasure(),
+                    NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
                     Graph = graph
                 };
             engine.Layout();
@@ -60,14 +62,18 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_2()
         {
-            var graph = new GraphModel();
-            graph.AddEdge("A", "B");
-            graph.AddEdge("B", "C");
-            graph.AddEdge("C", "D");
-            graph.AddEdge("D", "A");
-            var engine = new GraphVizLayout
-                {
-                    NodeMeasure = new NodeMeasure(),
+            var graph = new LayoutGraphModel();
+            var a = graph.CreateVertexData("A");
+            var b = graph.CreateVertexData("B");
+            var c = graph.CreateVertexData("C");
+            var d = graph.CreateVertexData("D");
+            graph.AddEdge(a, b, graph.CreateEdgeData());
+            graph.AddEdge(b, c, graph.CreateEdgeData());
+            graph.AddEdge(c, d, graph.CreateEdgeData());
+            graph.AddEdge(d, a, graph.CreateEdgeData());
+            var engine = new GraphVizLayout<IVertexData, IEdgeData>
+            {
+                    NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
                     Graph = graph
                 };
             engine.Layout();

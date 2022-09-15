@@ -6,7 +6,7 @@ using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using GraphLight.Parser;
-using GraphVizLayout = GraphLight.Layout.GraphVizLayout;
+using GraphLight.Algorithm;
 
 namespace GraphLight.Test.Layout
 {
@@ -66,8 +66,8 @@ namespace GraphLight.Test.Layout
                 using (var stream = lazy.Value)
                     graph = GraphHelper.ReadFromFile(stream);
                 graph.Acyclic();
-                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Rank);
-                var alg = new RankNetworkSimplex(graph);
+                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Data.Rank);
+                var alg = graph.RankNetworkSimplex();
 
                 alg.Execute();
                 checkRanks(graph, expectedRanks);
@@ -83,15 +83,15 @@ namespace GraphLight.Test.Layout
                 using (var stream = lazy.Value)
                     graph = GraphHelper.ReadFromFile(stream);
 
-                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Rank);
+                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Data.Rank);
 
                 using (var f1 = File.Create("d:\\temp\\out0.graph"))
                     graph.WriteToFile(f1);
-                var engine = new GraphVizLayout
-                    {
-                        NodeMeasure = new NodeMeasure(),
-                        Graph = graph
-                    };
+                var engine = new GraphVizLayout<IVertexData, IEdgeData>
+                {
+                    NodeMeasure = new NodeMeasure<IVertexData, IEdgeData>(),
+                    Graph = graph
+                };
 
                 // First layout works fine
                 engine.Layout();
@@ -107,12 +107,12 @@ namespace GraphLight.Test.Layout
             }
         }
 
-        private static void checkRanks(IGraph graph, IDictionary<IVertex, int> expectedRanks)
+        private static void checkRanks(IGraph<IVertexData, IEdgeData> graph, IDictionary<IVertex<IVertexData, IEdgeData>, int> expectedRanks)
         {
             foreach (var vertex in graph.Vertices)
             {
                 var expected = expectedRanks[vertex];
-                var actual = vertex.Rank;
+                var actual = vertex.Data.Rank;
                 Assert.AreEqual(expected, actual,
                     "Vertex {0}: rank={1} but expected {2}",
                     vertex.Data, actual, expected);

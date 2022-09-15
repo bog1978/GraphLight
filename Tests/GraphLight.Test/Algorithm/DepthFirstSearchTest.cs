@@ -9,12 +9,12 @@ namespace GraphLight.Test.Algorithm
     [TestClass]
     public class DepthFirstSearchTest
     {
-        private readonly IEnumerable<IEdge> _emptyEdges = Enumerable.Empty<IEdge>();
+        private readonly IEnumerable<IEdge<object, object>> _emptyEdges = Enumerable.Empty<IEdge<object, object>>();
 
         [TestMethod]
         public void DfsTest1()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -35,7 +35,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest2()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -57,7 +57,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest3()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
 
@@ -81,7 +81,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest4()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -115,7 +115,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest5()
         {
-            var graph = new GraphModel<object, object>();
+            var graph = new GenericGraph<object, object>();
             var n1 = graph.AddVertex("1");
             var n2 = graph.AddVertex("2");
             var n3 = graph.AddVertex("3");
@@ -147,29 +147,27 @@ namespace GraphLight.Test.Algorithm
         }
 
         private static void checkResults(
-            GraphModel<object, object> graph,
-            IEnumerable<IVertex> nodesExpected,
-            IEnumerable<IEdge> treeEdgesExpected,
-            IEnumerable<IEdge> forwardExpected,
-            IEnumerable<IEdge> backwardExpected,
-            IEnumerable<IEdge> crossExpected)
+            GenericGraph<object, object> graph,
+            IEnumerable<IVertex<object, object>> nodesExpected,
+            IEnumerable<IEdge<object, object>> treeEdgesExpected,
+            IEnumerable<IEdge<object, object>> forwardExpected,
+            IEnumerable<IEdge<object, object>> backwardExpected,
+            IEnumerable<IEdge<object, object>> crossExpected)
         {
-            var nodes = new List<IVertex>();
-            var backward = new List<IEdge>();
-            var forward = new List<IEdge>();
-            var tree = new List<IEdge>();
-            var cross = new List<IEdge>();
+            var nodes = new List<IVertex<object, object>>();
+            var backward = new List<IEdge<object, object>>();
+            var forward = new List<IEdge<object, object>>();
+            var tree = new List<IEdge<object, object>>();
+            var cross = new List<IEdge<object, object>>();
 
-            var alg = new DepthFirstSearch(graph)
-                {
-                    OnNode = nodes.Add,
-                    OnTreeEdge = tree.Add,
-                    OnBackEdge = backward.Add,
-                    OnForwardEdge = forward.Add,
-                    OnCrossEdge = cross.Add
-                };
+            var alg = graph.DepthFirstSearch();
+            alg.OnNode = nodes.Add;
+            alg.OnTreeEdge = tree.Add;
+            alg.OnBackEdge = backward.Add;
+            alg.OnForwardEdge = forward.Add;
+            alg.OnCrossEdge = cross.Add;
 
-            alg.Find();
+            alg.Execute();
             CollectionAssert.AreEqual(nodesExpected.ToList(), nodes, "Wrong nodes collection");
             CollectionAssert.AreEqual(treeEdgesExpected.ToList(), tree, "Wrong tree edges collection");
             CollectionAssert.AreEqual(forwardExpected.ToList(), forward, "Wrong forward edges collection");

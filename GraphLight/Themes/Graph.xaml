@@ -32,7 +32,7 @@
                             MinWidth="{Binding Graph.Width, RelativeSource={RelativeSource TemplatedParent}}"/>
                     <Path x:Name="line"
                             Stroke="Black" StrokeThickness="1" StrokeDashArray="4,8" VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Data="{Binding Path=SelectedEdge.Points, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource polyLineConverter}}"
+                            Data="{Binding Path=SelectedEdge.Data.Points, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource polyLineConverter}}"
                             MinHeight="{Binding Graph.Height, RelativeSource={RelativeSource TemplatedParent}}"
                             MinWidth="{Binding Graph.Width, RelativeSource={RelativeSource TemplatedParent}}"/>
                     <Controls:ItemsControlEx x:Name="controlPoints"
@@ -40,7 +40,7 @@
                             ItemsPanel="{StaticResource canvasPanelTemplate}"
                             ItemTemplate="{StaticResource controlPointTemplate}"
                             ItemContainerStyle="{StaticResource controlPointContainerStyle}"
-                            ItemsSource="{Binding Path=SelectedEdge.DraggablePoints, RelativeSource={RelativeSource TemplatedParent}}"
+                            ItemsSource="{Binding Path=SelectedEdge.Data.DraggablePoints, RelativeSource={RelativeSource TemplatedParent}}"
                             MinHeight="{Binding Graph.Height, RelativeSource={RelativeSource TemplatedParent}}"
                             MinWidth="{Binding Graph.Width, RelativeSource={RelativeSource TemplatedParent}}"/>
                 </Grid>

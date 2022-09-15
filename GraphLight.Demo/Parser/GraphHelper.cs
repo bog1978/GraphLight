@@ -30,7 +30,9 @@ namespace GraphLight.Parser
                 graph.WriteToFile(sw);
         }
 
-        public static void WriteToFile(this IGraph graph, StreamWriter sw)
+        public static void WriteToFile<V, E>(this IGraph<V, E> graph, StreamWriter sw)
+            where V : IVertexData
+            where E : IEdgeData
         {
             sw.WriteLine("digraph {0}", "Label");
             sw.WriteLine("{");
@@ -38,12 +40,12 @@ namespace GraphLight.Parser
             sw.WriteLine("\t nodes:");
             foreach (var vertex in graph.Vertices)
                 sw.WriteLine("\t\t{0} [label=\"{1}\" rank={2} order={3}];",
-                    vertex.Data, vertex.Label, vertex.Rank, vertex.Position);
+                    vertex.Data, vertex.Data.Label, vertex.Data.Rank, vertex.Data.Position);
 
             sw.WriteLine("\t edges:");
             foreach (var myEdge in graph.Edges)
                 sw.WriteLine("\t\t{0} -> {1} [color={2} thickness={3}]",
-                    myEdge.Src.Data, myEdge.Dst.Data, myEdge.Color, myEdge.Thickness);
+                    myEdge.Src.Data, myEdge.Dst.Data, myEdge.Data.Color, myEdge.Data.Thickness);
 
             sw.WriteLine("}");
         }

@@ -1,4 +1,4 @@
-﻿using GraphLight.Graph;
+﻿using GraphLight.Algorithm;
 using GraphLight.Layout;
 
 namespace GraphLight.Prefomance
@@ -13,7 +13,7 @@ namespace GraphLight.Prefomance
         {
             var graph = TestData.GraphToTest;
             graph.Acyclic();
-            var alg = new RankNetworkSimplex(graph);
+            var alg = graph.RankNetworkSimplex();
             alg.Execute();
         }
     }

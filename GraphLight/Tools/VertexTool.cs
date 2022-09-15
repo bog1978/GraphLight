@@ -46,8 +46,8 @@ namespace GraphLight.Tools
             var vertex = options.Source.DataContext as IVertex;
             if (vertex == null)
                 return false;
-            options.Payload = new Point(vertex.Left, vertex.Top);
-            return vertex.IsSelected;
+            options.Payload = new Point(vertex.Data.Left, vertex.Data.Top);
+            return vertex.Data.IsSelected;
         }
 
         public override void HandleDropInfo(IDragDropOptions options)
@@ -59,18 +59,18 @@ namespace GraphLight.Tools
             {
                 case DragDropMode.DragExisting:
                     var p = (Point)options.Payload;
-                    vertex.Left = p.X + options.DeltaX;
-                    vertex.Top = p.Y + options.DeltaY;
+                    vertex.Data.Left = p.X + options.DeltaX;
+                    vertex.Data.Top = p.Y + options.DeltaY;
                     vertex.Update();
                     break;
                 case DragDropMode.DragCopy:
                     if (options.Status == DragDropStatus.Completed)
                     {
-                        var v = Model.Graph.AddVertex();
-                        v.Left = options.Relative.X - vertex.Width / 2;
-                        v.Top = options.Relative.Y - vertex.Height / 2;
-                        v.Label = vertex.Label;
-                        v.Category = vertex.Category;
+                        var v = Model.Graph.AddVertex(vertex.Data);
+                        v.Data.Left = options.Relative.X - vertex.Data.Width / 2;
+                        v.Data.Top = options.Relative.Y - vertex.Data.Height / 2;
+                        v.Data.Label = vertex.Data.Label;
+                        v.Data.Category = vertex.Data.Category;
                     }
                     break;
             }
@@ -89,26 +89,26 @@ namespace GraphLight.Tools
 
         private static void highlight(IVertex node, bool isHighlighted)
         {
-            if (!node.IsSelected)
-                node.IsHighlighted = isHighlighted;
+            if (!node.Data.IsSelected)
+                node.Data.IsHighlighted = isHighlighted;
 
             foreach (var edge in node.InEdges)
             {
-                if (!edge.IsSelected)
-                    edge.IsHighlighted = isHighlighted;
-                if (!edge.Src.IsSelected)
-                    edge.Src.IsHighlighted = isHighlighted;
+                if (!edge.Data.IsSelected)
+                    edge.Data.IsHighlighted = isHighlighted;
+                if (!edge.Src.Data.IsSelected)
+                    edge.Src.Data.IsHighlighted = isHighlighted;
             }
             foreach (var edge in node.OutEdges)
             {
-                if (!edge.IsSelected)
-                    edge.IsHighlighted = isHighlighted;
-                if (!edge.Dst.IsSelected)
-                    edge.Dst.IsHighlighted = isHighlighted;
+                if (!edge.Data.IsSelected)
+                    edge.Data.IsHighlighted = isHighlighted;
+                if (!edge.Dst.Data.IsSelected)
+                    edge.Dst.Data.IsHighlighted = isHighlighted;
             }
-            foreach (IEdge edge in node.SelfEdges)
-                if (!edge.IsSelected)
-                    edge.IsHighlighted = isHighlighted;
+            foreach (var edge in node.SelfEdges)
+                if (!edge.Data.IsSelected)
+                    edge.Data.IsHighlighted = isHighlighted;
         }
     }
 }

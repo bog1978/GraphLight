@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Drawing;
 using GraphLight.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,14 +14,14 @@ namespace GraphLight.Test.Graph
         [TestMethod]
         public void Test1()
         {
-            var g = new GraphModel();
+            var g = new GenericGraph<object, object>();
             var a = g.AddVertex("a");
             var b = g.AddVertex("b");
             var c = g.AddVertex("c");
-            var aa = g.AddEdge(a.Data, a.Data);
-            var ab = g.AddEdge(a.Data, b.Data);
-            var ac = g.AddEdge(a.Data, c.Data);
-            var bc = g.AddEdge(b.Data, c.Data);
+            var aa = g.AddEdge(a.Data, a.Data, new object());
+            var ab = g.AddEdge(a.Data, b.Data, new object());
+            var ac = g.AddEdge(a.Data, c.Data, new object());
+            var bc = g.AddEdge(b.Data, c.Data, new object());
 
             checkEdges(a, new[] { aa, ab, ac }, _emptyEdges, new[] { ab, ac }, new[] { aa });
             checkEdges(b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
@@ -90,7 +89,7 @@ namespace GraphLight.Test.Graph
         }
 
         private static void checkEdges(
-            IVertex vertex,
+            IVertex<object, object> vertex,
             ICollection allEdges,
             ICollection inEdges,
             ICollection outEdges,
@@ -102,12 +101,12 @@ namespace GraphLight.Test.Graph
             CollectionAssert.AreEquivalent(vertex.SelfEdges.ToList(), selfEdges);
         }
 
-        private static void checkGraph(IGraph graph, ICollection edges, ICollection verteces)
+        private static void checkGraph(GenericGraph<object, object> graph, ICollection edges, ICollection verteces)
         {
             CollectionAssert.AreEquivalent(edges, graph.Edges.ToArray());
             CollectionAssert.AreEquivalent(verteces, graph.Vertices.ToArray());
             var elements = edges.OfType<object>().Union(verteces.OfType<object>()).ToList();
-            CollectionAssert.AreEquivalent(elements, graph.Elements.ToArray());
+            CollectionAssert.AreEquivalent(elements, graph.All.ToArray());
         }
     }
 }

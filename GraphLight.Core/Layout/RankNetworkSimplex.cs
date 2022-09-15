@@ -5,12 +5,13 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    public class RankNetworkSimplex : NetworkSimplex
+    internal class RankNetworkSimplex<V, E> : NetworkSimplex
+        where V: IVertexDataLayered
     {
-        private readonly IGraph _graph;
-        private Dictionary<IVertex, Vertex> _vertexMap;
+        private readonly IGraph<V, E> _graph;
+        private Dictionary<IVertex<V, E>, Vertex> _vertexMap;
 
-        public RankNetworkSimplex(IGraph graph)
+        public RankNetworkSimplex(IGraph<V, E> graph)
         {
             _graph = graph;
         }
@@ -20,7 +21,7 @@ namespace GraphLight.Layout
             foreach (var vertex in _graph.Vertices)
             {
                 var v = _vertexMap[vertex];
-                vertex.Rank = v.Value;
+                vertex.Data.Rank = v.Value;
             }
         }
 

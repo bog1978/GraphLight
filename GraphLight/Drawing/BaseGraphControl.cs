@@ -158,21 +158,21 @@ namespace GraphLight.Drawing
                     delItem(edge);
         }
 
-        private void addEdge(IEdge edge)
+        private void addEdge(IEdge<IVertexData, IEdgeData> edge)
         {
             var presenter = new Edge { Content = edge, DataContext = edge };
             _graphPanel.Children.Add(presenter);
             _elementMap.Add(edge, presenter);
         }
 
-        private void addVertex(IVertex vertex)
+        private void addVertex(IVertex<IVertexData, IEdgeData> vertex)
         {
             DataTemplate vertexTemplate = null;
             if (VertexTemplateDictionary != null)
             {
-                if (string.IsNullOrWhiteSpace(vertex.Category))
+                if (string.IsNullOrWhiteSpace(vertex.Data.Category))
                     vertexTemplate = VertexTemplateDictionary.DefaultTemplate;
-                else if (!VertexTemplateDictionary.TryGetValue(vertex.Category, out vertexTemplate))
+                else if (!VertexTemplateDictionary.TryGetValue(vertex.Data.Category, out vertexTemplate))
                     vertexTemplate = VertexTemplateDictionary.DefaultTemplate;
             }
             var presenter = new Node { Content = vertex, DataContext = vertex };
@@ -185,8 +185,8 @@ namespace GraphLight.Drawing
             // Update desired size of new UIElement.
             presenter.UpdateLayout();
             // Update properties of vertex model.
-            vertex.Width = presenter.DesiredSize.Width;
-            vertex.Height = presenter.DesiredSize.Height;
+            vertex.Data.Width = presenter.DesiredSize.Width;
+            vertex.Data.Height = presenter.DesiredSize.Height;
             _elementMap.Add(vertex, presenter);
         }
 
