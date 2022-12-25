@@ -10,7 +10,12 @@ namespace GraphLight.Graph
         private double _weight = 1;
         private bool _isRevert;
 
-        public BaseEdge(E data) => _data = data;
+        public BaseEdge(E data)
+        {
+            if(data == null)
+                throw new ArgumentNullException(nameof(data));
+            _data = data;
+        }
 
         public E Data => _data;
 
@@ -70,5 +75,13 @@ namespace GraphLight.Graph
 
         private void OnEdgeChanged(IVertex<V, E> oldVertex, IVertex<V, E> newVertex) =>
             EdgeChanged?.Invoke(this, new EdgeChangedEventArgs<V, E>(oldVertex, newVertex));
+
+        public override int GetHashCode()
+        {
+            return _data.GetHashCode();
+        }
+
+        public override bool Equals(object obj) => 
+            obj is BaseEdge<V, E> edge && _data.Equals(edge._data);
     }
 }

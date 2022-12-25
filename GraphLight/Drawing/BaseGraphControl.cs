@@ -119,20 +119,20 @@ namespace GraphLight.Drawing
         #region VertexStyle
 
         public static readonly DependencyProperty VertexStyleProperty = DependencyProperty.Register(
-            "VertexStyle", typeof (Style), typeof (BaseGraphControl),
+            "VertexStyle", typeof(Style), typeof(BaseGraphControl),
             new PropertyMetadata(onVertexStylePropertyChanged));
 
         public Style VertexStyle
         {
-            get => (Style) GetValue(VertexStyleProperty);
+            get => (Style)GetValue(VertexStyleProperty);
             set => SetValue(VertexStyleProperty, value);
         }
 
         private static void onVertexStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var oldValue = (Style) e.OldValue;
-            var newValue = (Style) e.NewValue;
-            var control = (BaseGraphControl) d;
+            var oldValue = (Style)e.OldValue;
+            var newValue = (Style)e.NewValue;
+            var control = (BaseGraphControl)d;
             // TODO: Добавить реализацию.
         }
 

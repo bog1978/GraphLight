@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -26,61 +27,37 @@ namespace GraphLight.Algorithm
     internal class DepthFirstSearch<V, E> : IDepthFirstSearch<V, E>
     {
         private readonly IGraph<V, E> _graph;
-        private Dictionary<IVertex<V, E>, DfsVertexAttr> _attrs;
+        private readonly Dictionary<IVertex<V, E>, DfsVertexAttr> _attrs;
         private int _time;
-
-        private Action<IEdge<V, E>> _onBackEdge = x => { };
-        private Action<IEdge<V, E>> _onCrossEdge = x => { };
-        private Action<IEdge<V, E>> _onForwardEdge = x => { };
-        private Action<IVertex<V, E>> _onNode = x => { };
-        private Action<IEdge<V, E>> _onTreeEdge = x => { };
 
         public DepthFirstSearch(IGraph<V, E> graph)
         {
             _graph = graph;
+            // Initially we mark all nodes as white.
+            _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());
         }
 
-        public Action<IVertex<V, E>> OnNode
-        {
-            get => _onNode;
-            set => _onNode = value ?? throw new ArgumentNullException(nameof(value));
-        }
+        public Action<IVertex<V, E>>? OnNode { get; set; }
 
-        public Action<IEdge<V, E>> OnTreeEdge
-        {
-            get => _onTreeEdge;
-            set => _onTreeEdge = value ?? throw new ArgumentNullException(nameof(value));
-        }
+        public Action<IEdge<V, E>>? OnTreeEdge { get; set; }
 
-        public Action<IEdge<V, E>> OnBackEdge
-        {
-            get => _onBackEdge;
-            set => _onBackEdge = value ?? throw new ArgumentNullException(nameof(value));
-        }
+        public Action<IEdge<V, E>>? OnBackEdge { get; set; }
 
-        public Action<IEdge<V, E>> OnForwardEdge
-        {
-            get => _onForwardEdge;
-            set => _onForwardEdge = value ?? throw new ArgumentNullException(nameof(value));
-        }
+        public Action<IEdge<V, E>>? OnForwardEdge { get; set; }
 
-        public Action<IEdge<V, E>> OnCrossEdge
-        {
-            get => _onCrossEdge;
-            set => _onCrossEdge = value ?? throw new ArgumentNullException(nameof(value));
-        }
+        public Action<IEdge<V, E>>? OnCrossEdge { get; set; }
+
+        public Action<IEdge<V, E>, DfsEdgeType>? OnEdge { get; set; }
 
         public void Execute()
         {
-            // Initially we mark all nodes as white.
-            _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());
             foreach (var node in _graph.Vertices.Where(node => _attrs[node].Color == VertexColor.White))
                 dfs(node);
         }
 
         private void dfs(IVertex<V, E> vertex)
         {
-            OnNode(vertex);
+            OnNode?.Invoke(vertex);
             var srcAttr = _attrs[vertex];
             _time++;
             srcAttr.Color = VertexColor.Gray;
@@ -91,17 +68,21 @@ namespace GraphLight.Algorithm
                 var dstAttr = _attrs[edge.Dst];
                 switch (dstAttr.Color)
                 {
+                    case VertexColor.Black when srcAttr.Depth < dstAttr.Depth:
+                        OnEdge?.Invoke(edge, DfsEdgeType.Forward);
+                        OnForwardEdge?.Invoke(edge);
+                        break;
                     case VertexColor.Black:
-                        if (srcAttr.Depth < dstAttr.Depth)
-                            OnForwardEdge(edge);
-                        else
-                            OnCrossEdge(edge);
+                        OnEdge?.Invoke(edge, DfsEdgeType.Cross);
+                        OnCrossEdge?.Invoke(edge);
                         break;
                     case VertexColor.Gray:
-                        OnBackEdge(edge);
+                        OnEdge?.Invoke(edge, DfsEdgeType.Back);
+                        OnBackEdge?.Invoke(edge);
                         break;
                     case VertexColor.White:
-                        OnTreeEdge(edge);
+                        OnEdge?.Invoke(edge, DfsEdgeType.Tree);
+                        OnTreeEdge?.Invoke(edge);
                         dfs(edge.Dst);
                         break;
                 }

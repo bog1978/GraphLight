@@ -10,5 +10,14 @@ namespace GraphLight.Algorithm
         Action<IEdge<V, E>> OnForwardEdge { get; set; }
         Action<IVertex<V, E>> OnNode { get; set; }
         Action<IEdge<V, E>> OnTreeEdge { get; set; }
+        Action<IEdge<V, E>, DfsEdgeType> OnEdge { get; set; }
+    }
+
+    public enum DfsEdgeType
+    {
+        Forward,
+        Cross,
+        Back,
+        Tree,
     }
 }
