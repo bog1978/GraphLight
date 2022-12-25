@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using GraphLight.Controls;
-using GraphLight.Geometry;
 using GraphLight.Graph;
 using GraphLight.Layout;
 using GraphLight.Tools;
@@ -15,12 +13,6 @@ namespace GraphLight.Drawing
 
         private readonly GraphVizLayout<IVertexData, IEdgeData> _layout;
         private readonly DummyNodeMeasure<IVertexData, IEdgeData> _measure;
-        private readonly GraphTool _edgeDrawingTool;
-        private readonly GraphTool _edgeTool;
-        private readonly GraphTool _vertexTool;
-        private readonly GraphTool _pointTool;
-        private GraphTool _currentTool;
-        private Grid _mainGrid;
 
         #endregion
 
@@ -31,30 +23,15 @@ namespace GraphLight.Drawing
             DefaultStyleKey = typeof(GraphControl);
             _measure = new DummyNodeMeasure<IVertexData, IEdgeData>();
             _layout = new GraphVizLayout<IVertexData, IEdgeData> { NodeMeasure = _measure };
-            _edgeDrawingTool = new DrawEdgeTool(this);
-            _edgeTool = new EdgeTool(this);
-            _vertexTool = new VertexTool(this);
-            _pointTool = new ControlPointTool(this);
-
             LayoutCommand = new DelegateCommand(Layout);
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            _mainGrid = GetTemplateChild<Grid>("mainGrid");
             var layoutRoot = GetTemplateChild<FrameworkElement>("LayoutRoot");
             // Теперь это просто маркер
             layoutRoot.DataContext = new GraphViewModel();
-            _mainGrid.MouseMove += onMouseMove;
-            _mainGrid.MouseLeftButtonDown += onMouseLeftButtonDown;
-            _mainGrid.MouseLeftButtonUp += onMouseLeftButtonUp;
-            KeyUp += onKeyUp;
-
-            DragDropManager.AddDropQueryHandler(_mainGrid, onDropQuery);
-            DragDropManager.AddDropInfoHandler(_mainGrid, onDropInfo);
-            DragDropManager.AddDragQueryHandler(_mainGrid, onDragQuery);
         }
 
         #endregion
@@ -79,38 +56,6 @@ namespace GraphLight.Drawing
             base.OnGraphChanged(oldVal, newVal);
             if (newVal != null)
                 Layout();
-        }
-
-        #endregion
-
-        #region Graph event handlers
-
-        private void onMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            selectTool(e);
-            if (_currentTool != null)
-                _currentTool.HandleLButtonDown(sender, e);
-        }
-
-        private void onMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            selectTool(e);
-            if (_currentTool != null)
-                _currentTool.HandleLButtonUp(sender, e);
-            if (_currentTool != null && !_currentTool.IsInProgress)
-                selectTool(e);
-        }
-
-        private void onMouseMove(object sender, MouseEventArgs e)
-        {
-            if (_currentTool != null)
-                _currentTool.HandleMouseMove(sender, e);
-        }
-
-        private void onKeyUp(object sender, KeyEventArgs e)
-        {
-            if (_currentTool != null)
-                _currentTool.HandleKeyUp(sender, e);
         }
 
         #endregion
@@ -189,58 +134,6 @@ namespace GraphLight.Drawing
 
         #endregion
 
-        #region CurrentTool
-
-        public static readonly DependencyProperty CurrentToolProperty = DependencyProperty.Register(
-            "CurrentTool", typeof(GraphTool), typeof(GraphControl), new PropertyMetadata(default(GraphTool)));
-
-        public GraphTool CurrentTool
-        {
-            get => (GraphTool)GetValue(CurrentToolProperty);
-            private set => SetValue(CurrentToolProperty, value);
-        }
-
-        #endregion
-
-        #region EdgeDrawingTool
-
-        public static readonly DependencyProperty EdgeDrawingToolProperty = DependencyProperty.Register(
-            "EdgeDrawingTool", typeof(GraphTool), typeof(GraphControl), null);
-
-        public GraphTool EdgeDrawingTool
-        {
-            get => (GraphTool)GetValue(EdgeDrawingToolProperty);
-            set => SetValue(EdgeDrawingToolProperty, value);
-        }
-
-        #endregion
-
-        #region DraggingTool
-
-        public static readonly DependencyProperty DraggingToolProperty = DependencyProperty.Register(
-            "DraggingTool", typeof(GraphTool), typeof(GraphControl), null);
-
-        public GraphTool DraggingTool
-        {
-            get => (GraphTool)GetValue(DraggingToolProperty);
-            set => SetValue(DraggingToolProperty, value);
-        }
-
-        #endregion
-
-        #region PanningTool
-
-        public static readonly DependencyProperty PanningToolProperty = DependencyProperty.Register(
-            "PanningTool", typeof(GraphTool), typeof(GraphControl), null);
-
-        public GraphTool PanningTool
-        {
-            get => (GraphTool)GetValue(PanningToolProperty);
-            set => SetValue(PanningToolProperty, value);
-        }
-
-        #endregion
-
         #region LayoutCommand
 
         public static readonly DependencyProperty LayoutCommandProperty =
@@ -253,62 +146,6 @@ namespace GraphLight.Drawing
         }
 
         #endregion
-
-        #region Drag & Drop
-
-        private bool onDragQuery(IDragDropOptions options)
-        {
-            return _currentTool != null && _currentTool.HandleDragQuery(options);
-        }
-
-        private bool onDropQuery(IDragDropOptions options)
-        {
-            return _currentTool != null && _currentTool.HandleDropQuery(options);
-        }
-
-        private void onDropInfo(IDragDropOptions options)
-        {
-            if (_currentTool != null)
-                _currentTool.HandleDropInfo(options);
-        }
-
-        #endregion
-
-        private void selectTool(RoutedEventArgs e)
-        {
-            if (_currentTool != null && _currentTool.IsInProgress)
-                return;
-
-            var element = (FrameworkElement)e.OriginalSource;
-            var data = element.DataContext;
-
-            var vertex = data as IVertex;
-            var edge = data as IEdge;
-            var point = data as Point2D;
-            var vm = data as GraphViewModel;
-
-            //if (vertex != null)
-            //    _currentTool = !vertex.IsSelected
-            //        ? _edgeDrawingTool
-            //        : _vertexTool;
-            if (vertex != null)
-                _currentTool = Keyboard.Modifiers == ModifierKeys.Control
-                    ? _edgeDrawingTool
-                    : _vertexTool;
-            else if (edge != null)
-                _currentTool = _edgeTool;
-            else if (point != null)
-                _currentTool = _pointTool;
-            else if (vm != null)
-            {
-                SelectedElement = null;
-                if (_currentTool != null)
-                {
-                    _currentTool.Cancel();
-                    _currentTool = null;
-                }
-            }
-        }
 
         private void shift()
         {

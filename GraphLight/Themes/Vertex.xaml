@@ -86,8 +86,6 @@
         <Setter Property="Canvas.Left" Value="{Binding Data.Left}" />
         <Setter Property="Canvas.Top" Value="{Binding Data.Top}" />
         <Setter Property="Canvas.ZIndex" Value="{Binding Data.ZIndex}" />
-        <!--  Setter Property="Controls:DragDropManager.AllowDrag" Value="True" /  -->
-        <Setter Property="Controls:DragDropManager.AllowDrag" Value="{Binding Data.IsSelected}" />
         <Setter Property="IsSelected" Value="{Binding Data.IsSelected}" />
         <Setter Property="IsHighlighted" Value="{Binding Data.IsHighlighted}" />
         <Setter Property="Template" Value="{StaticResource nodeTemplate}" />

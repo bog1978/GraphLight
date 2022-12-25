@@ -14,7 +14,6 @@
         <Ellipse Width="8" Height="8" Margin="-4,-4,0,0" Fill="White" Stroke="Red" StrokeThickness="1" />
     </DataTemplate>
     <Style x:Key="controlPointContainerStyle" TargetType="ContentPresenter">
-        <Setter Property="Controls:DragDropManager.AllowDrag" Value="True" />
         <Setter Property="Canvas.Left" Value="{Binding X, Mode=TwoWay}" />
         <Setter Property="Canvas.Top" Value="{Binding Y, Mode=TwoWay}" />
     </Style>
@@ -24,7 +23,7 @@
         <Grid Background="Transparent" x:Name="LayoutRoot">
             <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Auto"
                     VerticalScrollBarVisibility="Auto" Background="{x:Null}">
-                <Grid x:Name="mainGrid" Background="LightGray" Controls:DragDropManager.AllowDrop="true"
+                <Grid x:Name="mainGrid" Background="LightGray"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Canvas x:Name="graphCanvas"
                             Background="LightBlue" VerticalAlignment="Center" HorizontalAlignment="Center"
