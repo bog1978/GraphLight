@@ -12,22 +12,22 @@ namespace GraphLight.Drawing
     {
         private Panel _graphPanel;
         protected bool _isLoaded;
-        private readonly IDictionary<object, FrameworkElement>
-            _elementMap = new Dictionary<object, FrameworkElement>();
+        private readonly IDictionary<object, FrameworkElement> _elementMap;
 
         protected BaseGraphControl()
         {
-            Loaded += onLoaded;
-            Unloaded += onUnloaded;
+            _elementMap = new Dictionary<object, FrameworkElement>();
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
         }
 
-        void onUnloaded(object sender, RoutedEventArgs e)
+        private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             _isLoaded = false;
-            clearAllItems();
+            ClearAllItems();
         }
 
-        void onLoaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
             if (!_isLoaded)
             {
@@ -36,11 +36,10 @@ namespace GraphLight.Drawing
             }
             else
             {
-                fillVertices();
-                fillEdges();
+                FillVertices();
+                FillEdges();
             }
         }
-
 
         public override void OnApplyTemplate()
         {
@@ -52,7 +51,7 @@ namespace GraphLight.Drawing
 
         public static readonly DependencyProperty VertexTemplateDictionaryProperty = DependencyProperty.Register(
             "VertexTemplateDictionary", typeof(DataTemplateDictionary), typeof(BaseGraphControl),
-            new PropertyMetadata(onVertexTemplateDictionaryPropertyChanged));
+            new PropertyMetadata(OnVertexTemplateDictionaryPropertyChanged));
 
         public DataTemplateDictionary VertexTemplateDictionary
         {
@@ -60,11 +59,8 @@ namespace GraphLight.Drawing
             set => SetValue(VertexTemplateDictionaryProperty, value);
         }
 
-        private static void onVertexTemplateDictionaryPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnVertexTemplateDictionaryPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var oldValue = (DataTemplateDictionary)e.OldValue;
-            var newValue = (DataTemplateDictionary)e.NewValue;
-            var control = (BaseGraphControl)d;
             // TODO: Добавить реализацию.
         }
 
@@ -74,7 +70,7 @@ namespace GraphLight.Drawing
 
         public static readonly DependencyProperty GraphProperty =
             DependencyProperty.Register("Graph", typeof(IGraph), typeof(BaseGraphControl),
-                new PropertyMetadata(onGraphChanged));
+                new PropertyMetadata(OnGraphChanged));
 
         public IGraph Graph
         {
@@ -82,7 +78,7 @@ namespace GraphLight.Drawing
             set => SetValue(GraphProperty, value);
         }
 
-        private static void onGraphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnGraphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var oldVal = (IGraph)e.OldValue;
             var newVal = (IGraph)e.NewValue;
@@ -94,23 +90,19 @@ namespace GraphLight.Drawing
         {
             if (oldVal != null)
             {
-                var edges = oldVal.Edges as INotifyCollectionChanged;
-                var vertices = oldVal.Vertices as INotifyCollectionChanged;
-                if (edges != null)
-                    edges.CollectionChanged -= onEdgesCollectionChanged;
-                if (vertices != null)
-                    vertices.CollectionChanged -= onVertexCollectionChanged;
-                clearAllItems();
+                if (oldVal.Edges is INotifyCollectionChanged edges)
+                    edges.CollectionChanged -= OnEdgesCollectionChanged;
+                if (oldVal.Vertices is INotifyCollectionChanged vertices)
+                    vertices.CollectionChanged -= OnVertexCollectionChanged;
+                ClearAllItems();
             }
 
             if (newVal != null)
             {
-                var edges = newVal.Edges as INotifyCollectionChanged;
-                var vertices = newVal.Vertices as INotifyCollectionChanged;
-                if (edges != null)
-                    edges.CollectionChanged += onEdgesCollectionChanged;
-                if (vertices != null)
-                    vertices.CollectionChanged += onVertexCollectionChanged;
+                if (newVal.Edges is INotifyCollectionChanged edges)
+                    edges.CollectionChanged += OnEdgesCollectionChanged;
+                if (newVal.Vertices is INotifyCollectionChanged vertices)
+                    vertices.CollectionChanged += OnVertexCollectionChanged;
             }
         }
 
@@ -120,7 +112,7 @@ namespace GraphLight.Drawing
 
         public static readonly DependencyProperty VertexStyleProperty = DependencyProperty.Register(
             "VertexStyle", typeof(Style), typeof(BaseGraphControl),
-            new PropertyMetadata(onVertexStylePropertyChanged));
+            new PropertyMetadata(OnVertexStylePropertyChanged));
 
         public Style VertexStyle
         {
@@ -128,44 +120,41 @@ namespace GraphLight.Drawing
             set => SetValue(VertexStyleProperty, value);
         }
 
-        private static void onVertexStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnVertexStylePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var oldValue = (Style)e.OldValue;
-            var newValue = (Style)e.NewValue;
-            var control = (BaseGraphControl)d;
             // TODO: Добавить реализацию.
         }
 
         #endregion
 
-        private void onVertexCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnVertexCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (var vertex in e.NewItems.OfType<IVertex>())
-                    addVertex(vertex);
+                    AddVertex(vertex);
             if (e.OldItems != null)
                 foreach (var vertex in e.OldItems)
-                    delItem(vertex);
+                    DelItem(vertex);
         }
 
-        private void onEdgesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnEdgesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (var edge in e.NewItems.OfType<IEdge>())
-                    addEdge(edge);
+                    AddEdge(edge);
             if (e.OldItems != null)
                 foreach (var edge in e.OldItems)
-                    delItem(edge);
+                    DelItem(edge);
         }
 
-        private void addEdge(IEdge<IVertexData, IEdgeData> edge)
+        private void AddEdge(IEdge<IVertexData, IEdgeData> edge)
         {
             var presenter = new Edge { Content = edge, DataContext = edge };
             _graphPanel.Children.Add(presenter);
             _elementMap.Add(edge, presenter);
         }
 
-        private void addVertex(IVertex<IVertexData, IEdgeData> vertex)
+        private void AddVertex(IVertex<IVertexData, IEdgeData> vertex)
         {
             DataTemplate vertexTemplate = null;
             if (VertexTemplateDictionary != null)
@@ -190,7 +179,7 @@ namespace GraphLight.Drawing
             _elementMap.Add(vertex, presenter);
         }
 
-        private void delItem(object item)
+        private void DelItem(object item)
         {
             if (_elementMap.TryGetValue(item, out var elt))
                 _graphPanel.Children.Remove(elt);
@@ -205,7 +194,7 @@ namespace GraphLight.Drawing
             return child;
         }
 
-        protected void clearAllItems()
+        protected void ClearAllItems()
         {
             if (_graphPanel == null || Graph == null)
                 return;
@@ -213,20 +202,20 @@ namespace GraphLight.Drawing
             _elementMap.Clear();
         }
 
-        protected void fillVertices()
+        protected void FillVertices()
         {
             if (_graphPanel == null || Graph == null)
                 return;
             foreach (var vertex in Graph.Vertices)
-                addVertex(vertex);
+                AddVertex(vertex);
         }
 
-        protected void fillEdges()
+        protected void FillEdges()
         {
             if (_graphPanel == null || Graph == null)
                 return;
             foreach (var vertex in Graph.Edges)
-                addEdge(vertex);
+                AddEdge(vertex);
         }
 
         public abstract void Layout();

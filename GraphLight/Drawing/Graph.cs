@@ -1,8 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using GraphLight.Graph;
+﻿using GraphLight.Graph;
 using GraphLight.Layout;
-using GraphLight.Tools;
 
 namespace GraphLight.Drawing
 {
@@ -22,15 +19,6 @@ namespace GraphLight.Drawing
             DefaultStyleKey = typeof(GraphControl);
             _measure = new DummyNodeMeasure<IVertexData, IEdgeData>();
             _layout = new GraphVizLayout<IVertexData, IEdgeData> { NodeMeasure = _measure };
-            LayoutCommand = new DelegateCommand(Layout);
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            var layoutRoot = GetTemplateChild<FrameworkElement>("LayoutRoot");
-            // Теперь это просто маркер
-            layoutRoot.DataContext = new GraphViewModel();
         }
 
         #endregion
@@ -41,13 +29,13 @@ namespace GraphLight.Drawing
         {
             if (!_isLoaded || Graph == null)
                 return;
-            clearAllItems();
-            fillVertices();
+            ClearAllItems();
+            FillVertices();
             _layout.Graph = Graph;
             _layout.NodeMeasure = _measure;
             _layout.Layout();
-            shift();
-            fillEdges();
+            Shift();
+            FillEdges();
         }
 
         protected override void OnGraphChanged(IGraph oldVal, IGraph newVal)
@@ -59,94 +47,7 @@ namespace GraphLight.Drawing
 
         #endregion
 
-        #region SelectedEdge
-
-        public static readonly DependencyProperty SelectedEdgeProperty = DependencyProperty.Register(
-            "SelectedEdge", typeof(IEdge), typeof(GraphControl), new PropertyMetadata(default(IEdge)));
-
-        public IEdge SelectedEdge
-        {
-            get => (IEdge)GetValue(SelectedEdgeProperty);
-            private set => SetValue(SelectedEdgeProperty, value);
-        }
-
-        #endregion
-
-        #region SelectedNode
-
-        public static readonly DependencyProperty SelectedNodeProperty = DependencyProperty.Register(
-            "SelectedNode", typeof(IVertex), typeof(GraphControl), new PropertyMetadata(default(IVertex)));
-
-        public IVertex SelectedNode
-        {
-            get => (IVertex)GetValue(SelectedNodeProperty);
-            private set => SetValue(SelectedNodeProperty, value);
-        }
-
-        #endregion
-
-        #region SelectedElement
-
-        public static readonly DependencyProperty SelectedElementProperty = DependencyProperty.Register(
-            "SelectedElement", typeof(object), typeof(GraphControl), new PropertyMetadata(onSelectedElementPropertyChanged));
-
-        public object SelectedElement
-        {
-            get => GetValue(SelectedElementProperty);
-            set => SetValue(SelectedElementProperty, value);
-        }
-
-        private static void onSelectedElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var ctrl = (GraphControl)d;
-            ctrl.onSelectedElementPropertyChanged(e.OldValue, e.NewValue);
-        }
-
-        private void onSelectedElementPropertyChanged(object oldElement, object newElement)
-        {
-            switch(oldElement)
-            {
-                case IVertex v:
-                    v.Data.IsSelected = false;
-                    break;
-                case IEdge e:
-                    e.Data.IsSelected = false;
-                    break;
-            }
-
-            switch (newElement)
-            {
-                case IVertex v:
-                    v.Data.IsSelected = true;
-                    break;
-                case IEdge e:
-                    e.Data.IsSelected = true;
-                    break;
-            }
-
-            SelectedNode = newElement as IVertex;
-            SelectedEdge = newElement as IEdge;
-
-            if (newElement != null)
-                bringToTop(newElement);
-        }
-
-        #endregion
-
-        #region LayoutCommand
-
-        public static readonly DependencyProperty LayoutCommandProperty =
-            DependencyProperty.Register("LayoutCommand", typeof(ICommand), typeof(GraphControl), null);
-
-        public ICommand LayoutCommand
-        {
-            get => (ICommand)GetValue(LayoutCommandProperty);
-            private set => SetValue(LayoutCommandProperty, value);
-        }
-
-        #endregion
-
-        private void shift()
+        private void Shift()
         {
             var minX = double.MaxValue;
             var maxX = double.MinValue;
@@ -166,18 +67,16 @@ namespace GraphLight.Drawing
             }
 
             foreach (var edge in Graph.Edges)
+            foreach (var point2D in edge.Data.Points)
             {
-                foreach (var point2D in edge.Data.Points)
-                {
-                    if (point2D.X < minX)
-                        minX = point2D.X;
-                    if (point2D.X > maxX)
-                        maxX = point2D.X;
-                    if (point2D.Y < minY)
-                        minY = point2D.Y;
-                    if (point2D.Y > maxY)
-                        maxY = point2D.Y;
-                }
+                if (point2D.X < minX)
+                    minX = point2D.X;
+                if (point2D.X > maxX)
+                    maxX = point2D.X;
+                if (point2D.Y < minY)
+                    minY = point2D.Y;
+                if (point2D.Y > maxY)
+                    maxY = point2D.Y;
             }
 
             var graphWidth = maxX - minX;
@@ -190,43 +89,14 @@ namespace GraphLight.Drawing
             }
 
             foreach (var edge in Graph.Edges)
+            foreach (var point2D in edge.Data.Points)
             {
-                foreach (var point2D in edge.Data.Points)
-                {
-                    point2D.X -= minX;
-                    point2D.Y -= minY;
-                }
+                point2D.X -= minX;
+                point2D.Y -= minY;
             }
 
             Graph.Width = graphWidth;
             Graph.Height = graphHeight;
-        }
-
-        private void bringToTop(object item)
-        {
-            var z = 0;
-            foreach (var element in Graph.Elements)
-            {
-                if (ReferenceEquals(element, item))
-                    continue;
-                z = setZIndex(element, z);
-            }
-            setZIndex(item, z);
-        }
-
-        private static int setZIndex(object element, int z)
-        {
-            switch (element)
-            {
-                case IVertex node:
-                    node.Data.ZIndex = z++;
-                    break;
-                case IEdge edge:
-                    edge.Data.ZIndex = z++;
-                    break;
-            }
-
-            return z;
         }
     }
 }

@@ -1,13 +1,8 @@
 ﻿using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Markup;
 
-#if !SILVERLIGHT
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: InternalsVisibleTo("WpfGraphLightTest")]
-[assembly: InternalsVisibleTo("GraphLight.Prefomance")]
-#endif
 
 [assembly: NeutralResourcesLanguageAttribute("ru")]
 [assembly: XmlnsPrefix("http://graphlight.codeplex.com", "gl")]

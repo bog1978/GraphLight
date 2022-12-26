@@ -50,40 +50,37 @@ namespace GraphLight.Converters
                 Children = new GeometryCollection
                 {
                     new PathGeometry
+                    {
+                        Figures = new PathFigureCollection
                         {
-                            Figures = new PathFigureCollection
+                            new PathFigure
+                            {
+                                StartPoint = pts.First(),
+                                Segments = new PathSegmentCollection
                                 {
-                                    new PathFigure
-                                        {
-                                            StartPoint = pts.First(),
-                                            Segments = new PathSegmentCollection
-                                            {
-                                                new PolyQuadraticBezierSegment { Points = pts }
-                                            }
-                                        }
+                                    new PolyQuadraticBezierSegment { Points = pts }
                                 }
-                        },
-                    new LineGeometry
-                        {
-                            StartPoint = p11.ToPoint(),
-                            EndPoint = arr.ToPoint(),
-                            Transform = new RotateTransform { Angle = ArrowAngle, CenterX = p11.X, CenterY = p11.Y }
-                        },
-                    new LineGeometry
-                        {
-                            StartPoint = p11.ToPoint(),
-                            EndPoint = arr.ToPoint(),
-                            Transform = new RotateTransform { Angle = -ArrowAngle, CenterX = p11.X, CenterY = p11.Y }
+                            }
                         }
+                    },
+                    new LineGeometry
+                    {
+                        StartPoint = p11.ToPoint(),
+                        EndPoint = arr.ToPoint(),
+                        Transform = new RotateTransform { Angle = ArrowAngle, CenterX = p11.X, CenterY = p11.Y }
+                    },
+                    new LineGeometry
+                    {
+                        StartPoint = p11.ToPoint(),
+                        EndPoint = arr.ToPoint(),
+                        Transform = new RotateTransform { Angle = -ArrowAngle, CenterX = p11.X, CenterY = p11.Y }
+                    }
                 }
             };
             return grp;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return null;
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
 
         #endregion
 
