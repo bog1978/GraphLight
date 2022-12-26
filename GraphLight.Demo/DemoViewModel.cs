@@ -21,35 +21,31 @@ namespace GraphLight
 
         public IGraph Graph
         {
-            get { return _graph; }
+            get => _graph;
             set
             {
                 _graph = value;
-                RaisePropertyChanged("Graph");
+                RaisePropertyChanged();
             }
         }
 
-        public List<string> ExampleCollection { get; private set; }
+        public List<string> ExampleCollection { get; }
 
         public string SelectedExample
         {
-            get { return _selectedExample; }
+            get => _selectedExample;
             set
             {
                 _selectedExample = value;
-                RaisePropertyChanged("SelectedExample");
+                RaisePropertyChanged();
                 if (value == null)
                     return;
                 var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(value);
-                loadGraph(stream);
+                LoadGraph(stream);
             }
         }
 
-        private void loadGraph(Stream stream)
-        {
-            var graph = GraphHelper.ReadFromFile(stream);
-            Graph = graph;
-            RaisePropertyChanged("GraphDefinition");
-        }
+        private void LoadGraph(Stream stream) => 
+            Graph = GraphHelper.ReadFromFile(stream);
     }
 }

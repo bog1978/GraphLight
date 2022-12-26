@@ -2,7 +2,7 @@
     x:Class="GraphLight.Window"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight"
+    xmlns:drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight"
     xmlns:graphlight="clr-namespace:GraphLight"
     Title="GraphLight demo."
     WindowState="Maximized">
@@ -24,7 +24,7 @@
             </Expander.Header>
             <ListBox ItemsSource="{Binding ExampleCollection}" SelectedItem="{Binding SelectedExample, Mode=TwoWay}" />
         </Expander>
-        <Drawing:GraphControl
+        <drawing:GraphControl
             Grid.Column="1"
             Graph="{Binding Graph, Mode=TwoWay}"
             VertexTemplateDictionary="{StaticResource vertexTemplateDictionary}" />
