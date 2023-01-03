@@ -1,4 +1,4 @@
-﻿namespace GraphLight
+﻿namespace GraphLight.Demo
 {
     public partial class Window
     {

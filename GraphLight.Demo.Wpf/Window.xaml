@@ -1,16 +1,69 @@
 ﻿<Window
-    x:Class="GraphLight.Window"
+    x:Class="GraphLight.Demo.Window"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:gl="https://github.com/bog1978/GraphLight"
-    xmlns:graphLight="clr-namespace:GraphLight"
     xmlns:demo="clr-namespace:GraphLight.Demo"
+    xmlns:graph="clr-namespace:GraphLight.Graph;assembly=GraphLight.Core"
     Title="GraphLight demo."
     WindowState="Maximized">
     <Window.DataContext>
         <demo:DemoViewModel />
     </Window.DataContext>
-    <Grid x:Name="LayoutRoot">
+    <Window.Resources>
+        <gl:DataTemplateDictionary x:Key="VertexTemplateDictionary">
+            <gl:DataTemplateDictionary.DefaultTemplate>
+                <DataTemplate DataType="graph:IVertex">
+                    <TextBlock Text="{Binding Data.Label}" />
+                </DataTemplate>
+            </gl:DataTemplateDictionary.DefaultTemplate>
+            <DataTemplate x:Key="large_font" DataType="graph:IVertex">
+                <TextBlock FontSize="32" Text="{Binding Data.Label}" />
+            </DataTemplate>
+            <DataTemplate x:Key="small_font" DataType="graph:IVertex">
+                <TextBlock FontSize="8" Text="{Binding Data.Label}" />
+            </DataTemplate>
+            <DataTemplate x:Key="with_tooltip" DataType="graph:IVertex">
+                <TextBlock Text="{Binding Data.Label}">
+                    <ToolTipService.ToolTip>
+                        <ToolTip>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="3"
+                                    Text="Left:" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="3"
+                                    Text="Top:" />
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="3"
+                                    Text="{Binding Data.Left}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="3"
+                                    Text="{Binding Data.Top}" />
+                            </Grid>
+                        </ToolTip>
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </DataTemplate>
+        </gl:DataTemplateDictionary>
+    </Window.Resources>
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />

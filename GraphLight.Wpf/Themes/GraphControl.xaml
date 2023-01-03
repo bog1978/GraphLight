@@ -13,15 +13,13 @@
                 <Grid
                     x:Name="mainGrid"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Background="LightGray">
+                    VerticalAlignment="Stretch">
                     <Canvas
                         x:Name="graphCanvas"
                         MinWidth="{Binding Graph.Width, RelativeSource={RelativeSource TemplatedParent}}"
                         MinHeight="{Binding Graph.Height, RelativeSource={RelativeSource TemplatedParent}}"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="LightBlue" />
+                        VerticalAlignment="Center"/>
                 </Grid>
             </ScrollViewer>
         </Grid>

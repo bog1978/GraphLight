@@ -2,9 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/Vertex.xaml" />
-        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/Edge.xaml" />
-        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/Graph.xaml" />
+        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/NodeControl.xaml" />
+        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/EdgeControl.xaml" />
+        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/GraphControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

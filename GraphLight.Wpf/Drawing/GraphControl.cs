@@ -95,7 +95,7 @@ namespace GraphLight.Drawing
         {
             if (_graphPanel == null)
                 return;
-            var presenter = new Edge
+            var presenter = new EdgeControl
             {
                 Content = edge,
                 DataContext = edge
@@ -107,7 +107,7 @@ namespace GraphLight.Drawing
         {
             if (_graphPanel == null)
                 return;
-            var presenter = new Node
+            var presenter = new NodeControl
             {
                 Content = vertex,
                 DataContext = vertex,

@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:GraphLight.Converters"
+    xmlns:drawing="clr-namespace:GraphLight.Drawing">
+
+    <ControlTemplate x:Key="EdgeTemplate" TargetType="{x:Type drawing:EdgeControl}">
+        <Grid Background="{x:Null}">
+            <Grid.Resources>
+                <converters:PointsToQuadraticBezierConverter x:Key="BezierConverter" />
+            </Grid.Resources>
+            <Path
+                x:Name="arrow"
+                Data="{Binding Data.Points, Converter={StaticResource BezierConverter}}"
+                StrokeThickness="{Binding Data.Thickness}">
+                <!--  BUG: Если привязать Stroke={Binding StrokeBrush}, то в WPF валится с ошибкой: Не удается анимировать (Stroke).(0) в постоянном экземпляре объекта.  -->
+                <Path.Stroke>
+                    <SolidColorBrush Color="{Binding Data.Color}" />
+                </Path.Stroke>
+            </Path>
+        </Grid>
+    </ControlTemplate>
+
+    <Style TargetType="drawing:EdgeControl">
+        <Setter Property="Canvas.ZIndex" Value="{Binding Data.ZIndex}" />
+        <Setter Property="Template" Value="{StaticResource EdgeTemplate}" />
+    </Style>
+
+</ResourceDictionary>
