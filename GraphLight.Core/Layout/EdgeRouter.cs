@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GraphLight.Algorithm;
 using GraphLight.Collections;
@@ -27,24 +26,29 @@ namespace GraphLight.Layout
 
             dfs.OnEdge += (e, t) =>
             {
-                switch (e.Src.Data.IsTmp, e.Dst.Data.IsTmp)
+                if (!e.Src.Data.IsTmp && !e.Dst.Data.IsTmp)
                 {
-                    case (false, false): // Обычное ребро.
-                        e.Data.Points.Add(e.Src.CenterPoint());
-                        e.Data.Points.Add(e.Dst.CenterPoint());
-                        break;
-                    case (false, true): // Начало цепочки.
-                        chainEdge = e;
-                        chainEdge.Data.Points.Add(e.Src.CenterPoint());
-                        break;
-                    case (true, true): // Середина цепочки.
-                        chainEdge?.Data.Points.Add(e.Src.CenterPoint());
-                        break;
-                    case (true, false): // Конец цепочки.
-                        chainEdge?.Data.Points.Add(e.Src.CenterPoint());
-                        chainEdge?.Data.Points.Add(e.Dst.CenterPoint());
-                        chainEdge = null;
-                        break;
+                    // Обычное ребро.
+                    e.Data.Points.Add(e.Src.CenterPoint());
+                    e.Data.Points.Add(e.Dst.CenterPoint());
+                }
+                else if (!e.Src.Data.IsTmp && e.Dst.Data.IsTmp)
+                {
+                    // Начало цепочки.
+                    chainEdge = e;
+                    chainEdge.Data.Points.Add(e.Src.CenterPoint());
+                }
+                else if (e.Src.Data.IsTmp && e.Dst.Data.IsTmp)
+                {
+                    // Середина цепочки.
+                    chainEdge?.Data.Points.Add(e.Src.CenterPoint());
+                }
+                else if (e.Src.Data.IsTmp && !e.Dst.Data.IsTmp)
+                {
+                    // Конец цепочки.
+                    chainEdge?.Data.Points.Add(e.Src.CenterPoint());
+                    chainEdge?.Data.Points.Add(e.Dst.CenterPoint());
+                    chainEdge = null;
                 }
             };
             dfs.Execute();

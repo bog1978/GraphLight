@@ -79,8 +79,6 @@ namespace GraphLight.Algorithm
             set => _enterNode = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-
-
         #endregion
 
         private class DijkstraAttr
@@ -91,7 +89,7 @@ namespace GraphLight.Algorithm
                 Distance = double.MaxValue;
             }
 
-            public IEdge<V, E> Parent;
+            public IEdge<V, E>? Parent;
             public double Distance;
         }
     }

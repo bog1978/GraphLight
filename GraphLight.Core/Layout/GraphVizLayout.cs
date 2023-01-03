@@ -7,7 +7,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Layout
 {
-    public partial class GraphVizLayout<V, E> : GraphLayout<V, E>
+    public class GraphVizLayout<V, E> : GraphLayout<V, E>
         where V : IVertexDataLayered, IVertexDataLocation
         where E : IEdgeData
     {
@@ -25,7 +25,7 @@ namespace GraphLight.Layout
 
             Acyclic();
             RankVertices();
-            addTmpNodes();
+            AddTmpNodes();
             OrderVertices();
             ArrangeVertices();
             RouteEdges();
@@ -57,13 +57,13 @@ namespace GraphLight.Layout
         protected virtual void ArrangeVertices()
         {
             var g = (IGraph)Graph;
-            setTopPositions();
-            setLeftPositions();
+            SetTopPositions();
+            SetLeftPositions();
             g.Width = g.Vertices.Min(x => x.Data.Left) + g.Vertices.Max(x => x.Data.Right);
             g.Height = g.Vertices.Min(x => x.Data.Top) + g.Vertices.Max(x => x.Data.Bottom);
         }
 
-        private void setTopPositions()
+        private void SetTopPositions()
         {
             var rows =
                 (from node in Graph.Vertices
@@ -87,13 +87,13 @@ namespace GraphLight.Layout
         ///   Вычисление оптимальных горизонтальных координат.
         ///   Применяется симплекс-метод.
         /// </summary>
-        private void setLeftPositions()
+        private void SetLeftPositions()
         {
             var alg = Graph.PositionNetworkSimplex();
             alg.Execute();
         }
 
-        private void addTmpNodes()
+        private void AddTmpNodes()
         {
             var edgesToSplit =
                 from e in Graph.Edges
@@ -118,14 +118,6 @@ namespace GraphLight.Layout
                 e.Weight = e.Src.Data.IsTmp
                     ? (e.Dst.Data.IsTmp ? 8 : 2)
                     : (e.Dst.Data.IsTmp ? 2 : 1);
-        }
-
-        private void removeTmpNodes()
-        {
-            var tmpNodes = Graph.Vertices
-                .Where(x => x.Data.IsTmp)
-                .ToList();
-            tmpNodes.Iter(x => Graph.RemoveControlPoint(x));
         }
     }
 }

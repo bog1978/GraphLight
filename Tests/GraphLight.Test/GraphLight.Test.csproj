@@ -91,7 +91,6 @@
     <Compile Include="Algorithm\DijkstraTest.cs" />
     <Compile Include="Graph\DrawingGraphTests.cs" />
     <Compile Include="Layout\NetworkSimplexTests.cs" />
-    <Compile Include="Layout\SugiyamaTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestData.cs" />
   </ItemGroup>

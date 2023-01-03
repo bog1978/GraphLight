@@ -56,7 +56,6 @@
     <Compile Include="IPerfomanceTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AlgebraicSimplexPerfomanceTest.cs" />
     <Compile Include="CollectionsPerfomanceTest.cs" />
     <Compile Include="TestData.cs" />
     <Compile Include="NetworkSimplexPerfomanceTest.cs" />
