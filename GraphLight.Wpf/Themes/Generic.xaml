@@ -1,0 +1,10 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/Vertex.xaml" />
+        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/Edge.xaml" />
+        <ResourceDictionary Source="/GraphLight.Wpf;component/Themes/Graph.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

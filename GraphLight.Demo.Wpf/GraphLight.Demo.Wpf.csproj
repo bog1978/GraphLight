@@ -3,10 +3,11 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
+    <RootNamespace>GraphLight.Demo</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphLight\GraphLight.csproj" />
+    <ProjectReference Include="..\GraphLight.Wpf\GraphLight.Wpf.csproj" />
   </ItemGroup>
 
   <ItemGroup>

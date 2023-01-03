@@ -1,16 +1,16 @@
 ﻿<Application
-    x:Class="GraphLight.App"
+    x:Class="GraphLight.Demo.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Drawing="clr-namespace:GraphLight.Drawing;assembly=GraphLight"
+    xmlns:gl="https://github.com/bog1978/GraphLight"
     StartupUri="Window.xaml">
     <Application.Resources>
-        <Drawing:DataTemplateDictionary x:Key="vertexTemplateDictionary">
-            <Drawing:DataTemplateDictionary.DefaultTemplate>
+        <gl:DataTemplateDictionary x:Key="VertexTemplateDictionary">
+            <gl:DataTemplateDictionary.DefaultTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Data.Label}" />
                 </DataTemplate>
-            </Drawing:DataTemplateDictionary.DefaultTemplate>
+            </gl:DataTemplateDictionary.DefaultTemplate>
             <DataTemplate x:Key="large_font">
                 <TextBlock FontSize="32" Text="{Binding Data.Label}" />
             </DataTemplate>
@@ -55,6 +55,6 @@
                     </ToolTipService.ToolTip>
                 </TextBlock>
             </DataTemplate>
-        </Drawing:DataTemplateDictionary>
+        </gl:DataTemplateDictionary>
     </Application.Resources>
 </Application>

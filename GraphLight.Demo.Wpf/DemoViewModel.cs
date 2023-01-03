@@ -5,7 +5,7 @@ using System.Reflection;
 using GraphLight.Graph;
 using GraphLight.Parser;
 
-namespace GraphLight
+namespace GraphLight.Demo
 {
     public class DemoViewModel : BaseViewModel
     {

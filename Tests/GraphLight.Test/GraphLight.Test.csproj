@@ -103,13 +103,13 @@
       <Project>{55e503c0-1974-428e-9a9d-7213bbc56ff6}</Project>
       <Name>GraphLight.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GraphLight.Demo\GraphLight.Demo.csproj">
+    <ProjectReference Include="..\..\GraphLight.Demo.Wpf\GraphLight.Demo.Wpf.csproj">
       <Project>{2ab7c669-b3ad-4530-932f-6c4abe1cd00d}</Project>
-      <Name>GraphLight.Demo</Name>
+      <Name>GraphLight.Demo.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GraphLight\GraphLight.csproj">
+    <ProjectReference Include="..\..\GraphLight.Wpf\GraphLight.Wpf.csproj">
       <Project>{19D6A2B3-2A59-4408-9492-3EDC35303CCC}</Project>
-      <Name>GraphLight</Name>
+      <Name>GraphLight.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
