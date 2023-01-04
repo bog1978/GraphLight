@@ -21,8 +21,7 @@ namespace GraphLight.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var points = (IList<Point2D>)value;
-            if (points == null || points.Count < 2)
+            if (!(value is IList<Point2D> points) || points.Count <= 1)
                 return null;
 
             var pts = new PointCollection();
@@ -35,6 +34,7 @@ namespace GraphLight.Converters
                 var p2 = points[i + 1];
                 pts.Add(new Point((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2));
             }
+
             pts.Add(points.Last().ToPoint());
 
 
@@ -45,7 +45,7 @@ namespace GraphLight.Converters
             var k = ArrowSize / v.Len;
             var arr = p11 + v * k;
 
-            var grp = new GeometryGroup()
+            var grp = new GeometryGroup
             {
                 Children = new GeometryCollection
                 {

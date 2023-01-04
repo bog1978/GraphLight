@@ -3,33 +3,24 @@ using System.Windows;
 using System.Windows.Controls;
 using GraphLight.Collections;
 using GraphLight.Graph;
-using GraphLight.Layout;
 
 namespace GraphLight.Drawing
 {
     public class GraphControl : Control
     {
-        private readonly GraphVizLayout<IVertexData, IEdgeData> _layout;
-        private readonly INodeMeasure<IVertexData, IEdgeData> _measure;
-        private Panel? _graphPanel;
+        private bool _needLayout = true;
+        private GraphPanel? _graphPanel;
 
         public GraphControl()
         {
             DefaultStyleKey = typeof(GraphControl);
-            _measure = new DummyNodeMeasure<IVertexData, IEdgeData>();
-            _layout = new GraphVizLayout<IVertexData, IEdgeData> { NodeMeasure = _measure };
-            Loaded += OnLoaded;
-            Unloaded += OnUnloaded;
         }
-
-        private void OnUnloaded(object sender, RoutedEventArgs e) => ClearAllItems();
-
-        private void OnLoaded(object sender, RoutedEventArgs e) => Layout();
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            _graphPanel = GetTemplateChild<Panel>("graphCanvas");
+            _graphPanel = GetTemplateChild<GraphPanel>("graphPanel");
+            Layout();
         }
 
         #region VertexTemplateDictionary
@@ -60,7 +51,10 @@ namespace GraphLight.Drawing
         private static void OnGraphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is GraphControl control)
+            {
+                control._needLayout = true;
                 control.Layout();
+            }
         }
 
         #endregion
@@ -80,15 +74,12 @@ namespace GraphLight.Drawing
 
         public void Layout()
         {
-            ClearAllItems();
-            if (!IsLoaded || Graph == null || _graphPanel == null)
+            if (Graph == null || _graphPanel == null || !_needLayout)
                 return;
-
+            _graphPanel?.Children.Clear();
             Graph.Vertices.Iter(AddVertex);
-            _layout.Graph = Graph;
-            _layout.NodeMeasure = _measure;
-            _layout.Layout();
             Graph.Edges.Iter(AddEdge);
+            _needLayout = false;
         }
 
         private void AddEdge(IEdge<IVertexData, IEdgeData> edge)
@@ -98,7 +89,8 @@ namespace GraphLight.Drawing
             var presenter = new EdgeControl
             {
                 Content = edge,
-                DataContext = edge
+                DataContext = edge,
+                Data = edge.Data,
             };
             _graphPanel.Children.Add(presenter);
         }
@@ -112,12 +104,10 @@ namespace GraphLight.Drawing
                 Content = vertex,
                 DataContext = vertex,
                 Style = VertexStyle,
-                ContentTemplate = VertexTemplateDictionary.FindTemplate(vertex.Data.Category)
+                ContentTemplate = VertexTemplateDictionary.FindTemplate(vertex.Data.Category),
+                Data = vertex.Data,
             };
             _graphPanel.Children.Add(presenter);
-            presenter.UpdateLayout();
-            vertex.Data.Width = presenter.DesiredSize.Width;
-            vertex.Data.Height = presenter.DesiredSize.Height;
         }
 
         private T GetTemplateChild<T>(string childName)
@@ -128,7 +118,5 @@ namespace GraphLight.Drawing
                 T t => t,
                 _ => throw new ArgumentOutOfRangeException($"Template contains child [{childName}] of different type."),
             };
-
-        private void ClearAllItems() => _graphPanel?.Children.Clear();
     }
 }

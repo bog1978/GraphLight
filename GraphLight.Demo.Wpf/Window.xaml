@@ -17,14 +17,14 @@
                     <TextBlock Text="{Binding Data.Label}" />
                 </DataTemplate>
             </gl:DataTemplateDictionary.DefaultTemplate>
-            <DataTemplate x:Key="large_font" DataType="graph:IVertex">
-                <TextBlock FontSize="32" Text="{Binding Data.Label}" />
+            <DataTemplate x:Key="large_font" DataType="graph:IVertexData">
+                <TextBlock FontSize="32" Text="{Binding Label}" />
             </DataTemplate>
-            <DataTemplate x:Key="small_font" DataType="graph:IVertex">
-                <TextBlock FontSize="8" Text="{Binding Data.Label}" />
+            <DataTemplate x:Key="small_font" DataType="graph:IVertexData">
+                <TextBlock FontSize="8" Text="{Binding Label}" />
             </DataTemplate>
-            <DataTemplate x:Key="with_tooltip" DataType="graph:IVertex">
-                <TextBlock Text="{Binding Data.Label}">
+            <DataTemplate x:Key="with_tooltip" DataType="graph:IVertexData">
+                <TextBlock Text="{Binding Label}">
                     <ToolTipService.ToolTip>
                         <ToolTip>
                             <Grid>
@@ -50,12 +50,12 @@
                                     Grid.Row="0"
                                     Grid.Column="1"
                                     Margin="3"
-                                    Text="{Binding Data.Left}" />
+                                    Text="{Binding Left}" />
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Margin="3"
-                                    Text="{Binding Data.Top}" />
+                                    Text="{Binding Top}" />
                             </Grid>
                         </ToolTip>
                     </ToolTipService.ToolTip>
