@@ -107,7 +107,7 @@ namespace GraphLight.Drawing
         {
             if (_graphPanel == null)
                 return;
-            var presenter = new NodeControl
+            var presenter = new VertexControl
             {
                 Content = vertex,
                 DataContext = vertex,
