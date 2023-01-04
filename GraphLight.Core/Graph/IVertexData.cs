@@ -11,6 +11,6 @@ namespace GraphLight.Graph
     {
         string Id { get; }
         string Label { get; set; }
-        string ShapeData { get; set; }
+        VertexShape Shape { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using GraphLight.Graph;
 namespace GraphLight.Layout
 {
     public class GraphVizLayout<V, E> : GraphLayout<V, E>
-        where V : IVertexDataLayered, IVertexDataLocation
+        where V : IVertexData
         where E : IEdgeData
     {
         private const double V_SPACE = 50;

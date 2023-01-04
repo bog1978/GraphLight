@@ -9,12 +9,12 @@ namespace GraphLight.Graph
         private double _left;
         private double _top;
         private string _label;
-        private string _shapeData;
+        private VertexShape _shape;
 
         public VertexData(string id)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
-            ShapeData = "M 0,1 A 1,1 0 1 0 2,1 A 1,1 0 1 0 0,1";
+            _label = id;
         }
 
         public string Id { get; }
@@ -76,10 +76,10 @@ namespace GraphLight.Graph
             set => SetProperty(ref _label, value);
         }
 
-        public string ShapeData
+        public VertexShape Shape
         {
-            get => _shapeData;
-            set => SetProperty(ref _shapeData, value);
+            get => _shape;
+            set => SetProperty(ref _shape, value);
         }
 
         public bool Equals(IVertexData other) => other?.Id == Id;

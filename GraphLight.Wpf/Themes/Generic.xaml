@@ -6,6 +6,7 @@
     xmlns:graph="clr-namespace:GraphLight.Graph;assembly=GraphLight.Core">
 
     <converters:PointsToQuadraticBezierConverter x:Key="BezierConverter" />
+    <converters:ShapeToGeometryConverter x:Key="ShapeConverter"/>
 
     <Style TargetType="drawing:VertexControl">
         <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
@@ -31,7 +32,8 @@
                             <Path.Data>
                                 <Binding
                                     RelativeSource="{RelativeSource TemplatedParent}"
-                                    Path="Data.ShapeData"
+                                    Path="Data.Shape"
+                                    Converter="{StaticResource ShapeConverter}"
                                     FallbackValue="{x:Null}" />
                             </Path.Data>
                         </Path>

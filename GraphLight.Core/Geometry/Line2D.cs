@@ -103,6 +103,26 @@ namespace GraphLight.Geometry
                 return CrossType.Cross;
             return CrossType.None;
         }
+        
+        public static Point2D CrossPoint(Point2D p1, Point2D p2, Point2D q1, Point2D q2)
+        {
+            // TODO: Обложить тестами и учесть все частные случаи.
+            // TODO: А еще лучше - обобщить метод Cross.
+            var a1 = p1.Y - p2.Y;
+            var b1 = p2.X - p1.X;
+            var c1 = p1.X * p2.Y - p2.X * p1.Y;
+
+            var a2 = q1.Y - q2.Y;
+            var b2 = q2.X - q1.X;
+            var c2 = q1.X * q2.Y - q2.X * q1.Y;
+
+            var znam = b1 * a2 - b2 * a1;
+
+            var x = (b2 * c1 - b1 * c2) / znam;
+            var y = (a1 * c2 - a2 * c1) / znam;
+
+            return new Point2D(x, y);
+        }
 
         /// <summary>
         /// Returns point laying on beam P1P2.

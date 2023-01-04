@@ -8,7 +8,7 @@ using GraphLight.Graph;
 namespace GraphLight.Layout
 {
     internal class SplineEdgeRouter<V, E> : IAlgorithm
-        where V : IVertexDataLayered, IVertexDataLocation
+        where V : IVertexData
         where E : IEdgeData
     {
         private readonly IGraph<V, E> _graph;
