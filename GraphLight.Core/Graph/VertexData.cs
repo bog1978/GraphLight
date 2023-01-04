@@ -15,6 +15,7 @@ namespace GraphLight.Graph
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
             _label = id;
+            Shape = VertexShape.Ellipse;
         }
 
         public string Id { get; }
