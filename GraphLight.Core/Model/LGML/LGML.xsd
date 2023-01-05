@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2021 rel. 2 sp1 (x64) (http://www.altova.com) by  () -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:element name="Graph">
-		<xs:annotation>
-			<xs:documentation>Comment describing your root element</xs:documentation>
-		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="VertexCategory" type="VertexCategory" minOccurs="0" maxOccurs="unbounded"/>
@@ -52,13 +50,13 @@
 	</xs:complexType>
 	<xs:complexType name="EdgeCategory">
 		<xs:attribute name="Id" type="xs:string" use="required"/>
+		<xs:attributeGroup ref="CommonAttrs"/>
 		<xs:attributeGroup ref="EdgeAttrs"/>
 	</xs:complexType>
 	<xs:complexType name="Element" abstract="true">
 		<xs:attribute name="Category" type="xs:string" use="optional"/>
 		<xs:attribute name="Label" type="xs:string" use="optional"/>
-		<xs:attribute name="Stroke" type="Color" use="optional" default="Black"/>
-		<xs:attribute name="StrokeThickness" type="xs:double" use="optional" default="1"/>
+		<xs:attributeGroup ref="CommonAttrs"/>
 	</xs:complexType>
 	<xs:complexType name="Vertex">
 		<xs:complexContent>
@@ -70,6 +68,7 @@
 	</xs:complexType>
 	<xs:complexType name="VertexCategory">
 		<xs:attribute name="Id" type="xs:string" use="required"/>
+		<xs:attributeGroup ref="CommonAttrs"/>
 		<xs:attributeGroup ref="VertexAttrs"/>
 	</xs:complexType>
 	<xs:simpleType name="Color">
@@ -86,13 +85,13 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:attributeGroup name="EdgeAttrs">
-		<xs:attribute name="Weight" type="xs:double" use="optional" default="1"/>
-		<xs:attribute name="Style" type="EdgeStyle" use="optional" default="Solid"/>
+		<xs:attribute name="Weight" type="xs:double" use="optional"/>
+		<xs:attribute name="Style" type="EdgeStyle" use="optional"/>
 	</xs:attributeGroup>
 	<xs:attributeGroup name="VertexAttrs">
-		<xs:attribute name="Background" type="Color" use="optional" default="LightGray"/>
-		<xs:attribute name="Foreground" type="Color" use="optional" default="Black"/>
-		<xs:attribute name="Shape" type="VertexShape" use="optional" default="Ellipse"/>
+		<xs:attribute name="Background" type="Color" use="optional"/>
+		<xs:attribute name="Foreground" type="Color" use="optional"/>
+		<xs:attribute name="Shape" type="VertexShape" use="optional"/>
 	</xs:attributeGroup>
 	<xs:simpleType name="EdgeStyle">
 		<xs:restriction base="xs:string">
@@ -100,4 +99,9 @@
 			<xs:enumeration value="Dashed"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:attributeGroup name="CommonAttrs">
+		<xs:attribute name="Stroke" type="Color" use="optional"/>
+		<xs:attribute name="StrokeThickness" type="xs:double" use="optional"/>
+		<xs:attribute name="FontSize" type="xs:double" use="optional"/>
+	</xs:attributeGroup>
 </xs:schema>

@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="Model\LGML.xsd" />
+		<EmbeddedResource Include="Model\LGML\LGML.xsd" />
 	</ItemGroup>
 
 </Project>

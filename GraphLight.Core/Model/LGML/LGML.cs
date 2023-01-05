@@ -54,24 +54,39 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute("LightGray")]
+        public string Stroke;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double StrokeThickness;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StrokeThicknessSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double FontSize;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool FontSizeSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Background;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute("Black")]
         public string Foreground;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(VertexShape.Ellipse)]
         public VertexShape Shape;
         
-        public VertexCategory() {
-            this.Background = "LightGray";
-            this.Foreground = "Black";
-            this.Shape = VertexShape.Ellipse;
-        }
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool ShapeSpecified;
     }
     
     /// <remarks/>
@@ -111,18 +126,23 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute("Black")]
         public string Stroke;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(1D)]
         public double StrokeThickness;
         
-        public Element() {
-            this.Stroke = "Black";
-            this.StrokeThickness = 1D;
-        }
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StrokeThicknessSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double FontSize;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool FontSizeSpecified;
     }
     
     /// <remarks/>
@@ -138,24 +158,19 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute("LightGray")]
         public string Background;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute("Black")]
         public string Foreground;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(VertexShape.Ellipse)]
         public VertexShape Shape;
         
-        public Vertex() {
-            this.Background = "LightGray";
-            this.Foreground = "Black";
-            this.Shape = VertexShape.Ellipse;
-        }
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool ShapeSpecified;
     }
     
     /// <remarks/>
@@ -175,18 +190,19 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(1D)]
         public double Weight;
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool WeightSpecified;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(EdgeStyle.Solid)]
         public EdgeStyle Style;
         
-        public Edge() {
-            this.Weight = 1D;
-            this.Style = EdgeStyle.Solid;
-        }
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StyleSpecified;
     }
     
     /// <remarks/>
@@ -214,17 +230,38 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(1D)]
-        public double Weight;
+        public string Stroke;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(EdgeStyle.Solid)]
+        public double StrokeThickness;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StrokeThicknessSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double FontSize;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool FontSizeSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public double Weight;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool WeightSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public EdgeStyle Style;
         
-        public EdgeCategory() {
-            this.Weight = 1D;
-            this.Style = EdgeStyle.Solid;
-        }
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StyleSpecified;
     }
 }

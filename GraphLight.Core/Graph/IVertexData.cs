@@ -10,7 +10,8 @@ namespace GraphLight.Graph
         ICommonData
     {
         string Id { get; }
-        string Label { get; set; }
         VertexShape Shape { get; set; }
+        string Background { get; set; }
+        string Foreground { get; set; }
     }
 }

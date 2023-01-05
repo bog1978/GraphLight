@@ -8,14 +8,15 @@ namespace GraphLight.Graph
         private double _height;
         private double _left;
         private double _top;
-        private string _label;
         private VertexShape _shape;
+        private string _background;
+        private string _foreground;
 
         public VertexData(string id)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
-            _label = id;
-            Shape = VertexShape.Diamond;
+            Label = id;
+            Shape = VertexShape.Ellipse;
         }
 
         public string Id { get; }
@@ -23,6 +24,7 @@ namespace GraphLight.Graph
         bool IVertexDataLocation.IsTmp { get; set; }
 
         int IVertexDataLayered.Rank { get; set; }
+
         int IVertexDataLayered.Position { get; set; }
 
         double IVertexDataLocation.CenterX { get; set; }
@@ -71,16 +73,22 @@ namespace GraphLight.Graph
 
         public double Bottom => Top + Height;
 
-        public string Label
-        {
-            get => _label;
-            set => SetProperty(ref _label, value);
-        }
-
         public VertexShape Shape
         {
             get => _shape;
             set => SetProperty(ref _shape, value);
+        }
+
+        public string Background
+        {
+            get => _background;
+            set => SetProperty(ref _background, value);
+        }
+
+        public string Foreground
+        {
+            get => _foreground;
+            set => SetProperty(ref _foreground, value);
         }
 
         public bool Equals(IVertexData other) => other?.Id == Id;

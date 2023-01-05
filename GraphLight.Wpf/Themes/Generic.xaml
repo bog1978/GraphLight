@@ -9,75 +9,59 @@
     <converters:ShapeToGeometryConverter x:Key="ShapeConverter" />
 
     <Style TargetType="drawing:VertexControl">
-        <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate DataType="{x:Type graph:IVertexData}">
+        <Style.Resources>
+            <DataTemplate DataType="{x:Type graph:VertexData}">
+                <Grid>
+                    <Path
+                        Fill="{Binding Background, FallbackValue={x:Static Brushes.Gray}, TargetNullValue={x:Static Brushes.White}}"
+                        Stretch="Fill"
+                        Stroke="{Binding Stroke, FallbackValue={x:Static Brushes.Black}, TargetNullValue={x:Static Brushes.Black}}"
+                        StrokeThickness="{Binding StrokeThickness, FallbackValue=1}">
+                        <Path.Data>
+                            <Binding
+                                Converter="{StaticResource ShapeConverter}"
+                                FallbackValue="{x:Null}"
+                                Path="Shape" />
+                        </Path.Data>
+                    </Path>
                     <TextBlock
+                        Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Text="{Binding Label}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+                        Foreground="{Binding Foreground, FallbackValue={x:Static Brushes.Black}, TargetNullValue={x:Static Brushes.Black}}"
+                        Text="{Binding Label}"
+                        FontSize="{Binding FontSize}"/>
+                </Grid>
+            </DataTemplate>
+        </Style.Resources>
+        <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="drawing:VertexControl">
-                    <Grid>
-                        <Path
-                            Fill="LightBlue"
-                            Stretch="Fill"
-                            Stroke="Black">
-                            <Path.Data>
-                                <Binding
-                                    Converter="{StaticResource ShapeConverter}"
-                                    FallbackValue="{x:Null}"
-                                    Path="Data.Shape"
-                                    RelativeSource="{RelativeSource TemplatedParent}" />
-                            </Path.Data>
-                        </Path>
-                        <ContentPresenter
-                            Margin="10"
-                            Content="{TemplateBinding Data}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}" />
-                    </Grid>
+                    <ContentPresenter Content="{TemplateBinding Data}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style TargetType="drawing:EdgeControl">
+        <Style.Resources>
+            <DataTemplate DataType="{x:Type graph:EdgeData}">
+                <Path
+                    Data="{Binding Converter={StaticResource BezierConverter}, FallbackValue={x:Null}, Path=Points}"
+                    SnapsToDevicePixels="True"
+                    StrokeThickness="{Binding StrokeThickness, FallbackValue=1}">
+                    <Path.Stroke>
+                        <SolidColorBrush Color="{Binding Stroke, FallbackValue={x:Static Colors.Black}}" />
+                    </Path.Stroke>
+                </Path>
+            </DataTemplate>
+        </Style.Resources>
         <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type drawing:EdgeControl}">
-                    <Grid Background="{x:Null}">
-                        <Path>
-                            <Path.StrokeThickness>
-                                <Binding
-                                    FallbackValue="1"
-                                    Path="Data.Thickness"
-                                    RelativeSource="{RelativeSource TemplatedParent}" />
-                            </Path.StrokeThickness>
-                            <Path.Data>
-                                <Binding
-                                    Converter="{StaticResource BezierConverter}"
-                                    FallbackValue="{x:Null}"
-                                    Path="Data.Points"
-                                    RelativeSource="{RelativeSource TemplatedParent}" />
-                            </Path.Data>
-                            <Path.Stroke>
-                                <SolidColorBrush>
-                                    <SolidColorBrush.Color>
-                                        <Binding
-                                            FallbackValue="{x:Static Colors.Black}"
-                                            Path="Data.Color"
-                                            RelativeSource="{RelativeSource TemplatedParent}" />
-                                    </SolidColorBrush.Color>
-                                </SolidColorBrush>
-                            </Path.Stroke>
-                        </Path>
-                    </Grid>
+                    <ContentPresenter Content="{TemplateBinding Data}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

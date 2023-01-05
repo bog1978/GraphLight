@@ -1,0 +1,18 @@
+<Graph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../GraphLight.Core/Model/LGML/LGML.xsd">
+	<VertexCategory Id="process" Shape="Rectangle" Foreground="Black" Background="LightGray"/>
+	<VertexCategory Id="gateway" Shape="Diamond" Foreground="Green" Background="White" FontSize="25"/>
+	<VertexCategory Id="initial" Shape="Ellipse" Foreground="White" Background="Green"/>
+	<VertexCategory Id="final" Shape="Ellipse" Foreground="White" Background="Red"/>
+	<EdgeCategory Id="normal" Weight="1" Style="Solid" Stroke="Green" StrokeThickness="3"/>
+	<EdgeCategory Id="conditional" Weight="1" Style="Dashed" Stroke="Gray" StrokeThickness="1"/>
+	<Vertex Id="start" Category="initial" FontSize="18"/>
+	<Vertex Id="end" Category="final" FontSize="18"/>
+	<Vertex Id="switch" Category="gateway"/>
+	<Vertex Id="service1" Category="process"/>
+	<Vertex Id="service2" Category="process"/>
+	<Edge Src="start" Dst="switch" Category="normal"/>
+	<Edge Src="switch" Dst="service1" Category="conditional"/>
+	<Edge Src="switch" Dst="service2" Category="conditional"/>
+	<Edge Src="service1" Dst="end" Category="normal"/>
+	<Edge Src="service2" Dst="end" Category="normal"/>
+</Graph>

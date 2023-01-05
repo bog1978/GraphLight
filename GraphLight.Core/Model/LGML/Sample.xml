@@ -1,10 +1,12 @@
 <Graph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="LGML.xsd">
 	<VertexCategory Id="process" Shape="Rectangle" Foreground="Black" Background="LightGray"/>
 	<VertexCategory Id="gateway" Shape="Diamond" Foreground="Green" Background="White"/>
+	<VertexCategory Id="initial" Shape="Ellipse" Foreground="White" Background="Green"/>
+	<VertexCategory Id="final" Shape="Ellipse" Foreground="White" Background="Red"/>
 	<EdgeCategory Id="normal" Weight="1" Style="Solid"/>
 	<EdgeCategory Id="conditional" Weight="1" Style="Dashed"/>
-	<Vertex Id="start" Category="process"/>
-	<Vertex Id="end" Category="process"/>
+	<Vertex Id="start" Category="initial"/>
+	<Vertex Id="end" Category="final"/>
 	<Vertex Id="switch" Category="gateway"/>
 	<Vertex Id="service1" Category="process"/>
 	<Vertex Id="service2" Category="process"/>
