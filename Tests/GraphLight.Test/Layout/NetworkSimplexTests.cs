@@ -5,7 +5,6 @@ using GraphLight.Graph;
 using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using GraphLight.Parser;
 using GraphLight.Algorithm;
 
 namespace GraphLight.Test.Layout
@@ -57,55 +56,55 @@ namespace GraphLight.Test.Layout
                 Debug.WriteLine("{0}: Rank={1}", vertex.Id, vertex.Data.Rank);
         }*/
 
-        [TestMethod]
-        public void TestAllTestData()
-        {
-            foreach (var lazy in TestData.GraphStreams)
-            {
-                IGraph graph;
-                using (var stream = lazy.Value)
-                    graph = GraphHelper.ReadFromFile(stream);
-                graph.Acyclic();
-                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Data.Rank);
-                var alg = graph.RankNetworkSimplex();
+        //[TestMethod]
+        //public void TestAllTestData()
+        //{
+        //    foreach (var lazy in TestData.GraphStreams)
+        //    {
+        //        IGraph graph;
+        //        using (var stream = lazy.Value)
+        //            graph = GraphHelper.ReadFromFile(stream);
+        //        graph.Acyclic();
+        //        var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Data.Rank);
+        //        var alg = graph.RankNetworkSimplex();
 
-                alg.Execute();
-                checkRanks(graph, expectedRanks);
-            }
-        }
+        //        alg.Execute();
+        //        checkRanks(graph, expectedRanks);
+        //    }
+        //}
 
-        [TestMethod]
-        public void LayoutAllTestData()
-        {
-            foreach (var lazy in TestData.GraphStreams)
-            {
-                IGraph graph;
-                using (var stream = lazy.Value)
-                    graph = GraphHelper.ReadFromFile(stream);
+        //[TestMethod]
+        //public void LayoutAllTestData()
+        //{
+        //    foreach (var lazy in TestData.GraphStreams)
+        //    {
+        //        IGraph graph;
+        //        using (var stream = lazy.Value)
+        //            graph = GraphHelper.ReadFromFile(stream);
 
-                var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Data.Rank);
+        //        var expectedRanks = graph.Vertices.ToDictionary(x => x, x => x.Data.Rank);
 
-                using (var f1 = File.Create("d:\\temp\\out0.graph"))
-                    graph.WriteToFile(f1);
-                var engine = new GraphVizLayout<IVertexData, IEdgeData>
-                {
-                    NodeMeasure = new WpfNodeMeasure<IVertexData, IEdgeData>(),
-                    Graph = graph
-                };
+        //        using (var f1 = File.Create("d:\\temp\\out0.graph"))
+        //            graph.WriteToFile(f1);
+        //        var engine = new GraphVizLayout<IVertexData, IEdgeData>
+        //        {
+        //            NodeMeasure = new WpfNodeMeasure<IVertexData, IEdgeData>(),
+        //            Graph = graph
+        //        };
 
-                // First layout works fine
-                engine.Layout();
-                using (var f1 = File.Create("d:\\temp\\out1.graph"))
-                    graph.WriteToFile(f1);
-                checkRanks(graph, expectedRanks);
+        //        // First layout works fine
+        //        engine.Layout();
+        //        using (var f1 = File.Create("d:\\temp\\out1.graph"))
+        //            graph.WriteToFile(f1);
+        //        checkRanks(graph, expectedRanks);
 
-                // Second layout must make the same ranking
-                engine.Layout();
-                using (var f1 = File.Create("d:\\temp\\out2.graph"))
-                    graph.WriteToFile(f1);
-                checkRanks(graph, expectedRanks);
-            }
-        }
+        //        // Second layout must make the same ranking
+        //        engine.Layout();
+        //        using (var f1 = File.Create("d:\\temp\\out2.graph"))
+        //            graph.WriteToFile(f1);
+        //        checkRanks(graph, expectedRanks);
+        //    }
+        //}
 
         private static void checkRanks(IGraph<IVertexData, IEdgeData> graph, IDictionary<IVertex<IVertexData, IEdgeData>, int> expectedRanks)
         {

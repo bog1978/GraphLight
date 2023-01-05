@@ -1,25 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using GraphLight.Graph;
-using GraphLight.Parser;
+using GraphLight.Model.LGML;
 
 namespace GraphLight.Demo
 {
     public class DemoViewModel : BaseViewModel
     {
-        private IGraph _graph;
-        private string _selectedExample;
+        private IGraph? _graph;
+        private string? _selectedExample;
 
         public DemoViewModel()
         {
-            var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-            ExampleCollection = resources.Where(x => x.EndsWith(".graph")).ToList();
-            SelectedExample = ExampleCollection.FirstOrDefault();
+            var examplesDir = Path.GetFullPath("Examples");
+            var di = new DirectoryInfo(examplesDir);
+            RootItems = new List<ExampleItem>
+            {
+                new ExampleDir(di)
+            };
         }
 
-        public IGraph Graph
+        public IGraph? Graph
         {
             get => _graph;
             set
@@ -29,9 +30,9 @@ namespace GraphLight.Demo
             }
         }
 
-        public List<string> ExampleCollection { get; }
+        public IEnumerable<ExampleItem> RootItems { get; }
 
-        public string SelectedExample
+        public string? SelectedExample
         {
             get => _selectedExample;
             set
@@ -40,12 +41,11 @@ namespace GraphLight.Demo
                 RaisePropertyChanged();
                 if (value == null)
                     return;
-                var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(value);
-                LoadGraph(stream);
+                using var stream = File.OpenRead(value);
+                Graph = LgmlUtils
+                    .LoadLgmlGraph(stream)
+                    .FromLgmlGraph();
             }
         }
-
-        private void LoadGraph(Stream stream) => 
-            Graph = GraphHelper.ReadFromFile(stream);
     }
 }

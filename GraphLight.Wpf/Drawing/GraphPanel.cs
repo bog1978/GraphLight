@@ -25,7 +25,7 @@ namespace GraphLight.Drawing
         protected override Size MeasureOverride(Size availableSize)
         {
             if (Graph == null)
-                return availableSize;
+                return new Size();
 
             // 1. Вычисляем размеры вершин.
             foreach (UIElement child in Children)

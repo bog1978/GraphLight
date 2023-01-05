@@ -1,8 +1,0 @@
-digraph Test
-{
-	edges:
-		A -> B -> C -> D -> E [color=red thickness=3];
-		B -> E [color = Green thickness=2];
-		C -> E [color = Blue thickness=1];
-		C -> A [color = #FFEE55DD thickness=0.5];
-}

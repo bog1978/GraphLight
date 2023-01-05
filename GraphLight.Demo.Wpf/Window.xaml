@@ -2,8 +2,8 @@
     x:Class="GraphLight.Demo.Window"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:gl="https://github.com/bog1978/GraphLight"
     xmlns:demo="clr-namespace:GraphLight.Demo"
+    xmlns:gl="https://github.com/bog1978/GraphLight"
     xmlns:graph="clr-namespace:GraphLight.Graph;assembly=GraphLight.Core"
     Title="GraphLight demo."
     WindowState="Maximized">
@@ -62,25 +62,38 @@
                 </TextBlock>
             </DataTemplate>
         </gl:DataTemplateDictionary>
+        <HierarchicalDataTemplate DataType="{x:Type demo:ExampleDir}" ItemsSource="{Binding Children}">
+            <TextBlock Text="{Binding Name}" />
+        </HierarchicalDataTemplate>
+        <DataTemplate DataType="{x:Type demo:ExampleFile}">
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True" />
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Expander Grid.Column="0" ExpandDirection="Left">
-            <Expander.Header>
-                <TextBlock Text="Примеры графов">
-                    <TextBlock.LayoutTransform>
-                        <RotateTransform Angle="-90" />
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
-            </Expander.Header>
-            <ListBox ItemsSource="{Binding ExampleCollection}" SelectedItem="{Binding SelectedExample, Mode=TwoWay}" />
-        </Expander>
+        <TreeView
+            Grid.Column="0"
+            Margin="5"
+            Padding="5"
+            ItemsSource="{Binding RootItems}"
+            SelectedItemChanged="TreeView_OnSelectedItemChanged" />
         <gl:GraphControl
             Grid.Column="1"
+            Margin="0,5,5,5"
             Graph="{Binding Graph, Mode=TwoWay}"
             VertexTemplateDictionary="{StaticResource VertexTemplateDictionary}" />
+        <GridSplitter
+            Grid.Column="0"
+            Width="5"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Stretch"
+            Background="Transparent"
+            ResizeDirection="Columns" />
     </Grid>
 </Window>

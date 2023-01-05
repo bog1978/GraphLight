@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Graph xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <VertexCategory Id="large_font" />
+  <VertexCategory Id="small_font" />
+  <VertexCategory Id="with_tooltip" />
+  <Vertex Category="large_font" Label="Large Font" Id="A" />
+  <Vertex Category="small_font" Label="Small font" Id="B" />
+  <Vertex Category="with_tooltip" Label="Node with tooltip" Id="C" />
+  <Vertex Label="D" Id="D" />
+  <Vertex Label="E" Id="E" />
+  <Edge Src="A" Dst="B" />
+  <Edge Src="B" Dst="C" />
+  <Edge Src="C" Dst="D" />
+  <Edge Src="D" Dst="E" />
+  <Edge Src="B" Dst="E" />
+  <Edge Src="C" Dst="E" />
+  <Edge Src="C" Dst="A" />
+</Graph>

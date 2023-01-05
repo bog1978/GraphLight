@@ -1,8 +1,0 @@
-digraph Test
-{
-	edges:
-		A -> B;
-		B -> C;
-		C -> D;
-		D -> A;
-}

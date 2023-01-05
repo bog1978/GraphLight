@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<Graph xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Vertex Label="A1" Id="A1" />
+  <Vertex Label="B1" Id="B1" />
+  <Vertex Label="B2" Id="B2" />
+  <Vertex Label="B3" Id="B3" />
+  <Vertex Label="B4" Id="B4" />
+  <Vertex Label="A2" Id="A2" />
+  <Vertex Label="A3" Id="A3" />
+  <Vertex Label="A4" Id="A4" />
+  <Vertex Label="A5" Id="A5" />
+  <Vertex Label="A6" Id="A6" />
+  <Vertex Label="A7" Id="A7" />
+  <Edge Src="A1" Dst="B1" />
+  <Edge Src="A1" Dst="B2" />
+  <Edge Src="A1" Dst="B3" />
+  <Edge Src="A1" Dst="B4" />
+  <Edge Src="A2" Dst="B1" />
+  <Edge Src="A2" Dst="B2" />
+  <Edge Src="A2" Dst="B3" />
+  <Edge Src="A2" Dst="B4" />
+  <Edge Src="A3" Dst="B1" />
+  <Edge Src="A3" Dst="B2" />
+  <Edge Src="A3" Dst="B3" />
+  <Edge Src="A3" Dst="B4" />
+  <Edge Src="A4" Dst="B1" />
+  <Edge Src="A4" Dst="B2" />
+  <Edge Src="A4" Dst="B3" />
+  <Edge Src="A4" Dst="B4" />
+  <Edge Src="A5" Dst="B1" />
+  <Edge Src="A5" Dst="B2" />
+  <Edge Src="A5" Dst="B3" />
+  <Edge Src="A5" Dst="B4" />
+  <Edge Src="A6" Dst="B1" />
+  <Edge Src="A6" Dst="B2" />
+  <Edge Src="A6" Dst="B3" />
+  <Edge Src="A6" Dst="B4" />
+  <Edge Src="A7" Dst="B1" />
+  <Edge Src="A7" Dst="B2" />
+  <Edge Src="A7" Dst="B3" />
+  <Edge Src="A7" Dst="B4" />
+</Graph>

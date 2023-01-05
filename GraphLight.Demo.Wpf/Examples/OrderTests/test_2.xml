@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Graph xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Vertex Label="A1" Id="A1" />
+  <Vertex Label="B1" Id="B1" />
+  <Vertex Label="B2" Id="B2" />
+  <Vertex Label="C1" Id="C1" />
+  <Vertex Label="D1" Id="D1" />
+  <Vertex Label="B3" Id="B3" />
+  <Vertex Label="C2" Id="C2" />
+  <Vertex Label="D2" Id="D2" />
+  <Vertex Label="E1" Id="E1" />
+  <Vertex Label="C3" Id="C3" />
+  <Edge Src="A1" Dst="B1" />
+  <Edge Src="A1" Dst="B2" />
+  <Edge Src="B2" Dst="C1" />
+  <Edge Src="C1" Dst="D1" />
+  <Edge Src="A1" Dst="B3" />
+  <Edge Src="B3" Dst="C2" />
+  <Edge Src="C2" Dst="D2" />
+  <Edge Src="D2" Dst="E1" />
+  <Edge Src="B1" Dst="C3" />
+  <Edge Src="C3" Dst="D1" />
+  <Edge Src="D1" Dst="E1" />
+</Graph>

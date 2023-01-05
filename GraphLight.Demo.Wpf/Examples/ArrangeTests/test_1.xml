@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Graph xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Vertex Label="A1" Id="A1" />
+  <Vertex Label="B1" Id="B1" />
+  <Vertex Label="B2" Id="B2" />
+  <Edge Src="A1" Dst="B1" />
+  <Edge Src="A1" Dst="B2" />
+</Graph>
