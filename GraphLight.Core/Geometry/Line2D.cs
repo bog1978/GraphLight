@@ -75,53 +75,45 @@ namespace GraphLight.Geometry
             return PointLocation.Between;
         }
 
-        public CrossType Cross(Line2D line) => Cross(P1, P2, line.P1, line.P2);
+        public CrossType Cross(Line2D line, out Point2D? cross) => Cross(P1, P2, line.P1, line.P2, out cross);
 
-        public CrossType Cross(Point2D q1, Point2D q2) => Cross(P1, P2, q1, q2);
+        public CrossType Cross(Point2D q1, Point2D q2, out Point2D? cross) => Cross(P1, P2, q1, q2, out cross);
 
-        public static CrossType Cross(Point2D p1, Point2D p2, Point2D q1, Point2D q2)
+        public static CrossType Cross(Point2D p1, Point2D p2, Point2D q1, Point2D q2, out Point2D? cross)
         {
+            cross = null;
             if (p1 == q1 && p2 == q2 || p1 == q2 && p2 == q1)
                 return CrossType.Equal;
 
             if (Overlap(p1, p2, q1, q2))
                 return CrossType.Overlap;
 
-            var pV = p2 - p1;
-            var qV = q2 - q1;
+            var a1 = p2.Y - p1.Y;
+            var b1 = p2.X - p1.X;
+            var c1 = p1.X * p2.Y - p2.X * p1.Y;
 
-            var znam = Math.Round(pV.Y * qV.X - pV.X * qV.Y, ROUND_DIGITS);
+            var a2 = q2.Y - q1.Y;
+            var b2 = q2.X - q1.X;
+            var c2 = q1.X * q2.Y - q2.X * q1.Y;
+
+            var znam = Math.Round(a1 * b2 - a2 * b1, ROUND_DIGITS);
             if (znam == 0)
                 return CrossType.None;
-
-            var t = Math.Round((p1.X * qV.Y + q1.X * (p1.Y - q2.Y) + q2.X * (q1.Y - p1.Y)) / znam, ROUND_DIGITS);
-            var u = Math.Round(-(p1.X * (q1.Y - p2.Y) + p2.X * (p1.Y - q1.Y) + q1.X * pV.Y) / znam, ROUND_DIGITS);
+            
+            var t = Math.Round(+(a2 * p1.X - b2 * p1.Y - c2) / znam, ROUND_DIGITS);
+            var u = Math.Round(-(a1 * q1.X - b1 * q1.Y - c1) / znam, ROUND_DIGITS);
 
             if (t == 0 || t == 1 && u == 0 || u == 1)
                 return CrossType.Join;
             if (t >= 0 && t <= 1 && u >= 0 && u <= 1)
+            {
+                var x = (b2 * c1 - b1 * c2) / znam;
+                var y = (a2 * c1 - a1 * c2) / znam;
+                cross = new Point2D(x, y);
                 return CrossType.Cross;
+            }
+
             return CrossType.None;
-        }
-        
-        public static Point2D CrossPoint(Point2D p1, Point2D p2, Point2D q1, Point2D q2)
-        {
-            // TODO: Обложить тестами и учесть все частные случаи.
-            // TODO: А еще лучше - обобщить метод Cross.
-            var a1 = p1.Y - p2.Y;
-            var b1 = p2.X - p1.X;
-            var c1 = p1.X * p2.Y - p2.X * p1.Y;
-
-            var a2 = q1.Y - q2.Y;
-            var b2 = q2.X - q1.X;
-            var c2 = q1.X * q2.Y - q2.X * q1.Y;
-
-            var znam = b1 * a2 - b2 * a1;
-
-            var x = (b2 * c1 - b1 * c2) / znam;
-            var y = (a1 * c2 - a2 * c1) / znam;
-
-            return new Point2D(x, y);
         }
 
         /// <summary>

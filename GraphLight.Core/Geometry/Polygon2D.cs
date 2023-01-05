@@ -105,7 +105,7 @@ namespace GraphLight.Geometry
             {
                 var p1 = Points[i];
                 var p2 = Points[(i + 1) % cnt];
-                var ct = Line2D.Cross(p1, p2, a, b);
+                var ct = Line2D.Cross(p1, p2, a, b, out _);
                 crossTypes[ct]++;
             }
 

@@ -72,10 +72,9 @@ namespace GraphLight.Layout
             var polygon = new Polygon2D(polygonPoints);
             foreach (var line in polygon.Edges)
             {
-                if (line.Cross(innerPoint, outerPoint) != CrossType.Cross)
+                if (line.Cross(innerPoint, outerPoint, out var crossPoint) != CrossType.Cross)
                     continue;
-                var crossPoint = Line2D.CrossPoint(line.P1, line.P2, innerPoint, outerPoint);
-                return crossPoint;
+                return crossPoint ?? innerPoint;
             }
             return innerPoint;
         }
