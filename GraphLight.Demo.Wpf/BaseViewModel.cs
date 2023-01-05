@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using GraphLight.Annotations;
 
-namespace GraphLight
+namespace GraphLight.Demo
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {

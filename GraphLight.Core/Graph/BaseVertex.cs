@@ -4,7 +4,7 @@ using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public class BaseVertex<V, E> : BaseViewModel, IVertex<V, E>
+    public class BaseVertex<V, E> : IVertex<V, E>
     {
         private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _inEdges = new ObservableCollection<IEdge<V, E>>();

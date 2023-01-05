@@ -2,7 +2,7 @@
 
 namespace GraphLight.Graph
 {
-    public class BaseEdge<V, E> : BaseViewModel, IEdge<V, E>
+    public class BaseEdge<V, E> : IEdge<V, E>
     {
         private readonly E _data;
         private IVertex<V, E> _src;
@@ -19,17 +19,9 @@ namespace GraphLight.Graph
 
         public E Data => _data;
 
-        public double Weight
-        {
-            get => _weight;
-            set => SetProperty(ref _weight, value);
-        }
+        public double Weight { get; set; }
 
-        public bool IsRevert
-        {
-            get => _isRevert;
-            private set => SetProperty(ref _isRevert, value);
-        }
+        public bool IsRevert { get; private set; }
 
         public IVertex<V, E> Src
         {
@@ -40,7 +32,6 @@ namespace GraphLight.Graph
                     return;
                 var oldValue = _src;
                 _src = value;
-                RaisePropertyChanged();
                 OnEdgeChanged(oldValue, value);
             }
         }
@@ -54,7 +45,6 @@ namespace GraphLight.Graph
                 if (oldValue == value)
                     return;
                 _dst = value;
-                RaisePropertyChanged();
                 OnEdgeChanged(oldValue, value);
             }
         }

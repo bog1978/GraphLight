@@ -4,8 +4,6 @@ namespace GraphLight.Graph
 {
     public class GenericGraph<V, E> : BaseGraph<V, E>
     {
-        public GenericGraph() { }
-
         protected override IEdge<V, E> CreateEdge(E data) => new BaseEdge<V, E>(data);
 
         protected override IVertex<V, E> CreateVertex(V data) => new BaseVertex<V, E>(data);

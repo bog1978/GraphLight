@@ -4,20 +4,9 @@ namespace GraphLight.Layout
 {
     public class LayoutGraphModel : BaseGraph<IVertexData, IEdgeData>, IGraph
     {
-        private double _width;
-        private double _height;
+        public double Width { get; set; }
 
-        public double Width
-        {
-            get => _width;
-            set => SetProperty(ref _width, value);
-        }
-
-        public double Height
-        {
-            get => _height;
-            set => SetProperty(ref _height, value);
-        }
+        public double Height { get; set; }
 
         protected override IVertex<IVertexData, IEdgeData> CreateVertex(IVertexData data) => new Vertex(data);
 

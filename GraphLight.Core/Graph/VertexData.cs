@@ -4,14 +4,6 @@ namespace GraphLight.Graph
 {
     public class VertexData : CommonData, IVertexData
     {
-        private double _width;
-        private double _height;
-        private double _left;
-        private double _top;
-        private VertexShape _shape;
-        private string _background;
-        private string _foreground;
-
         public VertexData(string id)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
@@ -29,67 +21,23 @@ namespace GraphLight.Graph
 
         double IVertexDataLocation.CenterX { get; set; }
 
-        public double Width
-        {
-            get => _width;
-            set
-            {
-                SetProperty(ref _width, value);
-                RaisePropertyChanged(nameof(Right));
-            }
-        }
+        public double Width { get; set; }
 
-        public double Height
-        {
-            get => _height;
-            set
-            {
-                SetProperty(ref _height, value);
-                RaisePropertyChanged(nameof(Bottom));
-            }
-        }
+        public double Height { get; set; }
 
-        public double Left
-        {
-            get => _left;
-            set
-            {
-                SetProperty(ref _left, value);
-                RaisePropertyChanged(nameof(Right));
-            }
-        }
+        public double Left { get; set; }
 
-        public double Top
-        {
-            get => _top;
-            set
-            {
-                SetProperty(ref _top, value);
-                RaisePropertyChanged(nameof(Bottom));
-            }
-        }
+        public double Top { get; set; }
 
         public double Right => Left + Width;
 
         public double Bottom => Top + Height;
 
-        public VertexShape Shape
-        {
-            get => _shape;
-            set => SetProperty(ref _shape, value);
-        }
+        public VertexShape Shape { get; set; }
 
-        public string Background
-        {
-            get => _background;
-            set => SetProperty(ref _background, value);
-        }
+        public string Background { get; set; }
 
-        public string Foreground
-        {
-            get => _foreground;
-            set => SetProperty(ref _foreground, value);
-        }
+        public string Foreground { get; set; }
 
         public bool Equals(IVertexData other) => other?.Id == Id;
 
