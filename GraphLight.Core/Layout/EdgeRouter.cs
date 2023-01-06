@@ -69,6 +69,26 @@ namespace GraphLight.Layout
                 var dstPort = edge.Dst.GetShapePort(points[points.Count - 2]);
                 points[0] = srcPort;
                 points[points.Count - 1] = dstPort;
+
+                // Если ребро было инвертировано, нужно инвертировать и точки.
+                if (edge.IsRevert)
+                    ReversePoints(points);
+            }
+        }
+
+        /// <summary>
+        /// Переворачивает список точек наоборот.
+        /// </summary>
+        /// <param name="points">Список точек.</param>
+        private static void ReversePoints(IList<Point2D> points)
+        {
+            for (var i = 0; i < points.Count / 2; i++)
+            {
+                var j = points.Count - 1 - i;
+                var a = points[i];
+                var b = points[j];
+                points[i] = b;
+                points[j] = a;
             }
         }
 
