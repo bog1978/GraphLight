@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -22,14 +23,27 @@ namespace GraphLight.Drawing
 
         #endregion
 
+        #region constructor
+
+        public TextOnPathElement()
+        {
+
+            _formattedChars = new List<FormattedText>();
+            _boundingRect = new Rect();
+            _typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
+            _visualChildren = new VisualCollection(this);
+        }
+
+        #endregion
+
         #region dependency properties
 
         #region FontFamily
 
         public FontFamily FontFamily
         {
-            get { return (FontFamily)GetValue(FontFamilyProperty); }
-            set { SetValue(FontFamilyProperty, value); }
+            get => (FontFamily)GetValue(FontFamilyProperty);
+            set => SetValue(FontFamilyProperty, value);
         }
 
         public static readonly DependencyProperty FontFamilyProperty =
@@ -47,8 +61,8 @@ namespace GraphLight.Drawing
 
         public FontStyle FontStyle
         {
-            get { return (FontStyle)GetValue(FontStyleProperty); }
-            set { SetValue(FontStyleProperty, value); }
+            get => (FontStyle)GetValue(FontStyleProperty);
+            set => SetValue(FontStyleProperty, value);
         }
 
         public static readonly DependencyProperty FontStyleProperty =
@@ -66,8 +80,8 @@ namespace GraphLight.Drawing
 
         public FontWeight FontWeight
         {
-            get { return (FontWeight)GetValue(FontWeightProperty); }
-            set { SetValue(FontWeightProperty, value); }
+            get => (FontWeight)GetValue(FontWeightProperty);
+            set => SetValue(FontWeightProperty, value);
         }
 
         public static readonly DependencyProperty FontWeightProperty =
@@ -85,8 +99,8 @@ namespace GraphLight.Drawing
 
         public FontStretch FontStretch
         {
-            get { return (FontStretch)GetValue(FontStretchProperty); }
-            set { SetValue(FontStretchProperty, value); }
+            get => (FontStretch)GetValue(FontStretchProperty);
+            set => SetValue(FontStretchProperty, value);
         }
 
         public static readonly DependencyProperty FontStretchProperty =
@@ -104,8 +118,8 @@ namespace GraphLight.Drawing
 
         public double FontSize
         {
-            get { return (double)GetValue(FontSizeProperty); }
-            set { SetValue(FontSizeProperty, value); }
+            get => (double)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
         }
 
         public static readonly DependencyProperty FontSizeProperty =
@@ -123,8 +137,8 @@ namespace GraphLight.Drawing
 
         public Brush Foreground
         {
-            get { return (Brush)GetValue(ForegroundProperty); }
-            set { SetValue(ForegroundProperty, value); }
+            get => (Brush)GetValue(ForegroundProperty);
+            set => SetValue(ForegroundProperty, value);
         }
 
         public static readonly DependencyProperty ForegroundProperty =
@@ -142,8 +156,8 @@ namespace GraphLight.Drawing
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         public static readonly DependencyProperty TextProperty =
@@ -161,8 +175,8 @@ namespace GraphLight.Drawing
 
         public PathFigure PathFigure
         {
-            get { return (PathFigure)GetValue(PathFigureProperty); }
-            set { SetValue(PathFigureProperty, value); }
+            get => (PathFigure)GetValue(PathFigureProperty);
+            set => SetValue(PathFigureProperty, value);
         }
 
         public static readonly DependencyProperty PathFigureProperty =
@@ -171,7 +185,7 @@ namespace GraphLight.Drawing
         private static void OnPathFigureChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var element = (TextOnPathElement)obj;
-            element._pathLength = element.GetPathFigureLength(element.PathFigure);
+            element._pathLength = GetPathFigureLength(element.PathFigure);
             element.TransformVisualChildren();
         }
 
@@ -181,8 +195,8 @@ namespace GraphLight.Drawing
 
         public HorizontalAlignment ContentAlignment
         {
-            get { return (HorizontalAlignment)GetValue(ContentAlignmentProperty); }
-            set { SetValue(ContentAlignmentProperty, value); }
+            get => (HorizontalAlignment)GetValue(ContentAlignmentProperty);
+            set => SetValue(ContentAlignmentProperty, value);
         }
 
         public static readonly DependencyProperty ContentAlignmentProperty =
@@ -198,41 +212,17 @@ namespace GraphLight.Drawing
 
         #endregion
 
-        #region constructor
-
-        public TextOnPathElement()
-        {
-
-            _formattedChars = new List<FormattedText>();
-            _boundingRect = new Rect();
-            _typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
-            _visualChildren = new VisualCollection(this);
-        }
-
-        #endregion
-
         #region overrides
 
-        protected override int VisualChildrenCount
-        {
-            get
-            {
-                return _visualChildren.Count;
-            }
-        }
+        protected override int VisualChildrenCount => _visualChildren.Count;
 
-        protected override Visual GetVisualChild(int index)
-        {
-            if (index < 0 || index >= _visualChildren.Count)
-                throw new ArgumentOutOfRangeException("index");
+        protected override Visual GetVisualChild(int index) =>
+            index < 0 || index >= _visualChildren.Count
+                ? throw new ArgumentOutOfRangeException(nameof(index))
+                : _visualChildren[index];
 
-            return _visualChildren[index];
-        }
-
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            return (Size)_boundingRect.BottomRight;
-        }
+        protected override Size MeasureOverride(Size availableSize) => 
+            (Size)_boundingRect.BottomRight;
 
         #endregion
 
@@ -249,56 +239,50 @@ namespace GraphLight.Drawing
             _formattedChars.Clear();
             _textLength = 0;
 
-            if (!String.IsNullOrEmpty(Text))
+            if (string.IsNullOrEmpty(Text))
+                return;
+
+            foreach (var ch in Text)
             {
-                foreach (char ch in Text)
-                {
-                    var fontSize = ContentAlignment == HorizontalAlignment.Stretch ? 100 : FontSize;
-
-                    var formattedText =
-                        new FormattedText(ch.ToString(), CultureInfo.CurrentCulture,
-                            FlowDirection.LeftToRight, _typeface, fontSize, Foreground);
-
-                    _formattedChars.Add(formattedText);
-                    _textLength += formattedText.WidthIncludingTrailingWhitespace;
-                }
-
-                GenerateVisualChildren();
+                var fontSize = ContentAlignment == HorizontalAlignment.Stretch
+                    ? 100
+                    : FontSize;
+                var formattedText =
+                    new FormattedText(ch.ToString(), CultureInfo.CurrentCulture,
+                        FlowDirection.LeftToRight, _typeface, fontSize, Foreground);
+                _formattedChars.Add(formattedText);
+                _textLength += formattedText.WidthIncludingTrailingWhitespace;
             }
+            GenerateVisualChildren();
         }
 
-        private double GetPathFigureLength(PathFigure pathFigure)
+        private static double GetPathFigureLength(PathFigure pathFigure)
         {
             if (pathFigure == null)
                 return 0;
 
-            bool isAlreadyFlattened = true;
+            var isAlreadyFlattened = pathFigure.Segments
+                .All(s => s is PolyLineSegment || s is LineSegment);
 
-            foreach (PathSegment pathSegment in pathFigure.Segments)
+            var pathFigureFlattened = isAlreadyFlattened
+                ? pathFigure
+                : pathFigure.GetFlattenedPathFigure();
+
+            var length = 0.0;
+            var pt1 = pathFigureFlattened.StartPoint;
+
+            foreach (var pathSegment in pathFigureFlattened.Segments)
             {
-                if (!(pathSegment is PolyLineSegment) && !(pathSegment is LineSegment))
+                if (pathSegment is LineSegment lineSegment)
                 {
-                    isAlreadyFlattened = false;
-                    break;
-                }
-            }
-
-            PathFigure pathFigureFlattened = isAlreadyFlattened ? pathFigure : pathFigure.GetFlattenedPathFigure();
-            double length = 0;
-            Point pt1 = pathFigureFlattened.StartPoint;
-
-            foreach (PathSegment pathSegment in pathFigureFlattened.Segments)
-            {
-                if (pathSegment is LineSegment)
-                {
-                    Point pt2 = (pathSegment as LineSegment).Point;
+                    var pt2 = lineSegment.Point;
                     length += (pt2 - pt1).Length;
                     pt1 = pt2;
                 }
-                else if (pathSegment is PolyLineSegment)
+                else if (pathSegment is PolyLineSegment polyLineSegment)
                 {
-                    PointCollection pointCollection = (pathSegment as PolyLineSegment).Points;
-                    foreach (Point pt2 in pointCollection)
+                    var pointCollection = polyLineSegment.Points;
+                    foreach (var pt2 in pointCollection)
                     {
                         length += (pt2 - pt1).Length;
                         pt1 = pt2;
@@ -312,17 +296,22 @@ namespace GraphLight.Drawing
         {
             _visualChildren.Clear();
 
-            foreach (FormattedText formText in _formattedChars)
+            foreach (var formText in _formattedChars)
             {
-                var drawingVisual = new DrawingVisual();
+                var drawingVisual = new DrawingVisual
+                {
+                    Transform = new TransformGroup
+                    {
+                        Children =
+                        {
+                            new ScaleTransform(),
+                            new RotateTransform(),
+                            new TranslateTransform()
+                        }
+                    }
+                };
 
-                var transformGroup = new TransformGroup();
-                transformGroup.Children.Add(new ScaleTransform());
-                transformGroup.Children.Add(new RotateTransform());
-                transformGroup.Children.Add(new TranslateTransform());
-                drawingVisual.Transform = transformGroup;
-
-                DrawingContext dc = drawingVisual.RenderOpen();
+                var dc = drawingVisual.RenderOpen();
                 dc.DrawText(formText, new Point(0, 0));
                 dc.Close();
 
@@ -342,9 +331,11 @@ namespace GraphLight.Drawing
             if (_formattedChars.Count != _visualChildren.Count)
                 return;
 
-            var scalingFactor = ContentAlignment == HorizontalAlignment.Stretch ? _pathLength / _textLength : 1;
-            double progress = 0;
+            var scalingFactor = ContentAlignment == HorizontalAlignment.Stretch
+                ? _pathLength / _textLength
+                : 1;
 
+            var progress = 0.0;
             switch (ContentAlignment)
             {
                 case HorizontalAlignment.Left:
@@ -362,23 +353,22 @@ namespace GraphLight.Drawing
             var pathGeometry = new PathGeometry(new[] { PathFigure });
             _boundingRect = new Rect();
 
-            for (int index = 0; index < _visualChildren.Count; index++)
+            for (var index = 0; index < _visualChildren.Count; index++)
             {
-                FormattedText formText = _formattedChars[index];
+                var formText = _formattedChars[index];
 
-                double width = scalingFactor * formText.WidthIncludingTrailingWhitespace;
-                double baseline = scalingFactor * formText.Baseline;
+                var width = scalingFactor * formText.WidthIncludingTrailingWhitespace;
+                var baseline = scalingFactor * formText.Baseline;
 
                 progress += width / 2 / _pathLength;
 
-                Point point, tangent;
-                pathGeometry.GetPointAtFractionLength(progress, out point, out tangent);
+                pathGeometry.GetPointAtFractionLength(progress, out var point, out var tangent);
 
-                var drawingVisual = _visualChildren[index] as DrawingVisual;
-                var transformGroup = drawingVisual.Transform as TransformGroup;
-                var scaleTransform = transformGroup.Children[0] as ScaleTransform;
-                var rotateTransform = transformGroup.Children[1] as RotateTransform;
-                var translateTransform = transformGroup.Children[2] as TranslateTransform;
+                var drawingVisual = (DrawingVisual)_visualChildren[index];
+                var transformGroup = (TransformGroup)drawingVisual.Transform;
+                var scaleTransform = (ScaleTransform)transformGroup.Children[0];
+                var rotateTransform = (RotateTransform)transformGroup.Children[1];
+                var translateTransform = (TranslateTransform)transformGroup.Children[2];
 
                 scaleTransform.ScaleX = scalingFactor;
                 scaleTransform.ScaleY = scalingFactor;
@@ -388,7 +378,7 @@ namespace GraphLight.Drawing
                 translateTransform.X = point.X - width / 2;
                 translateTransform.Y = point.Y - baseline;
 
-                Rect rect = drawingVisual.ContentBounds;
+                var rect = drawingVisual.ContentBounds;
                 rect.Transform(transformGroup.Value);
                 _boundingRect.Union(rect);
 
