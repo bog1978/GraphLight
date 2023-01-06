@@ -1,6 +1,6 @@
 ﻿namespace GraphLight.Model.LGML
 {
-    partial class Vertex
+    partial class LgmlVertex
     {
         public override string ToString() =>
             string.IsNullOrWhiteSpace(Category)
@@ -8,7 +8,7 @@
                 : $"{Category}: {Id}";
     }
 
-    partial class Edge
+    partial class LgmlEdge
     {
         public override string ToString() => 
             string.IsNullOrWhiteSpace(Category)
@@ -16,12 +16,12 @@
                 : $"{Category}: {Src} -> {Dst}";
     }
 
-    partial class VertexCategory
+    partial class LgmlVertexCategory
     {
         public override string ToString() => Id;
     }
 
-    partial class EdgeCategory
+    partial class LgmlEdgeCategory
     {
         public override string ToString() => Id;
     }

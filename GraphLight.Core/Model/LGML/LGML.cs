@@ -20,25 +20,24 @@ namespace GraphLight.Model.LGML {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
-    public partial class Graph {
+    [System.Xml.Serialization.XmlRootAttribute("Graph", Namespace="", IsNullable=false)]
+    public partial class LgmlGraph {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("VertexCategory", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public VertexCategory[] VertexCategory;
+        public LgmlVertexCategory[] VertexCategory;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("EdgeCategory", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public EdgeCategory[] EdgeCategory;
+        public LgmlEdgeCategory[] EdgeCategory;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Vertex", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public Vertex[] Vertex;
+        public LgmlVertex[] Vertex;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Edge", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public Edge[] Edge;
+        public LgmlEdge[] Edge;
     }
     
     /// <remarks/>
@@ -46,7 +45,7 @@ namespace GraphLight.Model.LGML {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class VertexCategory {
+    public partial class LgmlVertexCategory {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -82,7 +81,7 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public VertexShape Shape;
+        public LgmlVertexShape Shape;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -92,7 +91,7 @@ namespace GraphLight.Model.LGML {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
     [System.SerializableAttribute()]
-    public enum VertexShape {
+    public enum LgmlVertexShape {
         
         /// <remarks/>
         None,
@@ -108,13 +107,13 @@ namespace GraphLight.Model.LGML {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Vertex))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Edge))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlVertex))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlEdge))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public abstract partial class Element {
+    public abstract partial class LgmlElement {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -150,7 +149,7 @@ namespace GraphLight.Model.LGML {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class Vertex : Element {
+    public partial class LgmlVertex : LgmlElement {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -166,7 +165,7 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public VertexShape Shape;
+        public LgmlVertexShape Shape;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -178,7 +177,7 @@ namespace GraphLight.Model.LGML {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class Edge : Element {
+    public partial class LgmlEdge : LgmlElement {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -198,7 +197,7 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public EdgeStyle Style;
+        public LgmlEdgeStyle Style;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -208,7 +207,7 @@ namespace GraphLight.Model.LGML {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
     [System.SerializableAttribute()]
-    public enum EdgeStyle {
+    public enum LgmlEdgeStyle {
         
         /// <remarks/>
         Solid,
@@ -222,7 +221,7 @@ namespace GraphLight.Model.LGML {
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class EdgeCategory {
+    public partial class LgmlEdgeCategory {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -258,7 +257,7 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public EdgeStyle Style;
+        public LgmlEdgeStyle Style;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]

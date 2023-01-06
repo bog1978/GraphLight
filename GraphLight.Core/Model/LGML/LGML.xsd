@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2021 rel. 2 sp1 (x64) (http://www.altova.com) by  () -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:element name="Graph">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="VertexCategory" type="VertexCategory" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element name="EdgeCategory" type="EdgeCategory" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element name="Vertex" type="Vertex" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element name="Edge" type="Edge" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
+	<xs:element name="Graph" type="LgmlGraph">
 		<xs:key name="PK_EdgeCategory">
 			<xs:selector xpath="EdgeCategory"/>
 			<xs:field xpath="@Id"/>
@@ -39,44 +31,58 @@
 			<xs:field xpath="@Category"/>
 		</xs:keyref>
 	</xs:element>
-	<xs:complexType name="Edge">
+	<xs:complexType name="LgmlEdge">
 		<xs:complexContent>
-			<xs:extension base="Element">
+			<xs:extension base="LgmlElement">
 				<xs:attribute name="Src" type="xs:string" use="required"/>
 				<xs:attribute name="Dst" type="xs:string" use="required"/>
 				<xs:attributeGroup ref="EdgeAttrs"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="EdgeCategory">
+	<xs:complexType name="LgmlEdgeCategory">
 		<xs:attribute name="Id" type="xs:string" use="required"/>
 		<xs:attributeGroup ref="CommonAttrs"/>
 		<xs:attributeGroup ref="EdgeAttrs"/>
 	</xs:complexType>
-	<xs:complexType name="Element" abstract="true">
+	<xs:complexType name="LgmlElement" abstract="true">
 		<xs:attribute name="Category" type="xs:string" use="optional"/>
 		<xs:attribute name="Label" type="xs:string" use="optional"/>
 		<xs:attributeGroup ref="CommonAttrs"/>
 	</xs:complexType>
-	<xs:complexType name="Vertex">
+	<xs:complexType name="LgmlGraph">
+		<xs:sequence>
+			<xs:element name="VertexCategory" type="LgmlVertexCategory" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="EdgeCategory" type="LgmlEdgeCategory" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Vertex" type="LgmlVertex" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Edge" type="LgmlEdge" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LgmlVertex">
 		<xs:complexContent>
-			<xs:extension base="Element">
+			<xs:extension base="LgmlElement">
 				<xs:attribute name="Id" type="xs:string" use="required"/>
 				<xs:attributeGroup ref="VertexAttrs"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="VertexCategory">
+	<xs:complexType name="LgmlVertexCategory">
 		<xs:attribute name="Id" type="xs:string" use="required"/>
 		<xs:attributeGroup ref="CommonAttrs"/>
 		<xs:attributeGroup ref="VertexAttrs"/>
 	</xs:complexType>
-	<xs:simpleType name="Color">
+	<xs:simpleType name="LgmlColor">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="#[\da-f]{6}|AliceBlue|AntiqueWhite|Aqua|Aquamarine|Azure|Beige|Bisque|Black|BlanchedAlmond|Blue|BlueViolet|Brown|BurlyWood|CadetBlue|Chartreuse|Chocolate|Coral|CornflowerBlue|Cornsilk|Crimson|Cyan|DarkBlue|DarkCyan|DarkGoldenrod|DarkGray|DarkGreen|DarkKhaki|DarkMagenta|DarkOliveGreen|DarkOrange|DarkOrchid|DarkRed|DarkSalmon|DarkSeaGreen|DarkSlateBlue|DarkSlateGray|DarkTurquoise|DarkViolet|DeepPink|DeepSkyBlue|DimGray|DodgerBlue|Firebrick|FloralWhite|ForestGreen|Fuchsia|Gainsboro|GhostWhite|Gold|Goldenrod|Gray|Green|GreenYellow|Honeydew|HotPink|IndianRed|Indigo|Ivory|Khaki|Lavender|LavenderBlush|LawnGreen|LemonChiffon|LightBlue|LightCoral|LightCyan|LightGoldenrodYellow|LightGray|LightGreen|LightPink|LightSalmon|LightSeaGreen|LightSkyBlue|LightSlateGray|LightSteelBlue|LightYellow|Lime|LimeGreen|Linen|Magenta|Maroon|MediumAquamarine|MediumBlue|MediumOrchid|MediumPurple|MediumSeaGreen|MediumSlateBlue|MediumSpringGreen|MediumTurquoise|MediumVioletRed|MidnightBlue|MintCream|MistyRose|Moccasin|NavajoWhite|Navy|OldLace|Olive|OliveDrab|Orange|OrangeRed|Orchid|PaleGoldenrod|PaleGreen|PaleTurquoise|PaleVioletRed|PapayaWhip|PeachPuff|Peru|Pink|Plum|PowderBlue|Purple|Red|RosyBrown|RoyalBlue|SaddleBrown|Salmon|SandyBrown|SeaGreen|SeaShell|Sienna|Silver|SkyBlue|SlateBlue|SlateGray|Snow|SpringGreen|SteelBlue|Tan|Teal|Thistle|Tomato|Transparent|Turquoise|Violet|Wheat|White|WhiteSmoke|Yellow|YellowGreen"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="VertexShape">
+	<xs:simpleType name="LgmlEdgeStyle">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Solid"/>
+			<xs:enumeration value="Dashed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LgmlVertexShape">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="None"/>
 			<xs:enumeration value="Ellipse"/>
@@ -84,24 +90,18 @@
 			<xs:enumeration value="Diamond"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:attributeGroup name="EdgeAttrs">
-		<xs:attribute name="Weight" type="xs:double" use="optional"/>
-		<xs:attribute name="Style" type="EdgeStyle" use="optional"/>
-	</xs:attributeGroup>
-	<xs:attributeGroup name="VertexAttrs">
-		<xs:attribute name="Background" type="Color" use="optional"/>
-		<xs:attribute name="Foreground" type="Color" use="optional"/>
-		<xs:attribute name="Shape" type="VertexShape" use="optional"/>
-	</xs:attributeGroup>
-	<xs:simpleType name="EdgeStyle">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="Solid"/>
-			<xs:enumeration value="Dashed"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:attributeGroup name="CommonAttrs">
-		<xs:attribute name="Stroke" type="Color" use="optional"/>
+		<xs:attribute name="Stroke" type="LgmlColor" use="optional"/>
 		<xs:attribute name="StrokeThickness" type="xs:double" use="optional"/>
 		<xs:attribute name="FontSize" type="xs:double" use="optional"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="EdgeAttrs">
+		<xs:attribute name="Weight" type="xs:double" use="optional"/>
+		<xs:attribute name="Style" type="LgmlEdgeStyle" use="optional"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="VertexAttrs">
+		<xs:attribute name="Background" type="LgmlColor" use="optional"/>
+		<xs:attribute name="Foreground" type="LgmlColor" use="optional"/>
+		<xs:attribute name="Shape" type="LgmlVertexShape" use="optional"/>
 	</xs:attributeGroup>
 </xs:schema>

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using GraphLight.Graph;
-using GraphLight.Model.LGML;
 
 namespace GraphLight.Demo
 {
@@ -23,11 +22,7 @@ namespace GraphLight.Demo
         public IGraph? Graph
         {
             get => _graph;
-            set
-            {
-                _graph = value;
-                RaisePropertyChanged();
-            }
+            set => SetProperty(ref _graph, value);
         }
 
         public IEnumerable<ExampleItem> RootItems { get; }
@@ -42,9 +37,7 @@ namespace GraphLight.Demo
                 if (value == null)
                     return;
                 using var stream = File.OpenRead(value);
-                Graph = LgmlUtils
-                    .LoadLgmlGraph(stream)
-                    .FromLgmlGraph();
+                Graph = GraphUtils.LoadLgml(stream);
             }
         }
     }

@@ -6,49 +6,50 @@ using System.Resources;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using GraphLight.Graph;
 using GraphLight.Layout;
-using LgmlVertexShape = GraphLight.Model.LGML.VertexShape;
-using GraphVertexShape = GraphLight.Graph.VertexShape;
+using GraphLight.Model.LGML;
 
-namespace GraphLight.Model.LGML
+namespace GraphLight.Graph
 {
-    public static class LgmlUtils
+    public static class GraphUtils
     {
         private static XmlReaderSettings? _readerSettings;
 
-        public static Graph LoadLgmlGraph(Stream stream)
+        public static IGraph LoadLgml(Stream stream)
         {
-            var type = typeof(Graph);
+            var type = typeof(LgmlGraph);
             var serializer = new XmlSerializer(type);
 
-            using var reader = XmlReader.Create(stream, GetReaderSettings("GraphLight.Model.LGML.LGML.xsd"));
-            return (Graph)serializer.Deserialize(reader);
+            using var reader = XmlReader.Create(stream, GetReaderSettings("LGML.xsd"));
+            var graph = (LgmlGraph)serializer.Deserialize(reader);
+            return graph.FromLgmlGraph();
         }
 
-        public static void Save(Graph graph, Stream stream)
+        public static void SaveLgml(IGraph graph, Stream stream)
         {
-            var serializer = new XmlSerializer(typeof(Graph));
-            serializer.Serialize(stream, graph);
+            var lgmlGraph = graph.ToLgmlGraph();
+            var serializer = new XmlSerializer(typeof(LgmlGraph));
+            serializer.Serialize(stream, lgmlGraph);
         }
 
         private static XmlReaderSettings GetReaderSettings(string resourceName)
         {
-            var errors = new List<Exception>();
-
             if (_readerSettings != null)
                 return _readerSettings;
 
-            var type = typeof(Graph);
-            using var xsdStream = type.Assembly.GetManifestResourceStream(resourceName);
+            using var xsdStream = FindResourceStream(resourceName);
             if (xsdStream == null)
                 throw new MissingManifestResourceException($"Embedded resource not found: {resourceName}");
+
+            var errors = new List<Exception>();
             var schema = XmlSchema.Read(xsdStream, (s, e) => errors.Add(e.Exception));
             if (errors.Any())
                 throw new AggregateException(errors);
+
             var schemaSet = new XmlSchemaSet();
-            schemaSet.Add(schema);
+            _ = schemaSet.Add(schema);
             schemaSet.Compile();
+
             _readerSettings = new XmlReaderSettings
             {
                 Schemas = schemaSet,
@@ -60,16 +61,26 @@ namespace GraphLight.Model.LGML
             return _readerSettings;
         }
 
-        public static Graph ToLgmlGraph(this IGraph graph)
+        private static Stream? FindResourceStream(string fileName)
         {
-            var vertexList = new List<Vertex>();
-            var edgeList = new List<Edge>();
-            var vertexCatList = new List<VertexCategory>();
-            var edgeCatList = new List<EdgeCategory>();
+            var type = typeof(LgmlGraph);
+            var resourceNames = type.Assembly.GetManifestResourceNames();
+            var resourceName = resourceNames.FirstOrDefault(x => x.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
+            return resourceName != null
+                ? type.Assembly.GetManifestResourceStream(resourceName)
+                : null;
+        }
+
+        private static LgmlGraph ToLgmlGraph(this IGraph graph)
+        {
+            var vertexList = new List<LgmlVertex>();
+            var edgeList = new List<LgmlEdge>();
+            var vertexCatList = new List<LgmlVertexCategory>();
+            var edgeCatList = new List<LgmlEdgeCategory>();
 
             foreach (var vertex in graph.Vertices)
             {
-                var v = new Vertex
+                var v = new LgmlVertex
                 {
                     Id = vertex.Data.Id,
                     Label = vertex.Data.Label,
@@ -82,7 +93,7 @@ namespace GraphLight.Model.LGML
                 };
                 vertexList.Add(v);
                 if (vertex.Data.Category != null && !vertexCatList.Any(x => x.Id == vertex.Data.Category))
-                    vertexCatList.Add(new VertexCategory
+                    vertexCatList.Add(new LgmlVertexCategory
                     {
                         Id = vertex.Data.Category
                     });
@@ -90,7 +101,7 @@ namespace GraphLight.Model.LGML
 
             foreach (var edge in graph.Edges)
             {
-                var e = new Edge
+                var e = new LgmlEdge
                 {
                     Src = edge.Src.Data.Id,
                     Dst = edge.Dst.Data.Id,
@@ -102,13 +113,13 @@ namespace GraphLight.Model.LGML
                 };
                 edgeList.Add(e);
                 if (edge.Data.Category != null && !edgeCatList.Any(x => x.Id == edge.Data.Category))
-                    edgeCatList.Add(new EdgeCategory
+                    edgeCatList.Add(new LgmlEdgeCategory
                     {
                         Id = edge.Data.Category
                     });
             }
 
-            var g = new Graph
+            var g = new LgmlGraph
             {
                 Vertex = vertexList.ToArray(),
                 Edge = edgeList.ToArray(),
@@ -119,16 +130,16 @@ namespace GraphLight.Model.LGML
             return g;
         }
 
-        public static IGraph FromLgmlGraph(this Graph graph)
+        private static IGraph FromLgmlGraph(this LgmlGraph lgmlGraph)
         {
             var vMap = new Dictionary<string, VertexData>();
 
-            var vCategoryMap = graph.VertexCategory?.ToDictionary(x => x.Id);
-            var eCategoryMap = graph.EdgeCategory?.ToDictionary(x => x.Id);
+            var vCategoryMap = lgmlGraph.VertexCategory?.ToDictionary(x => x.Id);
+            var eCategoryMap = lgmlGraph.EdgeCategory?.ToDictionary(x => x.Id);
 
             var g = new LayoutGraphModel();
 
-            foreach (var vertex in graph.Vertex)
+            foreach (var vertex in lgmlGraph.Vertex)
             {
                 var data = new VertexData(vertex.Id);
                 if (vertex.Category != null && vCategoryMap != null)
@@ -167,7 +178,7 @@ namespace GraphLight.Model.LGML
                 g.AddVertex(data);
             }
 
-            foreach (var edge in graph.Edge)
+            foreach (var edge in lgmlGraph.Edge)
             {
                 var data = new EdgeData();
                 var weight = 1.0;
@@ -203,23 +214,23 @@ namespace GraphLight.Model.LGML
             return g;
         }
 
-        private static LgmlVertexShape MapShape(GraphVertexShape shape) =>
+        private static LgmlVertexShape MapShape(VertexShape shape) =>
             shape switch
             {
-                GraphVertexShape.None => LgmlVertexShape.None,
-                GraphVertexShape.Ellipse => LgmlVertexShape.Ellipse,
-                GraphVertexShape.Rectangle => LgmlVertexShape.Rectangle,
-                GraphVertexShape.Diamond => LgmlVertexShape.Diamond,
+                VertexShape.None => LgmlVertexShape.None,
+                VertexShape.Ellipse => LgmlVertexShape.Ellipse,
+                VertexShape.Rectangle => LgmlVertexShape.Rectangle,
+                VertexShape.Diamond => LgmlVertexShape.Diamond,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-        private static GraphVertexShape MapShape(LgmlVertexShape shape) =>
+        private static VertexShape MapShape(LgmlVertexShape shape) =>
             shape switch
             {
-                LgmlVertexShape.None => GraphVertexShape.None,
-                LgmlVertexShape.Ellipse => GraphVertexShape.Ellipse,
-                LgmlVertexShape.Rectangle => GraphVertexShape.Rectangle,
-                LgmlVertexShape.Diamond => GraphVertexShape.Diamond,
+                LgmlVertexShape.None => VertexShape.None,
+                LgmlVertexShape.Ellipse => VertexShape.Ellipse,
+                LgmlVertexShape.Rectangle => VertexShape.Rectangle,
+                LgmlVertexShape.Diamond => VertexShape.Diamond,
                 _ => throw new ArgumentOutOfRangeException()
             };
     }
