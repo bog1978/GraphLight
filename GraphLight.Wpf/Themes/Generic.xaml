@@ -35,19 +35,12 @@
             <DataTemplate DataType="{x:Type graph:VertexData}">
                 <Grid>
                     <Path
+                        Data="{Binding Shape, Converter={StaticResource ShapeConverter}, FallbackValue={x:Null}}"
                         Fill="{Binding Background, FallbackValue={x:Static Brushes.Gray}, TargetNullValue={x:Static Brushes.White}}"
                         Stretch="Fill"
                         Stroke="{Binding Stroke, FallbackValue={x:Static Brushes.Black}, TargetNullValue={x:Static Brushes.Black}}"
-                        StrokeThickness="{Binding StrokeThickness, FallbackValue=1}">
-                        <Path.Data>
-                            <Binding
-                                Converter="{StaticResource ShapeConverter}"
-                                FallbackValue="{x:Null}"
-                                Path="Shape" />
-                        </Path.Data>
-                    </Path>
+                        StrokeThickness="{Binding StrokeThickness, FallbackValue=1}" />
                     <TextBlock
-                        Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="{Binding FontSize}"

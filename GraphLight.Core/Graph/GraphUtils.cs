@@ -73,58 +73,39 @@ namespace GraphLight.Graph
 
         private static LgmlGraph ToLgmlGraph(this IGraph graph)
         {
-            var vertexList = new List<LgmlVertex>();
-            var edgeList = new List<LgmlEdge>();
-            var vertexCatList = new List<LgmlVertexCategory>();
-            var edgeCatList = new List<LgmlEdgeCategory>();
-
-            foreach (var vertex in graph.Vertices)
+            var g = new LgmlGraph
             {
-                var v = new LgmlVertex
+                Vertex = graph.Vertices.Select(vertex => new LgmlVertex
                 {
                     Id = vertex.Data.Id,
                     Label = vertex.Data.Label,
-                    Shape = MapShape(vertex.Data.Shape),
                     Category = vertex.Data.Category,
                     Background = vertex.Data.Background,
                     Foreground = vertex.Data.Foreground,
                     Stroke = vertex.Data.Stroke,
                     StrokeThickness = vertex.Data.StrokeThickness,
-                };
-                vertexList.Add(v);
-                if (vertex.Data.Category != null && !vertexCatList.Any(x => x.Id == vertex.Data.Category))
-                    vertexCatList.Add(new LgmlVertexCategory
-                    {
-                        Id = vertex.Data.Category
-                    });
-            }
-
-            foreach (var edge in graph.Edges)
-            {
-                var e = new LgmlEdge
+                    StrokeThicknessSpecified = true,
+                    FontSize = vertex.Data.FontSize,
+                    FontSizeSpecified = true,
+                    Margin = vertex.Data.Margin,
+                    MarginSpecified = true,
+                    Shape = MapShape(vertex.Data.Shape),
+                    ShapeSpecified = true,
+                }).ToArray(),
+                Edge = graph.Edges.Select(edge => new LgmlEdge
                 {
+                    Label = edge.Data.Label,
                     Src = edge.Src.Data.Id,
                     Dst = edge.Dst.Data.Id,
                     Category = edge.Data.Category,
-                    Weight = edge.Weight,
                     Stroke = edge.Data.Stroke,
                     StrokeThickness = edge.Data.StrokeThickness,
-                    Label = edge.Data.Label,
-                };
-                edgeList.Add(e);
-                if (edge.Data.Category != null && !edgeCatList.Any(x => x.Id == edge.Data.Category))
-                    edgeCatList.Add(new LgmlEdgeCategory
-                    {
-                        Id = edge.Data.Category
-                    });
-            }
-
-            var g = new LgmlGraph
-            {
-                Vertex = vertexList.ToArray(),
-                Edge = edgeList.ToArray(),
-                VertexCategory = vertexCatList.ToArray(),
-                EdgeCategory = edgeCatList.ToArray(),
+                    StrokeThicknessSpecified = true,
+                    FontSize = edge.Data.FontSize,
+                    FontSizeSpecified = true,
+                    Weight = edge.Weight,
+                    WeightSpecified = true,
+                }).ToArray(),
             };
 
             return g;
@@ -158,6 +139,8 @@ namespace GraphLight.Graph
                         data.StrokeThickness = cat.StrokeThickness;
                     if (cat.FontSizeSpecified)
                         data.FontSize = cat.FontSize;
+                    if(cat.MarginSpecified)
+                        data.Margin = cat.Margin;
                 }
 
                 data.Label = vertex.Label ?? vertex.Id;
@@ -173,6 +156,8 @@ namespace GraphLight.Graph
                     data.StrokeThickness = vertex.StrokeThickness;
                 if (vertex.FontSizeSpecified)
                     data.FontSize = vertex.FontSize;
+                if(vertex.MarginSpecified)
+                    data.Margin = vertex.Margin;
 
                 vMap.Add(vertex.Id, data);
                 g.AddVertex(data);

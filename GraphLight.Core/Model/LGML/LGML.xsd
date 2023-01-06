@@ -103,5 +103,6 @@
 		<xs:attribute name="Background" type="LgmlColor" use="optional"/>
 		<xs:attribute name="Foreground" type="LgmlColor" use="optional"/>
 		<xs:attribute name="Shape" type="LgmlVertexShape" use="optional"/>
+		<xs:attribute name="Margin" type="xs:double" use="optional"/>
 	</xs:attributeGroup>
 </xs:schema>

@@ -9,6 +9,7 @@ namespace GraphLight.Graph
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Label = id;
             Shape = VertexShape.Ellipse;
+            Margin = 5;
         }
 
         public string Id { get; }
@@ -38,6 +39,8 @@ namespace GraphLight.Graph
         public string Background { get; set; }
 
         public string Foreground { get; set; }
+
+        public double Margin { get; set; }
 
         public bool Equals(IVertexData other) => other?.Id == Id;
 

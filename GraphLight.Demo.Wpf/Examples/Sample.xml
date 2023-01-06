@@ -1,5 +1,5 @@
 <Graph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../GraphLight.Core/Model/LGML/LGML.xsd">
-	<VertexCategory Id="process" Shape="Rectangle" Foreground="Black" Background="LightGray"/>
+	<VertexCategory Id="process" Shape="Rectangle" Foreground="Black" Background="LightGray" Margin="10" FontSize="18"/>
 	<VertexCategory Id="gateway" Shape="Diamond" Foreground="Green" Background="White" FontSize="25"/>
 	<VertexCategory Id="initial" Shape="Ellipse" Foreground="White" Background="Green"/>
 	<VertexCategory Id="final" Shape="Ellipse" Foreground="White" Background="Red"/>
