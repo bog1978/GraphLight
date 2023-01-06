@@ -186,7 +186,7 @@ namespace GraphLight.Drawing
         {
             var element = (TextOnPathElement)obj;
             element._pathLength = GetPathFigureLength(element.PathFigure);
-            element.TransformVisualChildren();
+            element.GenerateVisualChildren();
         }
 
         #endregion
@@ -296,26 +296,7 @@ namespace GraphLight.Drawing
         {
             _visualChildren.Clear();
 
-            foreach (var formText in _formattedChars)
-            {
-                var drawingVisual = new DrawingVisual();
-                var dc = drawingVisual.RenderOpen();
-                dc.DrawText(formText, new Point(0, 0));
-                dc.Close();
-                _visualChildren.Add(drawingVisual);
-            }
-
-            TransformVisualChildren();
-        }
-
-        private void TransformVisualChildren()
-        {
-            _boundingRect = new Rect();
-
             if (_pathLength == 0 || _textLength == 0)
-                return;
-
-            if (_formattedChars.Count != _visualChildren.Count)
                 return;
 
             var scalingFactor = ContentAlignment == HorizontalAlignment.Stretch
@@ -340,10 +321,10 @@ namespace GraphLight.Drawing
             var pathGeometry = new PathGeometry(new[] { PathFigure });
             _boundingRect = new Rect();
 
-            for (var index = 0; index < _visualChildren.Count; index++)
+            var drawingVisual = new DrawingVisual();
+            var dc = drawingVisual.RenderOpen();
+            foreach (var formText in _formattedChars)
             {
-                var formText = _formattedChars[index];
-
                 var width = scalingFactor * formText.WidthIncludingTrailingWhitespace;
                 var baseline = scalingFactor * formText.Baseline;
 
@@ -357,14 +338,14 @@ namespace GraphLight.Drawing
                 matrix.RotateAt(angle, width / 2, baseline);
                 matrix.Translate(point.X - width / 2, point.Y - baseline);
 
-                var drawingVisual = (DrawingVisual)_visualChildren[index];
-                drawingVisual.Transform = new MatrixTransform(matrix);
-                var rect = drawingVisual.ContentBounds;
-                rect.Transform(matrix);
-                _boundingRect.Union(rect);
-
                 progress += width / 2 / _pathLength;
+                dc.PushTransform(new MatrixTransform(matrix));
+                dc.DrawText(formText, new Point(0, 0));
+                dc.Pop();
             }
+            dc.Close();
+            _visualChildren.Add(drawingVisual);
+            _boundingRect = drawingVisual.ContentBounds;
 
             InvalidateMeasure();
         }
