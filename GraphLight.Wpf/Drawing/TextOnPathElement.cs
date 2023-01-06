@@ -7,35 +7,8 @@ using System.Windows.Media;
 
 namespace GraphLight.Drawing
 {
-    // Based on the control by Charles Petzold:
-    // http://msdn.microsoft.com/en-us/magazine/dd263097.aspx
     public class TextOnPathElement : FrameworkElement
     {
-        #region private fields
-
-        private readonly List<FormattedText> _formattedChars;
-        private readonly VisualCollection _visualChildren;
-
-        private Rect _boundingRect;
-        private Typeface _typeface;
-        private double _pathLength;
-        private double _textLength;
-
-        #endregion
-
-        #region constructor
-
-        public TextOnPathElement()
-        {
-
-            _formattedChars = new List<FormattedText>();
-            _boundingRect = new Rect();
-            _typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
-            _visualChildren = new VisualCollection(this);
-        }
-
-        #endregion
-
         #region dependency properties
 
         #region FontFamily
@@ -46,14 +19,8 @@ namespace GraphLight.Drawing
             set => SetValue(FontFamilyProperty, value);
         }
 
-        public static readonly DependencyProperty FontFamilyProperty =
-            DependencyProperty.Register("FontFamily", typeof(FontFamily), typeof(TextOnPathElement), new FrameworkPropertyMetadata(SystemFonts.MessageFontFamily, OnFontFamilyChanged));
-
-        private static void OnFontFamilyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element.OnFontPropertyChanged();
-        }
+        public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(
+            nameof(FontFamily), typeof(FontFamily), typeof(TextOnPathElement), new FrameworkPropertyMetadata(SystemFonts.MessageFontFamily));
 
         #endregion
 
@@ -65,14 +32,8 @@ namespace GraphLight.Drawing
             set => SetValue(FontStyleProperty, value);
         }
 
-        public static readonly DependencyProperty FontStyleProperty =
-            DependencyProperty.Register("FontStyle", typeof(FontStyle), typeof(TextOnPathElement), new FrameworkPropertyMetadata(OnFontStyleChanged));
-
-        private static void OnFontStyleChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element.OnFontPropertyChanged();
-        }
+        public static readonly DependencyProperty FontStyleProperty = DependencyProperty.Register(
+            nameof(FontStyle), typeof(FontStyle), typeof(TextOnPathElement));
 
         #endregion
 
@@ -84,14 +45,8 @@ namespace GraphLight.Drawing
             set => SetValue(FontWeightProperty, value);
         }
 
-        public static readonly DependencyProperty FontWeightProperty =
-            DependencyProperty.Register("FontWeight", typeof(FontWeight), typeof(TextOnPathElement), new FrameworkPropertyMetadata(OnFontWeightChanged));
-
-        private static void OnFontWeightChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element.OnFontPropertyChanged();
-        }
+        public static readonly DependencyProperty FontWeightProperty = DependencyProperty.Register(
+            nameof(FontWeight), typeof(FontWeight), typeof(TextOnPathElement));
 
         #endregion
 
@@ -103,14 +58,8 @@ namespace GraphLight.Drawing
             set => SetValue(FontStretchProperty, value);
         }
 
-        public static readonly DependencyProperty FontStretchProperty =
-            DependencyProperty.Register("FontStretch", typeof(FontStretch), typeof(TextOnPathElement), new FrameworkPropertyMetadata(OnFontStretchChanged));
-
-        private static void OnFontStretchChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element.OnFontPropertyChanged();
-        }
+        public static readonly DependencyProperty FontStretchProperty = DependencyProperty.Register(
+            nameof(FontStretch), typeof(FontStretch), typeof(TextOnPathElement));
 
         #endregion
 
@@ -122,14 +71,8 @@ namespace GraphLight.Drawing
             set => SetValue(FontSizeProperty, value);
         }
 
-        public static readonly DependencyProperty FontSizeProperty =
-            DependencyProperty.Register("FontSize", typeof(double), typeof(TextOnPathElement), new FrameworkPropertyMetadata(OnFontSizeChanged));
-
-        private static void OnFontSizeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element.OnFontPropertyChanged();
-        }
+        public static readonly DependencyProperty FontSizeProperty = DependencyProperty.Register(
+            nameof(FontSize), typeof(double), typeof(TextOnPathElement));
 
         #endregion
 
@@ -141,14 +84,8 @@ namespace GraphLight.Drawing
             set => SetValue(ForegroundProperty, value);
         }
 
-        public static readonly DependencyProperty ForegroundProperty =
-            DependencyProperty.Register("Foreground", typeof(Brush), typeof(TextOnPathElement), new FrameworkPropertyMetadata(OnForegroundChanged));
-
-        private static void OnForegroundChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element.OnTextPropertyChanged();
-        }
+        public static readonly DependencyProperty ForegroundProperty = DependencyProperty.Register(
+            nameof(Foreground), typeof(Brush), typeof(TextOnPathElement));
 
         #endregion
 
@@ -160,38 +97,25 @@ namespace GraphLight.Drawing
             set => SetValue(TextProperty, value);
         }
 
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(TextOnPathElement), new FrameworkPropertyMetadata(OnTextChanged));
-
-        private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element.OnTextPropertyChanged();
-        }
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            nameof(Text), typeof(string), typeof(TextOnPathElement));
 
         #endregion
 
         #region PathFigure
 
-        public PathFigure PathFigure
+        public PathFigure? PathFigure
         {
-            get => (PathFigure)GetValue(PathFigureProperty);
+            get => (PathFigure?)GetValue(PathFigureProperty);
             set => SetValue(PathFigureProperty, value);
         }
 
-        public static readonly DependencyProperty PathFigureProperty =
-            DependencyProperty.Register("PathFigure", typeof(PathFigure), typeof(TextOnPathElement), new FrameworkPropertyMetadata(OnPathFigureChanged));
-
-        private static void OnPathFigureChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element._pathLength = GetPathFigureLength(element.PathFigure);
-            element.GenerateVisualChildren();
-        }
+        public static readonly DependencyProperty PathFigureProperty = DependencyProperty.Register(
+            nameof(PathFigure), typeof(PathFigure), typeof(TextOnPathElement));
 
         #endregion
 
-        #region FontSize
+        #region ContentAlignment
 
         public HorizontalAlignment ContentAlignment
         {
@@ -199,62 +123,79 @@ namespace GraphLight.Drawing
             set => SetValue(ContentAlignmentProperty, value);
         }
 
-        public static readonly DependencyProperty ContentAlignmentProperty =
-            DependencyProperty.Register("ContentAlignment", typeof(HorizontalAlignment), typeof(TextOnPathElement), new FrameworkPropertyMetadata(OnContentAlignmentChanged));
-
-        private static void OnContentAlignmentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        {
-            var element = (TextOnPathElement)obj;
-            element.OnTextPropertyChanged();
-        }
+        public static readonly DependencyProperty ContentAlignmentProperty = DependencyProperty.Register(
+            nameof(ContentAlignment), typeof(HorizontalAlignment), typeof(TextOnPathElement));
 
         #endregion
 
         #endregion
 
-        #region overrides
-
-        protected override int VisualChildrenCount => _visualChildren.Count;
-
-        protected override Visual GetVisualChild(int index) =>
-            index < 0 || index >= _visualChildren.Count
-                ? throw new ArgumentOutOfRangeException(nameof(index))
-                : _visualChildren[index];
-
-        protected override Size MeasureOverride(Size availableSize) => 
-            (Size)_boundingRect.BottomRight;
-
-        #endregion
-
-        #region private methods
-
-        private void OnFontPropertyChanged()
+        protected override void OnRender(DrawingContext dc)
         {
-            _typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
-            OnTextPropertyChanged();
-        }
-
-        private void OnTextPropertyChanged()
-        {
-            _formattedChars.Clear();
-            _textLength = 0;
-
-            if (string.IsNullOrEmpty(Text))
+            if (string.IsNullOrEmpty(Text) || PathFigure == null)
                 return;
 
+            var pathLength = GetPathFigureLength(PathFigure);
+            if (pathLength == 0)
+                return;
+
+            var textLength = 0.0;
+            var formattedChars = new List<FormattedText>();
+            var fontSize = ContentAlignment == HorizontalAlignment.Stretch ? 100 : FontSize;
+            var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
             foreach (var ch in Text)
             {
-                var fontSize = ContentAlignment == HorizontalAlignment.Stretch
-                    ? 100
-                    : FontSize;
                 var formattedText =
                     new FormattedText(ch.ToString(), CultureInfo.CurrentCulture,
-                        FlowDirection.LeftToRight, _typeface, fontSize, Foreground);
-                _formattedChars.Add(formattedText);
-                _textLength += formattedText.WidthIncludingTrailingWhitespace;
+                        FlowDirection.LeftToRight, typeface, fontSize, Foreground);
+                formattedChars.Add(formattedText);
+                textLength += formattedText.WidthIncludingTrailingWhitespace;
             }
-            GenerateVisualChildren();
+            if (textLength == 0)
+                return;
+
+            var scalingFactor = ContentAlignment == HorizontalAlignment.Stretch ? pathLength / textLength : 1;
+
+            var progress = 0.0;
+            switch (ContentAlignment)
+            {
+                case HorizontalAlignment.Left:
+                case HorizontalAlignment.Stretch:
+                    progress = 0;
+                    break;
+                case HorizontalAlignment.Center:
+                    progress = Math.Abs(pathLength - textLength) / 2 / pathLength;
+                    break;
+                case HorizontalAlignment.Right:
+                    progress = Math.Abs(pathLength - textLength) / pathLength;
+                    break;
+            }
+
+            var pathGeometry = new PathGeometry(new[] { PathFigure });
+
+            foreach (var formText in formattedChars)
+            {
+                var width = scalingFactor * formText.WidthIncludingTrailingWhitespace;
+                var baseline = scalingFactor * formText.Baseline;
+
+                progress += width / 2 / pathLength;
+
+                pathGeometry.GetPointAtFractionLength(progress, out var point, out var tangent);
+                var angle = Math.Atan2(tangent.Y, tangent.X) * 180 / Math.PI;
+
+                var matrix = new Matrix();
+                matrix.Scale(scalingFactor, scalingFactor);
+                matrix.RotateAt(angle, width / 2, baseline);
+                matrix.Translate(point.X - width / 2, point.Y - baseline);
+
+                progress += width / 2 / pathLength;
+                dc.PushTransform(new MatrixTransform(matrix));
+                dc.DrawText(formText, new Point(0, 0));
+                dc.Pop();
+            }
         }
+
+        #region private methods
 
         private static double GetPathFigureLength(PathFigure pathFigure)
         {
@@ -290,64 +231,6 @@ namespace GraphLight.Drawing
                 }
             }
             return length;
-        }
-
-        private void GenerateVisualChildren()
-        {
-            _visualChildren.Clear();
-
-            if (_pathLength == 0 || _textLength == 0)
-                return;
-
-            var scalingFactor = ContentAlignment == HorizontalAlignment.Stretch
-                ? _pathLength / _textLength
-                : 1;
-
-            var progress = 0.0;
-            switch (ContentAlignment)
-            {
-                case HorizontalAlignment.Left:
-                case HorizontalAlignment.Stretch:
-                    progress = 0;
-                    break;
-                case HorizontalAlignment.Center:
-                    progress = Math.Abs(_pathLength - _textLength) / 2 / _pathLength;
-                    break;
-                case HorizontalAlignment.Right:
-                    progress = Math.Abs(_pathLength - _textLength) / _pathLength;
-                    break;
-            }
-
-            var pathGeometry = new PathGeometry(new[] { PathFigure });
-            _boundingRect = new Rect();
-
-            var drawingVisual = new DrawingVisual();
-            var dc = drawingVisual.RenderOpen();
-            foreach (var formText in _formattedChars)
-            {
-                var width = scalingFactor * formText.WidthIncludingTrailingWhitespace;
-                var baseline = scalingFactor * formText.Baseline;
-
-                progress += width / 2 / _pathLength;
-
-                pathGeometry.GetPointAtFractionLength(progress, out var point, out var tangent);
-                var angle = Math.Atan2(tangent.Y, tangent.X) * 180 / Math.PI;
-
-                var matrix = new Matrix();
-                matrix.Scale(scalingFactor, scalingFactor);
-                matrix.RotateAt(angle, width / 2, baseline);
-                matrix.Translate(point.X - width / 2, point.Y - baseline);
-
-                progress += width / 2 / _pathLength;
-                dc.PushTransform(new MatrixTransform(matrix));
-                dc.DrawText(formText, new Point(0, 0));
-                dc.Pop();
-            }
-            dc.Close();
-            _visualChildren.Add(drawingVisual);
-            _boundingRect = drawingVisual.ContentBounds;
-
-            InvalidateMeasure();
         }
 
         #endregion
