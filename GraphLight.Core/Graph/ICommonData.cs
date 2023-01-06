@@ -10,5 +10,6 @@
         string Stroke { get; set; }
         double StrokeThickness { get; set; }
         double FontSize { get; set; }
+        StrokeStyle Style { get; set; }
     }
 }

@@ -5,8 +5,9 @@
     xmlns:drawing="clr-namespace:GraphLight.Drawing"
     xmlns:graph="clr-namespace:GraphLight.Graph;assembly=GraphLight.Core">
 
-    <converters:PointsToQuadraticBezierConverter x:Key="BezierConverter" />
-    <converters:ShapeToGeometryConverter x:Key="ShapeConverter" />
+    <converters:PointsToQuadraticBezierConverter x:Key="EdgePathDataConverter" />
+    <converters:VertexShapeToGeometryConverter x:Key="VertexPathDataConverter" />
+    <converters:StrokeStyleToStrokeDashArrayConverter x:Key="StrokeDashArrayConverter" />
 
     <Style TargetType="drawing:VertexControl">
         <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
@@ -35,10 +36,11 @@
             <DataTemplate DataType="{x:Type graph:VertexData}">
                 <Grid>
                     <Path
-                        Data="{Binding Shape, Converter={StaticResource ShapeConverter}, FallbackValue={x:Null}}"
+                        Data="{Binding Shape, Converter={StaticResource VertexPathDataConverter}, FallbackValue={x:Null}}"
                         Fill="{Binding Background, FallbackValue={x:Static Brushes.Gray}, TargetNullValue={x:Static Brushes.White}}"
                         Stretch="Fill"
                         Stroke="{Binding Stroke, FallbackValue={x:Static Brushes.Black}, TargetNullValue={x:Static Brushes.Black}}"
+                        StrokeDashArray="{Binding Style, Converter={StaticResource StrokeDashArrayConverter}}"
                         StrokeThickness="{Binding StrokeThickness, FallbackValue=1}" />
                     <TextBlock
                         HorizontalAlignment="Center"
@@ -50,8 +52,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type graph:EdgeData}">
                 <Path
-                    Data="{Binding Converter={StaticResource BezierConverter}, FallbackValue={x:Null}, Path=Points}"
+                    Data="{Binding Converter={StaticResource EdgePathDataConverter}, FallbackValue={x:Null}, Path=Points}"
                     SnapsToDevicePixels="True"
+                    StrokeDashArray="{Binding Style, Converter={StaticResource StrokeDashArrayConverter}}"
                     StrokeThickness="{Binding StrokeThickness, FallbackValue=1}">
                     <Path.Stroke>
                         <SolidColorBrush Color="{Binding Stroke, FallbackValue={x:Static Colors.Black}}" />

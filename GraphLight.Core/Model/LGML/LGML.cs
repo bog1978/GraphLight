@@ -65,6 +65,14 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
+        public LgmlStrokeStyle StrokeStyle;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StrokeStyleSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public double FontSize;
         
         /// <remarks/>
@@ -94,6 +102,24 @@ namespace GraphLight.Model.LGML {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool MarginSpecified;
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+    [System.SerializableAttribute()]
+    public enum LgmlStrokeStyle {
+        
+        /// <remarks/>
+        Solid,
+        
+        /// <remarks/>
+        Dash,
+        
+        /// <remarks/>
+        DashDot,
+        
+        /// <remarks/>
+        Dot,
     }
     
     /// <remarks/>
@@ -142,6 +168,14 @@ namespace GraphLight.Model.LGML {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool StrokeThicknessSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public LgmlStrokeStyle StrokeStyle;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StrokeStyleSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -210,26 +244,6 @@ namespace GraphLight.Model.LGML {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool WeightSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public LgmlEdgeStyle Style;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool StyleSpecified;
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-    [System.SerializableAttribute()]
-    public enum LgmlEdgeStyle {
-        
-        /// <remarks/>
-        Solid,
-        
-        /// <remarks/>
-        Dashed,
     }
     
     /// <remarks/>
@@ -257,6 +271,14 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
+        public LgmlStrokeStyle StrokeStyle;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool StrokeStyleSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public double FontSize;
         
         /// <remarks/>
@@ -270,13 +292,5 @@ namespace GraphLight.Model.LGML {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool WeightSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public LgmlEdgeStyle Style;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool StyleSpecified;
     }
 }

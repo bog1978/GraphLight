@@ -76,10 +76,12 @@
 			<xs:pattern value="#[\da-f]{6}|AliceBlue|AntiqueWhite|Aqua|Aquamarine|Azure|Beige|Bisque|Black|BlanchedAlmond|Blue|BlueViolet|Brown|BurlyWood|CadetBlue|Chartreuse|Chocolate|Coral|CornflowerBlue|Cornsilk|Crimson|Cyan|DarkBlue|DarkCyan|DarkGoldenrod|DarkGray|DarkGreen|DarkKhaki|DarkMagenta|DarkOliveGreen|DarkOrange|DarkOrchid|DarkRed|DarkSalmon|DarkSeaGreen|DarkSlateBlue|DarkSlateGray|DarkTurquoise|DarkViolet|DeepPink|DeepSkyBlue|DimGray|DodgerBlue|Firebrick|FloralWhite|ForestGreen|Fuchsia|Gainsboro|GhostWhite|Gold|Goldenrod|Gray|Green|GreenYellow|Honeydew|HotPink|IndianRed|Indigo|Ivory|Khaki|Lavender|LavenderBlush|LawnGreen|LemonChiffon|LightBlue|LightCoral|LightCyan|LightGoldenrodYellow|LightGray|LightGreen|LightPink|LightSalmon|LightSeaGreen|LightSkyBlue|LightSlateGray|LightSteelBlue|LightYellow|Lime|LimeGreen|Linen|Magenta|Maroon|MediumAquamarine|MediumBlue|MediumOrchid|MediumPurple|MediumSeaGreen|MediumSlateBlue|MediumSpringGreen|MediumTurquoise|MediumVioletRed|MidnightBlue|MintCream|MistyRose|Moccasin|NavajoWhite|Navy|OldLace|Olive|OliveDrab|Orange|OrangeRed|Orchid|PaleGoldenrod|PaleGreen|PaleTurquoise|PaleVioletRed|PapayaWhip|PeachPuff|Peru|Pink|Plum|PowderBlue|Purple|Red|RosyBrown|RoyalBlue|SaddleBrown|Salmon|SandyBrown|SeaGreen|SeaShell|Sienna|Silver|SkyBlue|SlateBlue|SlateGray|Snow|SpringGreen|SteelBlue|Tan|Teal|Thistle|Tomato|Transparent|Turquoise|Violet|Wheat|White|WhiteSmoke|Yellow|YellowGreen"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="LgmlEdgeStyle">
+	<xs:simpleType name="LgmlStrokeStyle">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Solid"/>
-			<xs:enumeration value="Dashed"/>
+			<xs:enumeration value="Dash"/>
+			<xs:enumeration value="DashDot"/>
+			<xs:enumeration value="Dot"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="LgmlVertexShape">
@@ -93,11 +95,11 @@
 	<xs:attributeGroup name="CommonAttrs">
 		<xs:attribute name="Stroke" type="LgmlColor" use="optional"/>
 		<xs:attribute name="StrokeThickness" type="xs:double" use="optional"/>
+		<xs:attribute name="StrokeStyle" type="LgmlStrokeStyle" use="optional"/>
 		<xs:attribute name="FontSize" type="xs:double" use="optional"/>
 	</xs:attributeGroup>
 	<xs:attributeGroup name="EdgeAttrs">
 		<xs:attribute name="Weight" type="xs:double" use="optional"/>
-		<xs:attribute name="Style" type="LgmlEdgeStyle" use="optional"/>
 	</xs:attributeGroup>
 	<xs:attributeGroup name="VertexAttrs">
 		<xs:attribute name="Background" type="LgmlColor" use="optional"/>

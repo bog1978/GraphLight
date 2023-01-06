@@ -71,15 +71,14 @@ namespace GraphLight.Graph
                 : null;
         }
 
-        private static LgmlGraph ToLgmlGraph(this IGraph graph)
-        {
-            var g = new LgmlGraph
+        private static LgmlGraph ToLgmlGraph(this IGraph graph) =>
+            new LgmlGraph
             {
                 Vertex = graph.Vertices.Select(vertex => new LgmlVertex
                 {
                     Id = vertex.Data.Id,
                     Label = vertex.Data.Label,
-                    Category = vertex.Data.Category,
+                    //Category = vertex.Data.Category,
                     Background = vertex.Data.Background,
                     Foreground = vertex.Data.Foreground,
                     Stroke = vertex.Data.Stroke,
@@ -89,15 +88,17 @@ namespace GraphLight.Graph
                     FontSizeSpecified = true,
                     Margin = vertex.Data.Margin,
                     MarginSpecified = true,
-                    Shape = MapShape(vertex.Data.Shape),
+                    Shape = MapVertexShape(vertex.Data.Shape),
                     ShapeSpecified = true,
+                    StrokeStyle = MapEdgeStyle(vertex.Data.Style),
+                    StrokeStyleSpecified = true,
                 }).ToArray(),
                 Edge = graph.Edges.Select(edge => new LgmlEdge
                 {
                     Label = edge.Data.Label,
                     Src = edge.Src.Data.Id,
                     Dst = edge.Dst.Data.Id,
-                    Category = edge.Data.Category,
+                    //Category = edge.Data.Category,
                     Stroke = edge.Data.Stroke,
                     StrokeThickness = edge.Data.StrokeThickness,
                     StrokeThicknessSpecified = true,
@@ -105,11 +106,10 @@ namespace GraphLight.Graph
                     FontSizeSpecified = true,
                     Weight = edge.Weight,
                     WeightSpecified = true,
+                    StrokeStyle = MapEdgeStyle(edge.Data.Style),
+                    StrokeStyleSpecified = true,
                 }).ToArray(),
             };
-
-            return g;
-        }
 
         private static IGraph FromLgmlGraph(this LgmlGraph lgmlGraph)
         {
@@ -128,7 +128,7 @@ namespace GraphLight.Graph
                     var cat = vCategoryMap[vertex.Category];
                     data.Category = cat.Id;
                     if (cat.ShapeSpecified)
-                        data.Shape = MapShape(cat.Shape);
+                        data.Shape = MapVertexShape(cat.Shape);
                     if (cat.Background != null)
                         data.Background = cat.Background;
                     if (cat.Foreground != null)
@@ -141,11 +141,13 @@ namespace GraphLight.Graph
                         data.FontSize = cat.FontSize;
                     if(cat.MarginSpecified)
                         data.Margin = cat.Margin;
+                    if (cat.StrokeStyleSpecified)
+                        data.Style = MapEdgeStyle(cat.StrokeStyle);
                 }
 
                 data.Label = vertex.Label ?? vertex.Id;
                 if (vertex.ShapeSpecified)
-                    data.Shape = MapShape(vertex.Shape);
+                    data.Shape = MapVertexShape(vertex.Shape);
                 if (vertex.Background != null)
                     data.Background = vertex.Background;
                 if (vertex.Foreground != null)
@@ -158,6 +160,8 @@ namespace GraphLight.Graph
                     data.FontSize = vertex.FontSize;
                 if(vertex.MarginSpecified)
                     data.Margin = vertex.Margin;
+                if (vertex.StrokeStyleSpecified)
+                    data.Style = MapEdgeStyle(vertex.StrokeStyle);
 
                 vMap.Add(vertex.Id, data);
                 g.AddVertex(data);
@@ -179,6 +183,8 @@ namespace GraphLight.Graph
                         weight = cat.Weight;
                     if (cat.FontSizeSpecified)
                         data.FontSize = cat.FontSize;
+                    if (cat.StrokeStyleSpecified)
+                        data.Style = MapEdgeStyle(cat.StrokeStyle);
                 }
 
                 if (edge.WeightSpecified)
@@ -189,6 +195,8 @@ namespace GraphLight.Graph
                     data.StrokeThickness = edge.StrokeThickness;
                 if (edge.FontSizeSpecified)
                     data.FontSize = edge.FontSize;
+                if (edge.StrokeStyleSpecified)
+                    data.Style = MapEdgeStyle(edge.StrokeStyle);
 
                 var src = vMap[edge.Src];
                 var dst = vMap[edge.Dst];
@@ -199,7 +207,7 @@ namespace GraphLight.Graph
             return g;
         }
 
-        private static LgmlVertexShape MapShape(VertexShape shape) =>
+        private static LgmlVertexShape MapVertexShape(VertexShape shape) =>
             shape switch
             {
                 VertexShape.None => LgmlVertexShape.None,
@@ -209,13 +217,33 @@ namespace GraphLight.Graph
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-        private static VertexShape MapShape(LgmlVertexShape shape) =>
+        private static VertexShape MapVertexShape(LgmlVertexShape shape) =>
             shape switch
             {
                 LgmlVertexShape.None => VertexShape.None,
                 LgmlVertexShape.Ellipse => VertexShape.Ellipse,
                 LgmlVertexShape.Rectangle => VertexShape.Rectangle,
                 LgmlVertexShape.Diamond => VertexShape.Diamond,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+        private static StrokeStyle MapEdgeStyle(LgmlStrokeStyle style) =>
+            style switch
+            {
+                LgmlStrokeStyle.Solid => StrokeStyle.Solid,
+                LgmlStrokeStyle.Dash => StrokeStyle.Dash,
+                LgmlStrokeStyle.DashDot => StrokeStyle.DashDot,
+                LgmlStrokeStyle.Dot => StrokeStyle.Dot,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+        private static LgmlStrokeStyle MapEdgeStyle(StrokeStyle style) =>
+            style switch
+            {
+                StrokeStyle.Solid => LgmlStrokeStyle.Solid,
+                StrokeStyle.Dash => LgmlStrokeStyle.Dash,
+                StrokeStyle.DashDot => LgmlStrokeStyle.DashDot,
+                StrokeStyle.Dot => LgmlStrokeStyle.Dot,
                 _ => throw new ArgumentOutOfRangeException()
             };
     }

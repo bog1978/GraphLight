@@ -5,7 +5,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Converters
 {
-    internal class ShapeToGeometryConverter : IValueConverter
+    internal class VertexShapeToGeometryConverter : IValueConverter
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
             value switch

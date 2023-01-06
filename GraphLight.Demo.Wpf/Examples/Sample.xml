@@ -3,13 +3,13 @@
 	<VertexCategory Id="gateway" Shape="Diamond" Foreground="Green" Background="White" FontSize="25"/>
 	<VertexCategory Id="initial" Shape="Ellipse" Foreground="White" Background="Green"/>
 	<VertexCategory Id="final" Shape="Ellipse" Foreground="White" Background="Red"/>
-	<EdgeCategory Id="normal" Weight="1" Style="Solid" Stroke="Green" StrokeThickness="3"/>
-	<EdgeCategory Id="conditional" Weight="1" Style="Dashed" Stroke="Gray" StrokeThickness="1"/>
-	<Vertex Id="start" Category="initial" FontSize="18"/>
-	<Vertex Id="end" Category="final" FontSize="18"/>
-	<Vertex Id="switch" Category="gateway"/>
-	<Vertex Id="service1" Category="process"/>
-	<Vertex Id="service2" Category="process"/>
+	<EdgeCategory Id="normal" Weight="1" Stroke="Green" StrokeThickness="3" StrokeStyle="DashDot"/>
+	<EdgeCategory Id="conditional" Weight="1" StrokeStyle="Dash" Stroke="Gray" StrokeThickness="1"/>
+	<Vertex Id="start" Category="initial" FontSize="18" StrokeStyle="Solid"/>
+	<Vertex Id="end" Category="final" FontSize="18" StrokeStyle="Dash"/>
+	<Vertex Id="switch" Category="gateway" StrokeStyle="DashDot"/>
+	<Vertex Id="service1" Category="process" StrokeStyle="Dot"/>
+	<Vertex Id="service2" Category="process" StrokeStyle="Dot"/>
 	<Edge Src="start" Dst="switch" Category="normal"/>
 	<Edge Src="switch" Dst="service1" Category="conditional"/>
 	<Edge Src="switch" Dst="service2" Category="conditional"/>

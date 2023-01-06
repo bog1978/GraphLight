@@ -6,6 +6,7 @@
         {
             StrokeThickness = 1.0;
             FontSize = 12;
+            Style = StrokeStyle.Solid;
         }
 
         public string Label { get; set; }
@@ -23,5 +24,7 @@
         public double FontSize { get; set; }
 
         public string Category { get; set; }
+
+        public StrokeStyle Style { get; set; }
     }
 }
