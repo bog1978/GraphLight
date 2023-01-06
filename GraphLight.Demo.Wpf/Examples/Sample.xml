@@ -11,8 +11,8 @@
 	<Vertex Id="service1" Category="process" StrokeStyle="Dot"/>
 	<Vertex Id="service2" Category="process" StrokeStyle="Dot"/>
 	<Edge Src="start" Dst="switch" Category="normal"/>
-	<Edge Src="switch" Dst="service1" Category="conditional"/>
-	<Edge Src="switch" Dst="service2" Category="conditional"/>
+	<Edge Src="switch" Dst="service1" Category="conditional" Label="Lable 1"/>
+	<Edge Src="switch" Dst="service2" Category="conditional" Label="Label 2"/>
 	<Edge Src="service1" Dst="end" Category="normal"/>
 	<Edge Src="service2" Dst="end" Category="normal"/>
 </Graph>

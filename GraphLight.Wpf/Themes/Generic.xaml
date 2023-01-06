@@ -38,6 +38,7 @@
                     <Path
                         Data="{Binding Shape, Converter={StaticResource VertexPathDataConverter}, FallbackValue={x:Null}}"
                         Fill="{Binding Background, FallbackValue={x:Static Brushes.Gray}, TargetNullValue={x:Static Brushes.White}}"
+                        SnapsToDevicePixels="True"
                         Stretch="Fill"
                         Stroke="{Binding Stroke, FallbackValue={x:Static Brushes.Black}, TargetNullValue={x:Static Brushes.Black}}"
                         StrokeDashArray="{Binding Style, Converter={StaticResource StrokeDashArrayConverter}}"
@@ -54,6 +55,7 @@
                 <Path
                     Data="{Binding Converter={StaticResource EdgePathDataConverter}, FallbackValue={x:Null}, Path=Points}"
                     SnapsToDevicePixels="True"
+                    Stretch="None"
                     StrokeDashArray="{Binding Style, Converter={StaticResource StrokeDashArrayConverter}}"
                     StrokeThickness="{Binding StrokeThickness, FallbackValue=1}">
                     <Path.Stroke>
