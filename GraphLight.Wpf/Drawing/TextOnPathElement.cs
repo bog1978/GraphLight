@@ -298,23 +298,10 @@ namespace GraphLight.Drawing
 
             foreach (var formText in _formattedChars)
             {
-                var drawingVisual = new DrawingVisual
-                {
-                    Transform = new TransformGroup
-                    {
-                        Children =
-                        {
-                            new ScaleTransform(),
-                            new RotateTransform(),
-                            new TranslateTransform()
-                        }
-                    }
-                };
-
+                var drawingVisual = new DrawingVisual();
                 var dc = drawingVisual.RenderOpen();
                 dc.DrawText(formText, new Point(0, 0));
                 dc.Close();
-
                 _visualChildren.Add(drawingVisual);
             }
 
@@ -363,23 +350,17 @@ namespace GraphLight.Drawing
                 progress += width / 2 / _pathLength;
 
                 pathGeometry.GetPointAtFractionLength(progress, out var point, out var tangent);
+                var angle = Math.Atan2(tangent.Y, tangent.X) * 180 / Math.PI;
+
+                var matrix = new Matrix();
+                matrix.Scale(scalingFactor, scalingFactor);
+                matrix.RotateAt(angle, width / 2, baseline);
+                matrix.Translate(point.X - width / 2, point.Y - baseline);
 
                 var drawingVisual = (DrawingVisual)_visualChildren[index];
-                var transformGroup = (TransformGroup)drawingVisual.Transform;
-                var scaleTransform = (ScaleTransform)transformGroup.Children[0];
-                var rotateTransform = (RotateTransform)transformGroup.Children[1];
-                var translateTransform = (TranslateTransform)transformGroup.Children[2];
-
-                scaleTransform.ScaleX = scalingFactor;
-                scaleTransform.ScaleY = scalingFactor;
-                rotateTransform.Angle = Math.Atan2(tangent.Y, tangent.X) * 180 / Math.PI;
-                rotateTransform.CenterX = width / 2;
-                rotateTransform.CenterY = baseline;
-                translateTransform.X = point.X - width / 2;
-                translateTransform.Y = point.Y - baseline;
-
+                drawingVisual.Transform = new MatrixTransform(matrix);
                 var rect = drawingVisual.ContentBounds;
-                rect.Transform(transformGroup.Value);
+                rect.Transform(matrix);
                 _boundingRect.Union(rect);
 
                 progress += width / 2 / _pathLength;
