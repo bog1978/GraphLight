@@ -141,38 +141,40 @@ namespace GraphLight.Drawing
 
             var textLength = 0.0;
             var formattedChars = new List<FormattedText>();
-            var fontSize = ContentAlignment == HorizontalAlignment.Stretch ? 100 : FontSize;
             var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
             foreach (var ch in Text)
             {
-                var formattedText =
-                    new FormattedText(ch.ToString(), CultureInfo.CurrentCulture,
-                        FlowDirection.LeftToRight, typeface, fontSize, Foreground);
+                var formattedText = new FormattedText(ch.ToString(), CultureInfo.CurrentCulture,
+                    FlowDirection.LeftToRight, typeface, FontSize, Foreground);
                 formattedChars.Add(formattedText);
                 textLength += formattedText.WidthIncludingTrailingWhitespace;
             }
             if (textLength == 0)
                 return;
 
-            var scalingFactor = ContentAlignment == HorizontalAlignment.Stretch ? pathLength / textLength : 1;
-
-            var progress = 0.0;
+            double progress;
+            double scalingFactor;
             switch (ContentAlignment)
             {
-                case HorizontalAlignment.Left:
-                case HorizontalAlignment.Stretch:
+                case HorizontalAlignment.Left when textLength < pathLength:
                     progress = 0;
+                    scalingFactor = 1.0;
                     break;
-                case HorizontalAlignment.Center:
+                case HorizontalAlignment.Center when textLength < pathLength:
                     progress = Math.Abs(pathLength - textLength) / 2 / pathLength;
+                    scalingFactor = 1.0;
                     break;
-                case HorizontalAlignment.Right:
+                case HorizontalAlignment.Right when textLength < pathLength:
                     progress = Math.Abs(pathLength - textLength) / pathLength;
+                    scalingFactor = 1.0;
+                    break;
+                default:
+                    progress = 0;
+                    scalingFactor = pathLength / textLength;
                     break;
             }
 
             var pathGeometry = new PathGeometry(new[] { PathFigure });
-
             foreach (var formText in formattedChars)
             {
                 var width = scalingFactor * formText.WidthIncludingTrailingWhitespace;
@@ -199,37 +201,32 @@ namespace GraphLight.Drawing
 
         private static double GetPathFigureLength(PathFigure pathFigure)
         {
-            if (pathFigure == null)
-                return 0;
-
-            var isAlreadyFlattened = pathFigure.Segments
+            var isFlattened = pathFigure.Segments
                 .All(s => s is PolyLineSegment || s is LineSegment);
 
-            var pathFigureFlattened = isAlreadyFlattened
+            var flattened = isFlattened
                 ? pathFigure
                 : pathFigure.GetFlattenedPathFigure();
 
             var length = 0.0;
-            var pt1 = pathFigureFlattened.StartPoint;
+            var pt1 = flattened.StartPoint;
 
-            foreach (var pathSegment in pathFigureFlattened.Segments)
-            {
-                if (pathSegment is LineSegment lineSegment)
+            foreach (var pathSegment in flattened.Segments)
+                switch (pathSegment)
                 {
-                    var pt2 = lineSegment.Point;
-                    length += (pt2 - pt1).Length;
-                    pt1 = pt2;
+                    case LineSegment s:
+                        length += (s.Point - pt1).Length;
+                        pt1 = s.Point;
+                        break;
+                    case PolyLineSegment s:
+                        foreach (var pt2 in s.Points)
+                        {
+                            length += (pt2 - pt1).Length;
+                            pt1 = pt2;
+                        }
+                        break;
                 }
-                else if (pathSegment is PolyLineSegment polyLineSegment)
-                {
-                    var pointCollection = polyLineSegment.Points;
-                    foreach (var pt2 in pointCollection)
-                    {
-                        length += (pt2 - pt1).Length;
-                        pt1 = pt2;
-                    }
-                }
-            }
+
             return length;
         }
 
