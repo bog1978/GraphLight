@@ -4,7 +4,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Drawing
 {
-    public class EdgeControl : ContentControl
+    public class EdgeControl : Control
     {
         public EdgeControl() => DefaultStyleKey = typeof (EdgeControl);
 

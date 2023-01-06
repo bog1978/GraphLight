@@ -9,6 +9,28 @@
     <converters:ShapeToGeometryConverter x:Key="ShapeConverter" />
 
     <Style TargetType="drawing:VertexControl">
+        <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="drawing:VertexControl">
+                    <ContentPresenter Content="{TemplateBinding Data}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="drawing:EdgeControl">
+        <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type drawing:EdgeControl}">
+                    <ContentPresenter Content="{TemplateBinding Data}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="drawing:GraphControl">
         <Style.Resources>
             <DataTemplate DataType="{x:Type graph:VertexData}">
                 <Grid>
@@ -28,24 +50,11 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        FontSize="{Binding FontSize}"
                         Foreground="{Binding Foreground, FallbackValue={x:Static Brushes.Black}, TargetNullValue={x:Static Brushes.Black}}"
-                        Text="{Binding Label}"
-                        FontSize="{Binding FontSize}"/>
+                        Text="{Binding Label}" />
                 </Grid>
             </DataTemplate>
-        </Style.Resources>
-        <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="drawing:VertexControl">
-                    <ContentPresenter Content="{TemplateBinding Data}" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="drawing:EdgeControl">
-        <Style.Resources>
             <DataTemplate DataType="{x:Type graph:EdgeData}">
                 <Path
                     Data="{Binding Converter={StaticResource BezierConverter}, FallbackValue={x:Null}, Path=Points}"
@@ -57,17 +66,6 @@
                 </Path>
             </DataTemplate>
         </Style.Resources>
-        <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type drawing:EdgeControl}">
-                    <ContentPresenter Content="{TemplateBinding Data}" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="drawing:GraphControl">
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="Transparent" />

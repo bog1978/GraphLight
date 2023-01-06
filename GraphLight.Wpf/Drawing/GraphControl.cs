@@ -1,40 +1,26 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using GraphLight.Collections;
 using GraphLight.Graph;
 
 namespace GraphLight.Drawing
 {
     public class GraphControl : Control
     {
-        private bool _needLayout = true;
         private GraphPanel? _graphPanel;
 
         public GraphControl()
         {
             DefaultStyleKey = typeof(GraphControl);
+            Loaded += OnLoaded;
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            _graphPanel = GetTemplateChild<GraphPanel>("graphPanel");
-            Layout();
+            _graphPanel = (GraphPanel?)GetTemplateChild("graphPanel");
+            RefreshPanel();
         }
-
-        #region VertexTemplateDictionary
-
-        public static readonly DependencyProperty VertexTemplateDictionaryProperty = DependencyProperty.Register(
-            nameof(VertexTemplateDictionary), typeof(DataTemplateDictionary), typeof(GraphControl));
-
-        public DataTemplateDictionary VertexTemplateDictionary
-        {
-            get => (DataTemplateDictionary)GetValue(VertexTemplateDictionaryProperty);
-            set => SetValue(VertexTemplateDictionaryProperty, value);
-        }
-
-        #endregion
 
         #region Graph
 
@@ -51,72 +37,22 @@ namespace GraphLight.Drawing
         private static void OnGraphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is GraphControl control)
-            {
-                control._needLayout = true;
-                control.Layout();
-            }
+                control.RefreshPanel();
         }
 
         #endregion
 
-        #region VertexStyle
+        private void OnLoaded(object sender, RoutedEventArgs e) => RefreshPanel();
 
-        public static readonly DependencyProperty VertexStyleProperty = DependencyProperty.Register(
-            nameof(VertexStyle), typeof(Style), typeof(GraphControl));
-
-        public Style VertexStyle
+        public void RefreshPanel()
         {
-            get => (Style)GetValue(VertexStyleProperty);
-            set => SetValue(VertexStyleProperty, value);
-        }
-
-        #endregion
-
-        public void Layout()
-        {
-            if (Graph == null || _graphPanel == null || !_needLayout)
+            if (!IsLoaded || Graph == null || _graphPanel == null)
                 return;
-            _graphPanel?.Children.Clear();
-            Graph.Vertices.Iter(AddVertex);
-            Graph.Edges.Iter(AddEdge);
-            _needLayout = false;
+            _graphPanel.Children.Clear();
+            foreach (var vertex in Graph.Vertices)
+                _graphPanel.Children.Add(new VertexControl { DataContext = vertex, Data = vertex.Data });
+            foreach (var edge in Graph.Edges)
+                _graphPanel.Children.Add(new EdgeControl { DataContext = edge, Data = edge.Data });
         }
-
-        private void AddEdge(IEdge<IVertexData, IEdgeData> edge)
-        {
-            if (_graphPanel == null)
-                return;
-            var presenter = new EdgeControl
-            {
-                Content = edge,
-                DataContext = edge,
-                Data = edge.Data,
-            };
-            _graphPanel.Children.Add(presenter);
-        }
-
-        private void AddVertex(IVertex<IVertexData, IEdgeData> vertex)
-        {
-            if (_graphPanel == null)
-                return;
-            var presenter = new VertexControl
-            {
-                Content = vertex,
-                DataContext = vertex,
-                Style = VertexStyle,
-                ContentTemplate = VertexTemplateDictionary.FindTemplate(vertex.Data.Category),
-                Data = vertex.Data,
-            };
-            _graphPanel.Children.Add(presenter);
-        }
-
-        private T GetTemplateChild<T>(string childName)
-            where T : DependencyObject =>
-            GetTemplateChild(childName) switch
-            {
-                null => throw new ArgumentOutOfRangeException($"Template does not contain child [{childName}]."),
-                T t => t,
-                _ => throw new ArgumentOutOfRangeException($"Template contains child [{childName}] of different type."),
-            };
     }
 }

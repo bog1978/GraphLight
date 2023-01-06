@@ -11,57 +11,6 @@
         <demo:DemoViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <gl:DataTemplateDictionary x:Key="VertexTemplateDictionary">
-            <gl:DataTemplateDictionary.DefaultTemplate>
-                <DataTemplate DataType="graph:IVertex">
-                    <TextBlock Text="{Binding Data.Label}" />
-                </DataTemplate>
-            </gl:DataTemplateDictionary.DefaultTemplate>
-            <DataTemplate x:Key="large_font" DataType="graph:IVertexData">
-                <TextBlock FontSize="32" Text="{Binding Label}" />
-            </DataTemplate>
-            <DataTemplate x:Key="small_font" DataType="graph:IVertexData">
-                <TextBlock FontSize="8" Text="{Binding Label}" />
-            </DataTemplate>
-            <DataTemplate x:Key="with_tooltip" DataType="graph:IVertexData">
-                <TextBlock Text="{Binding Label}">
-                    <ToolTipService.ToolTip>
-                        <ToolTip>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Margin="3"
-                                    Text="Left:" />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="3"
-                                    Text="Top:" />
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Margin="3"
-                                    Text="{Binding Left}" />
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Margin="3"
-                                    Text="{Binding Top}" />
-                            </Grid>
-                        </ToolTip>
-                    </ToolTipService.ToolTip>
-                </TextBlock>
-            </DataTemplate>
-        </gl:DataTemplateDictionary>
         <HierarchicalDataTemplate DataType="{x:Type demo:ExampleDir}" ItemsSource="{Binding Children}">
             <TextBlock Text="{Binding Name}" />
         </HierarchicalDataTemplate>
@@ -86,8 +35,7 @@
         <gl:GraphControl
             Grid.Column="1"
             Margin="0,5,5,5"
-            Graph="{Binding Graph, Mode=TwoWay}"
-            VertexTemplateDictionary="{StaticResource VertexTemplateDictionary}" />
+            Graph="{Binding Graph, Mode=TwoWay}"/>
         <GridSplitter
             Grid.Column="0"
             Width="5"

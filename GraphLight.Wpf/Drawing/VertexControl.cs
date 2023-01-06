@@ -4,7 +4,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Drawing
 {
-    public class VertexControl : ContentControl
+    public class VertexControl : Control
     {
         public VertexControl() => DefaultStyleKey = typeof(VertexControl);
 
