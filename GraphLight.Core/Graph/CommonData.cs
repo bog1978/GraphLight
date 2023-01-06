@@ -7,9 +7,14 @@
             StrokeThickness = 1.0;
             FontSize = 12;
             Style = StrokeStyle.Solid;
+            Background = "White";
+            Foreground = "Black";
+            Stroke = "Black";
         }
 
-        public string Label { get; set; }
+        public string? Category { get; set; }
+
+        public string? Label { get; set; }
 
         public bool IsSelected { get; set; }
 
@@ -23,8 +28,10 @@
 
         public double FontSize { get; set; }
 
-        public string Category { get; set; }
-
         public StrokeStyle Style { get; set; }
+
+        public string Background { get; set; }
+
+        public string Foreground { get; set; }
     }
 }

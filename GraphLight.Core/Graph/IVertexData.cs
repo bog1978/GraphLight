@@ -11,8 +11,6 @@ namespace GraphLight.Graph
     {
         string Id { get; }
         VertexShape Shape { get; set; }
-        string Background { get; set; }
-        string Foreground { get; set; }
         double Margin { get; set; }
     }
 }

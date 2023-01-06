@@ -139,7 +139,7 @@ namespace GraphLight.Graph
                         data.StrokeThickness = cat.StrokeThickness;
                     if (cat.FontSizeSpecified)
                         data.FontSize = cat.FontSize;
-                    if(cat.MarginSpecified)
+                    if (cat.MarginSpecified)
                         data.Margin = cat.Margin;
                     if (cat.StrokeStyleSpecified)
                         data.Style = MapEdgeStyle(cat.StrokeStyle);
@@ -158,7 +158,7 @@ namespace GraphLight.Graph
                     data.StrokeThickness = vertex.StrokeThickness;
                 if (vertex.FontSizeSpecified)
                     data.FontSize = vertex.FontSize;
-                if(vertex.MarginSpecified)
+                if (vertex.MarginSpecified)
                     data.Margin = vertex.Margin;
                 if (vertex.StrokeStyleSpecified)
                     data.Style = MapEdgeStyle(vertex.StrokeStyle);
@@ -185,10 +185,16 @@ namespace GraphLight.Graph
                         data.FontSize = cat.FontSize;
                     if (cat.StrokeStyleSpecified)
                         data.Style = MapEdgeStyle(cat.StrokeStyle);
+                    if (cat.Background != null)
+                        data.Background = cat.Background;
+                    if (cat.Foreground != null)
+                        data.Foreground = cat.Foreground;
                 }
 
                 if (edge.WeightSpecified)
                     weight = edge.Weight;
+                if (edge.Label != null)
+                    data.Label = edge.Label;
                 if (edge.Stroke != null)
                     data.Stroke = edge.Stroke;
                 if (edge.StrokeThicknessSpecified)
@@ -197,6 +203,10 @@ namespace GraphLight.Graph
                     data.FontSize = edge.FontSize;
                 if (edge.StrokeStyleSpecified)
                     data.Style = MapEdgeStyle(edge.StrokeStyle);
+                if (edge.Background != null)
+                    data.Background = edge.Background;
+                if (edge.Foreground != null)
+                    data.Foreground = edge.Foreground;
 
                 var src = vMap[edge.Src];
                 var dst = vMap[edge.Dst];

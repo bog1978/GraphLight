@@ -36,10 +36,6 @@ namespace GraphLight.Graph
 
         public VertexShape Shape { get; set; }
 
-        public string Background { get; set; }
-
-        public string Foreground { get; set; }
-
         public double Margin { get; set; }
 
         public bool Equals(IVertexData other) => other?.Id == Id;

@@ -131,7 +131,7 @@
   <Edge Src="Memory" Dst="Displayed" />
   <Edge Src="Memory" Dst="InterpTypes" />
   <Edge Src="MipsFrame" Dst="CommonFrame" />
-  <Edge Src="MipsFrame" Dst="InterpTypes" />
+  <Edge Src="MipsFrame" Dst="InterpTypes" Label="MipsFrame -> InterpTypes" Foreground="Red" />
   <Edge Src="MipsGCommonFrame" Dst="EventHandler" />
   <Edge Src="NRAtom" Dst="AtomProperties" />
   <Edge Src="NRAtom" Dst="ROOT" />

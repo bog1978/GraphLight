@@ -12,7 +12,7 @@
   <Vertex Label="Отклонена" Id="declined" />
   <Vertex Label="Отложена" Id="defered" />
   <Edge Src="new" Dst="draft" />
-  <Edge Src="draft" Dst="archive" />
+  <Edge Src="draft" Dst="archive" Label="В архив" Foreground="Red" FontSize="22" />
   <Edge Src="draft" Dst="closed" />
   <Edge Src="draft" Dst="published" />
   <Edge Src="published" Dst="assigned" />
@@ -26,5 +26,5 @@
   <Edge Src="in_progress" Dst="defered" />
   <Edge Src="defered" Dst="in_progress" />
   <Edge Src="closed" Dst="archive" />
-  <Edge Src="archive" Dst="draft" />
+  <Edge Src="archive" Dst="draft" Label="Из архива" Foreground="Green" FontSize="22" />
 </Graph>

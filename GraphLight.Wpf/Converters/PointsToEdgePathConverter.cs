@@ -9,9 +9,9 @@ using GraphLight.Geometry;
 
 namespace GraphLight.Converters
 {
-    public class PointsToQuadraticBezierConverter : IValueConverter
+    public class PointsToEdgePathConverter : IValueConverter
     {
-        public PointsToQuadraticBezierConverter()
+        public PointsToEdgePathConverter()
         {
             ArrowSize = 10;
             ArrowAngle = 15;

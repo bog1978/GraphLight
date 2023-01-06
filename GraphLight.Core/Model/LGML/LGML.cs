@@ -53,6 +53,14 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Background;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Foreground;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Stroke;
         
         /// <remarks/>
@@ -78,14 +86,6 @@ namespace GraphLight.Model.LGML {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool FontSizeSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Background;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Foreground;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -159,6 +159,14 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Background;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Foreground;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Stroke;
         
         /// <remarks/>
@@ -196,14 +204,6 @@ namespace GraphLight.Model.LGML {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Id;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Background;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string Foreground;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -256,6 +256,14 @@ namespace GraphLight.Model.LGML {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Id;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Background;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Foreground;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
