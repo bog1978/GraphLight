@@ -1,5 +1,5 @@
 ﻿using GraphLight.Algorithm;
-using GraphLight.Layout;
+using GraphLight.Graph;
 
 namespace GraphLight.Prefomance
 {

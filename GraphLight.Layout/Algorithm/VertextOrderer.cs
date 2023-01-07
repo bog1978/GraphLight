@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Algorithm;
 using GraphLight.Collections;
 using GraphLight.Graph;
 
-namespace GraphLight.Layout
+namespace GraphLight.Algorithm
 {
     internal class VertextOrderer<V, E> : IAlgorithm
         where V : IVertexDataLayered, IVertexDataLocation

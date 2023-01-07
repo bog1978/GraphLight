@@ -6,7 +6,6 @@ using System.Resources;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using GraphLight.Layout;
 using GraphLight.Model.LGML;
 
 namespace GraphLight.Graph
@@ -118,7 +117,7 @@ namespace GraphLight.Graph
             var vertexStyles = lgmlGraph.VertexCategory?.ToDictionary(x => x.Id, x => x as LgmlVertexStyle);
             var edgeStyles = lgmlGraph.EdgeCategory?.ToDictionary(x => x.Id, x => x as LgmlEdgeStyle);
 
-            var g = new LayoutGraphModel();
+            var g = new LayoutGraph();
 
             foreach (var vertex in lgmlGraph.Vertex)
             {

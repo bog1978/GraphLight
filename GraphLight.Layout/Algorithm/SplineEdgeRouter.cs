@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Algorithm;
 using GraphLight.Collections;
 using GraphLight.Geometry;
 using GraphLight.Graph;
 
-namespace GraphLight.Layout
+namespace GraphLight.Algorithm
 {
     internal class SplineEdgeRouter<V, E> : IAlgorithm
         where V : IVertexData

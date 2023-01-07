@@ -1,8 +1,8 @@
 ﻿namespace GraphLight.Graph
 {
-    public class CommonData : ICommonData
+    public abstract class CommonData : ICommonData
     {
-        public CommonData(string? label, string? category)
+        protected CommonData(string? label, string? category)
         {
             Label = label;
             Category = category;

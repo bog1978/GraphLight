@@ -1,10 +1,9 @@
 ﻿using System;
 using GraphLight.Collections;
-using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal partial class NetworkSimplex
+    partial class NetworkSimplex
     {
         #region Nested type: Edge
 
@@ -36,17 +35,6 @@ namespace GraphLight.Algorithm
 
         #endregion
 
-        #region Nested type: EdgeType
-
-        protected enum EdgeType
-        {
-            Unknown,
-            HeadToTail,
-            TailToHead,
-        }
-
-        #endregion
-
         #region Nested type: Graph
 
         protected class Graph
@@ -60,10 +48,9 @@ namespace GraphLight.Algorithm
 
         #region Nested type: Vertex
 
-        //[DebuggerDisplay("{Id}")]
         protected class Vertex : IBinaryHeapItem<int>
         {
-            public VertexColor Color = VertexColor.White;
+            internal VertexColor Color = VertexColor.White;
             public Edge[] Edges;
             public string Id;
             public Edge[] InEdges;

@@ -1,12 +1,11 @@
 using System;
-using System.Linq;
 using GraphLight.Graph;
 
-namespace GraphLight.Layout
+namespace GraphLight.Algorithm
 {
-    public static class EdgeExtensions
+    internal static class EdgeExtensions
     {
-        public static bool Cross<V, E>(this IEdge<V, E> edge, IEdge<V, E> otherEdge)
+        internal static bool Cross<V, E>(this IEdge<V, E> edge, IEdge<V, E> otherEdge)
             where V : IVertexDataLayered
         {
             var a1 = edge.Src;
@@ -18,7 +17,7 @@ namespace GraphLight.Layout
                 || a1.Data.Position == a2.Data.Position && b1.Data.Position == b2.Data.Position;
         }
 
-        public static double PositionSpan<V, E>(this IEdge<V, E> edge)
+        internal static double PositionSpan<V, E>(this IEdge<V, E> edge)
             where V : IVertexDataLayered
             where E : IEdgeDataWeight
         {

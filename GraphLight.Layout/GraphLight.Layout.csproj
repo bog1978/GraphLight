@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Model\LGML\LGML.xsd" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Model\LGML\LGML.xsd" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\GraphLight.Core\GraphLight.Core.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using GraphLight.Algorithm;
 using GraphLight.Drawing;
 using GraphLight.Graph;
-using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GraphLight.Test
@@ -44,7 +44,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_1()
         {
-            var graph = new LayoutGraphModel();
+            var graph = new LayoutGraph();
             var a = graph.CreateVertexData("A");
             var b = graph.CreateVertexData("B");
             var c = graph.CreateVertexData("C");
@@ -62,7 +62,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_2()
         {
-            var graph = new LayoutGraphModel();
+            var graph = new LayoutGraph();
             var a = graph.CreateVertexData("A");
             var b = graph.CreateVertexData("B");
             var c = graph.CreateVertexData("C");

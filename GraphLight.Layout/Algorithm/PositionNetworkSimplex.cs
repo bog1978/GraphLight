@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Algorithm;
 using GraphLight.Graph;
 
-namespace GraphLight.Layout
+namespace GraphLight.Algorithm
 {
     internal class PositionNetworkSimplex<V, E> : NetworkSimplex
         where V : IVertexDataLayered, IVertexDataLocation
@@ -31,7 +30,6 @@ namespace GraphLight.Layout
             foreach (var vertex in _graph.Vertices)
             {
                 var v = _vertexMap[vertex];
-                //vertex.Data.CenterX = v.Value - minValue;
                 vertex.Data.Rect.Left = v.Value - minValue - vertex.Data.Rect.Width / 2;
             }
         }

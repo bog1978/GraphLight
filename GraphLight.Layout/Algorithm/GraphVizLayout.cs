@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Algorithm;
 using GraphLight.Collections;
 using GraphLight.Graph;
 
-namespace GraphLight.Layout
+namespace GraphLight.Algorithm
 {
     public class GraphVizLayout<V, E> : GraphLayout<V, E>
         where V : IVertexData
@@ -23,7 +21,7 @@ namespace GraphLight.Layout
             foreach (var vertex in Graph.Vertices)
                 NodeMeasure.Measure(vertex);
 
-            Acyclic();
+            Graph.Acyclic();
             RankVertices();
             AddTmpNodes();
             OrderVertices();
@@ -36,17 +34,6 @@ namespace GraphLight.Layout
         protected virtual void RouteEdges() => new SplineEdgeRouter<V, E>(Graph).Execute();
 
         protected virtual void OrderVertices() => new VertextOrderer<V, E>(Graph).Execute();
-
-
-        protected virtual void Acyclic()
-        {
-            var backEdges = new List<IEdge<V, E>>();
-            var dfs = Graph.DepthFirstSearch();
-            dfs.OnBackEdge += backEdges.Add;
-            dfs.Execute();
-            foreach (var e in backEdges)
-                e.Revert();
-        }
 
         protected virtual void RankVertices()
         {
@@ -103,7 +90,7 @@ namespace GraphLight.Layout
             foreach (var edge in edgesToSplit.ToList())
             {
                 var edge1 = edge;
-                var distance = (edge.Dst.Data.Rank - edge.Src.Data.Rank);
+                var distance = edge.Dst.Data.Rank - edge.Src.Data.Rank;
                 var increment = Math.Sign(distance);
                 for (var rankShift = increment; rankShift != distance; rankShift += increment)
                 {
@@ -116,8 +103,8 @@ namespace GraphLight.Layout
 
             foreach (var e in Graph.Edges)
                 e.Data.Weight = e.Src.Data.IsTmp
-                    ? (e.Dst.Data.IsTmp ? 8 : 2)
-                    : (e.Dst.Data.IsTmp ? 2 : 1);
+                    ? e.Dst.Data.IsTmp ? 8 : 2
+                    : e.Dst.Data.IsTmp ? 2 : 1;
         }
     }
 }

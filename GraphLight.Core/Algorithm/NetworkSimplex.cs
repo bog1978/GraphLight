@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GraphLight.Algorithm
 {
-    internal abstract partial class NetworkSimplex : IAlgorithm
+    public abstract partial class NetworkSimplex : IAlgorithm
     {
         private readonly ICollection<Edge> _headToTailEdges = new List<Edge>();
         private readonly ICollection<Edge> _tailToHeadEdges = new List<Edge>();

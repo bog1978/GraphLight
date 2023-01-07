@@ -1,11 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using GraphLight.Drawing;
 using GraphLight.Graph;
-using GraphLight.Layout;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using GraphLight.Algorithm;
 
 namespace GraphLight.Test.Layout
 {

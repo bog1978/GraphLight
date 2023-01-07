@@ -3,19 +3,19 @@ using GraphLight.Geometry;
 using GraphLight.Graph;
 using static GraphLight.Graph.VertexShape;
 
-namespace GraphLight.Layout
+namespace GraphLight.Algorithm
 {
-    public static class VertexExtensions
+    internal static class VertexExtensions
     {
-        public static Point2D CenterPoint<V, E>(this IVertex<V, E> node)
+        internal static Point2D CenterPoint<V, E>(this IVertex<V, E> node)
             where V : IVertexDataLocation =>
             node.Data.Rect.CustomPoint(0.5, 0.5);
 
-        public static Point2D CustomPoint<V, E>(this IVertex<V, E> node, double w, double h)
+        internal static Point2D CustomPoint<V, E>(this IVertex<V, E> node, double w, double h)
             where V : IVertexDataLocation =>
             node.Data.Rect.CustomPoint(w, h);
 
-        public static Point2D GetShapePort<V, E>(this IVertex<V, E> node, Point2D point)
+        internal static Point2D GetShapePort<V, E>(this IVertex<V, E> node, Point2D point)
             where V : IVertexData =>
             node.Data.Shape switch
             {

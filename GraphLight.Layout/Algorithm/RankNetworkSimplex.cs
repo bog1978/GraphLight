@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Algorithm;
 using GraphLight.Graph;
 
-namespace GraphLight.Layout
+namespace GraphLight.Algorithm
 {
     internal class RankNetworkSimplex<V, E> : NetworkSimplex
-        where V: IVertexDataLayered
-        where E: IEdgeDataWeight
+        where V : IVertexDataLayered
+        where E : IEdgeDataWeight
     {
         private readonly IGraph<V, E> _graph;
         private Dictionary<IVertex<V, E>, Vertex> _vertexMap;

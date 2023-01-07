@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GraphLight.Test</RootNamespace>
-    <AssemblyName>WpfGraphLightTest</AssemblyName>
+    <AssemblyName>GraphLight.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -105,6 +105,10 @@
     <ProjectReference Include="..\..\GraphLight.Demo.Wpf\GraphLight.Demo.Wpf.csproj">
       <Project>{2ab7c669-b3ad-4530-932f-6c4abe1cd00d}</Project>
       <Name>GraphLight.Demo.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GraphLight.Layout\GraphLight.Layout.csproj">
+      <Project>{82751518-9eb5-4019-b0e7-31ff528d2233}</Project>
+      <Name>GraphLight.Layout</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\GraphLight.Wpf\GraphLight.Wpf.csproj">
       <Project>{19D6A2B3-2A59-4408-9492-3EDC35303CCC}</Project>

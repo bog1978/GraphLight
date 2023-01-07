@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GraphLight.Core\GraphLight.Core.csproj" />
+    <ProjectReference Include="..\GraphLight.Layout\GraphLight.Layout.csproj" />
   </ItemGroup>
 
 </Project>

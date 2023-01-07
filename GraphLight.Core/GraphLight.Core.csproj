@@ -4,8 +4,4 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="Model\LGML\LGML.xsd" />
-	</ItemGroup>
-
 </Project>

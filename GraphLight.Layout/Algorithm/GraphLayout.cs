@@ -1,12 +1,7 @@
 ﻿using GraphLight.Graph;
 
-namespace GraphLight.Layout
+namespace GraphLight.Algorithm
 {
-    public interface INodeMeasure<V, E>
-    {
-        void Measure(IVertex<V, E> vertex);
-    }
-
     public abstract class GraphLayout<V, E>
     {
         public INodeMeasure<V, E> NodeMeasure { get; set; }
