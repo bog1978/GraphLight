@@ -18,7 +18,7 @@ namespace GraphLight.Layout
 
         public override void Layout()
         {
-            var weights = Graph.Edges.Backup(x => x.Weight);
+            var weights = Graph.Edges.Backup(x => x.Data.Weight);
 
             foreach (var vertex in Graph.Vertices)
                 NodeMeasure.Measure(vertex);
@@ -30,7 +30,7 @@ namespace GraphLight.Layout
             ArrangeVertices();
             RouteEdges();
 
-            weights.Restore((e, x) => e.Weight = x);
+            weights.Restore((e, x) => e.Data.Weight = x);
         }
 
         protected virtual void RouteEdges() => new SplineEdgeRouter<V, E>(Graph).Execute();
@@ -115,7 +115,7 @@ namespace GraphLight.Layout
             }
 
             foreach (var e in Graph.Edges)
-                e.Weight = e.Src.Data.IsTmp
+                e.Data.Weight = e.Src.Data.IsTmp
                     ? (e.Dst.Data.IsTmp ? 8 : 2)
                     : (e.Dst.Data.IsTmp ? 2 : 1);
         }

@@ -7,6 +7,7 @@ using GraphLight.Graph;
 namespace GraphLight.Algorithm
 {
     internal class UndirectedDijkstra<V, E> : IShortestPath<V, E>
+        where E : IEdgeDataWeight
     {
         private readonly IGraph<V, E> _graph;
         private Action<IEdge<V, E>> _enterEdge = x => { };
@@ -36,10 +37,10 @@ namespace GraphLight.Algorithm
                     var dst = edge.Dst != src ? edge.Dst : edge.Src;
                     var dstAttr = attrs[dst];
                     var srcAttr = attrs[src];
-                    if (srcAttr.Distance + edge.Weight < dstAttr.Distance)
+                    if (srcAttr.Distance + edge.Data.Weight < dstAttr.Distance)
                     {
                         dstAttr.Parent = edge;
-                        dstAttr.Distance = srcAttr.Distance + edge.Weight;
+                        dstAttr.Distance = srcAttr.Distance + edge.Data.Weight;
                         queue.Remove(dst);
                         queue.Add(dst);
                     }

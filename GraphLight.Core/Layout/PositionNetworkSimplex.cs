@@ -7,6 +7,7 @@ namespace GraphLight.Layout
 {
     internal class PositionNetworkSimplex<V, E> : NetworkSimplex
         where V : IVertexDataLayered, IVertexDataLocation
+        where E : IEdgeDataWeight
     {
         private const int H_SPACE = 30;
         private readonly IGraph<V, E> _graph;
@@ -46,8 +47,8 @@ namespace GraphLight.Layout
             {
                 var ve = new Vertex();
                 vertices.Add(ve);
-                edges.Add(new Edge(ve, _vertexMap[edge.Src], (int)edge.Weight, 0));
-                edges.Add(new Edge(ve, _vertexMap[edge.Dst], (int)edge.Weight, 0));
+                edges.Add(new Edge(ve, _vertexMap[edge.Src], (int)edge.Data.Weight, 0));
+                edges.Add(new Edge(ve, _vertexMap[edge.Dst], (int)edge.Data.Weight, 0));
             }
 
             foreach (var rank in _graph.GetRankList())

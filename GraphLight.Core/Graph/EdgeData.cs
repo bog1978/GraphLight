@@ -9,8 +9,10 @@ namespace GraphLight.Graph
         public EdgeData(string? label, string? category) : base(label, category)
         {
             Points = new ObservableCollection<Point2D>();
+            Weight = 1.0;
         }
 
         public IList<Point2D> Points { get; }
+        public double Weight { get; set; }
     }
 }

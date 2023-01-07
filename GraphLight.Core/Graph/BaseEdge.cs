@@ -7,8 +7,6 @@ namespace GraphLight.Graph
         private readonly E _data;
         private IVertex<V, E> _src;
         private IVertex<V, E> _dst;
-        private double _weight = 1;
-        private bool _isRevert;
 
         public BaseEdge(E data)
         {
@@ -18,8 +16,6 @@ namespace GraphLight.Graph
         }
 
         public E Data => _data;
-
-        public double Weight { get; set; }
 
         public bool IsRevert { get; private set; }
 

@@ -104,7 +104,7 @@ namespace GraphLight.Graph
                     StrokeThicknessSpecified = true,
                     FontSize = edge.Data.FontSize,
                     FontSizeSpecified = true,
-                    Weight = edge.Weight,
+                    Weight = edge.Data.Weight,
                     WeightSpecified = true,
                     StrokeStyle = Map(edge.Data.StrokeStyle),
                     StrokeStyleSpecified = true,
@@ -131,29 +131,22 @@ namespace GraphLight.Graph
                     .ApplyVertexStyle(vertex);
 
                 vMap.Add(vertex.Id, data);
-                g.AddVertex(data);
+                _ = g.AddVertex(data);
             }
 
             foreach (var edge in lgmlGraph.Edge)
             {
-                var data = new EdgeData(edge.Label, edge.Category);
-                var weight = 1.0;
-                if (edge.Category != null && edgeStyles != null)
-                {
-                    var style = edgeStyles[edge.Category];
-                    data.ApplyEdgeStyle(style);
-                    if (style.WeightSpecified)
-                        weight = style.Weight;
-                }
+                var style = edge.Category != null && edgeStyles != null
+                    ? edgeStyles[edge.Category]
+                    : null;
 
-                data.ApplyEdgeStyle(edge);
-                if (edge.WeightSpecified)
-                    weight = edge.Weight;
+                var data = new EdgeData(edge.Label, edge.Category)
+                    .ApplyEdgeStyle(style)
+                    .ApplyEdgeStyle(edge);
 
                 var src = vMap[edge.Src];
                 var dst = vMap[edge.Dst];
-                var e = g.AddEdge(src, dst, data);
-                e.Weight = weight;
+                _ = g.AddEdge(src, dst, data);
             }
 
             return g;
@@ -176,8 +169,8 @@ namespace GraphLight.Graph
         {
             if (style == null)
                 return data;
-            //if (style.WeightSpecified)
-            //    data.Weight = style.Weight);
+            if (style.WeightSpecified)
+                data.Weight = style.Weight;
             return data.ApplyBaseStyle(style);
         }
 

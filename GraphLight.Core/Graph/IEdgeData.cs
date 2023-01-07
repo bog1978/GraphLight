@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace GraphLight.Graph
 {
-    public interface IEdgeData : ICommonData
+    public interface IEdgeData :
+        ICommonData,
+        IEdgeDataWeight
     {
         IList<Point2D> Points { get; }
     }

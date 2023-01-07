@@ -20,9 +20,10 @@ namespace GraphLight.Layout
 
         public static double PositionSpan<V, E>(this IEdge<V, E> edge)
             where V : IVertexDataLayered
+            where E : IEdgeDataWeight
         {
             var delta = edge.Src.Data.Position - edge.Dst.Data.Position;
-            return Math.Abs(delta) * edge.Weight;
+            return Math.Abs(delta) * edge.Data.Weight;
         }
     }
 }

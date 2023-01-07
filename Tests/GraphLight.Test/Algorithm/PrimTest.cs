@@ -12,7 +12,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void FindSpanningTree()
         {
-            var graph = new GenericGraph<object, object>();
+            var graph = new GenericGraph<string, EdgeDataWeight>();
 
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
@@ -24,43 +24,28 @@ namespace GraphLight.Test.Algorithm
             var h = graph.AddVertex("H");
             var i = graph.AddVertex("I");
 
-            var ab = graph.AddEdge(a, b, new object());
-            var bc = graph.AddEdge(b, c, new object());
-            var ah = graph.AddEdge(a, h, new object());
-            var bh = graph.AddEdge(b, h, new object());
-            var hi = graph.AddEdge(h, i, new object());
-            var hg = graph.AddEdge(h, g, new object());
-            var ig = graph.AddEdge(i, g, new object());
-            var ic = graph.AddEdge(i, c, new object());
-            var gf = graph.AddEdge(g, f, new object());
-            var cf = graph.AddEdge(c, f, new object());
-            var cd = graph.AddEdge(c, d, new object());
-            var df = graph.AddEdge(d, f, new object());
-            var de = graph.AddEdge(d, e, new object());
-            var fe = graph.AddEdge(f, e, new object());
+            var ab = graph.AddEdge(a, b, 4);
+            var bc = graph.AddEdge(b, c, 8);
+            var ah = graph.AddEdge(a, h, 8);
+            var bh = graph.AddEdge(b, h, 11);
+            var hi = graph.AddEdge(h, i, 7);
+            var hg = graph.AddEdge(h, g, 1);
+            var ig = graph.AddEdge(i, g, 6);
+            var ic = graph.AddEdge(i, c, 2);
+            var gf = graph.AddEdge(g, f, 2);
+            var cf = graph.AddEdge(c, f, 4);
+            var cd = graph.AddEdge(c, d, 7);
+            var df = graph.AddEdge(d, f, 14);
+            var de = graph.AddEdge(d, e, 9);
+            var fe = graph.AddEdge(f, e, 10);
 
-            ab.Weight = 4;
-            ah.Weight = 8;
-            bh.Weight = 11;
-            bc.Weight = 8;
-            hi.Weight = 7;
-            hg.Weight = 1;
-            ig.Weight = 6;
-            ic.Weight = 2;
-            gf.Weight = 2;
-            cf.Weight = 4;
-            cd.Weight = 7;
-            df.Weight = 14;
-            de.Weight = 9;
-            fe.Weight = 10;
+            var edges = new List<IEdge<string, EdgeDataWeight>>();
 
-            var edges = new List<IEdge<object, object>>();
-
-            var alg = graph.PrimSpanningTree(x => x.Weight);
+            var alg = graph.PrimSpanningTree(x => x.Data.Weight);
             alg.EnterEdge += edges.Add;
             alg.Execute(graph.Vertices.First());
 
-            var sum = edges.Sum(x => x.Weight);
+            var sum = edges.Sum(x => x.Data.Weight);
             Assert.AreEqual(sum, 37.0, "Found spanning tree is not mimimal.");
         }
 

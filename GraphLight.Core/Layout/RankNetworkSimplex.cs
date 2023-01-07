@@ -7,6 +7,7 @@ namespace GraphLight.Layout
 {
     internal class RankNetworkSimplex<V, E> : NetworkSimplex
         where V: IVertexDataLayered
+        where E: IEdgeDataWeight
     {
         private readonly IGraph<V, E> _graph;
         private Dictionary<IVertex<V, E>, Vertex> _vertexMap;
@@ -31,7 +32,7 @@ namespace GraphLight.Layout
 
             vertices = _vertexMap.Values.ToList();
             edges = _graph.Edges.Where(edge => edge.Src != edge.Dst)
-                .Select(x => new Edge(_vertexMap[x.Src], _vertexMap[x.Dst], (int)x.Weight, 1))
+                .Select(x => new Edge(_vertexMap[x.Src], _vertexMap[x.Dst], (int)x.Data.Weight, 1))
                 .ToList();
         }
     }
