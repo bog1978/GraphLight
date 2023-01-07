@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphLight.Core", "GraphLig
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLight.Test", "Tests\GraphLight.Test\GraphLight.Test.csproj", "{12957628-3C32-40C9-B24A-85EBC6FD124C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLight.Prefomance", "Tests\GraphLight.Prefomance\GraphLight.Prefomance.csproj", "{684ECC46-830B-487B-AF21-DF66F38C03CC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphLight.Core.Tests", "Tests\GraphLight.Core.Tests\GraphLight.Core.Tests.csproj", "{A8A99106-7205-4B35-A6E4-0C8A77B97895}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C82CE94F-8865-4C78-98D2-7D8372929071}"
@@ -78,16 +76,6 @@ Global
 		{12957628-3C32-40C9-B24A-85EBC6FD124C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{12957628-3C32-40C9-B24A-85EBC6FD124C}.Release|x86.ActiveCfg = Release|Any CPU
 		{12957628-3C32-40C9-B24A-85EBC6FD124C}.Release|x86.Build.0 = Release|Any CPU
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Debug|x86.ActiveCfg = Debug|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Debug|x86.Build.0 = Debug|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Release|Any CPU.ActiveCfg = Release|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Release|Mixed Platforms.Build.0 = Release|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Release|x86.ActiveCfg = Release|x86
-		{684ECC46-830B-487B-AF21-DF66F38C03CC}.Release|x86.Build.0 = Release|x86
 		{A8A99106-7205-4B35-A6E4-0C8A77B97895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8A99106-7205-4B35-A6E4-0C8A77B97895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8A99106-7205-4B35-A6E4-0C8A77B97895}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -118,7 +106,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{12957628-3C32-40C9-B24A-85EBC6FD124C} = {68EDD0B3-692C-4F6A-A6B0-5ABCAB9F5508}
-		{684ECC46-830B-487B-AF21-DF66F38C03CC} = {68EDD0B3-692C-4F6A-A6B0-5ABCAB9F5508}
 		{A8A99106-7205-4B35-A6E4-0C8A77B97895} = {68EDD0B3-692C-4F6A-A6B0-5ABCAB9F5508}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
