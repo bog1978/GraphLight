@@ -59,8 +59,8 @@ namespace GraphLight.Layout
             var g = (IGraph)Graph;
             SetTopPositions();
             SetLeftPositions();
-            g.Width = g.Vertices.Min(x => x.Data.Left) + g.Vertices.Max(x => x.Data.Right);
-            g.Height = g.Vertices.Min(x => x.Data.Top) + g.Vertices.Max(x => x.Data.Bottom);
+            g.Width = g.Vertices.Min(x => x.Data.Rect.Left) + g.Vertices.Max(x => x.Data.Rect.Right);
+            g.Height = g.Vertices.Min(x => x.Data.Rect.Top) + g.Vertices.Max(x => x.Data.Rect.Bottom);
         }
 
         private void SetTopPositions()
@@ -70,16 +70,16 @@ namespace GraphLight.Layout
                  group node by node.Data.Rank
                      into row
                  let r = row.Key
-                 let h = row.Max(x => x.Data.Height) + V_SPACE
+                 let h = row.Max(x => x.Data.Rect.Height) + V_SPACE
                  select new { r, h })
                     .ToDictionary(x => x.r, x => x.h);
 
             foreach (var node in Graph.Vertices)
             {
                 var rank = node.Data.Rank;
-                var y = (rows[rank] - node.Data.Height) / 2
+                var y = (rows[rank] - node.Data.Rect.Height) / 2
                     + rows.Where(z => z.Key < rank).Sum(z => z.Value);
-                node.Data.Top = y;
+                node.Data.Rect.Top = y;
             }
         }
 

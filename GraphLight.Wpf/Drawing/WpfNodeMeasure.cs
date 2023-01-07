@@ -17,8 +17,8 @@ namespace GraphLight.Drawing
         {
             var textBlock = new TextBlock { Text = vertex.Data.Label };
             textBlock.Measure(_maxSize);
-            vertex.Data.Width = vertex.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Width + MARGIN;
-            vertex.Data.Height = vertex.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Height + MARGIN;
+            vertex.Data.Rect.Width = vertex.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Width + MARGIN;
+            vertex.Data.Rect.Height = vertex.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Height + MARGIN;
         }
     }
 }

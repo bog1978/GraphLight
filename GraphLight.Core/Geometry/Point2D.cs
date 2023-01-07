@@ -1,11 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 
 namespace GraphLight.Geometry
 {
     [DebuggerDisplay("x={X}, y={Y}")]
-    public class Point2D : INotifyPropertyChanged, IEquatable<Point2D>
+    public class Point2D : IEquatable<Point2D>
     {
         public Point2D()
         {
@@ -21,29 +20,9 @@ namespace GraphLight.Geometry
 
         public static readonly Point2D Empty = new Point2D(double.NaN, double.NaN);
 
-        private double _x;
-        public double X
-        {
-            get => _x;
-            set
-            {
-                _x = value;
-                RaisePropertyChanged("X");
-            }
-        }
+        public double X { get; set; }
 
-        private double _y;
-        public double Y
-        {
-            get => _y;
-            set
-            {
-                _y = value;
-                RaisePropertyChanged("Y");
-            }
-        }
-
-        public int Sgn { get; set; }
+        public double Y { get; set; }
 
         public bool IsEmpty => double.IsNaN(X) || double.IsNaN(Y);
 
@@ -88,10 +67,6 @@ namespace GraphLight.Geometry
         public override int GetHashCode() => (X.GetHashCode() * 397) ^ Y.GetHashCode();
 
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged(string  name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public override string ToString() => $"x={X}, y={Y}";
     }

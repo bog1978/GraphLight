@@ -1,4 +1,5 @@
 ﻿using System;
+using GraphLight.Geometry;
 
 namespace GraphLight.Graph
 {
@@ -9,6 +10,7 @@ namespace GraphLight.Graph
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Shape = VertexShape.Ellipse;
             Margin = 5;
+            Rect = new Rect2D();
         }
 
         public string Id { get; }
@@ -19,17 +21,7 @@ namespace GraphLight.Graph
 
         int IVertexDataLayered.Position { get; set; }
 
-        public double Width { get; set; }
-
-        public double Height { get; set; }
-
-        public double Left { get; set; }
-
-        public double Top { get; set; }
-
-        public double Right => Left + Width;
-
-        public double Bottom => Top + Height;
+        public Rect2D Rect { get; }
 
         public VertexShape Shape { get; set; }
 

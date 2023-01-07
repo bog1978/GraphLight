@@ -24,15 +24,15 @@ namespace GraphLight.Layout
             foreach (var vertex in _graph.Vertices)
             {
                 var v = _vertexMap[vertex];
-                if (v.Value - vertex.Data.Width / 2 < minValue)
-                    minValue = v.Value - (int)(vertex.Data.Width / 2);
+                if (v.Value - vertex.Data.Rect.Width / 2 < minValue)
+                    minValue = v.Value - (int)(vertex.Data.Rect.Width / 2);
             }
 
             foreach (var vertex in _graph.Vertices)
             {
                 var v = _vertexMap[vertex];
                 //vertex.Data.CenterX = v.Value - minValue;
-                vertex.Data.Left = v.Value - minValue - vertex.Data.Width / 2;
+                vertex.Data.Rect.Left = v.Value - minValue - vertex.Data.Rect.Width / 2;
             }
         }
 
@@ -57,7 +57,7 @@ namespace GraphLight.Layout
                     {
                         var sv = _vertexMap[v];
                         var sw = _vertexMap[w];
-                        return new Edge(sv, sw, 0, ((int)(v.Data.Width + w.Data.Width)) / 2 + H_SPACE);
+                        return new Edge(sv, sw, 0, (int)(v.Data.Rect.Width + w.Data.Rect.Width) / 2 + H_SPACE);
                     });
                 foreach (var edge in spaceEdges)
                     edges.Add(edge);

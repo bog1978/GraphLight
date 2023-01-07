@@ -78,8 +78,7 @@ namespace GraphLight.Geometry
                 var p2 = Points[(i + 1) % cnt];
                 var p3 = Points[(i + 2) % cnt];
                 var z = (p2 - p1) ^ (p3 - p2);
-                p2.Sgn = Math.Sign(z);
-                ((z >= 0) ? convex : concave).Add(p2);
+                (z >= 0 ? convex : concave).Add(p2);
             }
         }
 

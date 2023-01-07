@@ -8,16 +8,12 @@ namespace GraphLight.Layout
     public static class VertexExtensions
     {
         public static Point2D CenterPoint<V, E>(this IVertex<V, E> node)
-            where V : IVertexDataLocation
-        {
-            return new Point2D(node.Data.Left + node.Data.Width / 2, node.Data.Top + node.Data.Height / 2);
-        }
+            where V : IVertexDataLocation =>
+            node.Data.Rect.CustomPoint(0.5, 0.5);
 
-        public static Point2D CustomPoint<V, E>(this IVertex<V, E> node, double wK, double hK)
-            where V : IVertexDataLocation
-        {
-            return new Point2D(node.Data.Left + node.Data.Width * wK, node.Data.Top + node.Data.Height * hK);
-        }
+        public static Point2D CustomPoint<V, E>(this IVertex<V, E> node, double w, double h)
+            where V : IVertexDataLocation =>
+            node.Data.Rect.CustomPoint(w, h);
 
         public static Point2D GetShapePort<V, E>(this IVertex<V, E> node, Point2D point)
             where V : IVertexData =>
@@ -35,8 +31,8 @@ namespace GraphLight.Layout
             var d = node.Data;
 
             var center = node.CenterPoint();
-            var a = d.Width / 2;
-            var b = d.Height / 2;
+            var a = d.Rect.Width / 2;
+            var b = d.Rect.Height / 2;
             var dx = point.X - center.X;
             var dy = point.Y - center.Y;
 

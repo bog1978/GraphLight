@@ -34,11 +34,7 @@ namespace GraphLight.Drawing
                 {
                     vertex.Measure(availableSize);
                     var data = vertex.Data;
-                    if (data != null)
-                    {
-                        data.Width = child.DesiredSize.Width;
-                        data.Height = child.DesiredSize.Height;
-                    }
+                    data?.Rect.SetSize(child.DesiredSize.FromWpf());
                 }
             }
 
@@ -46,7 +42,7 @@ namespace GraphLight.Drawing
             Layout();
 
             // NOTE: Разобраться, почему здесь получается чуть меньше 0.
-            var minLeft = Graph.Vertices.Min(x => x.Data.Left);
+            var minLeft = Graph.Vertices.Min(x => x.Data.Rect.Left);
 
             // 3. Вычисляем размеры всего графа.
             var w = 0.0;
@@ -61,8 +57,8 @@ namespace GraphLight.Drawing
                             var data = vertex.Data;
                             if (data != null)
                             {
-                                w = Max(w, data.Right);
-                                h = Max(h, data.Bottom);
+                                w = Max(w, data.Rect.Right);
+                                h = Max(h, data.Rect.Bottom);
                             }
                             break;
                         }
@@ -99,7 +95,7 @@ namespace GraphLight.Drawing
                         {
                             var data = vertex.Data;
                             if (data != null)
-                                vertex.Arrange(new Rect(data.Left, data.Top, data.Width, data.Height));
+                                vertex.Arrange(data.Rect.ToWpf());
                             break;
                         }
                     case EdgeControl edge:

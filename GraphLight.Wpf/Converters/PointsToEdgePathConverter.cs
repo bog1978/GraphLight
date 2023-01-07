@@ -28,14 +28,14 @@ namespace GraphLight.Converters
             for (var i = 0; i < points.Count; i++)
             {
                 var p1 = points[i];
-                pts.Add(p1.ToPoint());
+                pts.Add(p1.ToWpf());
                 if (i >= points.Count - 1)
                     continue;
                 var p2 = points[i + 1];
                 pts.Add(new Point((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2));
             }
 
-            pts.Add(points.Last().ToPoint());
+            pts.Add(points.Last().ToWpf());
 
 
             var p11 = points[points.Count - 1];
@@ -65,14 +65,14 @@ namespace GraphLight.Converters
                     },
                     new LineGeometry
                     {
-                        StartPoint = p11.ToPoint(),
-                        EndPoint = arr.ToPoint(),
+                        StartPoint = p11.ToWpf(),
+                        EndPoint = arr.ToWpf(),
                         Transform = new RotateTransform { Angle = ArrowAngle, CenterX = p11.X, CenterY = p11.Y }
                     },
                     new LineGeometry
                     {
-                        StartPoint = p11.ToPoint(),
-                        EndPoint = arr.ToPoint(),
+                        StartPoint = p11.ToWpf(),
+                        EndPoint = arr.ToWpf(),
                         Transform = new RotateTransform { Angle = -ArrowAngle, CenterX = p11.X, CenterY = p11.Y }
                     }
                 }
