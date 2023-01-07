@@ -1,4 +1,4 @@
-﻿namespace GraphLight.Model.LGML
+﻿namespace GraphLight.IO.LGML
 {
     partial class LgmlVertex
     {

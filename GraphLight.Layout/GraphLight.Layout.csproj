@@ -5,11 +5,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Model\LGML\LGML.xsd" />
+	  <None Remove="IO\LGML\LGML.xsd" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Model\LGML\LGML.xsd" />
+	  <EmbeddedResource Include="IO\LGML\LGML.xsd" />
 	</ItemGroup>
 
 	<ItemGroup>

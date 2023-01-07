@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using GraphLight.Graph;
+using GraphLight.IO;
 
 namespace GraphLight.Demo
 {

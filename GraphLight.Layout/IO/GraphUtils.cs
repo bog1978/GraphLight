@@ -6,9 +6,10 @@ using System.Resources;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using GraphLight.Model.LGML;
+using GraphLight.Graph;
+using GraphLight.IO.LGML;
 
-namespace GraphLight.Graph
+namespace GraphLight.IO
 {
     public static class GraphUtils
     {
@@ -105,7 +106,7 @@ namespace GraphLight.Graph
                     FontSizeSpecified = true,
                     Weight = edge.Data.Weight,
                     WeightSpecified = true,
-                    StrokeStyle = Map(edge.Data.StrokeStyle),
+                    StrokeStyle = edge.Data.StrokeStyle.Map(),
                     StrokeStyleSpecified = true,
                 }).ToArray(),
             };

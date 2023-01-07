@@ -11,7 +11,7 @@
 // 
 // Этот исходный код был создан с помощью xsd, версия=4.8.3928.0.
 // 
-namespace GraphLight.Model.LGML {
+namespace GraphLight.IO.LGML {
     using System.Xml.Serialization;
     
     
@@ -25,19 +25,19 @@ namespace GraphLight.Model.LGML {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("VertexCategory", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public LgmlVertexCategory[] VertexCategory;
+        public IO.LGML.LgmlVertexCategory[] VertexCategory;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("EdgeCategory", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public LgmlEdgeCategory[] EdgeCategory;
+        public IO.LGML.LgmlEdgeCategory[] EdgeCategory;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Vertex", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public LgmlVertex[] Vertex;
+        public IO.LGML.LgmlVertex[] Vertex;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Edge", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public LgmlEdge[] Edge;
+        public IO.LGML.LgmlEdge[] Edge;
     }
     
     /// <remarks/>
@@ -53,8 +53,8 @@ namespace GraphLight.Model.LGML {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlVertexCategory))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlVertex))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IO.LGML.LgmlVertexCategory))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IO.LGML.LgmlVertex))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -98,11 +98,11 @@ namespace GraphLight.Model.LGML {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlVertexStyle))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlVertexCategory))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlVertex))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IO.LGML.LgmlVertexCategory))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IO.LGML.LgmlVertex))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlEdgeStyle))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlEdgeCategory))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlEdge))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IO.LGML.LgmlEdgeCategory))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IO.LGML.LgmlEdge))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -252,8 +252,8 @@ namespace GraphLight.Model.LGML {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlEdgeCategory))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(LgmlEdge))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IO.LGML.LgmlEdgeCategory))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(IO.LGML.LgmlEdge))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
