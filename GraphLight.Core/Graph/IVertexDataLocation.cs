@@ -9,6 +9,5 @@
         double Top { get; set; }
         double Right { get; }
         double Bottom { get; }
-        double CenterX { get; set; }
     }
 }

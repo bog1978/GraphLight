@@ -19,8 +19,6 @@ namespace GraphLight.Graph
 
         int IVertexDataLayered.Position { get; set; }
 
-        double IVertexDataLocation.CenterX { get; set; }
-
         public double Width { get; set; }
 
         public double Height { get; set; }

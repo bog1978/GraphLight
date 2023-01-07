@@ -31,7 +31,7 @@ namespace GraphLight.Layout
             foreach (var vertex in _graph.Vertices)
             {
                 var v = _vertexMap[vertex];
-                vertex.Data.CenterX = v.Value - minValue;
+                //vertex.Data.CenterX = v.Value - minValue;
                 vertex.Data.Left = v.Value - minValue - vertex.Data.Width / 2;
             }
         }
