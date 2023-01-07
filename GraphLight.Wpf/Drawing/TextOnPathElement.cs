@@ -152,41 +152,35 @@ namespace GraphLight.Drawing
             if (textLength == 0)
                 return;
 
-            double progress;
-            double scalingFactor;
+            var progress = 0.0;
+            var scale = 1.0;
             switch (ContentAlignment)
             {
                 case HorizontalAlignment.Left when textLength < pathLength:
-                    progress = 0;
-                    scalingFactor = 1.0;
                     break;
                 case HorizontalAlignment.Center when textLength < pathLength:
                     progress = Math.Abs(pathLength - textLength) / 2 / pathLength;
-                    scalingFactor = 1.0;
                     break;
                 case HorizontalAlignment.Right when textLength < pathLength:
                     progress = Math.Abs(pathLength - textLength) / pathLength;
-                    scalingFactor = 1.0;
                     break;
                 default:
-                    progress = 0;
-                    scalingFactor = pathLength / textLength;
+                    scale = pathLength / textLength;
                     break;
             }
 
             var pathGeometry = new PathGeometry(new[] { PathFigure });
             foreach (var formText in formattedChars)
             {
-                var width = scalingFactor * formText.WidthIncludingTrailingWhitespace;
-                var baseline = scalingFactor * formText.Baseline;
+                var width = scale * formText.WidthIncludingTrailingWhitespace;
+                var baseline = scale * formText.Baseline;
 
                 progress += width / 2 / pathLength;
-
                 pathGeometry.GetPointAtFractionLength(progress, out var point, out var tangent);
                 var angle = Math.Atan2(tangent.Y, tangent.X) * 180 / Math.PI;
 
                 var matrix = new Matrix();
-                matrix.Scale(scalingFactor, scalingFactor);
+                matrix.Scale(scale, scale);
                 matrix.RotateAt(angle, width / 2, baseline);
                 matrix.Translate(point.X - width / 2, point.Y - baseline);
 
