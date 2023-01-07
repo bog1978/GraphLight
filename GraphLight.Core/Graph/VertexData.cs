@@ -4,10 +4,9 @@ namespace GraphLight.Graph
 {
     public class VertexData : CommonData, IVertexData
     {
-        public VertexData(string id)
+        public VertexData(string id, string? label, string? category) : base(id ?? label, category)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
-            Label = id;
             Shape = VertexShape.Ellipse;
             Margin = 5;
         }

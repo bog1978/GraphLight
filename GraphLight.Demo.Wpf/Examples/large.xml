@@ -98,7 +98,7 @@
   <Edge Src="Event" Dst="Event" />
   <Edge Src="Event" Dst="ROOT" />
   <Edge Src="Event" Dst="Target" />
-  <Edge Src="EventHandler" Dst="ROOT" />
+  <Edge Src="EventHandler" Dst="ROOT" Label="Head" TextAlignment="Right" Foreground="Blue" FontWeight="Bold" />
   <Edge Src="EventHandler" Dst="StandardEvents" />
   <Edge Src="Expression" Dst="ROOT" />
   <Edge Src="ExpressionServer" Dst="Expression" />
@@ -131,7 +131,7 @@
   <Edge Src="Memory" Dst="Displayed" />
   <Edge Src="Memory" Dst="InterpTypes" />
   <Edge Src="MipsFrame" Dst="CommonFrame" />
-  <Edge Src="MipsFrame" Dst="InterpTypes" Label="MipsFrame -> InterpTypes" Foreground="Red" />
+  <Edge Src="MipsFrame" Dst="InterpTypes" Label="MipsFrame -> InterpTypes" Foreground="Red" FontStyle="Italic" />
   <Edge Src="MipsGCommonFrame" Dst="EventHandler" />
   <Edge Src="NRAtom" Dst="AtomProperties" />
   <Edge Src="NRAtom" Dst="ROOT" />
@@ -159,7 +159,7 @@
   <Edge Src="StreamWire" Dst="Wire" />
   <Edge Src="Symbol" Dst="Displayed" />
   <Edge Src="Symbol" Dst="Symbol" />
-  <Edge Src="TThread" Dst="ROOT" />
+  <Edge Src="TThread" Dst="ROOT" Label="Tail" TextAlignment="Left" Foreground="Green"/>
   <Edge Src="TThread" Dst="Target" />
   <Edge Src="Target" Dst="Displayed" />
   <Edge Src="Target" Dst="Event" />

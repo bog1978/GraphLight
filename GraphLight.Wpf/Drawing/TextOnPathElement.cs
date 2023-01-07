@@ -180,6 +180,7 @@ namespace GraphLight.Drawing
                 var angle = Math.Atan2(tangent.Y, tangent.X) * 180 / Math.PI;
 
                 var matrix = new Matrix();
+                matrix.Translate(0, -3);
                 matrix.Scale(scale, scale);
                 matrix.RotateAt(angle, width / 2, baseline);
                 matrix.Translate(point.X - width / 2, point.Y - baseline);

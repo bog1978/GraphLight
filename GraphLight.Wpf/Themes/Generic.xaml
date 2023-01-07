@@ -9,6 +9,10 @@
     <converters:PointsToLabelPathConverter x:Key="LabelPathConverter" />
     <converters:VertexShapeToGeometryConverter x:Key="VertexPathConverter" />
     <converters:StrokeStyleToStrokeDashArrayConverter x:Key="StrokeDashArrayConverter" />
+    <converters:FontStyleConverter x:Key="FontStyleConverter" />
+    <converters:FontWeightConverter x:Key="FontWeightConverter" />
+    <converters:TextAlignmentConverter x:Key="TextAlignmentConverter" />
+    <converters:TextWrappingConverter x:Key="TextWrappingConverter" />
 
     <Style TargetType="drawing:VertexControl">
         <Setter Property="Panel.ZIndex" Value="{Binding RelativeSource={RelativeSource Self}, Path=Data.ZIndex, FallbackValue=0}" />
@@ -42,9 +46,12 @@
                         SnapsToDevicePixels="True"
                         Stretch="Fill"
                         Stroke="{Binding Stroke, FallbackValue={x:Static Brushes.Black}, TargetNullValue={x:Static Brushes.Black}}"
-                        StrokeDashArray="{Binding Style, Converter={StaticResource StrokeDashArrayConverter}}"
+                        StrokeDashArray="{Binding StrokeStyle, Converter={StaticResource StrokeDashArrayConverter}}"
                         StrokeThickness="{Binding StrokeThickness, FallbackValue=1}" />
                     <TextBlock
+                        TextWrapping="{Binding TextWrapping, Converter={StaticResource TextWrappingConverter}}"
+                        FontWeight="{Binding FontWeight, Converter={StaticResource FontWeightConverter}}"
+                        FontStyle="{Binding FontStyle, Converter={StaticResource FontStyleConverter}}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="{Binding FontSize}"
@@ -58,14 +65,16 @@
                         Data="{Binding Points, Converter={StaticResource EdgePathConverter}, FallbackValue={x:Null}}"
                         SnapsToDevicePixels="True"
                         Stretch="None"
-                        StrokeDashArray="{Binding Style, Converter={StaticResource StrokeDashArrayConverter}}"
+                        StrokeDashArray="{Binding StrokeStyle, Converter={StaticResource StrokeDashArrayConverter}}"
                         StrokeThickness="{Binding StrokeThickness, FallbackValue=1}">
                         <Path.Stroke>
                             <SolidColorBrush Color="{Binding Stroke, FallbackValue={x:Static Colors.Black}}" />
                         </Path.Stroke>
                     </Path>
                     <drawing:TextOnPathElement
-                        ContentAlignment="Center"
+                        ContentAlignment="{Binding TextAlignment, Converter={StaticResource TextAlignmentConverter}}"
+                        FontWeight="{Binding FontWeight, Converter={StaticResource FontWeightConverter}}"
+                        FontStyle="{Binding FontStyle, Converter={StaticResource FontStyleConverter}}"
                         FontSize="{Binding FontSize}"
                         Foreground="{Binding Foreground}"
                         PathFigure="{Binding Points, Converter={StaticResource LabelPathConverter}}"

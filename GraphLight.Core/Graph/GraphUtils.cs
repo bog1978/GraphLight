@@ -88,9 +88,9 @@ namespace GraphLight.Graph
                     FontSizeSpecified = true,
                     Margin = vertex.Data.Margin,
                     MarginSpecified = true,
-                    Shape = MapVertexShape(vertex.Data.Shape),
+                    Shape = vertex.Data.Shape.Map(),
                     ShapeSpecified = true,
-                    StrokeStyle = MapEdgeStyle(vertex.Data.Style),
+                    StrokeStyle = vertex.Data.StrokeStyle.Map(),
                     StrokeStyleSpecified = true,
                 }).ToArray(),
                 Edge = graph.Edges.Select(edge => new LgmlEdge
@@ -106,7 +106,7 @@ namespace GraphLight.Graph
                     FontSizeSpecified = true,
                     Weight = edge.Weight,
                     WeightSpecified = true,
-                    StrokeStyle = MapEdgeStyle(edge.Data.Style),
+                    StrokeStyle = Map(edge.Data.StrokeStyle),
                     StrokeStyleSpecified = true,
                 }).ToArray(),
             };
@@ -115,53 +115,20 @@ namespace GraphLight.Graph
         {
             var vMap = new Dictionary<string, VertexData>();
 
-            var vCategoryMap = lgmlGraph.VertexCategory?.ToDictionary(x => x.Id);
-            var eCategoryMap = lgmlGraph.EdgeCategory?.ToDictionary(x => x.Id);
+            var vertexStyles = lgmlGraph.VertexCategory?.ToDictionary(x => x.Id, x => x as LgmlVertexStyle);
+            var edgeStyles = lgmlGraph.EdgeCategory?.ToDictionary(x => x.Id, x => x as LgmlEdgeStyle);
 
             var g = new LayoutGraphModel();
 
             foreach (var vertex in lgmlGraph.Vertex)
             {
-                var data = new VertexData(vertex.Id);
-                if (vertex.Category != null && vCategoryMap != null)
-                {
-                    var cat = vCategoryMap[vertex.Category];
-                    data.Category = cat.Id;
-                    if (cat.ShapeSpecified)
-                        data.Shape = MapVertexShape(cat.Shape);
-                    if (cat.Background != null)
-                        data.Background = cat.Background;
-                    if (cat.Foreground != null)
-                        data.Foreground = cat.Foreground;
-                    if (cat.Stroke != null)
-                        data.Stroke = cat.Stroke;
-                    if (cat.StrokeThicknessSpecified)
-                        data.StrokeThickness = cat.StrokeThickness;
-                    if (cat.FontSizeSpecified)
-                        data.FontSize = cat.FontSize;
-                    if (cat.MarginSpecified)
-                        data.Margin = cat.Margin;
-                    if (cat.StrokeStyleSpecified)
-                        data.Style = MapEdgeStyle(cat.StrokeStyle);
-                }
+                var style = vertex.Category != null && vertexStyles != null
+                    ? vertexStyles[vertex.Category]
+                    : null;
 
-                data.Label = vertex.Label ?? vertex.Id;
-                if (vertex.ShapeSpecified)
-                    data.Shape = MapVertexShape(vertex.Shape);
-                if (vertex.Background != null)
-                    data.Background = vertex.Background;
-                if (vertex.Foreground != null)
-                    data.Foreground = vertex.Foreground;
-                if (vertex.Stroke != null)
-                    data.Stroke = vertex.Stroke;
-                if (vertex.StrokeThicknessSpecified)
-                    data.StrokeThickness = vertex.StrokeThickness;
-                if (vertex.FontSizeSpecified)
-                    data.FontSize = vertex.FontSize;
-                if (vertex.MarginSpecified)
-                    data.Margin = vertex.Margin;
-                if (vertex.StrokeStyleSpecified)
-                    data.Style = MapEdgeStyle(vertex.StrokeStyle);
+                var data = new VertexData(vertex.Id, vertex.Label, vertex.Category)
+                    .ApplyVertexStyle(style)
+                    .ApplyVertexStyle(vertex);
 
                 vMap.Add(vertex.Id, data);
                 g.AddVertex(data);
@@ -169,44 +136,19 @@ namespace GraphLight.Graph
 
             foreach (var edge in lgmlGraph.Edge)
             {
-                var data = new EdgeData();
+                var data = new EdgeData(edge.Label, edge.Category);
                 var weight = 1.0;
-                if (edge.Category != null && eCategoryMap != null)
+                if (edge.Category != null && edgeStyles != null)
                 {
-                    var cat = eCategoryMap[edge.Category];
-                    data.Category = cat.Id;
-                    if (cat.Stroke != null)
-                        data.Stroke = cat.Stroke;
-                    if (cat.StrokeThicknessSpecified)
-                        data.StrokeThickness = cat.StrokeThickness;
-                    if (cat.WeightSpecified)
-                        weight = cat.Weight;
-                    if (cat.FontSizeSpecified)
-                        data.FontSize = cat.FontSize;
-                    if (cat.StrokeStyleSpecified)
-                        data.Style = MapEdgeStyle(cat.StrokeStyle);
-                    if (cat.Background != null)
-                        data.Background = cat.Background;
-                    if (cat.Foreground != null)
-                        data.Foreground = cat.Foreground;
+                    var style = edgeStyles[edge.Category];
+                    data.ApplyEdgeStyle(style);
+                    if (style.WeightSpecified)
+                        weight = style.Weight;
                 }
 
+                data.ApplyEdgeStyle(edge);
                 if (edge.WeightSpecified)
                     weight = edge.Weight;
-                if (edge.Label != null)
-                    data.Label = edge.Label;
-                if (edge.Stroke != null)
-                    data.Stroke = edge.Stroke;
-                if (edge.StrokeThicknessSpecified)
-                    data.StrokeThickness = edge.StrokeThickness;
-                if (edge.FontSizeSpecified)
-                    data.FontSize = edge.FontSize;
-                if (edge.StrokeStyleSpecified)
-                    data.Style = MapEdgeStyle(edge.StrokeStyle);
-                if (edge.Background != null)
-                    data.Background = edge.Background;
-                if (edge.Foreground != null)
-                    data.Foreground = edge.Foreground;
 
                 var src = vMap[edge.Src];
                 var dst = vMap[edge.Dst];
@@ -217,17 +159,95 @@ namespace GraphLight.Graph
             return g;
         }
 
-        private static LgmlVertexShape MapVertexShape(VertexShape shape) =>
-            shape switch
+        private static T ApplyVertexStyle<T>(this T data, LgmlVertexStyle? style)
+        where T : IVertexData
+        {
+            if (style == null)
+                return data;
+            if (style.ShapeSpecified)
+                data.Shape = style.Shape.Map();
+            if (style.MarginSpecified)
+                data.Margin = style.Margin;
+            return data.ApplyBaseStyle(style);
+        }
+
+        private static T ApplyEdgeStyle<T>(this T data, LgmlEdgeStyle? style)
+            where T : IEdgeData
+        {
+            if (style == null)
+                return data;
+            //if (style.WeightSpecified)
+            //    data.Weight = style.Weight);
+            return data.ApplyBaseStyle(style);
+        }
+
+        private static T ApplyBaseStyle<T>(this T data, LgmlBaseStyle? style)
+            where T : ICommonData
+        {
+            if (style == null)
+                return data;
+
+            if (style.Background != null)
+                data.Background = style.Background;
+            if (style.Foreground != null)
+                data.Foreground = style.Foreground;
+
+            if (style.Stroke != null)
+                data.Stroke = style.Stroke;
+            if (style.StrokeStyleSpecified)
+                data.StrokeStyle = style.StrokeStyle.Map();
+            if (style.StrokeThicknessSpecified)
+                data.StrokeThickness = style.StrokeThickness;
+
+            if (style.FontSizeSpecified)
+                data.FontSize = style.FontSize;
+            if (style.FontStyleSpecified)
+                data.FontStyle = style.FontStyle.Map();
+            if (style.FontWeightSpecified)
+                data.FontWeight = style.FontWeight.Map();
+
+            if (style.TextAlignmentSpecified)
+                data.TextAlignment = style.TextAlignment.Map();
+            if (style.TextWrappingSpecified)
+                data.TextWrapping = style.TextWrapping.Map();
+
+            return data;
+        }
+
+        private static TextWrapping Map(this LgmlTextWrapping textWrapping) =>
+            textWrapping switch
             {
-                VertexShape.None => LgmlVertexShape.None,
-                VertexShape.Ellipse => LgmlVertexShape.Ellipse,
-                VertexShape.Rectangle => LgmlVertexShape.Rectangle,
-                VertexShape.Diamond => LgmlVertexShape.Diamond,
-                _ => throw new ArgumentOutOfRangeException()
+                LgmlTextWrapping.NoWrap => TextWrapping.NoWrap,
+                LgmlTextWrapping.Wrap => TextWrapping.Wrap,
+                _ => throw new ArgumentOutOfRangeException(nameof(textWrapping), textWrapping, null)
             };
 
-        private static VertexShape MapVertexShape(LgmlVertexShape shape) =>
+        private static TextAlignment Map(this LgmlTextAlignment textAlignment) =>
+            textAlignment switch
+            {
+                LgmlTextAlignment.Center => TextAlignment.Center,
+                LgmlTextAlignment.Left => TextAlignment.Left,
+                LgmlTextAlignment.Right => TextAlignment.Right,
+                _ => throw new ArgumentOutOfRangeException(nameof(textAlignment), textAlignment, null)
+            };
+
+        private static FontWeight Map(this LgmlFontWeight fontWeight) =>
+            fontWeight switch
+            {
+                LgmlFontWeight.Normal => FontWeight.Normal,
+                LgmlFontWeight.Bold => FontWeight.Bold,
+                _ => throw new ArgumentOutOfRangeException(nameof(fontWeight), fontWeight, null)
+            };
+
+        private static FontStyle Map(this LgmlFontStyle fontStyle) =>
+            fontStyle switch
+            {
+                LgmlFontStyle.Normal => FontStyle.Normal,
+                LgmlFontStyle.Italic => FontStyle.Italic,
+                _ => throw new ArgumentOutOfRangeException(nameof(fontStyle), fontStyle, null)
+            };
+
+        private static VertexShape Map(this LgmlVertexShape shape) =>
             shape switch
             {
                 LgmlVertexShape.None => VertexShape.None,
@@ -237,7 +257,7 @@ namespace GraphLight.Graph
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-        private static StrokeStyle MapEdgeStyle(LgmlStrokeStyle style) =>
+        private static StrokeStyle Map(this LgmlStrokeStyle style) =>
             style switch
             {
                 LgmlStrokeStyle.Solid => StrokeStyle.Solid,
@@ -247,7 +267,17 @@ namespace GraphLight.Graph
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-        private static LgmlStrokeStyle MapEdgeStyle(StrokeStyle style) =>
+        private static LgmlVertexShape Map(this VertexShape shape) =>
+            shape switch
+            {
+                VertexShape.None => LgmlVertexShape.None,
+                VertexShape.Ellipse => LgmlVertexShape.Ellipse,
+                VertexShape.Rectangle => LgmlVertexShape.Rectangle,
+                VertexShape.Diamond => LgmlVertexShape.Diamond,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+        private static LgmlStrokeStyle Map(this StrokeStyle style) =>
             style switch
             {
                 StrokeStyle.Solid => LgmlStrokeStyle.Solid,

@@ -12,8 +12,8 @@ namespace GraphLight.Layout
 
         protected override IEdge<IVertexData, IEdgeData> CreateEdge(IEdgeData data) => new Edge(data);
 
-        public override IVertexData CreateVertexData(object id) => new VertexData(id.ToString());
+        public override IVertexData CreateVertexData(object id) => new VertexData(id.ToString(), null, null);
 
-        public override IEdgeData CreateEdgeData() => new EdgeData();
+        public override IEdgeData CreateEdgeData() => new EdgeData(null, null);
     }
 }

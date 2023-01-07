@@ -1,30 +1,30 @@
 <?xml version="1.0"?>
 <Graph xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Vertex Label="Новая задача" Id="new" />
-  <Vertex Label="Черновик" Id="draft" />
-  <Vertex Label="Архив" Id="archive" />
-  <Vertex Label="Закрыта" Id="closed" />
-  <Vertex Label="Опубликована" Id="published" />
-  <Vertex Label="Назначена" Id="assigned" />
-  <Vertex Label="В работе" Id="in_progress" />
-  <Vertex Label="На приемке" Id="approve" />
-  <Vertex Label="Выполнена" Id="done" />
-  <Vertex Label="Отклонена" Id="declined" />
-  <Vertex Label="Отложена" Id="defered" />
-  <Edge Src="new" Dst="draft" Label="Новая задача" FontSize="22" />
-  <Edge Src="draft" Dst="archive" Label="В архив (размер текста - 32)" Foreground="Red" FontSize="32" />
-  <Edge Src="draft" Dst="closed" />
-  <Edge Src="draft" Dst="published" />
-  <Edge Src="published" Dst="assigned" />
-  <Edge Src="assigned" Dst="declined" />
-  <Edge Src="assigned" Dst="in_progress" />
-  <Edge Src="in_progress" Dst="approve" />
-  <Edge Src="approve" Dst="in_progress" />
-  <Edge Src="approve" Dst="done" />
-  <Edge Src="declined" Dst="assigned" />
-  <Edge Src="done" Dst="closed" />
-  <Edge Src="in_progress" Dst="defered" />
-  <Edge Src="defered" Dst="in_progress" />
-  <Edge Src="closed" Dst="archive" />
-  <Edge Src="archive" Dst="draft" Label="Из архива (здесь идёт очень длинный текст для проверки масштабирования размера текста, если он не помещается вдоль ребра, начальный размер текста - 32)" Foreground="Green" FontSize="32" />
+	<Vertex Label="Новая задача" Id="new"/>
+	<Vertex Label="Черновик" Id="draft"/>
+	<Vertex Label="Архив" Id="archive"/>
+	<Vertex Label="Закрыта" Id="closed"/>
+	<Vertex Label="Опубликована" Id="published"/>
+	<Vertex Label="Назначена" Id="assigned"/>
+	<Vertex Label="В работе" Id="in_progress"/>
+	<Vertex Label="На приемке" Id="approve"/>
+	<Vertex Label="Выполнена" Id="done"/>
+	<Vertex Label="Отклонена" Id="declined"/>
+	<Vertex Label="Отложена" Id="defered"/>
+	<Edge Src="new" Dst="draft" Label="Новая задача" FontSize="22"/>
+	<Edge Src="draft" Dst="archive" Label="В архив (размер текста - 32)" Foreground="Red" FontSize="32"/>
+	<Edge Src="draft" Dst="closed"/>
+	<Edge Src="draft" Dst="published"/>
+	<Edge Src="published" Dst="assigned"/>
+	<Edge Src="assigned" Dst="declined" Label="Отклонить" Foreground="Orange" FontSize="32"/>
+	<Edge Src="assigned" Dst="in_progress"/>
+	<Edge Src="in_progress" Dst="approve"/>
+	<Edge Src="approve" Dst="in_progress"/>
+	<Edge Src="approve" Dst="done"/>
+	<Edge Src="declined" Dst="assigned" Label="Вернуть" Foreground="Green" FontSize="32"/>
+	<Edge Src="done" Dst="closed"/>
+	<Edge Src="in_progress" Dst="defered"/>
+	<Edge Src="defered" Dst="in_progress"/>
+	<Edge Src="closed" Dst="archive"/>
+	<Edge Src="archive" Dst="draft" Label="Из архива (здесь идёт очень длинный текст для проверки масштабирования размера текста, если он не помещается вдоль ребра, начальный размер текста - 32)" Foreground="Green" FontSize="32"/>
 </Graph>
