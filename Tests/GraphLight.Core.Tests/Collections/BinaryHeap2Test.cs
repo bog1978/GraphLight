@@ -8,24 +8,7 @@ namespace GraphLight.Test.Collections
     [TestClass]
     public class BinaryHeap2Test
     {
-        private readonly int _0 = 0;
-        private readonly int _4 = 4;
-        private readonly int _1 = 1;
-        private readonly int _3 = 3;
-        private readonly int _2 = 2;
-        private readonly int _16 = 16;
-        private readonly int _9 = 9;
-        private readonly int _10 = 10;
-        private readonly int _14 = 14;
-        private readonly int _8 = 8;
-        private readonly int _7 = 7;
-        private readonly int _20 = 20;
-        private readonly int[] _testData;
-
-        public BinaryHeap2Test()
-        {
-            _testData = new[] { _4, _1, _3, _2, _16, _9, _10, _14, _8, _7 };
-        }
+        private readonly int[] _testData = { 4, 1, 3, 2, 16, 9, 10, 14, 8, 7 };
 
         #region Max binary heap
 
@@ -34,7 +17,7 @@ namespace GraphLight.Test.Collections
         {
             var heap = new BinaryHeap2<int, int>(_testData, x => x, HeapType.Max);
             var actual = heap.ToArray();
-            var expected = new[] { _16, _14, _10, _8, _7, _9, _3, _2, _4, _1 };
+            var expected = new[] { 16, 14, 10, 8, 7, 9, 3, 2, 4, 1 };
             CollectionAssert.AreEqual(expected, actual);
         }
 
@@ -43,7 +26,7 @@ namespace GraphLight.Test.Collections
         {
             var heap = new BinaryHeap2<int, int>(_testData, x => x, HeapType.Max);
             var root = heap.Root;
-            Assert.AreEqual(_16, root);
+            Assert.AreEqual(16, root);
         }
 
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
@@ -68,9 +51,9 @@ namespace GraphLight.Test.Collections
         public void MaxAddTest()
         {
             var heap = new BinaryHeap2<int, int>(_testData, x => x, HeapType.Max);
-            heap.Add(_20, _20);
+            heap.Add(20, 20);
             var actual = heap.ToArray();
-            var expected = new[] { _20, _16, _10, _8, _14, _9, _3, _2, _4, _1, _7 };
+            var expected = new[] { 20, 16, 10, 8, 14, 9, 3, 2, 4, 1, 7 };
             CollectionAssert.AreEqual(expected, actual);
         }
 
@@ -83,7 +66,7 @@ namespace GraphLight.Test.Collections
         {
             var heap = new BinaryHeap2<int, int>(_testData, x => x, HeapType.Min);
             var actual = heap.ToArray();
-            var expected = new[] { _1, _2, _3, _4, _7, _9, _10, _14, _8, _16 };
+            var expected = new[] { 1, 2, 3, 4, 7, 9, 10, 14, 8, 16 };
             CollectionAssert.AreEqual(expected, actual);
         }
 
@@ -92,7 +75,7 @@ namespace GraphLight.Test.Collections
         {
             var heap = new BinaryHeap2<int, int>(_testData, x => x, HeapType.Min);
             var root = heap.Root;
-            Assert.AreEqual(_1, root);
+            Assert.AreEqual(1, root);
         }
 
         [TestMethod, ExpectedException(typeof(InvalidOperationException))]
@@ -117,9 +100,9 @@ namespace GraphLight.Test.Collections
         public void MinAddTest()
         {
             var heap = new BinaryHeap2<int, int>(_testData, x => x, HeapType.Min);
-            heap.Add(_0, _0);
+            heap.Add(0, 0);
             var actual = heap.ToArray();
-            var expected = new[] { _0, _1, _3, _4, _2, _9, _10, _14, _8, _16, _7 };
+            var expected = new[] { 0, 1, 3, 4, 2, 9, 10, 14, 8, 16, 7 };
             CollectionAssert.AreEqual(expected, actual);
         }
 
