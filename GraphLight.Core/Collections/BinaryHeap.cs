@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GraphLight.Collections
 {
-    public class BinaryHeap<TKey,TValue> : ICollection<TValue>
+    public class BinaryHeap<TKey,TValue> : IEnumerable<TValue>
         where TValue : IBinaryHeapItem<TKey>
         where TKey : IComparable, IComparable<TKey>
     {
@@ -33,12 +33,6 @@ namespace GraphLight.Collections
                 swap(p, i);
         }
 
-        public void Clear() => _heap.Clear();
-
-        public bool Contains(TValue item) => _heap.Contains(item);
-
-        public void CopyTo(TValue[] array, int arrayIndex) => _heap.CopyTo(array, arrayIndex);
-
         public bool Remove(TValue item)
         {
             var count = _heap.Count;
@@ -56,8 +50,6 @@ namespace GraphLight.Collections
         }
 
         public int Count => _heap.Count;
-
-        public bool IsReadOnly => false;
 
         public IEnumerator<TValue> GetEnumerator() => _heap.GetEnumerator();
 

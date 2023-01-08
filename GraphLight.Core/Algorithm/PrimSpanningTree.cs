@@ -52,7 +52,7 @@ namespace GraphLight.Algorithm
                         vAttr.Parent = e;
                         v.HeapKey = _weightFunc(e);
                         q.Remove(v);
-                        q.Add(v);
+                        q.Enqueue(v);
                     }
                 }
             }

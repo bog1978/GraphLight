@@ -42,7 +42,7 @@ namespace GraphLight.Algorithm
                         dstAttr.Parent = edge;
                         dstAttr.Distance = srcAttr.Distance + edge.Data.Weight;
                         queue.Remove(dst);
-                        queue.Add(dst);
+                        queue.Enqueue(dst);
                     }
                 }
             }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GraphLight.Collections
 {
-    public class PriorityQueue<TKey, TValue> : ICollection<TValue>
+    public class PriorityQueue<TKey, TValue> : IEnumerable<TValue>
         where TKey : IComparable, IComparable<TKey>
         where TValue : IBinaryHeapItem<TKey>
     {
@@ -26,19 +26,7 @@ namespace GraphLight.Collections
 
         IEnumerator IEnumerable.GetEnumerator() => _heap.GetEnumerator();
 
-        public void Add(TValue item) => _heap.Add(item);
-
-        public void Clear() => _heap.Clear();
-
-        public bool Contains(TValue item) => _heap.Contains(item);
-
-        public void CopyTo(TValue[] array, int arrayIndex) => _heap.CopyTo(array, arrayIndex);
-
         public bool Remove(TValue item) => _heap.Remove(item);
-
-        public int Count => _heap.Count;
-
-        public bool IsReadOnly => false;
 
         #endregion
 
