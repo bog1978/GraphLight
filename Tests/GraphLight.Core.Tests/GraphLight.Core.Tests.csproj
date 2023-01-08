@@ -21,10 +21,4 @@
     <ProjectReference Include="..\..\GraphLight.Layout\GraphLight.Layout.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Collections\PriorityQueueTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
 </Project>
