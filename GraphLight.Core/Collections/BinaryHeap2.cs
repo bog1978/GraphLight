@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GraphLight.Collections
 {
-    public class BinaryHeap2<TElement, TPriority>
+    public class BinaryHeap2<TElement, TPriority> : IReadOnlyCollection<TElement>
         where TPriority : IComparable<TPriority>
     {
         private readonly List<HeapItem> _heap;
@@ -37,7 +38,9 @@ namespace GraphLight.Collections
 
         public int Count => _heap.Count;
 
-        public TElement[] ToArray() => _heap.Select(x => x.Element).ToArray();
+        public IEnumerator<TElement> GetEnumerator() => new HeapEnumerator(_heap.GetEnumerator());
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
 
@@ -101,6 +104,26 @@ namespace GraphLight.Collections
 
             public readonly TElement Element;
             public readonly TPriority Priority;
+        }
+
+        private class HeapEnumerator : IEnumerator<TElement>
+        {
+            private readonly IEnumerator<HeapItem> _enumerator;
+
+            public HeapEnumerator(IEnumerator<HeapItem> enumerator)
+            {
+                _enumerator = enumerator;
+            }
+
+            public void Dispose() => _enumerator.Dispose();
+
+            public bool MoveNext() => _enumerator.MoveNext();
+
+            public void Reset() => _enumerator.Reset();
+
+            public TElement Current => _enumerator.Current.Element;
+
+            object? IEnumerator.Current => Current;
         }
     }
 }
