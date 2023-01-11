@@ -14,5 +14,10 @@ namespace GraphLight.Algorithm
 
         public static ISpanningTree<V, E> PrimSpanningTree<V, E>(this IGraph<V, E> graph, Func<IEdge<V, E>, double> weightFunc)
             => new PrimSpanningTree<V, E>(graph, weightFunc);
+
+        public static ISpanningTree<V, E> KruskalSpanningTree<V, E>(this IGraph<V, E> graph, Func<IEdge<V, E>, double> weightFunc)
+            where V : IEquatable<V>
+            where E : IEdgeDataWeight
+            => new KruskalSpanningTree<V, E>(graph, weightFunc);
     }
 }
