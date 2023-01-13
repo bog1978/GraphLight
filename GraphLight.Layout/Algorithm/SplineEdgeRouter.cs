@@ -6,13 +6,11 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal class SplineEdgeRouter<G, V, E> : IAlgorithm
-        where V : IVertexData
-        where E : IEdgeData
+    internal class SplineEdgeRouter : IAlgorithm
     {
-        private readonly IGraph<G, V, E> _graph;
+        private readonly IGraph<IGraphData, IVertexData, IEdgeData> _graph;
 
-        public SplineEdgeRouter(IGraph<G, V, E> graph)
+        public SplineEdgeRouter(IGraph<IGraphData, IVertexData, IEdgeData> graph)
         {
             _graph = graph;
         }
@@ -21,7 +19,7 @@ namespace GraphLight.Algorithm
         {
             var dfs = _graph.DepthFirstSearch();
 
-            IEdge<V, E>? chainEdge = null;
+            IEdge<IVertexData, IEdgeData>? chainEdge = null;
 
             dfs.OnEdge += (e, t) =>
             {
@@ -99,7 +97,7 @@ namespace GraphLight.Algorithm
             tmpNodes.Iter(x => _graph.RemoveControlPoint(x));
         }
 
-        private static IEnumerable<Point2D> LoopCurve(IEdge<V, E> edge)
+        private static IEnumerable<Point2D> LoopCurve(IEdge<IVertexData, IEdgeData> edge)
         {
             return new List<Point2D>
             {

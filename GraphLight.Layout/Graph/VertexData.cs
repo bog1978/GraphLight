@@ -5,7 +5,7 @@ namespace GraphLight.Graph
 {
     public class VertexData : CommonData, IVertexData
     {
-        public VertexData(string id, string? label, string? category) : base(id ?? label, category)
+        public VertexData(string id, string? label = null, string? category = null) : base(id ?? label, category)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
             Shape = VertexShape.Ellipse;
@@ -36,5 +36,7 @@ namespace GraphLight.Graph
         public override bool Equals(object obj) => Equals(obj as IVertexData);
 
         public override string ToString() => Id;
+
+        public static implicit operator VertexData(string id) => new VertexData(id);
     }
 }

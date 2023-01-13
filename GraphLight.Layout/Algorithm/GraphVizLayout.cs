@@ -5,9 +5,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    public class GraphVizLayout<G, V, E> : GraphLayout<G, V, E>
-        where V : IVertexData
-        where E : IEdgeData
+    public class GraphVizLayout : GraphLayout
     {
         private const double V_SPACE = 50;
         private const double H_SPACE = 30;
@@ -31,9 +29,9 @@ namespace GraphLight.Algorithm
             weights.Restore((e, x) => e.Data.Weight = x);
         }
 
-        protected virtual void RouteEdges() => new SplineEdgeRouter<G, V, E>(Graph).Execute();
+        protected virtual void RouteEdges() => new SplineEdgeRouter(Graph).Execute();
 
-        protected virtual void OrderVertices() => new VertextOrderer<G, V, E>(Graph).Execute();
+        protected virtual void OrderVertices() => new VertextOrderer(Graph).Execute();
 
         protected virtual void RankVertices()
         {
@@ -43,7 +41,7 @@ namespace GraphLight.Algorithm
 
         protected virtual void ArrangeVertices()
         {
-            var g = (IGraph)Graph;
+            var g = Graph;
             SetTopPositions();
             SetLeftPositions();
             g.Data.Width = g.Vertices.Min(x => x.Data.Rect.Left) + g.Vertices.Max(x => x.Data.Rect.Right);

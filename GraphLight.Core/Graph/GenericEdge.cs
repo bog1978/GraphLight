@@ -2,13 +2,13 @@
 
 namespace GraphLight.Graph
 {
-    public class BaseEdge<V, E> : IEdge<V, E>
+    public class GenericEdge<V, E> : IEdge<V, E>
     {
         private readonly E _data;
         private IVertex<V, E> _src;
         private IVertex<V, E> _dst;
 
-        public BaseEdge(E data)
+        public GenericEdge(E data)
         {
             if(data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -68,6 +68,6 @@ namespace GraphLight.Graph
         }
 
         public override bool Equals(object obj) => 
-            obj is BaseEdge<V, E> edge && _data.Equals(edge._data);
+            obj is GenericEdge<V, E> edge && _data.Equals(edge._data);
     }
 }

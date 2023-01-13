@@ -15,7 +15,7 @@ namespace GraphLight.IO
     {
         private static XmlReaderSettings? _readerSettings;
 
-        public static IGraph LoadLgml(Stream stream)
+        public static IGraph<IGraphData, IVertexData, IEdgeData> LoadLgml(Stream stream)
         {
             var type = typeof(LgmlGraph);
             var serializer = new XmlSerializer(type);
@@ -25,7 +25,7 @@ namespace GraphLight.IO
             return graph.FromLgmlGraph();
         }
 
-        public static void SaveLgml(IGraph graph, Stream stream)
+        public static void SaveLgml(IGraph<IGraphData, IVertexData, IEdgeData> graph, Stream stream)
         {
             var lgmlGraph = graph.ToLgmlGraph();
             var serializer = new XmlSerializer(typeof(LgmlGraph));
@@ -71,7 +71,7 @@ namespace GraphLight.IO
                 : null;
         }
 
-        private static LgmlGraph ToLgmlGraph(this IGraph graph) =>
+        private static LgmlGraph ToLgmlGraph(this IGraph<IGraphData, IVertexData, IEdgeData> graph) =>
             new LgmlGraph
             {
                 Vertex = graph.Vertices.Select(vertex => new LgmlVertex
@@ -111,7 +111,7 @@ namespace GraphLight.IO
                 }).ToArray(),
             };
 
-        private static IGraph FromLgmlGraph(this LgmlGraph lgmlGraph)
+        private static IGraph<IGraphData, IVertexData, IEdgeData> FromLgmlGraph(this LgmlGraph lgmlGraph)
         {
             var vMap = new Dictionary<string, VertexData>();
 

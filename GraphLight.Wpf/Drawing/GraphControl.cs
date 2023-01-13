@@ -25,12 +25,12 @@ namespace GraphLight.Drawing
         #region Graph
 
         public static readonly DependencyProperty GraphProperty =
-            DependencyProperty.Register(nameof(Graph), typeof(IGraph), typeof(GraphControl),
+            DependencyProperty.Register(nameof(Graph), typeof(IGraph<IGraphData, IVertexData, IEdgeData>), typeof(GraphControl),
                 new PropertyMetadata(OnGraphChanged));
 
-        public IGraph? Graph
+        public IGraph<IGraphData, IVertexData, IEdgeData>? Graph
         {
-            get => (IGraph?)GetValue(GraphProperty);
+            get => (IGraph<IGraphData, IVertexData, IEdgeData>?)GetValue(GraphProperty);
             set => SetValue(GraphProperty, value);
         }
 

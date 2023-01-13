@@ -7,7 +7,7 @@ namespace GraphLight.Demo
 {
     public class DemoViewModel : BaseViewModel
     {
-        private IGraph? _graph;
+        private IGraph<IGraphData, IVertexData, IEdgeData>? _graph;
         private string? _selectedExample;
 
         public DemoViewModel()
@@ -20,7 +20,7 @@ namespace GraphLight.Demo
             };
         }
 
-        public IGraph? Graph
+        public IGraph<IGraphData, IVertexData, IEdgeData>? Graph
         {
             get => _graph;
             set => SetProperty(ref _graph, value);

@@ -2,8 +2,8 @@
 
 namespace GraphLight.Algorithm
 {
-    public interface INodeMeasure<V, E>
+    public interface INodeMeasure
     {
-        void Measure(IVertex<V, E> vertex);
+        void Measure(IVertex<IVertexData, IEdgeData> vertex);
     }
 }

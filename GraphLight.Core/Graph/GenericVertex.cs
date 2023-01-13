@@ -4,7 +4,7 @@ using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public class BaseVertex<V, E> : IVertex<V, E>
+    public class GenericVertex<V, E> : IVertex<V, E>
     {
         private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _inEdges = new ObservableCollection<IEdge<V, E>>();
@@ -12,7 +12,7 @@ namespace GraphLight.Graph
         private readonly ICollection<IEdge<V, E>> _selfEdges = new ObservableCollection<IEdge<V, E>>();
         private readonly V _data;
 
-        public BaseVertex(V data) => _data = data;
+        public GenericVertex(V data) => _data = data;
 
         public V Data => _data;
 
@@ -78,7 +78,7 @@ namespace GraphLight.Graph
         public override string ToString() => Data.ToString();
 
         public override bool Equals(object obj) =>
-            obj is BaseVertex<V, E> other && Equals(Data, other.Data);
+            obj is GenericVertex<V, E> other && Equals(Data, other.Data);
 
         public override int GetHashCode() =>
             Data.GetHashCode();

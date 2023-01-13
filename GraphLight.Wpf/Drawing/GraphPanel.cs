@@ -12,11 +12,11 @@ namespace GraphLight.Drawing
         #region Graph
 
         public static readonly DependencyProperty GraphProperty =
-            DependencyProperty.Register(nameof(Graph), typeof(IGraph), typeof(GraphPanel));
+            DependencyProperty.Register(nameof(Graph), typeof(IGraph<IGraphData, IVertexData, IEdgeData>), typeof(GraphPanel));
 
-        public IGraph? Graph
+        public IGraph<IGraphData, IVertexData, IEdgeData>? Graph
         {
-            get => (IGraph?)GetValue(GraphProperty);
+            get => (IGraph<IGraphData, IVertexData, IEdgeData>?)GetValue(GraphProperty);
             set => SetValue(GraphProperty, value);
         }
 
@@ -117,9 +117,9 @@ namespace GraphLight.Drawing
             if (Graph == null)
                 return;
 
-            var layout = new GraphVizLayout<IGraphData, IVertexData, IEdgeData>
+            var layout = new GraphVizLayout
             {
-                NodeMeasure = new DummyNodeMeasure<IVertexData, IEdgeData>(),
+                NodeMeasure = new DummyNodeMeasure(),
                 Graph = Graph
             };
 

@@ -5,15 +5,14 @@ using GraphLight.Graph;
 
 namespace GraphLight.Drawing
 {
-    public class WpfNodeMeasure<V, E> : INodeMeasure<V, E>
-        where V : IVertexData
+    public class WpfNodeMeasure: INodeMeasure
     {
         private const double MARGIN = 20;
 
         private static readonly Size _maxSize = new Size(
             double.PositiveInfinity, double.PositiveInfinity);
 
-        public void Measure(IVertex<V, E> vertex)
+        public void Measure(IVertex<IVertexData, IEdgeData> vertex)
         {
             var textBlock = new TextBlock { Text = vertex.Data.Label };
             textBlock.Measure(_maxSize);
