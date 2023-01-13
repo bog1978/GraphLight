@@ -5,7 +5,7 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    public class GraphVizLayout<V, E> : GraphLayout<V, E>
+    public class GraphVizLayout<G, V, E> : GraphLayout<G, V, E>
         where V : IVertexData
         where E : IEdgeData
     {
@@ -31,9 +31,9 @@ namespace GraphLight.Algorithm
             weights.Restore((e, x) => e.Data.Weight = x);
         }
 
-        protected virtual void RouteEdges() => new SplineEdgeRouter<V, E>(Graph).Execute();
+        protected virtual void RouteEdges() => new SplineEdgeRouter<G, V, E>(Graph).Execute();
 
-        protected virtual void OrderVertices() => new VertextOrderer<V, E>(Graph).Execute();
+        protected virtual void OrderVertices() => new VertextOrderer<G, V, E>(Graph).Execute();
 
         protected virtual void RankVertices()
         {
@@ -46,8 +46,8 @@ namespace GraphLight.Algorithm
             var g = (IGraph)Graph;
             SetTopPositions();
             SetLeftPositions();
-            g.Width = g.Vertices.Min(x => x.Data.Rect.Left) + g.Vertices.Max(x => x.Data.Rect.Right);
-            g.Height = g.Vertices.Min(x => x.Data.Rect.Top) + g.Vertices.Max(x => x.Data.Rect.Bottom);
+            g.Data.Width = g.Vertices.Min(x => x.Data.Rect.Left) + g.Vertices.Max(x => x.Data.Rect.Right);
+            g.Data.Height = g.Vertices.Min(x => x.Data.Rect.Top) + g.Vertices.Max(x => x.Data.Rect.Bottom);
         }
 
         private void SetTopPositions()

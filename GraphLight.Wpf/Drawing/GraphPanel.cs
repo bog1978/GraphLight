@@ -77,8 +77,8 @@ namespace GraphLight.Drawing
                 }
             }
 
-            Graph.Width = w;
-            Graph.Height = h;
+            Graph.Data.Width = w;
+            Graph.Data.Height = h;
 
             return new Size(w, h);
         }
@@ -109,7 +109,7 @@ namespace GraphLight.Drawing
                 }
             }
 
-            return new Size(Graph.Width, Graph.Height);
+            return new Size(Graph.Data.Width, Graph.Data.Height);
         }
 
         public void Layout()
@@ -117,7 +117,7 @@ namespace GraphLight.Drawing
             if (Graph == null)
                 return;
 
-            var layout = new GraphVizLayout<IVertexData, IEdgeData>
+            var layout = new GraphVizLayout<IGraphData, IVertexData, IEdgeData>
             {
                 NodeMeasure = new DummyNodeMeasure<IVertexData, IEdgeData>(),
                 Graph = Graph

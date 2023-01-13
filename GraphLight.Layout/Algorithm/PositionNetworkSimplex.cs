@@ -4,15 +4,15 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal class PositionNetworkSimplex<V, E> : NetworkSimplex
+    internal class PositionNetworkSimplex<G, V, E> : NetworkSimplex
         where V : IVertexDataLayered, IVertexDataLocation
         where E : IEdgeDataWeight
     {
         private const int H_SPACE = 30;
-        private readonly IGraph<V, E> _graph;
+        private readonly IGraph<G, V, E> _graph;
         private Dictionary<IVertex<V, E>, Vertex> _vertexMap;
 
-        public PositionNetworkSimplex(IGraph<V, E> graph)
+        public PositionNetworkSimplex(IGraph<G, V, E> graph)
         {
             _graph = graph;
         }

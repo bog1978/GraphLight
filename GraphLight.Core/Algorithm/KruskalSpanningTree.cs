@@ -4,14 +4,14 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal class KruskalSpanningTree<V, E> : ISpanningTree<V, E>
+    internal class KruskalSpanningTree<G, V, E> : ISpanningTree<V, E>
     where V : IEquatable<V>
     {
-        private readonly IGraph<V, E> _graph;
+        private readonly IGraph<G, V, E> _graph;
         private readonly Func<IEdge<V, E>, double> _weightFunc;
         private Action<IEdge<V, E>> _enterEdge = x => { };
 
-        public KruskalSpanningTree(IGraph<V, E> graph, Func<IEdge<V, E>, double> weightFunc)
+        public KruskalSpanningTree(IGraph<G, V, E> graph, Func<IEdge<V, E>, double> weightFunc)
         {
             _graph = graph;
             _weightFunc = weightFunc;

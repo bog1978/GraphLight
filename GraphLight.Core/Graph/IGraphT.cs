@@ -2,8 +2,9 @@
 
 namespace GraphLight.Graph
 {
-    public interface IGraph<V, E>
+    public interface IGraph<out G, V, E>
     {
+        G Data { get; }
         IVertex<V, E> this[V key] { get; }
         IEnumerable<IEdge<V, E>> Edges { get; }
         IEnumerable<IVertex<V, E>> Vertices { get; }

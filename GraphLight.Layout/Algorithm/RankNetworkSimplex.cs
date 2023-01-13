@@ -4,14 +4,14 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal class RankNetworkSimplex<V, E> : NetworkSimplex
+    internal class RankNetworkSimplex<G, V, E> : NetworkSimplex
         where V : IVertexDataLayered
         where E : IEdgeDataWeight
     {
-        private readonly IGraph<V, E> _graph;
+        private readonly IGraph<G, V, E> _graph;
         private Dictionary<IVertex<V, E>, Vertex> _vertexMap;
 
-        public RankNetworkSimplex(IGraph<V, E> graph)
+        public RankNetworkSimplex(IGraph<G, V, E> graph)
         {
             _graph = graph;
         }

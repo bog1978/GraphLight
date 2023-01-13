@@ -6,13 +6,13 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal class SplineEdgeRouter<V, E> : IAlgorithm
+    internal class SplineEdgeRouter<G, V, E> : IAlgorithm
         where V : IVertexData
         where E : IEdgeData
     {
-        private readonly IGraph<V, E> _graph;
+        private readonly IGraph<G, V, E> _graph;
 
-        public SplineEdgeRouter(IGraph<V, E> graph)
+        public SplineEdgeRouter(IGraph<G, V, E> graph)
         {
             _graph = graph;
         }

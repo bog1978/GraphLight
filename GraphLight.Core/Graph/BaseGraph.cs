@@ -5,24 +5,28 @@ using System.Linq;
 
 namespace GraphLight.Graph
 {
-    public abstract class BaseGraph<V, E> : IGraph<V, E>
+    public abstract class BaseGraph<G, V, E> : IGraph<G, V, E>
     {
         private readonly IDictionary<V, IVertex<V, E>> _map = new Dictionary<V, IVertex<V, E>>();
         private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IVertex<V, E>> _vertices = new ObservableCollection<IVertex<V, E>>();
 
+        protected BaseGraph(G data)
+        {
+            Data = data;
+        }
+
+        public G Data { get; }
+
         public IEnumerable<IVertex<V, E>> Vertices => _vertices;
 
         public IEnumerable<IEdge<V, E>> Edges => _edges;
 
-        public IEnumerable<object> Elements => Enumerable.Union(
-            Vertices.Cast<object>(),
-            Edges.Cast<object>());
+        public IEnumerable<object> Elements =>
+            Vertices.Cast<object>().Union(Edges);
 
         public IEnumerable<object> All => 
-            Enumerable.Union(
-                Vertices.Cast<object>(),
-                Edges.Cast<object>());
+            Vertices.Cast<object>().Union(Edges);
 
         public IVertex<V, E> this[V key] => _map[key];
 

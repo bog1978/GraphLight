@@ -12,7 +12,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void TestAddInsertRemove()
         {
-            var graph = new GenericGraph<object, object>();
+            var graph = new GenericGraph<object, object, object>("");
             var g = graph;
             var ab = graph.AddEdge("A", "B", new object());
             var a = ab.Src;
@@ -44,14 +44,14 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_1()
         {
-            var graph = new LayoutGraph();
+            var graph = new LayoutGraph(new GraphData());
             var a = graph.CreateVertexData("A");
             var b = graph.CreateVertexData("B");
             var c = graph.CreateVertexData("C");
             graph.AddEdge(a, b, graph.CreateEdgeData());
             graph.AddEdge(b, c, graph.CreateEdgeData());
             graph.AddEdge(a, c, graph.CreateEdgeData());
-            var engine = new GraphVizLayout<IVertexData, IEdgeData>
+            var engine = new GraphVizLayout<IGraphData, IVertexData, IEdgeData>
                 {
                     NodeMeasure = new WpfNodeMeasure<IVertexData, IEdgeData>(),
                     Graph = graph
@@ -62,7 +62,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_2()
         {
-            var graph = new LayoutGraph();
+            var graph = new LayoutGraph(new GraphData());
             var a = graph.CreateVertexData("A");
             var b = graph.CreateVertexData("B");
             var c = graph.CreateVertexData("C");
@@ -71,7 +71,7 @@ namespace GraphLight.Test
             graph.AddEdge(b, c, graph.CreateEdgeData());
             graph.AddEdge(c, d, graph.CreateEdgeData());
             graph.AddEdge(d, a, graph.CreateEdgeData());
-            var engine = new GraphVizLayout<IVertexData, IEdgeData>
+            var engine = new GraphVizLayout<IGraphData, IVertexData, IEdgeData>
             {
                     NodeMeasure = new WpfNodeMeasure<IVertexData, IEdgeData>(),
                     Graph = graph

@@ -9,7 +9,7 @@ namespace GraphLight.Graph
         /// Makes graph acyclic by reversing some edges.
         /// </summary>
         /// <param name="graph"></param>
-        public static void Acyclic<V, E>(this IGraph<V, E> graph)
+        public static void Acyclic<G, V, E>(this IGraph<G, V, E> graph)
         {
             var backEdges = new List<IEdge<V, E>>();
             var dfs = graph.DepthFirstSearch();

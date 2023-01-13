@@ -6,14 +6,14 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal class UndirectedDijkstra<V, E> : IShortestPath<V, E>
+    internal class UndirectedDijkstra<G, V, E> : IShortestPath<V, E>
         where E : IEdgeDataWeight
     {
-        private readonly IGraph<V, E> _graph;
+        private readonly IGraph<G, V, E> _graph;
         private Action<IEdge<V, E>> _enterEdge = x => { };
         private Action<IVertex<V, E>> _enterNode = x => { };
 
-        public UndirectedDijkstra(IGraph<V, E> graph)
+        public UndirectedDijkstra(IGraph<G, V, E> graph)
         {
             _graph = graph;
         }

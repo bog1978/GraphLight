@@ -5,13 +5,13 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal class PrimSpanningTree<V, E> : ISpanningTree<V, E>
+    internal class PrimSpanningTree<G, V, E> : ISpanningTree<V, E>
     {
-        private readonly IGraph<V, E> _graph;
+        private readonly IGraph<G, V, E> _graph;
         private readonly Func<IEdge<V, E>, double> _weightFunc;
         private Action<IEdge<V, E>> _enterEdge = x => { };
 
-        public PrimSpanningTree(IGraph<V, E> graph, Func<IEdge<V, E>, double> weightFunc)
+        public PrimSpanningTree(IGraph<G, V, E> graph, Func<IEdge<V, E>, double> weightFunc)
         {
             _graph = graph;
             _weightFunc = weightFunc;

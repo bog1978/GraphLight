@@ -1,8 +1,6 @@
 namespace GraphLight.Graph
 {
-    public interface IGraph : IGraph<IVertexData, IEdgeData>
+    public interface IGraph : IGraph<IGraphData, IVertexData, IEdgeData>
     {
-        double Width { get; set; }
-        double Height { get; set; }
     }
 }

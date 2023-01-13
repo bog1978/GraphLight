@@ -23,13 +23,13 @@ namespace GraphLight.Algorithm
     /// More details can be found here:
     /// http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/depthSearch.htm
     /// </remarks>
-    internal class DepthFirstSearch<V, E> : IDepthFirstSearch<V, E>
+    internal class DepthFirstSearch<G, V, E> : IDepthFirstSearch<V, E>
     {
-        private readonly IGraph<V, E> _graph;
+        private readonly IGraph<G, V, E> _graph;
         private readonly Dictionary<IVertex<V, E>, DfsVertexAttr> _attrs;
         private int _time;
 
-        public DepthFirstSearch(IGraph<V, E> graph)
+        public DepthFirstSearch(IGraph<G, V, E> graph)
         {
             _graph = graph;
             // Initially we mark all nodes as white.

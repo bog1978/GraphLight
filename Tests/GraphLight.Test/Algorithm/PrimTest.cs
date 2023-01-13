@@ -12,7 +12,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void FindSpanningTree()
         {
-            var graph = new GenericGraph<string, EdgeDataWeight>();
+            var graph = new GenericGraph<object, string, EdgeDataWeight>("");
 
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");

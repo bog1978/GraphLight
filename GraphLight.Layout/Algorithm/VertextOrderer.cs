@@ -6,15 +6,15 @@ using GraphLight.Graph;
 
 namespace GraphLight.Algorithm
 {
-    internal class VertextOrderer<V, E> : IAlgorithm
+    internal class VertextOrderer<G, V, E> : IAlgorithm
         where V : IVertexDataLayered, IVertexDataLocation
         where E : IEdgeData
     {
-        private readonly IGraph<V, E> _graph;
+        private readonly IGraph<G, V, E> _graph;
         private readonly IDictionary<IVertex<V, E>, int> _nodeColors;
         private int _count;
 
-        public VertextOrderer(IGraph<V, E> graph)
+        public VertextOrderer(IGraph<G, V, E> graph)
         {
             _graph = graph;
             // Все узлы белые
