@@ -44,7 +44,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_1()
         {
-            var graph = new LayoutGraph(new GraphData());
+            var graph = new GenericGraph<IGraphData, IVertexData, IEdgeData>(new GraphData());
             var a = graph.AddVertex(new VertexData("A"));
             var b = graph.AddVertex(new VertexData("B"));
             var c = graph.AddVertex(new VertexData("C"));
@@ -62,7 +62,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_2()
         {
-            var graph = new LayoutGraph(new GraphData());
+            var graph = new GenericGraph<IGraphData, IVertexData, IEdgeData>(new GraphData());
             var a = graph.AddVertex(new VertexData("A"));
             var b = graph.AddVertex(new VertexData("B"));
             var c = graph.AddVertex(new VertexData("C"));
