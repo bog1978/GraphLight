@@ -16,7 +16,5 @@ namespace GraphLight.Graph
         IVertex<V, E> InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData);
         void RemoveEdge(IEdge<V, E> edge);
         void RemoveVertex(IVertex<V, E> vertex);
-        V CreateVertexData(object id);
-        E CreateEdgeData();
     }
 }

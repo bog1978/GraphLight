@@ -6,7 +6,7 @@ namespace GraphLight.Graph
 {
     public class EdgeData : CommonData, IEdgeData
     {
-        public EdgeData(string? label, string? category) : base(label, category)
+        public EdgeData(string? label = null, string? category = null) : base(label, category)
         {
             Points = new ObservableCollection<Point2D>();
             Weight = 1.0;

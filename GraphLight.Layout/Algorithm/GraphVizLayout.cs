@@ -92,7 +92,7 @@ namespace GraphLight.Algorithm
                 var increment = Math.Sign(distance);
                 for (var rankShift = increment; rankShift != distance; rankShift += increment)
                 {
-                    var newNode = Graph.InsertControlPoint(edge1, Graph.CreateVertexData($"mid_{++_tmpId}"), Graph.CreateEdgeData());
+                    var newNode = Graph.InsertControlPoint(edge1, new VertexData($"mid_{++_tmpId}"), new EdgeData());
                     newNode.Data.IsTmp = true;
                     newNode.Data.Rank = edge.Src.Data.Rank + rankShift;
                     edge1 = newNode.OutEdges.First();

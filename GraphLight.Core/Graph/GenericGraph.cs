@@ -105,11 +105,5 @@ namespace GraphLight.Graph
         protected virtual IVertex<V, E> CreateVertex(V data) => new GenericVertex<V, E>(data);
 
         protected virtual IEdge<V, E> CreateEdge(E data) => new GenericEdge<V, E>(data);
-
-        public virtual V CreateVertexData(object id) =>
-            throw new NotImplementedException($"Необходимо реализовать метод {nameof(CreateVertexData)}.");
-
-        public virtual E CreateEdgeData() =>
-            throw new NotImplementedException($"Необходимо реализовать метод {nameof(CreateEdgeData)}.");
     }
 }

@@ -5,9 +5,5 @@ namespace GraphLight.Graph
         public LayoutGraph(IGraphData data) : base(data)
         {
         }
-
-        public override IVertexData CreateVertexData(object id) => new VertexData(id.ToString(), null, null);
-
-        public override IEdgeData CreateEdgeData() => new EdgeData(null, null);
     }
 }
