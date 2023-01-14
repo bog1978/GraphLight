@@ -5,13 +5,21 @@ using System.Linq;
 
 namespace GraphLight.Graph
 {
-    public class GenericGraph<G, V, E> : IGraph<G, V, E>
+    public static class GraphFactory
+    {
+        public static IGraph<G, V, E> CreateInstance<G, V, E>(G data)
+        {
+            return new GenericGraph<G, V, E>(data);
+        }
+    }
+
+    internal class GenericGraph<G, V, E> : IGraph<G, V, E>
     {
         private readonly IDictionary<V, IVertex<V, E>> _map = new Dictionary<V, IVertex<V, E>>();
         private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IVertex<V, E>> _vertices = new ObservableCollection<IVertex<V, E>>();
 
-        public GenericGraph(G data) => Data = data;
+        internal GenericGraph(G data) => Data = data;
 
         public G Data { get; }
 
