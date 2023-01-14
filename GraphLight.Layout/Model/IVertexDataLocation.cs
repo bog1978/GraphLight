@@ -1,6 +1,6 @@
 ﻿using GraphLight.Geometry;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public interface IVertexDataLocation
     {

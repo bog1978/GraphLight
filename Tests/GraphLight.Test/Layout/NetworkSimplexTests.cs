@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GraphLight.Graph;
+using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GraphLight.Test.Layout

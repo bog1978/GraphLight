@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     internal class GenericGraph<G, V, E> : IGraph<G, V, E>
     {

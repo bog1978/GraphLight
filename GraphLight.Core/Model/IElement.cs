@@ -1,4 +1,4 @@
-﻿namespace GraphLight.Graph
+﻿namespace GraphLight.Model
 {
     public interface IElement<out TData>
     {

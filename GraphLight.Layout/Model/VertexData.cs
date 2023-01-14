@@ -1,7 +1,7 @@
 ﻿using System;
 using GraphLight.Geometry;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public class VertexData : CommonData, IVertexData
     {

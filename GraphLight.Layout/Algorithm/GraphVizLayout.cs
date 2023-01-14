@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using GraphLight.Collections;
-using GraphLight.Graph;
+using GraphLight.Model;
 
 namespace GraphLight.Algorithm
 {

@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
-using GraphLight.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Collections
+namespace GraphLight.Collections
 {
     [TestClass]
     public class BinaryHeap2Test

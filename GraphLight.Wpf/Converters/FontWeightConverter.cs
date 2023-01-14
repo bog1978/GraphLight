@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using GraphLight.Graph;
+using GraphLight.Model;
 
 namespace GraphLight.Converters
 {

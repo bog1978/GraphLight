@@ -1,4 +1,4 @@
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public class GraphData : IGraphData
     {

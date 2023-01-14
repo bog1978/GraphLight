@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Collections.Tests
+namespace GraphLight.Collections
 {
     [TestClass]
     public class BinaryTreeTests

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using GraphLight.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Geometry
+namespace GraphLight.Geometry
 {
     /// <summary>
     ///This is a test class for Line2DTest and is intended

@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:GraphLight.Converters"
     xmlns:drawing="clr-namespace:GraphLight.Drawing"
-    xmlns:graph="clr-namespace:GraphLight.Graph;assembly=GraphLight.Layout">
+    xmlns:model="clr-namespace:GraphLight.Model;assembly=GraphLight.Layout">
 
     <converters:PointsToEdgePathConverter x:Key="EdgePathConverter" />
     <converters:PointsToLabelPathConverter x:Key="LabelPathConverter" />
@@ -38,7 +38,7 @@
 
     <Style TargetType="drawing:GraphControl">
         <Style.Resources>
-            <DataTemplate DataType="{x:Type graph:VertexData}">
+            <DataTemplate DataType="{x:Type model:VertexData}">
                 <Grid>
                     <Path
                         Data="{Binding Shape, Converter={StaticResource VertexPathConverter}, FallbackValue={x:Null}}"
@@ -59,7 +59,7 @@
                         Text="{Binding Label}" />
                 </Grid>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type graph:EdgeData}">
+            <DataTemplate DataType="{x:Type model:EdgeData}">
                 <Grid>
                     <Path
                         Data="{Binding Points, Converter={StaticResource EdgePathConverter}, FallbackValue={x:Null}}"

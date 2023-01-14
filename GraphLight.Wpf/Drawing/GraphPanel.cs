@@ -2,7 +2,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using GraphLight.Algorithm;
-using GraphLight.Graph;
+using GraphLight.Model;
 using static System.Math;
 
 namespace GraphLight.Drawing

@@ -1,7 +1,7 @@
-﻿using GraphLight.Geometry;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GraphLight.Geometry;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public interface IEdgeData :
         ICommonData,

@@ -1,7 +1,7 @@
 ﻿using System;
 using GraphLight.Geometry;
-using GraphLight.Graph;
-using static GraphLight.Graph.VertexShape;
+using GraphLight.Model;
+using static GraphLight.Model.VertexShape;
 
 namespace GraphLight.Algorithm
 {

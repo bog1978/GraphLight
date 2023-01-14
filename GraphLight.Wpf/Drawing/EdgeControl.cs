@@ -1,6 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
-using GraphLight.Graph;
+using GraphLight.Model;
 
 namespace GraphLight.Drawing
 {

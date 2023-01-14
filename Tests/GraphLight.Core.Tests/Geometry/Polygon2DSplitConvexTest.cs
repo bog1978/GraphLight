@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using GraphLight.Geometry;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Geometry
+namespace GraphLight.Geometry
 {
     [TestClass]
     public class Polygon2DSplitConvexTest

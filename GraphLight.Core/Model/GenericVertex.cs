@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using GraphLight.Collections;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     internal class GenericVertex<V, E> : IVertex<V, E>
     {

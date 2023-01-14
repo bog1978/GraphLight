@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GraphLight.Algorithm;
-using GraphLight.Graph;
+using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GraphLight.Test.Algorithm

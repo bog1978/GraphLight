@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public interface IVertexData :
         IEquatable<IVertexData>,

@@ -1,4 +1,4 @@
-﻿using GraphLight.Graph;
+﻿using GraphLight.Model;
 
 namespace GraphLight.Algorithm
 {

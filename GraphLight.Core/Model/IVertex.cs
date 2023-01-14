@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GraphLight.Collections;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public interface IVertex<TVertexData, TEdgeData> : IElement<TVertexData>, IBinaryHeapItem<double>
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using GraphLight.Algorithm;
-using GraphLight.Graph;
+using GraphLight.Model;
 
 namespace GraphLight.Drawing
 {

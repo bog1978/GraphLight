@@ -6,8 +6,8 @@ using System.Resources;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using GraphLight.Graph;
 using GraphLight.IO.LGML;
+using GraphLight.Model;
 
 namespace GraphLight.IO
 {

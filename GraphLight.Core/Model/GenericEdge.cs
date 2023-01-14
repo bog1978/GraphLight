@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     internal class GenericEdge<V, E> : IEdge<V, E>
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GraphLight.Graph
+﻿namespace GraphLight.Model
 {
     public interface IEdge<TVertexData, TEdgeData> : IElement<TEdgeData>
     {

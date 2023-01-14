@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GraphLight.Algorithm;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public static class GraphExtensions
     {

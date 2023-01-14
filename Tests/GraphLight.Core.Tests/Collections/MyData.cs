@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
-using GraphLight.Collections;
 
-namespace GraphLight.Test.Collections
+namespace GraphLight.Collections
 {
     [DebuggerDisplay("{Key}")]
     public class MyData : IBinaryHeapItem<int>

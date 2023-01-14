@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:demo="clr-namespace:GraphLight.Demo"
     xmlns:gl="https://github.com/bog1978/GraphLight"
-    xmlns:graph="clr-namespace:GraphLight.Graph;assembly=GraphLight.Core"
     Title="GraphLight demo."
     WindowState="Maximized">
     <Window.DataContext>

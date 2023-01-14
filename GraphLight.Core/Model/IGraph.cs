@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public interface IGraph<out G, V, E> : IElement<G>
     {

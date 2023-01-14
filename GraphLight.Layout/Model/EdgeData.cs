@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using GraphLight.Geometry;
 
-namespace GraphLight.Graph
+namespace GraphLight.Model
 {
     public class EdgeData : CommonData, IEdgeData
     {
