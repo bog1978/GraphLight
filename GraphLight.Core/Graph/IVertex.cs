@@ -3,9 +3,8 @@ using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public interface IVertex<TVertexData, TEdgeData> : IBinaryHeapItem<double>
+    public interface IVertex<TVertexData, TEdgeData> : IElement<TVertexData>, IBinaryHeapItem<double>
     {
-        TVertexData Data { get; }
         IEnumerable<IEdge<TVertexData, TEdgeData>> Edges { get; }
         IEnumerable<IEdge<TVertexData, TEdgeData>> InEdges { get; }
         IEnumerable<IEdge<TVertexData, TEdgeData>> OutEdges { get; }

@@ -2,10 +2,9 @@
 
 namespace GraphLight.Graph
 {
-    public interface IEdge<TVertexData, TEdgeData>
+    public interface IEdge<TVertexData, TEdgeData> : IElement<TEdgeData>
     {
         bool IsRevert { get; }
-        TEdgeData Data { get; }
         IVertex<TVertexData, TEdgeData> Dst { get; set; }
         IVertex<TVertexData, TEdgeData> Src { get; set; }
 

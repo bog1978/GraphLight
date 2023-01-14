@@ -1,18 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace GraphLight.Graph
 {
-    public static class GraphFactory
-    {
-        public static IGraph<G, V, E> CreateInstance<G, V, E>(G data)
-        {
-            return new GenericGraph<G, V, E>(data);
-        }
-    }
-
     internal class GenericGraph<G, V, E> : IGraph<G, V, E>
     {
         private readonly IDictionary<V, IVertex<V, E>> _map = new Dictionary<V, IVertex<V, E>>();
