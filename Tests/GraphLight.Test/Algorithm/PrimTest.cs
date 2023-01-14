@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Algorithm;
 using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Algorithm
+namespace GraphLight.Algorithm
 {
     [TestClass]
     public class PrimTest
@@ -12,7 +11,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void FindSpanningTree()
         {
-            var graph = GraphFactory.CreateInstance<object, string, EdgeDataWeight>("");
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
 
             var ab = graph.AddEdge("A", "B", 4);
             var bc = graph.AddEdge("B", "C", 8);

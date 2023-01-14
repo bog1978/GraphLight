@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
-using GraphLight.Algorithm;
+﻿using GraphLight.Algorithm;
+using System.Collections.Generic;
 
 namespace GraphLight.Model
 {
-    public static class GraphExtensions
+    public static class Graph
     {
+        public static IGraph<G, V, E> CreateInstance<G, V, E>(G data)
+        {
+            return new GenericGraph<G, V, E>(data);
+        }
+
         /// <summary>
         /// Makes graph acyclic by reversing some edges.
         /// </summary>

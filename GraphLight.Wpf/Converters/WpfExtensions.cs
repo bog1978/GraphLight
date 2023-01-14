@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using GraphLight.Geometry;
 
-namespace GraphLight
+namespace GraphLight.Converters
 {
     public static class WpfExtensions
     {

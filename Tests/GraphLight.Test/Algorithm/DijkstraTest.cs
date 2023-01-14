@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using GraphLight.Algorithm;
 using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Algorithm
+namespace GraphLight.Algorithm
 {
     [TestClass]
     public class DijkstraTest
@@ -11,7 +10,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void FindShortestPathTest()
         {
-            var graph = GraphFactory.CreateInstance<object, string, EdgeDataWeight>("");
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
 
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Layout
+namespace GraphLight.Layout
 {
     [TestClass]
     public class ExtensionTests

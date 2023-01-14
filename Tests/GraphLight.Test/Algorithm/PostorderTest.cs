@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Algorithm
+namespace GraphLight.Algorithm
 {
     [TestClass]
     public class PostorderTest

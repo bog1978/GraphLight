@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace GraphLight.Test
+namespace GraphLight.Model
 {
     public static class TestData
     {

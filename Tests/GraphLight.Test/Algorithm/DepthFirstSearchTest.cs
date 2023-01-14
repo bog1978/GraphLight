@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Algorithm;
 using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Algorithm
+namespace GraphLight.Algorithm
 {
     [TestClass]
     public class DepthFirstSearchTest
@@ -14,7 +13,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest1()
         {
-            var graph = GraphFactory.CreateInstance<object, object, EdgeDataWeight>("");
+            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -35,7 +34,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest2()
         {
-            var graph = GraphFactory.CreateInstance<object, object, EdgeDataWeight>("");
+            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -57,7 +56,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest3()
         {
-            var graph = GraphFactory.CreateInstance<object, object, EdgeDataWeight>("");
+            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
 
@@ -81,7 +80,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest4()
         {
-            var graph = GraphFactory.CreateInstance<object, object, EdgeDataWeight>("");
+            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
             var a = graph.AddVertex("A");
             var b = graph.AddVertex("B");
             var c = graph.AddVertex("C");
@@ -115,7 +114,7 @@ namespace GraphLight.Test.Algorithm
         [TestMethod]
         public void DfsTest5()
         {
-            var graph = GraphFactory.CreateInstance<object, object, EdgeDataWeight>("");
+            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
             var n1 = graph.AddVertex("1");
             var n2 = graph.AddVertex("2");
             var n3 = graph.AddVertex("3");

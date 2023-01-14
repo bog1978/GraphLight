@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test.Graph
+namespace GraphLight.Model
 {
     [TestClass]
     public class DrawingGraphTests
@@ -14,7 +13,7 @@ namespace GraphLight.Test.Graph
         [TestMethod]
         public void Test1()
         {
-            var g = GraphFactory.CreateInstance<object, object, object>("");
+            var g = Graph.CreateInstance<object, object, object>("");
             var a = g.AddVertex("a");
             var b = g.AddVertex("b");
             var c = g.AddVertex("c");

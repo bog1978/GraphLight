@@ -118,7 +118,7 @@ namespace GraphLight.IO
             var vertexStyles = lgmlGraph.VertexCategory?.ToDictionary(x => x.Id, x => x as LgmlVertexStyle);
             var edgeStyles = lgmlGraph.EdgeCategory?.ToDictionary(x => x.Id, x => x as LgmlEdgeStyle);
 
-            var g = GraphFactory.CreateInstance<IGraphData, IVertexData, IEdgeData>(new GraphData());
+            var g = Graph.CreateInstance<IGraphData, IVertexData, IEdgeData>(new GraphData());
 
             foreach (var vertex in lgmlGraph.Vertex)
             {

@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using GraphLight.Algorithm;
 using GraphLight.Drawing;
-using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GraphLight.Test
+namespace GraphLight.Model
 {
     [TestClass]
     public class GraphTest
@@ -12,7 +11,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void TestAddInsertRemove()
         {
-            var graph = GraphFactory.CreateInstance<object, object, object>("");
+            var graph = Graph.CreateInstance<object, object, object>("");
             var g = graph;
             var ab = graph.AddEdge("A", "B", new object());
             var a = ab.Src;
@@ -44,7 +43,7 @@ namespace GraphLight.Test
         [TestMethod]
         public void Issue7610Test_1()
         {
-            var graph = GraphFactory.CreateInstance<IGraphData, IVertexData, IEdgeData>(new GraphData());
+            var graph = Graph.CreateInstance<IGraphData, IVertexData, IEdgeData>(new GraphData());
             var a = new VertexData("A");
             var b = new VertexData("B");
             var c = new VertexData("C");
@@ -55,17 +54,17 @@ namespace GraphLight.Test
             graph.AddEdge(b, c, new EdgeData());
             graph.AddEdge(a, c, new EdgeData());
             var engine = new GraphVizLayout
-                {
-                    NodeMeasure = new WpfNodeMeasure(),
-                    Graph = graph
-                };
+            {
+                NodeMeasure = new WpfNodeMeasure(),
+                Graph = graph
+            };
             engine.Layout();
         }
 
         [TestMethod]
         public void Issue7610Test_2()
         {
-            var graph = GraphFactory.CreateInstance<IGraphData, IVertexData, IEdgeData>(new GraphData());
+            var graph = Graph.CreateInstance<IGraphData, IVertexData, IEdgeData>(new GraphData());
             var a = new VertexData("A");
             var b = new VertexData("B");
             var c = new VertexData("C");
@@ -80,9 +79,9 @@ namespace GraphLight.Test
             graph.AddEdge(d, a, new EdgeData());
             var engine = new GraphVizLayout
             {
-                    NodeMeasure = new WpfNodeMeasure(),
-                    Graph = graph
-                };
+                NodeMeasure = new WpfNodeMeasure(),
+                Graph = graph
+            };
             engine.Layout();
         }
     }
