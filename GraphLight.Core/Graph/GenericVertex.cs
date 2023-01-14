@@ -4,17 +4,16 @@ using GraphLight.Collections;
 
 namespace GraphLight.Graph
 {
-    public class GenericVertex<V, E> : IVertex<V, E>
+    internal class GenericVertex<V, E> : IVertex<V, E>
     {
         private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _inEdges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _outEdges = new ObservableCollection<IEdge<V, E>>();
         private readonly ICollection<IEdge<V, E>> _selfEdges = new ObservableCollection<IEdge<V, E>>();
-        private readonly V _data;
 
-        public GenericVertex(V data) => _data = data;
+        public GenericVertex(V data) => Data = data;
 
-        public V Data => _data;
+        public V Data { get; }
 
         public IEnumerable<IEdge<V, E>> Edges => _edges;
 

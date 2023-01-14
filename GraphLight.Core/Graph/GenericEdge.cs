@@ -2,9 +2,8 @@
 
 namespace GraphLight.Graph
 {
-    public class GenericEdge<V, E> : IEdge<V, E>
+    internal class GenericEdge<V, E> : IEdge<V, E>
     {
-        private readonly E _data;
         private IVertex<V, E> _src;
         private IVertex<V, E> _dst;
 
@@ -12,10 +11,10 @@ namespace GraphLight.Graph
         {
             if(data == null)
                 throw new ArgumentNullException(nameof(data));
-            _data = data;
+            Data = data;
         }
 
-        public E Data => _data;
+        public E Data { get; }
 
         public bool IsRevert { get; private set; }
 
@@ -64,10 +63,10 @@ namespace GraphLight.Graph
 
         public override int GetHashCode()
         {
-            return _data.GetHashCode();
+            return Data.GetHashCode();
         }
 
         public override bool Equals(object obj) => 
-            obj is GenericEdge<V, E> edge && _data.Equals(edge._data);
+            obj is GenericEdge<V, E> edge && Data.Equals(edge.Data);
     }
 }

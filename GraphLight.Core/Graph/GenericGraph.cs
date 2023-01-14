@@ -31,7 +31,7 @@ namespace GraphLight.Graph
         {
             if (!_map.TryGetValue(data, out var vertex))
             {
-                vertex = CreateVertex(data);
+                vertex = new GenericVertex<V, E>(data);
                 _vertices.Add(vertex);
                 _map.Add(data, vertex);
             }
@@ -80,7 +80,7 @@ namespace GraphLight.Graph
 
         public IEdge<V, E> AddEdge(V srcData, V dstData, E data)
         {
-            var edge = CreateEdge(data);
+            var edge = new GenericEdge<V, E>(data);
             edge.EdgeChanged += OnEdgeChanged;
             edge.Src = AddVertex(srcData);
             edge.Dst = AddVertex(dstData);
@@ -96,14 +96,10 @@ namespace GraphLight.Graph
             edge.EdgeChanged -= OnEdgeChanged;
         }
 
-        private void OnEdgeChanged(object sender, EdgeChangedEventArgs<V, E> args)
+        private static void OnEdgeChanged(object sender, EdgeChangedEventArgs<V, E> args)
         {
             args.OldVertex?.UnRegisterEdge((IEdge<V, E>)sender);
             args.NewVertex?.RegisterEdge((IEdge<V, E>)sender);
         }
-
-        protected virtual IVertex<V, E> CreateVertex(V data) => new GenericVertex<V, E>(data);
-
-        protected virtual IEdge<V, E> CreateEdge(E data) => new GenericEdge<V, E>(data);
     }
 }
