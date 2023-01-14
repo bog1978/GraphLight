@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -51,26 +50,6 @@ namespace GraphLight.Graph
             var newEdge = AddEdge(vertexData, edge.Dst.Data, edgeData);
             edge.Dst = newEdge.Src;
             return newEdge.Src;
-        }
-
-        public IEdge<V, E> AddEdge(IVertex<V, E> src, IVertex<V, E> dst, E data)
-        {
-            if (src == null)
-                throw new ArgumentNullException(nameof(src));
-
-            if (dst == null)
-                throw new ArgumentNullException(nameof(dst));
-
-            _map.TryGetValue(src.Data, out var existingSrc);
-            _map.TryGetValue(dst.Data, out var existingDst);
-
-            if (existingSrc != src)
-                throw new ArgumentOutOfRangeException(nameof(src));
-
-            if (existingDst != dst)
-                throw new ArgumentOutOfRangeException(nameof(dst));
-
-            return AddEdge(src.Data, dst.Data, data);
         }
 
         public IEdge<V, E> AddEdge(V srcData, V dstData, E data)

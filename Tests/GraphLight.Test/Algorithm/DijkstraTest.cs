@@ -18,10 +18,10 @@ namespace GraphLight.Test.Algorithm
             var c = graph.AddVertex("C");
             var d = graph.AddVertex("D");
 
-            var ab = graph.AddEdge(a, b, 1);
-            var bc = graph.AddEdge(b, c, 1);
-            var cd = graph.AddEdge(c, d, 1);
-            var ad = graph.AddEdge(a, d, 10);
+            var ab = graph.AddEdge("A", "B", 1);
+            var bc = graph.AddEdge("B", "C", 1);
+            var cd = graph.AddEdge("C", "D", 1);
+            var ad = graph.AddEdge("A", "D", 10);
 
             var vertices = new List<IVertex<string, EdgeDataWeight>>();
             var edges = new List<IEdge<string, EdgeDataWeight>>();

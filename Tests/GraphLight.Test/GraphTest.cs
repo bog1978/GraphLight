@@ -45,9 +45,12 @@ namespace GraphLight.Test
         public void Issue7610Test_1()
         {
             var graph = GraphFactory.CreateInstance<IGraphData, IVertexData, IEdgeData>(new GraphData());
-            var a = graph.AddVertex(new VertexData("A"));
-            var b = graph.AddVertex(new VertexData("B"));
-            var c = graph.AddVertex(new VertexData("C"));
+            var a = new VertexData("A");
+            var b = new VertexData("B");
+            var c = new VertexData("C");
+            graph.AddVertex(a);
+            graph.AddVertex(b);
+            graph.AddVertex(c);
             graph.AddEdge(a, b, new EdgeData());
             graph.AddEdge(b, c, new EdgeData());
             graph.AddEdge(a, c, new EdgeData());
@@ -63,10 +66,14 @@ namespace GraphLight.Test
         public void Issue7610Test_2()
         {
             var graph = GraphFactory.CreateInstance<IGraphData, IVertexData, IEdgeData>(new GraphData());
-            var a = graph.AddVertex(new VertexData("A"));
-            var b = graph.AddVertex(new VertexData("B"));
-            var c = graph.AddVertex(new VertexData("C"));
-            var d = graph.AddVertex(new VertexData("D"));
+            var a = new VertexData("A");
+            var b = new VertexData("B");
+            var c = new VertexData("C");
+            var d = new VertexData("D");
+            graph.AddVertex(a);
+            graph.AddVertex(b);
+            graph.AddVertex(c);
+            graph.AddVertex(d);
             graph.AddEdge(a, b, new EdgeData());
             graph.AddEdge(b, c, new EdgeData());
             graph.AddEdge(c, d, new EdgeData());

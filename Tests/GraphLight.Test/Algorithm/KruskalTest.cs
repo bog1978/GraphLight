@@ -14,30 +14,20 @@ namespace GraphLight.Test.Algorithm
         {
             var graph = GraphFactory.CreateInstance<object, string, EdgeDataWeight>("");
 
-            var a = graph.AddVertex("A");
-            var b = graph.AddVertex("B");
-            var c = graph.AddVertex("C");
-            var d = graph.AddVertex("D");
-            var e = graph.AddVertex("E");
-            var f = graph.AddVertex("F");
-            var g = graph.AddVertex("G");
-            var h = graph.AddVertex("H");
-            var i = graph.AddVertex("I");
-
-            var ab = graph.AddEdge(a, b, 4);
-            var bc = graph.AddEdge(b, c, 8);
-            var ah = graph.AddEdge(a, h, 8);
-            var bh = graph.AddEdge(b, h, 11);
-            var hi = graph.AddEdge(h, i, 7);
-            var hg = graph.AddEdge(h, g, 1);
-            var ig = graph.AddEdge(i, g, 6);
-            var ic = graph.AddEdge(i, c, 2);
-            var gf = graph.AddEdge(g, f, 2);
-            var cf = graph.AddEdge(c, f, 4);
-            var cd = graph.AddEdge(c, d, 7);
-            var df = graph.AddEdge(d, f, 14);
-            var de = graph.AddEdge(d, e, 9);
-            var fe = graph.AddEdge(f, e, 10);
+            var ab = graph.AddEdge("A", "B", 4);
+            var bc = graph.AddEdge("B", "C", 8);
+            var ah = graph.AddEdge("A", "H", 8);
+            var bh = graph.AddEdge("B", "H", 11);
+            var hi = graph.AddEdge("H", "I", 7);
+            var hg = graph.AddEdge("H", "G", 1);
+            var ig = graph.AddEdge("I", "G", 6);
+            var ic = graph.AddEdge("I", "C", 2);
+            var gf = graph.AddEdge("G", "F", 2);
+            var cf = graph.AddEdge("C", "F", 4);
+            var cd = graph.AddEdge("C", "D", 7);
+            var df = graph.AddEdge("D", "F", 14);
+            var de = graph.AddEdge("D", "E", 9);
+            var fe = graph.AddEdge("F", "E", 10);
 
             var edges = new List<IEdge<string, EdgeDataWeight>>();
 

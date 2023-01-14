@@ -7,7 +7,6 @@ namespace GraphLight.Graph
         IVertex<V, E> this[V key] { get; }
         IEnumerable<IEdge<V, E>> Edges { get; }
         IEnumerable<IVertex<V, E>> Vertices { get; }
-        IEdge<V, E> AddEdge(IVertex<V, E> src, IVertex<V, E> dst, E edgeData);
         IEdge<V, E> AddEdge(V srcData, V dstData, E data);
         IVertex<V, E> AddVertex(V data);
         IVertex<V, E> InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData);
