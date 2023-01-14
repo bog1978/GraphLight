@@ -9,7 +9,5 @@ namespace GraphLight.Graph
         IVertex<TVertexData, TEdgeData> Src { get; set; }
 
         void Revert();
-
-        event EventHandler<EdgeChangedEventArgs<TVertexData, TEdgeData>> EdgeChanged;
     }
 }

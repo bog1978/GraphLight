@@ -7,11 +7,13 @@ namespace GraphLight.Graph
         private IVertex<V, E> _src;
         private IVertex<V, E> _dst;
 
-        public GenericEdge(E data)
+        public GenericEdge(IVertex<V, E> src, IVertex<V, E> dst, E data)
         {
-            if(data == null)
-                throw new ArgumentNullException(nameof(data));
-            Data = data;
+            Data = data ?? throw new ArgumentNullException(nameof(data));
+            _src = src ?? throw new ArgumentNullException(nameof(src));
+            _dst = dst ?? throw new ArgumentNullException(nameof(dst));
+            _src.RegisterEdge(this);
+            _dst.RegisterEdge(this);
         }
 
         public E Data { get; }
@@ -54,17 +56,15 @@ namespace GraphLight.Graph
             IsRevert = !IsRevert;
         }
 
-        public event EventHandler<EdgeChangedEventArgs<V, E>> EdgeChanged;
-
         public override string ToString() => $"{Src} -> {Dst}: {Data}";
 
-        private void OnEdgeChanged(IVertex<V, E> oldVertex, IVertex<V, E> newVertex) =>
-            EdgeChanged?.Invoke(this, new EdgeChangedEventArgs<V, E>(oldVertex, newVertex));
-
-        public override int GetHashCode()
+        private void OnEdgeChanged(IVertex<V, E>? oldVertex, IVertex<V, E>? newVertex)
         {
-            return Data.GetHashCode();
+            oldVertex?.UnRegisterEdge(this);
+            newVertex?.RegisterEdge(this);
         }
+
+        public override int GetHashCode() => Data.GetHashCode();
 
         public override bool Equals(object obj) => 
             obj is GenericEdge<V, E> edge && Data.Equals(edge.Data);

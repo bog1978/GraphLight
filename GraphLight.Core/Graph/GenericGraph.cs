@@ -54,10 +54,7 @@ namespace GraphLight.Graph
 
         public IEdge<V, E> AddEdge(V srcData, V dstData, E data)
         {
-            var edge = new GenericEdge<V, E>(data);
-            edge.EdgeChanged += OnEdgeChanged;
-            edge.Src = AddVertex(srcData);
-            edge.Dst = AddVertex(dstData);
+            var edge = new GenericEdge<V, E>(AddVertex(srcData), AddVertex(dstData), data);
             _edges.Add(edge);
             return edge;
         }
@@ -67,13 +64,6 @@ namespace GraphLight.Graph
             _edges.Remove(edge);
             edge.Src = null;
             edge.Dst = null;
-            edge.EdgeChanged -= OnEdgeChanged;
-        }
-
-        private static void OnEdgeChanged(object sender, EdgeChangedEventArgs<V, E> args)
-        {
-            args.OldVertex?.UnRegisterEdge((IEdge<V, E>)sender);
-            args.NewVertex?.RegisterEdge((IEdge<V, E>)sender);
         }
     }
 }
