@@ -27,12 +27,6 @@ namespace GraphLight.Graph
 
         public IEnumerable<IEdge<V, E>> Edges => _edges;
 
-        public IEnumerable<object> Elements =>
-            Vertices.Cast<object>().Union(Edges);
-
-        public IEnumerable<object> All => 
-            Vertices.Cast<object>().Union(Edges);
-
         public IVertex<V, E> this[V key] => _map[key];
 
         public IVertex<V, E> AddVertex(V data)

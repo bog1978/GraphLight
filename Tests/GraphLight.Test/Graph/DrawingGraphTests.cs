@@ -105,8 +105,6 @@ namespace GraphLight.Test.Graph
         {
             CollectionAssert.AreEquivalent(edges, graph.Edges.ToArray());
             CollectionAssert.AreEquivalent(verteces, graph.Vertices.ToArray());
-            var elements = edges.OfType<object>().Union(verteces.OfType<object>()).ToList();
-            CollectionAssert.AreEquivalent(elements, graph.All.ToArray());
         }
     }
 }
