@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using GraphLight.Algorithm;
 using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,49 +9,34 @@ namespace GraphLight.Layout
     [TestClass]
     public class NetworkSimplexTests
     {
-        /*[TestMethod]
+        [TestMethod]
         public void TestNetworkSimplex()
         {
-            var a = new VertexAttrs("a");
-            var b = new VertexAttrs("b");
-            var c = new VertexAttrs("c");
-            var d = new VertexAttrs("d");
-            var e = new VertexAttrs("e");
-            var f = new VertexAttrs("f");
-            var g = new VertexAttrs("g");
-            var h = new VertexAttrs("h");
+            var graph = Graph.CreateInstance<GraphData, VertexData, EdgeData>(new GraphData());
 
-            a.Rank = 0;
-            b.Rank = 1;
-            e.Rank = f.Rank = c.Rank = 2;
-            g.Rank = d.Rank = 3;
-            h.Rank = 4;
+            graph.AddEdge("a", "b", new EdgeData());
+            graph.AddEdge("a", "e", new EdgeData { Weight = 2 });
+            graph.AddEdge("a", "f", new EdgeData());
+            graph.AddEdge("b", "c", new EdgeData());
+            graph.AddEdge("e", "g", new EdgeData());
+            graph.AddEdge("f", "g", new EdgeData { Weight = 2 });
+            graph.AddEdge("c", "d", new EdgeData());
+            graph.AddEdge("g", "h", new EdgeData { Weight = 10 });
+            graph.AddEdge("d", "h", new EdgeData());
 
-            var graph = new DrawingGraph();
-
-            var ab = graph.AddEdge(a, b, new EdgeAttrs());
-            var ae = graph.AddEdge(a, e, new EdgeAttrs());
-            var af = graph.AddEdge(a, f, new EdgeAttrs());
-            var bc = graph.AddEdge(b, c, new EdgeAttrs());
-            var eg = graph.AddEdge(e, g, new EdgeAttrs());
-            var fg = graph.AddEdge(f, g, new EdgeAttrs());
-            var cd = graph.AddEdge(c, d, new EdgeAttrs());
-            var gh = graph.AddEdge(g, h, new EdgeAttrs());
-            var dh = graph.AddEdge(d, h, new EdgeAttrs());
-
-            foreach (var edge in graph.Edges)
-                edge.Weight = 1;
-            gh.Weight = 10;
-
-            // Instead of given ranked acyclic graph Async and InitRank should be called.
             graph.Acyclic();
-            var alg = new RankNetworkSimplex<VertexAttrs, EdgeAttrs>(graph);
+            var alg = graph.RankNetworkSimplex();
             alg.Execute();
 
-            //Assert.IsTrue(graph.Edges.All(x => x.Data.CutValue >= 0), "Must be: CutValue >= 0");
-            foreach (var vertex in graph.Verteces)
-                Debug.WriteLine("{0}: Rank={1}", vertex.Id, vertex.Data.Rank);
-        }*/
+            var ranksExpected = new[] { 0, 1, 2, 3, 1, 2, 3, 4 };
+            var ranksActual = graph.Vertices
+               .OrderBy(x =>x.Data.Id)
+               .Select(x => x.Data)
+               .OfType<IVertexDataLayered>()
+               .Select(x => x.Rank)
+               .ToArray();
+            CollectionAssert.AreEqual(ranksExpected, ranksActual);
+        }
 
         //[TestMethod]
         //public void TestAllTestData()
