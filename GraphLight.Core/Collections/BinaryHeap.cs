@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GraphLight.Collections
 {
-    public class BinaryHeap<TKey, TValue> : IEnumerable<TValue>
+    internal class BinaryHeap<TKey, TValue> : IEnumerable<TValue>
         where TKey : IComparable<TKey>
     {
         #region Константы и поля

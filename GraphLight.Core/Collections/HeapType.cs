@@ -1,6 +1,6 @@
 namespace GraphLight.Collections
 {
-    public enum HeapType
+    internal enum HeapType
     {
         Min,
         Max,

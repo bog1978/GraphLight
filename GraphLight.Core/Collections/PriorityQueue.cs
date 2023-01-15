@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GraphLight.Collections
 {
-    public class PriorityQueue<TKey, TValue> : IEnumerable<TValue>
+    internal class PriorityQueue<TKey, TValue> : IEnumerable<TValue>
         where TKey : IComparable<TKey>
     {
         #region Константы и поля
