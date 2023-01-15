@@ -15,10 +15,10 @@ namespace GraphLight.Collections
 
         #region Конструкторы
 
-        public PriorityQueue2(HeapType heapType)
-        {
-            _heap = new BinaryHeap2<TElement, TPriority>(heapType);
-        }
+        //public PriorityQueue2(HeapType heapType)
+        //{
+        //    _heap = new BinaryHeap2<TElement, TPriority>(heapType);
+        //}
 
         public PriorityQueue2(IEnumerable<TElement> items, Func<TElement, TPriority> priorityFunc, HeapType heapType) =>
             _heap = new BinaryHeap2<TElement, TPriority>(items, priorityFunc, heapType);
@@ -47,7 +47,7 @@ namespace GraphLight.Collections
 
         public TElement Dequeue() => _heap.RemoveRoot();
 
-        public void Enqueue(TElement item, TPriority priority) => _heap.Add(item, priority);
+        public void Enqueue(TElement item, TPriority priority) => _heap.Add(priority, item);
 
         public TElement Peek() => _heap.Root;
 

@@ -5,11 +5,12 @@ using System.Linq;
 
 namespace GraphLight.Collections
 {
-    public class BinaryHeap2<TElement, TPriority> : IReadOnlyCollection<TElement>
-        where TPriority : IComparable<TPriority>
+    public class BinaryHeap2<TValue, TKey> : IEnumerable<TValue>
+        where TKey : IComparable<TKey>
     {
         #region Константы и поля
 
+        private readonly IDictionary<TValue, HeapItem> _map;
         private readonly int _sgn;
         private readonly List<HeapItem> _heap;
 
@@ -17,21 +18,15 @@ namespace GraphLight.Collections
 
         #region Конструкторы
 
-        public BinaryHeap2(HeapType heapType)
+        public BinaryHeap2(IEnumerable<TValue> items, Func<TValue, TKey> priorityFunc, HeapType heapType)
         {
             _sgn = heapType == HeapType.Min
                 ? -1
                 : 1;
-            _heap = new List<HeapItem>();
-        }
-
-        public BinaryHeap2(IEnumerable<TElement> items, Func<TElement, TPriority> priorityFunc, HeapType heapType)
-        {
-            _sgn = heapType == HeapType.Min
-                ? -1
-                : 1;
-            var heapItems = items.Select(x => new HeapItem(x, priorityFunc(x)));
-            _heap = new List<HeapItem>(heapItems);
+            _heap = items
+               .Select((x, i) => new HeapItem(x, priorityFunc(x), i))
+               .ToList();
+            _map = _heap.ToDictionary(x => x.Element);
             BuildHeap();
         }
 
@@ -39,7 +34,9 @@ namespace GraphLight.Collections
 
         #region События, свойства, индексаторы
 
-        public TElement Root =>
+        public int Count => _heap.Count;
+
+        public TValue Root =>
             _heap.Count == 0
                 ? throw new InvalidOperationException("Heap is empty.")
                 : _heap[0].Element;
@@ -52,15 +49,9 @@ namespace GraphLight.Collections
 
         #endregion
 
-        #region IEnumerable<TElement>
+        #region IEnumerable<TValue>
 
-        public IEnumerator<TElement> GetEnumerator() => new HeapEnumerator(_heap.GetEnumerator());
-
-        #endregion
-
-        #region IReadOnlyCollection<TElement>
-
-        public int Count => _heap.Count;
+        public IEnumerator<TValue> GetEnumerator() => new HeapEnumerator(_heap.GetEnumerator());
 
         #endregion
 
@@ -72,21 +63,45 @@ namespace GraphLight.Collections
 
         private static int Right(int i) => (i << 1) + 2;
 
-        public void Add(TElement element, TPriority priority)
+        public void Add(TKey key, TValue value)
         {
-            _heap.Add(new HeapItem(element, priority));
+            var item = new HeapItem(value, key, _heap.Count);
+            _heap.Add(item);
+            _map.Add(value, item);
             for (int i = _heap.Count - 1, p = Parent(i);
                  i > 0 && Compare(p, i) < 0;
                  i = p, p = Parent(i))
                 Swap(p, i);
         }
 
-        public TElement RemoveRoot()
+        public bool Remove(TValue element)
+        {
+            if (!_map.TryGetValue(element, out var item))
+                return false;
+            var count = _heap.Count;
+            var i = item.HeapIndex;
+            if (i < 0 || i >= count)
+                return false;
+
+            var last = count - 1;
+            _heap[i].HeapIndex = -1;
+            _heap[last].HeapIndex = i;
+            _heap[i] = _heap[last];
+            _heap.RemoveAt(last);
+            _map.Remove(element);
+            Heapify(i);
+            return true;
+        }
+
+        public TValue RemoveRoot()
         {
             var root = Root;
             var last = _heap.Count - 1;
+            _heap[0].HeapIndex = -1;
+            _heap[last].HeapIndex = 0;
             _heap[0] = _heap[last];
             _heap.RemoveAt(last);
+            _map.Remove(root);
             Heapify(0);
             return root;
         }
@@ -97,7 +112,7 @@ namespace GraphLight.Collections
                 Heapify(i);
         }
 
-        private int Compare(int i, int j) => _sgn * _heap[i].Priority.CompareTo(_heap[j].Priority);
+        private int Compare(int i, int j) => _sgn * _heap[i].HeapKey.CompareTo(_heap[j].HeapKey);
 
         private void Heapify(int i)
         {
@@ -121,11 +136,13 @@ namespace GraphLight.Collections
             var b = _heap[j];
             _heap[i] = b;
             _heap[j] = a;
+            a.HeapIndex = j;
+            b.HeapIndex = i;
         }
 
         #endregion
 
-        private class HeapEnumerator : IEnumerator<TElement>
+        private class HeapEnumerator : IEnumerator<TValue>
         {
             #region Константы и поля
 
@@ -160,7 +177,7 @@ namespace GraphLight.Collections
 
             #region IEnumerator<TElement>
 
-            public TElement Current => _enumerator.Current.Element;
+            public TValue Current => _enumerator.Current.Element;
 
             #endregion
         }
@@ -169,17 +186,21 @@ namespace GraphLight.Collections
         {
             #region Константы и поля
 
-            public readonly TElement Element;
-            public readonly TPriority Priority;
+            public readonly TKey HeapKey;
+
+            public readonly TValue Element;
+
+            public int HeapIndex;
 
             #endregion
 
             #region Конструкторы
 
-            public HeapItem(TElement element, TPriority priority)
+            public HeapItem(TValue element, TKey heapKey, int index)
             {
                 Element = element;
-                Priority = priority;
+                HeapKey = heapKey;
+                HeapIndex = index;
             }
 
             #endregion
