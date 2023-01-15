@@ -26,14 +26,12 @@ namespace GraphLight.Algorithm
         public void Execute(IVertex<V, E> root)
         {
             var attrs = _graph.Vertices.ToDictionary(x => x, x => new PrimAttr());
-            var i = 0;
-            foreach (var item in _graph.Vertices)
-            {
-                item.HeapKey = i == 0 ? 0 : double.MaxValue;
-                i++;
-            }
-            var q = new PriorityQueue<double, IVertex<V, E>>(_graph.Vertices, HeapType.Min);
-            while (!q.IsEmpty)
+            attrs[root].HeapKey = 0;
+
+            var q = new PriorityQueue<double, IVertex<V, E>>(
+                _graph.Vertices, x => attrs[x].HeapKey, HeapType.Min);
+
+            while (q.Count > 0)
             {
                 var u = q.Dequeue();
                 var uAttr = attrs[u];
@@ -47,12 +45,12 @@ namespace GraphLight.Algorithm
                     var v = e.Src == u ? e.Dst : e.Src;
                     var vAttr = attrs[v];
                     var weight = _weightFunc(e);
-                    if (vAttr.Color == VertexColor.White && weight < v.HeapKey)
+                    if (vAttr.Color == VertexColor.White && weight < vAttr.HeapKey)
                     {
                         vAttr.Parent = e;
-                        v.HeapKey = _weightFunc(e);
+                        vAttr.HeapKey = _weightFunc(e);
                         q.Remove(v);
-                        q.Enqueue(v);
+                        q.Enqueue(v, _weightFunc(e));
                     }
                 }
             }
@@ -63,12 +61,14 @@ namespace GraphLight.Algorithm
         private class PrimAttr
         {
             public VertexColor Color;
-            public IEdge<V, E> Parent;
+            public IEdge<V, E>? Parent;
+            public double HeapKey;
 
             public PrimAttr()
             {
                 Parent = null;
                 Color = VertexColor.White;
+                HeapKey = double.MaxValue;
             }
         }
 

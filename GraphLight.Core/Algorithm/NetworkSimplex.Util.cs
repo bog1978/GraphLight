@@ -6,7 +6,7 @@ namespace GraphLight.Algorithm
 {
     partial class NetworkSimplex
     {
-        private static Graph makeRootedGraph(ICollection<Vertex> vertices, ICollection<Edge> edges)
+        private static Graph MakeRootedGraph(ICollection<Vertex> vertices, ICollection<Edge> edges)
         {
             var root = new Vertex();
             var roots = vertices.Except(edges.Select(x => x.Dst)).ToArray();
@@ -33,10 +33,10 @@ namespace GraphLight.Algorithm
             return graph;
         }
 
-        private static void spanningTree(Graph graph)
+        private static void SpanningTree(Graph graph)
         {
-            graph.Root.HeapKey = 0;
-            var heap = new BinaryHeap<int, Vertex>(graph.Vertices, HeapType.Min);
+            graph.Root.Priority = 0;
+            var heap = new BinaryHeap<int, Vertex>(graph.Vertices, x => x.Priority, HeapType.Min);
             while (heap.Count > 0)
             {
                 var u = heap.RemoveRoot();
@@ -49,17 +49,17 @@ namespace GraphLight.Algorithm
                 {
                     var v = e.Src == u ? e.Dst : e.Src;
                     var weight = e.Length;
-                    if (v.Color != VertexColor.White || weight >= v.HeapKey)
+                    if (v.Color != VertexColor.White || weight >= v.Priority)
                         continue;
                     v.ParentEdge = e;
-                    v.HeapKey = weight;
+                    v.Priority = weight;
                     heap.Remove(v);
-                    heap.Add(v);
+                    heap.Add(weight, v);
                 }
             }
         }
 
-        private static void postOrderTraversal(Graph graph, Vertex root)
+        private static void PostOrderTraversal(Graph graph, Vertex root)
         {
             int min, max, lim;
 

@@ -18,7 +18,7 @@ namespace GraphLight.Collections
                     new TestEntity{Id = 6, Name = "lazy"},
                     new TestEntity{Id = 7, Name = "dog"}
                 };
-            var q = new PriorityQueue<string, TestEntity>(testData, HeapType.Min);
+            var q = new PriorityQueue<string, TestEntity>(testData, x  => x.Name, HeapType.Min);
             var item = q.Dequeue();
             Assert.AreEqual(2, item.Id);
 
@@ -42,17 +42,9 @@ namespace GraphLight.Collections
         }
     }
 
-    public class TestEntity : IBinaryHeapItem<string>
+    public class TestEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-        public int HeapIndex { get; set; }
-
-        public string HeapKey
-        {
-            get { return Name; }
-            set { Name = value; }
-        }
     }
 }

@@ -16,16 +16,16 @@ namespace GraphLight.Algorithm
         {
             Initialize(out var vertices, out var edges);
 
-            _graph = makeRootedGraph(vertices, edges);
+            _graph = MakeRootedGraph(vertices, edges);
 
-            feasibleTree();
-            while (selectEdgeToExclude())
+            FeasibleTree();
+            while (SelectEdgeToExclude())
             {
-                if (!selectEdgeToInclude())
+                if (!SelectEdgeToInclude())
                     throw new Exception("No edge to include");
-                exchange();
+                Exchange();
             }
-            normalize();
+            Normalize();
 
             Finalze();
         }
@@ -34,7 +34,7 @@ namespace GraphLight.Algorithm
         /// Initializes vertex values to satisfy all restrictions.
         /// Single rooted graph is required to work properly.
         /// </summary>
-        private void feasibleTree()
+        private void FeasibleTree()
         {
             foreach (var vertex in _graph.Vertices)
                 vertex.Value = 0;
@@ -60,19 +60,19 @@ namespace GraphLight.Algorithm
                     if (outEdge.Dst.InEdges.All(x => x.IsVisited))
                         q.Enqueue(outEdge.Dst);
             }
-            initCutValues();
+            InitCutValues();
         }
 
-        private void initCutValues()
+        private void InitCutValues()
         {
-            spanningTree(_graph);
+            SpanningTree(_graph);
             foreach (var v in _graph.Vertices)
-                updateTreeEdges(v);
-            postOrderTraversal(_graph, _graph.Root);
-            updateCutValues(_graph.Vertices);
+                UpdateTreeEdges(v);
+            PostOrderTraversal(_graph, _graph.Root);
+            UpdateCutValues(_graph.Vertices);
         }
 
-        private static void updateTreeEdges(Vertex v)
+        private static void UpdateTreeEdges(Vertex v)
         {
             v.TreeEdgeCount = 0;
             for (var i = 0; i < v.Edges.Length; i++)
@@ -91,7 +91,7 @@ namespace GraphLight.Algorithm
         /// vertices must be sorted by Lim.
         /// </summary>
         /// <param name="vertices"></param>
-        private static void updateCutValues(IEnumerable<Vertex> vertices)
+        private static void UpdateCutValues(IEnumerable<Vertex> vertices)
         {
             foreach (var w in vertices)
             {
@@ -185,9 +185,9 @@ namespace GraphLight.Algorithm
             }
         }
 
-        private bool selectEdgeToInclude()
+        private bool SelectEdgeToInclude()
         {
-            classifyEdges(_exclude);
+            ClassifyEdges(_exclude);
 
             _include = null;
             foreach (var edge in _headToTailEdges)
@@ -201,7 +201,7 @@ namespace GraphLight.Algorithm
             return _include != null;
         }
 
-        private bool selectEdgeToExclude()
+        private bool SelectEdgeToExclude()
         {
             _exclude = null;
             foreach (var edge in _graph.Edges)
@@ -214,24 +214,24 @@ namespace GraphLight.Algorithm
             return _exclude != null;
         }
 
-        private void exchange()
+        private void Exchange()
         {
-            var path = getVerticesToUpdate(out var localRoot);
+            var path = GetVerticesToUpdate(out var localRoot);
 
-            fixValues(_include.Slack());
+            FixValues(_include.Slack());
             _exclude.IsTree = false;
             _include.IsTree = true;
-            updateTreeEdges(_exclude.Src);
-            updateTreeEdges(_exclude.Dst);
-            updateTreeEdges(_include.Src);
-            updateTreeEdges(_include.Dst);
+            UpdateTreeEdges(_exclude.Src);
+            UpdateTreeEdges(_exclude.Dst);
+            UpdateTreeEdges(_include.Src);
+            UpdateTreeEdges(_include.Dst);
 
             _exclude.CutValue = 0;
-            postOrderTraversal(_graph, localRoot);
-            updateCutValues(path.OrderBy(x => x.Lim));
+            PostOrderTraversal(_graph, localRoot);
+            UpdateCutValues(path.OrderBy(x => x.Lim));
         }
 
-        private void fixValues(int slack)
+        private void FixValues(int slack)
         {
             int min, max;
             if (_exclude.Src.Lim > _exclude.Dst.Lim)
@@ -251,7 +251,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        private IEnumerable<Vertex> getVerticesToUpdate(out Vertex root)
+        private IEnumerable<Vertex> GetVerticesToUpdate(out Vertex root)
         {
             var w = _include.Dst;
             var x = _include.Src;
@@ -278,7 +278,7 @@ namespace GraphLight.Algorithm
             return path;
         }
 
-        private void normalize()
+        private void Normalize()
         {
             // Add 1 to ignore artificial root vertex.
             var minValue = _graph.Vertices.Min(x => x.Value) + 1;
@@ -288,7 +288,7 @@ namespace GraphLight.Algorithm
                 vertex.Value -= minValue;
         }
 
-        private void classifyEdges(Edge breakingEdge)
+        private void ClassifyEdges(Edge breakingEdge)
         {
             _tailToHeadEdges.Clear();
             _headToTailEdges.Clear();

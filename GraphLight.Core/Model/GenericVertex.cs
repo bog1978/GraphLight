@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using GraphLight.Collections;
 
 namespace GraphLight.Model
 {
@@ -22,10 +21,6 @@ namespace GraphLight.Model
         public IEnumerable<IEdge<V, E>> OutEdges => _outEdges;
 
         public IEnumerable<IEdge<V, E>> SelfEdges => _selfEdges;
-
-        int IBinaryHeapItem<double>.HeapIndex { get; set; }
-
-        double IBinaryHeapItem<double>.HeapKey { get; set; }
 
         public void RegisterEdge(IEdge<V, E> edge)
         {

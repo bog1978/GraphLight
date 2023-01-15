@@ -1,5 +1,4 @@
 ﻿using System;
-using GraphLight.Collections;
 
 namespace GraphLight.Algorithm
 {
@@ -7,15 +6,12 @@ namespace GraphLight.Algorithm
     {
         #region Nested type: Edge
 
-        //[DebuggerDisplay("{Src.Id} -> {Dst.Id}")]
         protected class Edge
         {
-            private static int _counter;
             public readonly Vertex Dst;
             public readonly int MinLength;
             public readonly Vertex Src;
             public readonly int Weight;
-            public int Cnt = _counter++;
             public int CutValue;
             internal bool IsTree;
             public bool IsVisited;
@@ -48,7 +44,7 @@ namespace GraphLight.Algorithm
 
         #region Nested type: Vertex
 
-        protected class Vertex : IBinaryHeapItem<int>
+        protected class Vertex
         {
             internal VertexColor Color = VertexColor.White;
             public Edge[] Edges;
@@ -62,14 +58,7 @@ namespace GraphLight.Algorithm
             internal int ScanIndex;
             internal int TreeEdgeCount;
             public int Value;
-
-            #region IBinaryHeapItem<int> Members
-
-            public int HeapIndex { get; set; }
-
-            public int HeapKey { get; set; } = int.MaxValue;
-
-            #endregion
+            public int Priority { get; set; } = int.MaxValue;
         }
 
         #endregion

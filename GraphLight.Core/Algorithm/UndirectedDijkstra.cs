@@ -27,9 +27,9 @@ namespace GraphLight.Algorithm
             var attrs = _graph.Vertices.ToDictionary(x => x, x => new DijkstraAttr());
             attrs[from].Distance = 0;
 
-            var queue = new PriorityQueue<double, IVertex<V, E>>(_graph.Vertices, HeapType.Min);
+            var queue = new PriorityQueue<double, IVertex<V, E>>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
 
-            while (!queue.IsEmpty)
+            while (queue.Count > 0)
             {
                 var src = queue.Dequeue();
                 foreach (var edge in src.Edges)
@@ -42,7 +42,7 @@ namespace GraphLight.Algorithm
                         dstAttr.Parent = edge;
                         dstAttr.Distance = srcAttr.Distance + edge.Data.Weight;
                         queue.Remove(dst);
-                        queue.Enqueue(dst);
+                        queue.Enqueue(dst, dstAttr.Distance);
                     }
                 }
             }

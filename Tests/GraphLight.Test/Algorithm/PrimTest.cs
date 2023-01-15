@@ -35,7 +35,7 @@ namespace GraphLight.Algorithm
             alg.Execute(graph.Vertices.First());
 
             var sum = edges.Sum(x => x.Data.Weight);
-            Assert.AreEqual(sum, 37.0, "Found spanning tree is not mimimal.");
+            Assert.AreEqual(37.0, sum, "Found spanning tree is not mimimal.");
         }
 
         /// <summary>
