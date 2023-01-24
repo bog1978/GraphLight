@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GraphLight.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -6,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GraphLight.Algorithm
 {
     [TestClass]
-    public class DepthFirstSearchTest
+    public class DepthFirstSearchPostOrderTest
     {
         private readonly IEnumerable<IEdge<object, EdgeDataWeight>> _emptyEdges = Enumerable.Empty<IEdge<object, EdgeDataWeight>>();
 
@@ -23,9 +24,9 @@ namespace GraphLight.Algorithm
             var ca = graph.AddEdge("C", "A", 1);
             var ba = graph.AddEdge("B", "A", 1);
 
-            checkResults(graph,
-                new[] { a, b, c },
-                new[] { ab, bc },
+            CheckResults(graph,
+                new[] { c, b, a },
+                new[] { bc, ab },
                 _emptyEdges,
                 new[] { ca, ba },
                 _emptyEdges);
@@ -45,9 +46,9 @@ namespace GraphLight.Algorithm
             var bd = graph.AddEdge("B", "D", 1);
             var cd = graph.AddEdge("C", "D", 1);
             var da = graph.AddEdge("D", "A", 1);
-            checkResults(graph,
-                new[] { a, b, d, c },
-                new[] { ab, bd, ac },
+            CheckResults(graph,
+                new[] { d, b, c, a },
+                new[] { bd, ab, ac },
                 _emptyEdges,
                 new[] { da },
                 new[] { cd });
@@ -63,8 +64,8 @@ namespace GraphLight.Algorithm
             var ab1 = graph.AddEdge("A", "B", 1);
             var ab2 = graph.AddEdge("A", "B", 2);
 
-            checkResults(graph,
-                new[] { a, b },
+            CheckResults(graph,
+                new[] { b, a },
                 new[] { ab1 },
                 new[] { ab2 },
                 _emptyEdges,
@@ -97,9 +98,9 @@ namespace GraphLight.Algorithm
             var fe = graph.AddEdge("F", "E", 1);
             var cg = graph.AddEdge("C", "G", 1);
 
-            checkResults(graph,
-                new[] { a, b, d, f, e, c, g },
-                new[] { ab, bd, bf, fe, ac, cg },
+            CheckResults(graph,
+                new[] { d, e, f, b, g, c, a },
+                new[] { bd, fe, bf, ab, cg, ac },
                 new[] { ae },
                 _emptyEdges,
                 _emptyEdges);
@@ -137,15 +138,15 @@ namespace GraphLight.Algorithm
             var e63 = graph.AddEdge("6", "3", 1);
             var e42 = graph.AddEdge("4", "2", 1);
 
-            checkResults(graph,
-                new[] { n1, n2, n3, n4, n5, n6, n7, n8 },
-                new[] { e12, e23, e34, e15, e56, e67, e68 },
+            CheckResults(graph,
+                new[] { n4, n3, n2, n7, n8, n6, n5, n1 },
+                new[] { e34, e23, e12, e67, e68, e56, e15 },
                 new[] { e18 },
                 new[] { e42 },
                 new[] { e63 });
         }
 
-        private static void checkResults(
+        private static void CheckResults(
             IGraph<object, object, EdgeDataWeight> graph,
             IEnumerable<IVertex<object, EdgeDataWeight>> nodesExpected,
             IEnumerable<IEdge<object, EdgeDataWeight>> treeEdgesExpected,
@@ -159,12 +160,16 @@ namespace GraphLight.Algorithm
             var tree = new List<IEdge<object, EdgeDataWeight>>();
             var cross = new List<IEdge<object, EdgeDataWeight>>();
 
-            var alg = graph.DepthFirstSearch();
+            var alg = graph.DepthFirstSearch(TraverseRule.PostOrder);
             alg.OnNode = nodes.Add;
-            alg.OnTreeEdge = tree.Add;
-            alg.OnBackEdge = backward.Add;
-            alg.OnForwardEdge = forward.Add;
-            alg.OnCrossEdge = cross.Add;
+            alg.OnEdge = (e, t) => (t switch
+            {
+                DfsEdgeType.Forward => forward,
+                DfsEdgeType.Cross => cross,
+                DfsEdgeType.Back => backward,
+                DfsEdgeType.Tree => tree,
+                _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+            }).Add(e);
 
             alg.Execute();
             CollectionAssert.AreEqual(nodesExpected.ToList(), nodes, "Wrong nodes collection");

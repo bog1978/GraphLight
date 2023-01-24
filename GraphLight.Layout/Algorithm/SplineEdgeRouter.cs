@@ -17,7 +17,7 @@ namespace GraphLight.Algorithm
 
         public void Execute()
         {
-            var dfs = _graph.DepthFirstSearch();
+            var dfs = _graph.DepthFirstSearch(TraverseRule.PreOrder);
 
             IEdge<IVertexData, IEdgeData>? chainEdge = null;
 

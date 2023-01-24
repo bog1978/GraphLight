@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace GraphLight.Model
@@ -8,16 +7,16 @@ namespace GraphLight.Model
     internal class GenericGraph<G, V, E> : IGraph<G, V, E>
     {
         private readonly IDictionary<V, IVertex<V, E>> _map = new Dictionary<V, IVertex<V, E>>();
-        private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
-        private readonly ICollection<IVertex<V, E>> _vertices = new ObservableCollection<IVertex<V, E>>();
+        private readonly List<IEdge<V, E>> _edges = new List<IEdge<V, E>>();
+        private readonly List<IVertex<V, E>> _vertices = new List<IVertex<V, E>>();
 
         internal GenericGraph(G data) => Data = data;
 
         public G Data { get; }
 
-        public IEnumerable<IVertex<V, E>> Vertices => _vertices;
+        public IReadOnlyList<IVertex<V, E>> Vertices => _vertices;
 
-        public IEnumerable<IEdge<V, E>> Edges => _edges;
+        public IReadOnlyList<IEdge<V, E>> Edges => _edges;
 
         public IVertex<V, E> this[V key] => _map[key];
 

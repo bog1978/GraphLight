@@ -17,8 +17,12 @@ namespace GraphLight.Model
         public static void Acyclic<G, V, E>(this IGraph<G, V, E> graph)
         {
             var backEdges = new List<IEdge<V, E>>();
-            var dfs = graph.DepthFirstSearch();
-            dfs.OnBackEdge = backEdges.Add;
+            var dfs = graph.DepthFirstSearch(TraverseRule.PreOrder);
+            dfs.OnEdge = (e, t) =>
+            {
+                if (t == DfsEdgeType.Back)
+                    backEdges.Add(e);
+            };
             dfs.Execute();
             foreach (var e in backEdges)
                 e.Revert();

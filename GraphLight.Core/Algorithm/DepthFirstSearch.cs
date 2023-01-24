@@ -26,37 +26,33 @@ namespace GraphLight.Algorithm
     internal class DepthFirstSearch<G, V, E> : IDepthFirstSearch<V, E>
     {
         private readonly IGraph<G, V, E> _graph;
+        private readonly TraverseRule _rule;
         private readonly Dictionary<IVertex<V, E>, DfsVertexAttr> _attrs;
         private int _time;
 
-        public DepthFirstSearch(IGraph<G, V, E> graph)
+        public DepthFirstSearch(IGraph<G, V, E> graph, TraverseRule rule)
         {
             _graph = graph;
+            _rule = rule;
             // Initially we mark all nodes as white.
             _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());
         }
 
         public Action<IVertex<V, E>>? OnNode { get; set; }
 
-        public Action<IEdge<V, E>>? OnTreeEdge { get; set; }
-
-        public Action<IEdge<V, E>>? OnBackEdge { get; set; }
-
-        public Action<IEdge<V, E>>? OnForwardEdge { get; set; }
-
-        public Action<IEdge<V, E>>? OnCrossEdge { get; set; }
-
         public Action<IEdge<V, E>, DfsEdgeType>? OnEdge { get; set; }
 
         public void Execute()
         {
             foreach (var node in _graph.Vertices.Where(node => _attrs[node].Color == VertexColor.White))
-                dfs(node);
+                Dfs(node);
         }
 
-        private void dfs(IVertex<V, E> vertex)
+        private void Dfs(IVertex<V, E> vertex)
         {
-            OnNode?.Invoke(vertex);
+            if (_rule == TraverseRule.PreOrder)
+                OnNode?.Invoke(vertex);
+
             var srcAttr = _attrs[vertex];
             _time++;
             srcAttr.Color = VertexColor.Gray;
@@ -69,26 +65,28 @@ namespace GraphLight.Algorithm
                 {
                     case VertexColor.Black when srcAttr.Depth < dstAttr.Depth:
                         OnEdge?.Invoke(edge, DfsEdgeType.Forward);
-                        OnForwardEdge?.Invoke(edge);
                         break;
                     case VertexColor.Black:
                         OnEdge?.Invoke(edge, DfsEdgeType.Cross);
-                        OnCrossEdge?.Invoke(edge);
                         break;
                     case VertexColor.Gray:
                         OnEdge?.Invoke(edge, DfsEdgeType.Back);
-                        OnBackEdge?.Invoke(edge);
                         break;
                     case VertexColor.White:
-                        OnEdge?.Invoke(edge, DfsEdgeType.Tree);
-                        OnTreeEdge?.Invoke(edge);
-                        dfs(edge.Dst);
+                        if (_rule == TraverseRule.PreOrder)
+                            OnEdge?.Invoke(edge, DfsEdgeType.Tree);
+                        Dfs(edge.Dst);
+                        if (_rule == TraverseRule.PostOrder)
+                            OnEdge?.Invoke(edge, DfsEdgeType.Tree);
                         break;
                 }
             }
 
             srcAttr.Color = VertexColor.Black;
             _time++;
+
+            if (_rule == TraverseRule.PostOrder)
+                OnNode?.Invoke(vertex);
         }
 
         #region Nested type: DfsNodeAttr

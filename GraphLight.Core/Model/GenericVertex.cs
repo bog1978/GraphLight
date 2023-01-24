@@ -1,26 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GraphLight.Model
 {
     internal class GenericVertex<V, E> : IVertex<V, E>
     {
-        private readonly ICollection<IEdge<V, E>> _edges = new ObservableCollection<IEdge<V, E>>();
-        private readonly ICollection<IEdge<V, E>> _inEdges = new ObservableCollection<IEdge<V, E>>();
-        private readonly ICollection<IEdge<V, E>> _outEdges = new ObservableCollection<IEdge<V, E>>();
-        private readonly ICollection<IEdge<V, E>> _selfEdges = new ObservableCollection<IEdge<V, E>>();
+        private readonly List<IEdge<V, E>> _edges = new List<IEdge<V, E>>();
+        private readonly List<IEdge<V, E>> _inEdges = new List<IEdge<V, E>>();
+        private readonly List<IEdge<V, E>> _outEdges = new List<IEdge<V, E>>();
+        private readonly List<IEdge<V, E>> _selfEdges = new List<IEdge<V, E>>();
 
         public GenericVertex(V data) => Data = data;
 
         public V Data { get; }
 
-        public IEnumerable<IEdge<V, E>> Edges => _edges;
+        public IReadOnlyList<IEdge<V, E>> Edges => _edges;
 
-        public IEnumerable<IEdge<V, E>> InEdges => _inEdges;
+        public IReadOnlyList<IEdge<V, E>> InEdges => _inEdges;
 
-        public IEnumerable<IEdge<V, E>> OutEdges => _outEdges;
+        public IReadOnlyList<IEdge<V, E>> OutEdges => _outEdges;
 
-        public IEnumerable<IEdge<V, E>> SelfEdges => _selfEdges;
+        public IReadOnlyList<IEdge<V, E>> SelfEdges => _selfEdges;
 
         public void RegisterEdge(IEdge<V, E> edge)
         {

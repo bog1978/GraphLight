@@ -9,8 +9,8 @@ namespace GraphLight.Algorithm
         where E : IEdgeDataWeight
             => new UndirectedDijkstra<G, V, E>(graph);
 
-        public static IDepthFirstSearch<V, E> DepthFirstSearch<G, V, E>(this IGraph<G, V, E> graph)
-            => new DepthFirstSearch<G, V, E>(graph);
+        public static IDepthFirstSearch<V, E> DepthFirstSearch<G, V, E>(this IGraph<G, V, E> graph, TraverseRule rule)
+            => new DepthFirstSearch<G, V, E>(graph, rule);
 
         public static ISpanningTree<V, E> PrimSpanningTree<G, V, E>(this IGraph<G, V, E> graph, Func<IEdge<V, E>, double> weightFunc)
             => new PrimSpanningTree<G, V, E>(graph, weightFunc);
