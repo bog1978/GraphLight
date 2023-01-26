@@ -38,12 +38,13 @@ namespace GraphLight.Algorithm
             _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());
         }
 
-        public Action<IVertex<V, E>>? OnNode { get; set; }
+        public Action<IVertexInfo<V, E>>? OnNode { get; set; }
 
-        public Action<IEdge<V, E>, DfsEdgeType>? OnEdge { get; set; }
+        public Action<IEdgeInfo<V, E>>? OnEdge { get; set; }
 
         public void Execute()
         {
+            _time = 0;
             foreach (var node in _graph.Vertices.Where(node => _attrs[node].Color == VertexColor.White))
                 Dfs(node);
         }
@@ -51,7 +52,7 @@ namespace GraphLight.Algorithm
         private void Dfs(IVertex<V, E> vertex)
         {
             if (_rule == TraverseRule.PreOrder)
-                OnNode?.Invoke(vertex);
+                EnterVertex(vertex);
 
             var srcAttr = _attrs[vertex];
             _time++;
@@ -64,30 +65,36 @@ namespace GraphLight.Algorithm
                 switch (dstAttr.Color)
                 {
                     case VertexColor.Black when srcAttr.Depth < dstAttr.Depth:
-                        OnEdge?.Invoke(edge, DfsEdgeType.Forward);
+                        EnterEdge(edge, DfsEdgeType.Forward);
                         break;
                     case VertexColor.Black:
-                        OnEdge?.Invoke(edge, DfsEdgeType.Cross);
+                        EnterEdge(edge, DfsEdgeType.Cross);
                         break;
                     case VertexColor.Gray:
-                        OnEdge?.Invoke(edge, DfsEdgeType.Back);
+                        EnterEdge(edge, DfsEdgeType.Back);
                         break;
                     case VertexColor.White:
                         if (_rule == TraverseRule.PreOrder)
-                            OnEdge?.Invoke(edge, DfsEdgeType.Tree);
+                            EnterEdge(edge, DfsEdgeType.Tree);
                         Dfs(edge.Dst);
                         if (_rule == TraverseRule.PostOrder)
-                            OnEdge?.Invoke(edge, DfsEdgeType.Tree);
+                            EnterEdge(edge, DfsEdgeType.Tree);
                         break;
                 }
             }
 
             srcAttr.Color = VertexColor.Black;
-            _time++;
+            //_time++;
 
             if (_rule == TraverseRule.PostOrder)
-                OnNode?.Invoke(vertex);
+                EnterVertex(vertex);
         }
+
+        private void EnterEdge(IEdge<V, E> edge, DfsEdgeType edgeType) => 
+            OnEdge?.Invoke(new EdgeInfo(edge, edgeType, _time));
+
+        private void EnterVertex(IVertex<V, E> vertex) =>
+            OnNode?.Invoke(new VertexInfo(vertex, _time));
 
         #region Nested type: DfsNodeAttr
 
@@ -102,6 +109,38 @@ namespace GraphLight.Algorithm
                 Color = VertexColor.White;
                 Depth = 0;
             }
+        }
+
+        private class EdgeInfo : IEdgeInfo<V,E>
+        {
+            public EdgeInfo(IEdge<V, E> edge, DfsEdgeType edgeType, int order)
+            {
+                Edge = edge;
+                EdgeType = edgeType;
+                Order = order;
+            }
+
+            public IEdge<V, E> Edge { get; }
+
+            public DfsEdgeType EdgeType { get; }
+
+            public int Order { get; }
+            public override string ToString() => $"{Order}: {EdgeType}: {Edge}";
+        }
+
+        private class VertexInfo : IVertexInfo<V, E>
+        {
+            public VertexInfo(IVertex<V, E> vertex, int order)
+            {
+                Vertex = vertex;
+                Order = order;
+            }
+
+            public IVertex<V, E> Vertex { get; }
+
+            public int Order { get; }
+
+            public override string ToString() => $"{Order}: {Vertex}";
         }
 
         #endregion

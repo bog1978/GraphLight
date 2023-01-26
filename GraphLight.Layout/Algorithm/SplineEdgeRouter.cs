@@ -21,8 +21,9 @@ namespace GraphLight.Algorithm
 
             IEdge<IVertexData, IEdgeData>? chainEdge = null;
 
-            dfs.OnEdge += (e, t) =>
+            dfs.OnEdge += ei =>
             {
+                var e = ei.Edge;
                 if (!e.Src.Data.IsTmp && !e.Dst.Data.IsTmp)
                 {
                     // Обычное ребро.

@@ -161,15 +161,15 @@ namespace GraphLight.Algorithm
             var cross = new List<IEdge<object, EdgeDataWeight>>();
 
             var alg = graph.DepthFirstSearch(TraverseRule.PostOrder);
-            alg.OnNode = nodes.Add;
-            alg.OnEdge = (e, t) => (t switch
+            alg.OnNode = vi => nodes.Add(vi.Vertex);
+            alg.OnEdge = ei => (ei.EdgeType switch
             {
                 DfsEdgeType.Forward => forward,
                 DfsEdgeType.Cross => cross,
                 DfsEdgeType.Back => backward,
                 DfsEdgeType.Tree => tree,
-                _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
-            }).Add(e);
+                var t => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+            }).Add(ei.Edge);
 
             alg.Execute();
             CollectionAssert.AreEqual(nodesExpected.ToList(), nodes, "Wrong nodes collection");

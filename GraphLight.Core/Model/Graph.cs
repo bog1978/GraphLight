@@ -18,10 +18,10 @@ namespace GraphLight.Model
         {
             var backEdges = new List<IEdge<V, E>>();
             var dfs = graph.DepthFirstSearch(TraverseRule.PreOrder);
-            dfs.OnEdge = (e, t) =>
+            dfs.OnEdge = ei =>
             {
-                if (t == DfsEdgeType.Back)
-                    backEdges.Add(e);
+                if (ei.EdgeType == DfsEdgeType.Back)
+                    backEdges.Add(ei.Edge);
             };
             dfs.Execute();
             foreach (var e in backEdges)

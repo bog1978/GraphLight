@@ -154,6 +154,7 @@ namespace GraphLight.Algorithm
             IEnumerable<IEdge<object, EdgeDataWeight>> backwardExpected,
             IEnumerable<IEdge<object, EdgeDataWeight>> crossExpected)
         {
+            var nodesInf = new List<IVertexInfo<object, EdgeDataWeight>>();
             var nodes = new List<IVertex<object, EdgeDataWeight>>();
             var backward = new List<IEdge<object, EdgeDataWeight>>();
             var forward = new List<IEdge<object, EdgeDataWeight>>();
@@ -161,15 +162,19 @@ namespace GraphLight.Algorithm
             var cross = new List<IEdge<object, EdgeDataWeight>>();
 
             var alg = graph.DepthFirstSearch(TraverseRule.PreOrder);
-            alg.OnNode = nodes.Add;
-            alg.OnEdge = (e, t) => (t switch
+            alg.OnNode = vi =>
+            {
+                nodesInf.Add(vi);
+                nodes.Add(vi.Vertex);
+            };
+            alg.OnEdge = ei => (ei.EdgeType switch
             {
                 DfsEdgeType.Forward => forward,
                 DfsEdgeType.Cross => cross,
                 DfsEdgeType.Back => backward,
                 DfsEdgeType.Tree => tree,
-                _ => throw new ArgumentOutOfRangeException(nameof(t), t, null)
-            }).Add(e);
+                var t => throw new ArgumentOutOfRangeException(nameof(t), t, null)
+            }).Add(ei.Edge);
 
             alg.Execute();
             CollectionAssert.AreEqual(nodesExpected.ToList(), nodes, "Wrong nodes collection");
@@ -177,6 +182,8 @@ namespace GraphLight.Algorithm
             CollectionAssert.AreEqual(forwardExpected.ToList(), forward, "Wrong forward edges collection");
             CollectionAssert.AreEqual(backwardExpected.ToList(), backward, "Wrong bckward edges collection");
             CollectionAssert.AreEqual(crossExpected.ToList(), cross, "Wrong cross edges collection");
+            for (var i = 0; i < nodesInf.Count; i++)
+                Assert.AreEqual(i, nodesInf[i].Order);
         }
     }
 }

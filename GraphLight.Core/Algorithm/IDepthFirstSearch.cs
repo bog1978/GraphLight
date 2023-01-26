@@ -5,8 +5,21 @@ namespace GraphLight.Algorithm
 {
     public interface IDepthFirstSearch<V, E> : IAlgorithm
     {
-        Action<IVertex<V, E>> OnNode { get; set; }
-        Action<IEdge<V, E>, DfsEdgeType> OnEdge { get; set; }
+        Action<IVertexInfo<V, E>>? OnNode { get; set; }
+        Action<IEdgeInfo<V, E>>? OnEdge { get; set; }
+    }
+
+    public interface IEdgeInfo<V, E>
+    {
+        IEdge<V, E> Edge { get; }
+        DfsEdgeType EdgeType { get; }
+        int Order { get; }
+    }
+
+    public interface IVertexInfo<V, E>
+    {
+        IVertex<V, E> Vertex { get; }
+        int Order { get; }
     }
 
     public enum DfsEdgeType
