@@ -19,15 +19,15 @@ namespace GraphLight.Model
 
             var cp = g.InsertControlPoint(ab, new object(), new object());
             Assert.IsTrue(ReferenceEquals(ab, graph.Edges.First()));
-            Assert.IsTrue(ReferenceEquals(ab, a.OutEdges.First()));
-            Assert.IsTrue(ReferenceEquals(ab, cp.InEdges.First()));
+            Assert.IsTrue(ReferenceEquals(ab, graph.GetOutEdges(a).First()));
+            Assert.IsTrue(ReferenceEquals(ab, graph.GetInEdges(cp).First()));
             Assert.IsTrue(ReferenceEquals(ab.Src, a));
             Assert.IsTrue(ReferenceEquals(ab.Dst, cp));
 
             g.RemoveControlPoint(cp);
             Assert.IsTrue(ReferenceEquals(ab, graph.Edges.First()));
-            Assert.IsTrue(ReferenceEquals(ab, a.OutEdges.First()));
-            Assert.IsTrue(ReferenceEquals(ab, b.InEdges.First()));
+            Assert.IsTrue(ReferenceEquals(ab, graph.GetOutEdges(a).First()));
+            Assert.IsTrue(ReferenceEquals(ab, graph.GetInEdges(b).First()));
             Assert.IsTrue(ReferenceEquals(ab.Src, a));
             Assert.IsTrue(ReferenceEquals(ab.Dst, b));
         }

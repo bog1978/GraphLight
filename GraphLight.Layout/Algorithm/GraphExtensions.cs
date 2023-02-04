@@ -25,20 +25,20 @@ namespace GraphLight.Algorithm
 
         internal static void RemoveControlPoint<G, V, E>(this IGraph<G, V, E> graph, IVertex<V, E> vertex)
         {
-            var inCnt = vertex.InEdges.Count();
-            var outCnt = vertex.OutEdges.Count();
+            var inCnt = graph.GetInEdges(vertex).Count;
+            var outCnt = graph.GetOutEdges(vertex).Count;
 
             if (inCnt > 1 || outCnt > 1)
                 throw new Exception("Can't remove node");
 
             if (inCnt == 0 && outCnt == 1)
-                graph.RemoveEdge(vertex.OutEdges.First());
+                graph.RemoveEdge(graph.GetOutEdges(vertex).First());
             else if (inCnt == 1 && outCnt == 0)
-                graph.RemoveEdge(vertex.InEdges.First());
+                graph.RemoveEdge(graph.GetInEdges(vertex).First());
             else if (inCnt == 1 && outCnt == 1)
             {
-                var inEdge = vertex.InEdges.First();
-                var outEdge = vertex.OutEdges.First();
+                var inEdge = graph.GetInEdges(vertex).First();
+                var outEdge = graph.GetOutEdges(vertex).First();
 
                 inEdge.Dst = outEdge.Dst;
                 graph.RemoveEdge(outEdge);

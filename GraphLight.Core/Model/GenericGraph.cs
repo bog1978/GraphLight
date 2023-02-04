@@ -35,12 +35,24 @@ namespace GraphLight.Model
         {
             if (vertex == null)
                 return;
-            var edges = vertex.Edges.ToArray();
+            var edges = GetEdges(vertex).ToArray();
             foreach (var edge in edges)
                 RemoveEdge(edge);
             _vertices.Remove(vertex);
             _map.Remove(vertex.Data);
         }
+
+        public IReadOnlyList<IEdge<V, E>> GetEdges(IVertex<V, E> vertex) => 
+            ((GenericVertex<V, E>)vertex).Edges;
+
+        public IReadOnlyList<IEdge<V, E>> GetInEdges(IVertex<V, E> vertex) => 
+            ((GenericVertex<V, E>)vertex).InEdges;
+
+        public IReadOnlyList<IEdge<V, E>> GetOutEdges(IVertex<V, E> vertex) =>
+            ((GenericVertex<V, E>)vertex).OutEdges;
+
+        public IReadOnlyList<IEdge<V, E>> GetLoopEdges(IVertex<V, E> vertex) =>
+            ((GenericVertex<V, E>)vertex).SelfEdges;
 
         public IVertex<V, E> InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData)
         {

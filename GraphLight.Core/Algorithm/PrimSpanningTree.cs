@@ -40,7 +40,7 @@ namespace GraphLight.Algorithm
                 if (uAttr.Parent != null)
                     EnterEdge(uAttr.Parent);
 
-                foreach (var e in u.Edges)
+                foreach (var e in _graph.GetEdges(u))
                 {
                     var v = e.Src == u ? e.Dst : e.Src;
                     var vAttr = attrs[v];

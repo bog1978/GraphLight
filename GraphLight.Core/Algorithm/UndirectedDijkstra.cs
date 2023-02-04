@@ -32,7 +32,7 @@ namespace GraphLight.Algorithm
             while (queue.Count > 0)
             {
                 var src = queue.Dequeue();
-                foreach (var edge in src.Edges)
+                foreach (var edge in _graph.GetEdges(src))
                 {
                     var dst = edge.Dst != src ? edge.Dst : edge.Src;
                     var dstAttr = attrs[dst];

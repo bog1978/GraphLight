@@ -44,7 +44,7 @@ namespace GraphLight.Algorithm
         {
             node.Data.Position = _count++;
             _nodeColors[node] = 0;
-            foreach (var dst in node.OutEdges.Select(e => e.Dst).Where(dst => _nodeColors[dst] == -1))
+            foreach (var dst in _graph.GetOutEdges(node).Select(e => e.Dst).Where(dst => _nodeColors[dst] == -1))
             {
                 dfs(dst);
                 _nodeColors[dst] = 1;
@@ -101,34 +101,34 @@ namespace GraphLight.Algorithm
             n2.Data.Position = tmp;
         }
 
-        private static int crossCount(IVertex<IVertexData, IEdgeData> n1, IVertex<IVertexData, IEdgeData> n2)
+        private int crossCount(IVertex<IVertexData, IEdgeData> n1, IVertex<IVertexData, IEdgeData> n2)
         {
             var cross1 =
-                from e1 in n1.InEdges
-                from e2 in n2.InEdges
+                from e1 in _graph.GetInEdges(n1)
+                from e2 in _graph.GetInEdges(n2)
                 where e1.Cross(e2)
                 select e1;
 
             var cross2 =
-                from e1 in n1.OutEdges
-                from e2 in n2.OutEdges
+                from e1 in _graph.GetOutEdges(n1)
+                from e2 in _graph.GetOutEdges(n2)
                 where e1.Cross(e2)
                 select e1;
 
             return cross1.Count() + cross2.Count();
         }
 
-        private static double totalLength(IVertex<IVertexData, IEdgeData> n1, IVertex<IVertexData, IEdgeData> n2)
+        private double totalLength(IVertex<IVertexData, IEdgeData> n1, IVertex<IVertexData, IEdgeData> n2)
         {
-            var l1 = n1.Edges.Sum(e => Math.Abs(e.Src.Data.Position - e.Dst.Data.Position) * e.Data.Weight);
-            var l2 = n2.Edges.Sum(e => Math.Abs(e.Src.Data.Position - e.Dst.Data.Position) * e.Data.Weight);
+            var l1 = _graph.GetEdges(n1).Sum(e => Math.Abs(e.Src.Data.Position - e.Dst.Data.Position) * e.Data.Weight);
+            var l2 = _graph.GetEdges(n2).Sum(e => Math.Abs(e.Src.Data.Position - e.Dst.Data.Position) * e.Data.Weight);
             return l1 + l2;
         }
 
-        private static int quality(IEnumerable<IVertex<IVertexData, IEdgeData>> rank)
+        private int quality(IEnumerable<IVertex<IVertexData, IEdgeData>> rank)
         {
             var cnt = 0;
-            var edges = rank.SelectMany(x => x.OutEdges).ToArray();
+            var edges = rank.SelectMany(x => _graph.GetOutEdges(x)).ToArray();
             for (var i = 0; i < edges.Length; i++)
                 for (var j = i + 1; j < edges.Length; j++)
                 {
@@ -160,7 +160,7 @@ namespace GraphLight.Algorithm
 
                 tmpRanks.Iter((adjacentRank, rank) =>
                 {
-                    var order = new BaricenterOrderManager(Math.Max(adjacentRank.Count, rank.Count), isReverse);
+                    var order = new BaricenterOrderManager(_graph, Math.Max(adjacentRank.Count, rank.Count), isReverse);
                     rank.Iter(order.Insert);
                     order.UpdatePositions();
                     rank.Sort((a, b) => a.Data.Position.CompareTo(b.Data.Position));
@@ -182,10 +182,10 @@ namespace GraphLight.Algorithm
                 pair.Key.Data.Position = pair.Value;
         }
 
-        private static int rankCross(IEnumerable<IVertex<IVertexData, IEdgeData>> rank)
+        private int rankCross(IEnumerable<IVertex<IVertexData, IEdgeData>> rank)
         {
             var cnt = 0;
-            var edges = rank.SelectMany(x => x.OutEdges).ToArray();
+            var edges = rank.SelectMany(x => _graph.GetOutEdges(x)).ToArray();
             for (var i = 0; i < edges.Length; i++)
                 for (var j = i + 1; j < edges.Length; j++)
                 {
@@ -240,38 +240,42 @@ namespace GraphLight.Algorithm
 
         private class BaricenterOrderManager : OrderManager
         {
-            public BaricenterOrderManager(int count, bool isRevertPath)
-                : base(count, isRevertPath) { }
+            private readonly IGraph<IGraphData, IVertexData, IEdgeData> _graph;
+
+            public BaricenterOrderManager(IGraph<IGraphData, IVertexData, IEdgeData> graph, int count, bool isRevertPath)
+                : base(count, isRevertPath) => _graph = graph;
 
             protected override int GetDirectIndex(IVertex<IVertexData, IEdgeData> node)
             {
-                return node.InEdges.Any()
+                return _graph.GetInEdges(node).Any()
                     ? (int)Math.Round(
-                        node.InEdges.Select(x => x.Src.Data.Position).Average())
+                        _graph.GetInEdges(node).Select(x => x.Src.Data.Position).Average())
                     : node.Data.Position;
             }
 
             protected override int GetReverseIndex(IVertex<IVertexData, IEdgeData> node)
             {
-                return node.OutEdges.Any()
+                return _graph.GetOutEdges(node).Any()
                     ? (int)Math.Round(
-                        node.OutEdges.Select(x => x.Dst.Data.Position).Average())
+                        _graph.GetOutEdges(node).Select(x => x.Dst.Data.Position).Average())
                     : node.Data.Position;
             }
         }
 
         private class MedianOrderManager : OrderManager
         {
-            public MedianOrderManager(int count, bool isRevertPath)
-                : base(count, isRevertPath) { }
+            private readonly IGraph<IGraphData, IVertexData, IEdgeData> _graph;
+
+            public MedianOrderManager(IGraph<IGraphData, IVertexData, IEdgeData> graph, int count, bool isRevertPath)
+                : base(count, isRevertPath) => _graph = graph;
 
             protected override int GetDirectIndex(IVertex<IVertexData, IEdgeData> node)
             {
-                var positions = node.InEdges
+                var positions = _graph.GetInEdges(node)
                     .Select(x => x.Src.Data.Position)
                     .OrderBy(x => x)
                     .ToList();
-                if (node.InEdges.Any())
+                if (_graph.GetInEdges(node).Any())
                 {
                     var index = positions.Count % 2 == 0
                         ? positions.Count / 2 - 1
@@ -283,11 +287,11 @@ namespace GraphLight.Algorithm
 
             protected override int GetReverseIndex(IVertex<IVertexData, IEdgeData> node)
             {
-                var positions = node.OutEdges
+                var positions = _graph.GetOutEdges(node)
                     .Select(x => x.Dst.Data.Position)
                     .OrderBy(x => x)
                     .ToList();
-                if (node.OutEdges.Any())
+                if (_graph.GetOutEdges(node).Any())
                 {
                     var index = positions.Count % 2 == 0
                         ? positions.Count / 2 - 1

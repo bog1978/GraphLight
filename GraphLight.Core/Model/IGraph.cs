@@ -12,5 +12,9 @@ namespace GraphLight.Model
         IVertex<V, E> InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData);
         void RemoveEdge(IEdge<V, E> edge);
         void RemoveVertex(IVertex<V, E> vertex);
+        IReadOnlyList<IEdge<V, E>> GetEdges(IVertex<V, E> vertex);
+        IReadOnlyList<IEdge<V, E>> GetInEdges(IVertex<V, E> vertex);
+        IReadOnlyList<IEdge<V, E>> GetOutEdges(IVertex<V, E> vertex);
+        IReadOnlyList<IEdge<V, E>> GetLoopEdges(IVertex<V, E> vertex);
     }
 }

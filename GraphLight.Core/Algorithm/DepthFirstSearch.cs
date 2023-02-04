@@ -59,7 +59,7 @@ namespace GraphLight.Algorithm
             srcAttr.Color = VertexColor.Gray;
             srcAttr.Depth = _time;
 
-            foreach (var edge in vertex.OutEdges)
+            foreach (var edge in _graph.GetOutEdges(vertex))
             {
                 var dstAttr = _attrs[edge.Dst];
                 switch (dstAttr.Color)

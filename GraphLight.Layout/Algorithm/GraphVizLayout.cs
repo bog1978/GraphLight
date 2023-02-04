@@ -95,7 +95,7 @@ namespace GraphLight.Algorithm
                     var newNode = Graph.InsertControlPoint(edge1, new VertexData($"mid_{++_tmpId}"), new EdgeData());
                     newNode.Data.IsTmp = true;
                     newNode.Data.Rank = edge.Src.Data.Rank + rankShift;
-                    edge1 = newNode.OutEdges.First();
+                    edge1 = Graph.GetOutEdges(newNode).First();
                 }
             }
 

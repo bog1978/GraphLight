@@ -22,82 +22,83 @@ namespace GraphLight.Model
             var ac = g.AddEdge(a.Data, c.Data, new object());
             var bc = g.AddEdge(b.Data, c.Data, new object());
 
-            checkEdges(a, new[] { aa, ab, ac }, _emptyEdges, new[] { ab, ac }, new[] { aa });
-            checkEdges(b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
-            checkEdges(c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa, ab, ac }, _emptyEdges, new[] { ab, ac }, new[] { aa });
+            checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
+            checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
             ab.Src = c;
-            checkEdges(a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
-            checkEdges(b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
-            checkEdges(c, new[] { ab, ac, bc }, new[] { ac, bc }, new[] { ab }, _emptyEdges);
+            checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
+            checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
+            checkEdges(g, c, new[] { ab, ac, bc }, new[] { ac, bc }, new[] { ab }, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
             ab.Src = null;
-            checkEdges(a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
-            checkEdges(b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
-            checkEdges(c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
+            checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
+            checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
             ab.Dst = null;
-            checkEdges(a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
-            checkEdges(b, new[] { bc }, _emptyEdges, new[] { bc }, _emptyEdges);
-            checkEdges(c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
+            checkEdges(g, b, new[] { bc }, _emptyEdges, new[] { bc }, _emptyEdges);
+            checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
             ab.Dst = b;
-            checkEdges(a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
-            checkEdges(b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
-            checkEdges(c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
+            checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
+            checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
             ab.Src = a;
-            checkEdges(a, new[] { aa, ab, ac }, _emptyEdges, new[] { ab, ac }, new[] { aa });
-            checkEdges(b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
-            checkEdges(c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa, ab, ac }, _emptyEdges, new[] { ab, ac }, new[] { aa });
+            checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
+            checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
             g.RemoveVertex(b);
-            checkEdges(a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
-            checkEdges(b, _emptyEdges, _emptyEdges, _emptyEdges, _emptyEdges);
-            checkEdges(c, new[] { ac }, new[] { ac }, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
+            checkEdges(g, b, _emptyEdges, _emptyEdges, _emptyEdges, _emptyEdges);
+            checkEdges(g, c, new[] { ac }, new[] { ac }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ac }, new[] { a, c });
 
             g.RemoveEdge(ac);
-            checkEdges(a, new[] { aa }, _emptyEdges, _emptyEdges, new[] { aa });
-            checkEdges(b, _emptyEdges, _emptyEdges, _emptyEdges, _emptyEdges);
-            checkEdges(c, _emptyEdges, _emptyEdges, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa }, _emptyEdges, _emptyEdges, new[] { aa });
+            checkEdges(g, b, _emptyEdges, _emptyEdges, _emptyEdges, _emptyEdges);
+            checkEdges(g, c, _emptyEdges, _emptyEdges, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa }, new[] { a, c });
 
             aa.Src = null;
-            checkEdges(a, new[] { aa }, new[] { aa }, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa }, new[] { aa }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa }, new[] { a, c });
 
             aa.Src = a;
-            checkEdges(a, new[] { aa }, _emptyEdges, _emptyEdges, new[] { aa });
+            checkEdges(g, a, new[] { aa }, _emptyEdges, _emptyEdges, new[] { aa });
             checkGraph(g, new[] { aa }, new[] { a, c });
 
             aa.Dst = null;
-            checkEdges(a, new[] { aa }, _emptyEdges, new[] { aa }, _emptyEdges);
+            checkEdges(g, a, new[] { aa }, _emptyEdges, new[] { aa }, _emptyEdges);
             checkGraph(g, new[] { aa }, new[] { a, c });
 
             aa.Dst = c;
-            checkEdges(a, new[] { aa }, _emptyEdges, new[] { aa }, _emptyEdges);
-            checkEdges(c, new[] { aa }, new[] { aa }, _emptyEdges, _emptyEdges);
+            checkEdges(g, a, new[] { aa }, _emptyEdges, new[] { aa }, _emptyEdges);
+            checkEdges(g, c, new[] { aa }, new[] { aa }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa }, new[] { a, c });
         }
 
         private static void checkEdges(
+            IGraph<object, object, object> graph,
             IVertex<object, object> vertex,
             ICollection allEdges,
             ICollection inEdges,
             ICollection outEdges,
             ICollection selfEdges)
         {
-            CollectionAssert.AreEquivalent(vertex.Edges.ToList(), allEdges);
-            CollectionAssert.AreEquivalent(vertex.InEdges.ToList(), inEdges);
-            CollectionAssert.AreEquivalent(vertex.OutEdges.ToList(), outEdges);
-            CollectionAssert.AreEquivalent(vertex.SelfEdges.ToList(), selfEdges);
+            CollectionAssert.AreEquivalent(graph.GetEdges(vertex).ToList(), allEdges);
+            CollectionAssert.AreEquivalent(graph.GetInEdges(vertex).ToList(), inEdges);
+            CollectionAssert.AreEquivalent(graph.GetOutEdges(vertex).ToList(), outEdges);
+            CollectionAssert.AreEquivalent(graph.GetLoopEdges(vertex).ToList(), selfEdges);
         }
 
         private static void checkGraph(IGraph<object, object, object> graph, ICollection edges, ICollection verteces)
