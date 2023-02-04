@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using GraphLight.Collections;
 using GraphLight.Model;
 
 namespace GraphLight.Algorithm
@@ -25,22 +26,11 @@ namespace GraphLight.Algorithm
 
         public void Execute(IVertex<V, E> root)
         {
-            var attrs = _graph.Vertices.ToDictionary(x => x, x => VertexColor.White);
+            var ds = new DisjointSet<IVertex<V, E>>(_graph.Vertices);
             var sortedEdges = _graph.Edges.OrderBy(_weightFunc).ToList();
             foreach (var edge in sortedEdges)
-            {
-                var src = edge.Src;
-                var dst = edge.Dst;
-                if(src.Data.Equals(dst.Data))
-                    continue;
-                var srcColor = attrs[src];
-                var dstColor = attrs[dst];
-                if(srcColor == VertexColor.Black && dstColor == VertexColor.Black)
-                    continue;
-                attrs[src] = VertexColor.Black;
-                attrs[dst] = VertexColor.Black;
-                EnterEdge(edge);
-            }
+                if (ds.Unite(edge.Src, edge.Dst))
+                    EnterEdge(edge);
         }
     }
 }
