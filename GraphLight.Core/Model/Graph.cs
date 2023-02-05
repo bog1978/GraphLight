@@ -25,7 +25,7 @@ namespace GraphLight.Model
             };
             dfs.Execute();
             foreach (var e in backEdges)
-                e.Revert();
+                graph.Revert(e);
         }
     }
 }

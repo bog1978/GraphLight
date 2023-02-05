@@ -95,7 +95,7 @@ namespace GraphLight.Algorithm
             var tmpNodes = _graph.Vertices
                 .Where(x => x.Data.IsTmp)
                 .ToList();
-            tmpNodes.Iter(x => _graph.RemoveControlPoint(x));
+            tmpNodes.Iter(_graph.RemoveControlPoint);
         }
 
         private static IEnumerable<Point2D> LoopCurve(IEdge<IVertexData, IEdgeData> edge)

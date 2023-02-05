@@ -27,31 +27,31 @@ namespace GraphLight.Model
             checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
-            ab.Src = c;
+            g.ChangeSource(ab, c);
             checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
             checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
             checkEdges(g, c, new[] { ab, ac, bc }, new[] { ac, bc }, new[] { ab }, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
-            ab.Src = null;
+            g.ChangeSource(ab, null);
             checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
             checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
             checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
-            ab.Dst = null;
+            g.ChangeDestination(ab, null);
             checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
             checkEdges(g, b, new[] { bc }, _emptyEdges, new[] { bc }, _emptyEdges);
             checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
-            ab.Dst = b;
+            g.ChangeDestination(ab, b);
             checkEdges(g, a, new[] { aa, ac }, _emptyEdges, new[] { ac }, new[] { aa });
             checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
             checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa, ab, ac, bc }, new[] { a, b, c });
 
-            ab.Src = a;
+            g.ChangeSource(ab, a);
             checkEdges(g, a, new[] { aa, ab, ac }, _emptyEdges, new[] { ab, ac }, new[] { aa });
             checkEdges(g, b, new[] { ab, bc }, new[] { ab }, new[] { bc }, _emptyEdges);
             checkEdges(g, c, new[] { ac, bc }, new[] { ac, bc }, _emptyEdges, _emptyEdges);
@@ -69,19 +69,19 @@ namespace GraphLight.Model
             checkEdges(g, c, _emptyEdges, _emptyEdges, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa }, new[] { a, c });
 
-            aa.Src = null;
+            g.ChangeSource(aa, null);
             checkEdges(g, a, new[] { aa }, new[] { aa }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa }, new[] { a, c });
 
-            aa.Src = a;
+            g.ChangeSource(aa, a);
             checkEdges(g, a, new[] { aa }, _emptyEdges, _emptyEdges, new[] { aa });
             checkGraph(g, new[] { aa }, new[] { a, c });
 
-            aa.Dst = null;
+            g.ChangeDestination(aa, null);
             checkEdges(g, a, new[] { aa }, _emptyEdges, new[] { aa }, _emptyEdges);
             checkGraph(g, new[] { aa }, new[] { a, c });
 
-            aa.Dst = c;
+            g.ChangeDestination(aa, c);
             checkEdges(g, a, new[] { aa }, _emptyEdges, new[] { aa }, _emptyEdges);
             checkEdges(g, c, new[] { aa }, new[] { aa }, _emptyEdges, _emptyEdges);
             checkGraph(g, new[] { aa }, new[] { a, c });

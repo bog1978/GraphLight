@@ -16,5 +16,8 @@ namespace GraphLight.Model
         IReadOnlyList<IEdge<V, E>> GetInEdges(IVertex<V, E> vertex);
         IReadOnlyList<IEdge<V, E>> GetOutEdges(IVertex<V, E> vertex);
         IReadOnlyList<IEdge<V, E>> GetLoopEdges(IVertex<V, E> vertex);
+        void Revert(IEdge<V, E> edge);
+        void ChangeSource(IEdge<V, E> edge, IVertex<V, E> vertex);
+        void ChangeDestination(IEdge<V, E> edge, IVertex<V, E> vertex);
     }
 }

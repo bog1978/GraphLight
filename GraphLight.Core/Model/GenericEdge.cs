@@ -18,7 +18,7 @@ namespace GraphLight.Model
 
         public E Data { get; }
 
-        public bool IsRevert { get; private set; }
+        public bool IsRevert { get; internal set; }
 
         public IVertex<V, E> Src
         {
@@ -36,7 +36,7 @@ namespace GraphLight.Model
         public IVertex<V, E> Dst
         {
             get => _dst;
-            set
+            internal set
             {
                 var oldValue = _dst;
                 if (oldValue == value)
@@ -44,16 +44,6 @@ namespace GraphLight.Model
                 _dst = value;
                 OnEdgeChanged(oldValue, value);
             }
-        }
-
-        public void Revert()
-        {
-            if (IsRevert)
-                throw new Exception("Edge is already reverted.");
-            var tmp = Src;
-            Src = Dst;
-            Dst = tmp;
-            IsRevert = !IsRevert;
         }
 
         public override string ToString() => $"{Src} -> {Dst}: {Data}";

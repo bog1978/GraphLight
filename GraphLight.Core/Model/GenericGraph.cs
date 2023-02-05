@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace GraphLight.Model
 {
@@ -59,7 +60,7 @@ namespace GraphLight.Model
             if (!Edges.Contains(edge))
                 throw new Exception("Данное ребро не принадлежит графу");
             var newEdge = AddEdge(vertexData, edge.Dst.Data, edgeData);
-            edge.Dst = newEdge.Src;
+            ((GenericEdge<V,E>)edge).Dst = newEdge.Src;
             return newEdge.Src;
         }
 
@@ -73,8 +74,21 @@ namespace GraphLight.Model
         public void RemoveEdge(IEdge<V, E> edge)
         {
             _edges.Remove(edge);
-            edge.Src = null;
-            edge.Dst = null;
+            ((GenericEdge<V, E>)edge).Src = null;
+            ((GenericEdge<V, E>)edge).Dst = null;
         }
+
+        public void Revert(IEdge<V, E> edge)
+        {
+            var e = (GenericEdge<V, E>)edge;
+            if (e.IsRevert)
+                throw new Exception("Edge is already reverted.");
+            (e.Src, e.Dst) = (e.Dst, e.Src);
+            e.IsRevert = !e.IsRevert;
+        }
+
+        public void ChangeSource(IEdge<V, E> edge, IVertex<V, E> vertex) => ((GenericEdge<V, E>)edge).Src = vertex;
+
+        public void ChangeDestination(IEdge<V, E> edge, IVertex<V, E> vertex) => ((GenericEdge<V, E>)edge).Dst = vertex;
     }
 }
