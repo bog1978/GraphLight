@@ -9,7 +9,7 @@ namespace GraphLight.Algorithm
         where E : IEdgeDataWeight
     {
         private readonly IGraph<G, V, E> _graph;
-        private Dictionary<IVertex<V, E>, Vertex> _vertexMap;
+        private Dictionary<IVertex<V>, Vertex> _vertexMap;
 
         public RankNetworkSimplex(IGraph<G, V, E> graph)
         {

@@ -88,7 +88,7 @@ namespace GraphLight.Layout
         //    }
         //}
 
-        private static void checkRanks(IGraph<IGraphData, IVertexData, IEdgeData> graph, IDictionary<IVertex<IVertexData, IEdgeData>, int> expectedRanks)
+        private static void checkRanks(IGraph<IGraphData, IVertexData, IEdgeData> graph, IDictionary<IVertex<IVertexData>, int> expectedRanks)
         {
             foreach (var vertex in graph.Vertices)
             {

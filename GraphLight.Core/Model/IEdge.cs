@@ -3,7 +3,7 @@
     public interface IEdge<TVertexData, TEdgeData> : IElement<TEdgeData>
     {
         bool IsRevert { get; }
-        IVertex<TVertexData, TEdgeData> Dst { get; }
-        IVertex<TVertexData, TEdgeData> Src { get; }
+        IVertex<TVertexData> Dst { get; }
+        IVertex<TVertexData> Src { get; }
     }
 }

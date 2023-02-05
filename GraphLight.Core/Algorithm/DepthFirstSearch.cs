@@ -27,7 +27,7 @@ namespace GraphLight.Algorithm
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly TraverseRule _rule;
-        private readonly Dictionary<IVertex<V, E>, DfsVertexAttr> _attrs;
+        private readonly Dictionary<IVertex<V>, DfsVertexAttr> _attrs;
         private int _time;
 
         public DepthFirstSearch(IGraph<G, V, E> graph, TraverseRule rule)
@@ -49,7 +49,7 @@ namespace GraphLight.Algorithm
                 Dfs(node);
         }
 
-        private void Dfs(IVertex<V, E> vertex)
+        private void Dfs(IVertex<V> vertex)
         {
             if (_rule == TraverseRule.PreOrder)
                 EnterVertex(vertex);
@@ -93,7 +93,7 @@ namespace GraphLight.Algorithm
         private void EnterEdge(IEdge<V, E> edge, DfsEdgeType edgeType) => 
             OnEdge?.Invoke(new EdgeInfo(edge, edgeType, _time));
 
-        private void EnterVertex(IVertex<V, E> vertex) =>
+        private void EnterVertex(IVertex<V> vertex) =>
             OnNode?.Invoke(new VertexInfo(vertex, _time));
 
         #region Nested type: DfsNodeAttr
@@ -130,13 +130,13 @@ namespace GraphLight.Algorithm
 
         private class VertexInfo : IVertexInfo<V, E>
         {
-            public VertexInfo(IVertex<V, E> vertex, int order)
+            public VertexInfo(IVertex<V> vertex, int order)
             {
                 Vertex = vertex;
                 Order = order;
             }
 
-            public IVertex<V, E> Vertex { get; }
+            public IVertex<V> Vertex { get; }
 
             public int Order { get; }
 

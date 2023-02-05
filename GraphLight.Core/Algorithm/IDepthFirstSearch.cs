@@ -18,7 +18,7 @@ namespace GraphLight.Algorithm
 
     public interface IVertexInfo<V, E>
     {
-        IVertex<V, E> Vertex { get; }
+        IVertex<V> Vertex { get; }
         int Order { get; }
     }
 

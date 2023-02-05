@@ -11,7 +11,7 @@ namespace GraphLight.Algorithm
     {
         private readonly IGraph<G, V, E> _graph;
         private Action<IEdge<V, E>> _enterEdge = x => { };
-        private Action<IVertex<V, E>> _enterNode = x => { };
+        private Action<IVertex<V>> _enterNode = x => { };
 
         public UndirectedDijkstra(IGraph<G, V, E> graph)
         {
@@ -27,7 +27,7 @@ namespace GraphLight.Algorithm
             var attrs = _graph.Vertices.ToDictionary(x => x, x => new DijkstraAttr());
             attrs[from].Distance = 0;
 
-            var queue = new PriorityQueue<double, IVertex<V, E>>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
+            var queue = new PriorityQueue<double, IVertex<V>>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
 
             while (queue.Count > 0)
             {
@@ -47,7 +47,7 @@ namespace GraphLight.Algorithm
                 }
             }
 
-            var vertexPath = new List<IVertex<V, E>>();
+            var vertexPath = new List<IVertex<V>>();
             var edgePath = new List<IEdge<V, E>>();
 
             var last = to;
@@ -74,7 +74,7 @@ namespace GraphLight.Algorithm
             set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public Action<IVertex<V, E>> EnterNode
+        public Action<IVertex<V>> EnterNode
         {
             get => _enterNode;
             set => _enterNode = value ?? throw new ArgumentNullException(nameof(value));

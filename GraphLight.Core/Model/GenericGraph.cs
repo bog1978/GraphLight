@@ -6,21 +6,21 @@ namespace GraphLight.Model
 {
     internal class GenericGraph<G, V, E> : IGraph<G, V, E>
     {
-        private readonly IDictionary<V, IVertex<V, E>> _map = new Dictionary<V, IVertex<V, E>>();
+        private readonly IDictionary<V, IVertex<V>> _map = new Dictionary<V, IVertex<V>>();
         private readonly List<IEdge<V, E>> _edges = new List<IEdge<V, E>>();
-        private readonly List<IVertex<V, E>> _vertices = new List<IVertex<V, E>>();
+        private readonly List<IVertex<V>> _vertices = new List<IVertex<V>>();
 
         internal GenericGraph(G data) => Data = data;
 
         public G Data { get; }
 
-        public IReadOnlyList<IVertex<V, E>> Vertices => _vertices;
+        public IReadOnlyList<IVertex<V>> Vertices => _vertices;
 
         public IReadOnlyList<IEdge<V, E>> Edges => _edges;
 
-        public IVertex<V, E> this[V key] => _map[key];
+        public IVertex<V> this[V key] => _map[key];
 
-        public IVertex<V, E> AddVertex(V data)
+        public IVertex<V> AddVertex(V data)
         {
             if (!_map.TryGetValue(data, out var vertex))
             {
@@ -31,7 +31,7 @@ namespace GraphLight.Model
             return vertex;
         }
 
-        public void RemoveVertex(IVertex<V, E> vertex)
+        public void RemoveVertex(IVertex<V> vertex)
         {
             if (vertex == null)
                 return;
@@ -42,19 +42,19 @@ namespace GraphLight.Model
             _map.Remove(vertex.Data);
         }
 
-        public IReadOnlyList<IEdge<V, E>> GetEdges(IVertex<V, E> vertex) => 
+        public IReadOnlyList<IEdge<V, E>> GetEdges(IVertex<V> vertex) => 
             ((GenericVertex<V, E>)vertex).Edges;
 
-        public IReadOnlyList<IEdge<V, E>> GetInEdges(IVertex<V, E> vertex) => 
+        public IReadOnlyList<IEdge<V, E>> GetInEdges(IVertex<V> vertex) => 
             ((GenericVertex<V, E>)vertex).InEdges;
 
-        public IReadOnlyList<IEdge<V, E>> GetOutEdges(IVertex<V, E> vertex) =>
+        public IReadOnlyList<IEdge<V, E>> GetOutEdges(IVertex<V> vertex) =>
             ((GenericVertex<V, E>)vertex).OutEdges;
 
-        public IReadOnlyList<IEdge<V, E>> GetLoopEdges(IVertex<V, E> vertex) =>
+        public IReadOnlyList<IEdge<V, E>> GetLoopEdges(IVertex<V> vertex) =>
             ((GenericVertex<V, E>)vertex).SelfEdges;
 
-        public IVertex<V, E> InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData)
+        public IVertex<V> InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData)
         {
             if (!Edges.Contains(edge))
                 throw new Exception("Данное ребро не принадлежит графу");
@@ -93,7 +93,7 @@ namespace GraphLight.Model
             e.IsRevert = !e.IsRevert;
         }
 
-        public void ChangeSource(IEdge<V, E> edge, IVertex<V, E> vertex)
+        public void ChangeSource(IEdge<V, E> edge, IVertex<V> vertex)
         {
             var e = (GenericEdge<V, E>)edge;
             var oldVertex = e.Src;
@@ -101,7 +101,7 @@ namespace GraphLight.Model
             OnEdgeChanged(edge, oldVertex, vertex);
         }
 
-        public void ChangeDestination(IEdge<V, E> edge, IVertex<V, E> vertex)
+        public void ChangeDestination(IEdge<V, E> edge, IVertex<V> vertex)
         {
             var e = (GenericEdge<V, E>)edge;
             var oldVertex = e.Dst;
@@ -109,7 +109,7 @@ namespace GraphLight.Model
             OnEdgeChanged(edge, oldVertex, vertex);
         }
 
-        private void OnEdgeChanged(IEdge<V, E> edge, IVertex<V, E>? oldVertex, IVertex<V, E>? newVertex)
+        private void OnEdgeChanged(IEdge<V, E> edge, IVertex<V>? oldVertex, IVertex<V>? newVertex)
         {
             if (oldVertex != null)
                 UnRegisterEdge(oldVertex, edge);
@@ -117,7 +117,7 @@ namespace GraphLight.Model
                 RegisterEdge(newVertex, edge);
         }
 
-        private static void RegisterEdge(IVertex<V, E> vertex, IEdge<V, E> edge)
+        private static void RegisterEdge(IVertex<V> vertex, IEdge<V, E> edge)
         {
             var v = (GenericVertex<V,E>)vertex;
             var collection = edge.Src == vertex && edge.Dst == vertex
@@ -151,7 +151,7 @@ namespace GraphLight.Model
             }
         }
 
-        public static void UnRegisterEdge(IVertex<V, E> vertex, IEdge<V, E> edge)
+        public static void UnRegisterEdge(IVertex<V> vertex, IEdge<V, E> edge)
         {
             var v = (GenericVertex<V, E>)vertex;
             if (v.SelfEdges.Remove(edge))

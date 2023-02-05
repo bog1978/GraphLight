@@ -22,7 +22,7 @@ namespace GraphLight.Algorithm
             var cd = graph.AddEdge("C", "D", 1);
             var ad = graph.AddEdge("A", "D", 10);
 
-            var vertices = new List<IVertex<string, EdgeDataWeight>>();
+            var vertices = new List<IVertex<string>>();
             var edges = new List<IEdge<string, EdgeDataWeight>>();
 
             var alg = graph.UndirectedDijkstra();

@@ -148,14 +148,14 @@ namespace GraphLight.Algorithm
 
         private static void CheckResults(
             IGraph<object, object, EdgeDataWeight> graph,
-            IEnumerable<IVertex<object, EdgeDataWeight>> nodesExpected,
+            IEnumerable<IVertex<object>> nodesExpected,
             IEnumerable<IEdge<object, EdgeDataWeight>> treeEdgesExpected,
             IEnumerable<IEdge<object, EdgeDataWeight>> forwardExpected,
             IEnumerable<IEdge<object, EdgeDataWeight>> backwardExpected,
             IEnumerable<IEdge<object, EdgeDataWeight>> crossExpected)
         {
             var nodesInf = new List<IVertexInfo<object, EdgeDataWeight>>();
-            var nodes = new List<IVertex<object, EdgeDataWeight>>();
+            var nodes = new List<IVertex<object>>();
             var backward = new List<IEdge<object, EdgeDataWeight>>();
             var forward = new List<IEdge<object, EdgeDataWeight>>();
             var tree = new List<IEdge<object, EdgeDataWeight>>();

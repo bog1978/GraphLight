@@ -23,12 +23,12 @@ namespace GraphLight.Algorithm
             set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public void Execute(IVertex<V, E> root)
+        public void Execute(IVertex<V> root)
         {
             var attrs = _graph.Vertices.ToDictionary(x => x, x => new PrimAttr());
             attrs[root].HeapKey = 0;
 
-            var q = new PriorityQueue<double, IVertex<V, E>>(
+            var q = new PriorityQueue<double, IVertex<V>>(
                 _graph.Vertices, x => attrs[x].HeapKey, HeapType.Min);
 
             while (q.Count > 0)

@@ -1,6 +1,6 @@
 ﻿namespace GraphLight.Model
 {
-    public interface IVertex<TVertexData, TEdgeData> : IElement<TVertexData>
+    public interface IVertex<out TVertexData> : IElement<TVertexData>
     {
     }
 }

@@ -89,7 +89,7 @@ namespace GraphLight.Model
 
         private static void checkEdges(
             IGraph<object, object, object> graph,
-            IVertex<object, object> vertex,
+            IVertex<object> vertex,
             ICollection allEdges,
             ICollection inEdges,
             ICollection outEdges,

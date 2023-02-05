@@ -24,9 +24,9 @@ namespace GraphLight.Algorithm
             set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public void Execute(IVertex<V, E> root)
+        public void Execute(IVertex<V> root)
         {
-            var ds = new DisjointSet<IVertex<V, E>>(_graph.Vertices);
+            var ds = new DisjointSet<IVertex<V>>(_graph.Vertices);
             var sortedEdges = _graph.Edges.OrderBy(_weightFunc).ToList();
             foreach (var edge in sortedEdges)
                 if (ds.Unite(edge.Src, edge.Dst))

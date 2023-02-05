@@ -10,7 +10,7 @@ namespace GraphLight.Algorithm
     {
         private const int H_SPACE = 30;
         private readonly IGraph<G, V, E> _graph;
-        private Dictionary<IVertex<V, E>, Vertex> _vertexMap;
+        private Dictionary<IVertex<V>, Vertex> _vertexMap;
 
         public PositionNetworkSimplex(IGraph<G, V, E> graph)
         {

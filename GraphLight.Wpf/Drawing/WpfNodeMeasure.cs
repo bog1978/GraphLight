@@ -12,7 +12,7 @@ namespace GraphLight.Drawing
         private static readonly Size _maxSize = new Size(
             double.PositiveInfinity, double.PositiveInfinity);
 
-        public void Measure(IVertex<IVertexData, IEdgeData> vertex)
+        public void Measure(IVertex<IVertexData> vertex)
         {
             var textBlock = new TextBlock { Text = vertex.Data.Label };
             textBlock.Measure(_maxSize);
