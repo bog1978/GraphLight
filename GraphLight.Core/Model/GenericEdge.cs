@@ -4,55 +4,22 @@ namespace GraphLight.Model
 {
     internal class GenericEdge<V, E> : IEdge<V, E>
     {
-        private IVertex<V, E> _src;
-        private IVertex<V, E> _dst;
-
         public GenericEdge(IVertex<V, E> src, IVertex<V, E> dst, E data)
         {
             Data = data ?? throw new ArgumentNullException(nameof(data));
-            _src = src ?? throw new ArgumentNullException(nameof(src));
-            _dst = dst ?? throw new ArgumentNullException(nameof(dst));
-            _src.RegisterEdge(this);
-            _dst.RegisterEdge(this);
+            Src = src ?? throw new ArgumentNullException(nameof(src));
+            Dst = dst ?? throw new ArgumentNullException(nameof(dst));
         }
 
         public E Data { get; }
 
         public bool IsRevert { get; internal set; }
 
-        public IVertex<V, E> Src
-        {
-            get => _src;
-            set
-            {
-                if (_src == value)
-                    return;
-                var oldValue = _src;
-                _src = value;
-                OnEdgeChanged(oldValue, value);
-            }
-        }
+        public IVertex<V, E> Src { get; internal set; }
 
-        public IVertex<V, E> Dst
-        {
-            get => _dst;
-            internal set
-            {
-                var oldValue = _dst;
-                if (oldValue == value)
-                    return;
-                _dst = value;
-                OnEdgeChanged(oldValue, value);
-            }
-        }
+        public IVertex<V, E> Dst { get; internal set; }
 
         public override string ToString() => $"{Src} -> {Dst}: {Data}";
-
-        private void OnEdgeChanged(IVertex<V, E>? oldVertex, IVertex<V, E>? newVertex)
-        {
-            oldVertex?.UnRegisterEdge(this);
-            newVertex?.RegisterEdge(this);
-        }
 
         public override int GetHashCode() => Data.GetHashCode();
 

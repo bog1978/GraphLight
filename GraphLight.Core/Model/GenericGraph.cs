@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 
 namespace GraphLight.Model
 {
@@ -60,13 +59,17 @@ namespace GraphLight.Model
             if (!Edges.Contains(edge))
                 throw new Exception("Данное ребро не принадлежит графу");
             var newEdge = AddEdge(vertexData, edge.Dst.Data, edgeData);
-            ((GenericEdge<V,E>)edge).Dst = newEdge.Src;
+            ChangeDestination(edge, newEdge.Src);
             return newEdge.Src;
         }
 
         public IEdge<V, E> AddEdge(V srcData, V dstData, E data)
         {
-            var edge = new GenericEdge<V, E>(AddVertex(srcData), AddVertex(dstData), data);
+            var src = AddVertex(srcData);
+            var dst = AddVertex(dstData);
+            var edge = new GenericEdge<V, E>(src, dst, data);
+            RegisterEdge(src, edge);
+            RegisterEdge(dst, edge);
             _edges.Add(edge);
             return edge;
         }
@@ -74,8 +77,8 @@ namespace GraphLight.Model
         public void RemoveEdge(IEdge<V, E> edge)
         {
             _edges.Remove(edge);
-            ((GenericEdge<V, E>)edge).Src = null;
-            ((GenericEdge<V, E>)edge).Dst = null;
+            ChangeSource(edge, null);
+            ChangeDestination(edge, null);
         }
 
         public void Revert(IEdge<V, E> edge)
@@ -83,12 +86,84 @@ namespace GraphLight.Model
             var e = (GenericEdge<V, E>)edge;
             if (e.IsRevert)
                 throw new Exception("Edge is already reverted.");
-            (e.Src, e.Dst) = (e.Dst, e.Src);
+            var src = e.Src;
+            var dst = e.Dst;
+            ChangeSource(edge, dst);
+            ChangeDestination(edge, src);
             e.IsRevert = !e.IsRevert;
         }
 
-        public void ChangeSource(IEdge<V, E> edge, IVertex<V, E> vertex) => ((GenericEdge<V, E>)edge).Src = vertex;
+        public void ChangeSource(IEdge<V, E> edge, IVertex<V, E> vertex)
+        {
+            var e = (GenericEdge<V, E>)edge;
+            var oldVertex = e.Src;
+            e.Src = vertex;
+            OnEdgeChanged(edge, oldVertex, vertex);
+        }
 
-        public void ChangeDestination(IEdge<V, E> edge, IVertex<V, E> vertex) => ((GenericEdge<V, E>)edge).Dst = vertex;
+        public void ChangeDestination(IEdge<V, E> edge, IVertex<V, E> vertex)
+        {
+            var e = (GenericEdge<V, E>)edge;
+            var oldVertex = e.Dst;
+            e.Dst = vertex;
+            OnEdgeChanged(edge, oldVertex, vertex);
+        }
+
+        private void OnEdgeChanged(IEdge<V, E> edge, IVertex<V, E>? oldVertex, IVertex<V, E>? newVertex)
+        {
+            if (oldVertex != null)
+                UnRegisterEdge(oldVertex, edge);
+            if (newVertex != null)
+                RegisterEdge(newVertex, edge);
+        }
+
+        private static void RegisterEdge(IVertex<V, E> vertex, IEdge<V, E> edge)
+        {
+            var v = (GenericVertex<V,E>)vertex;
+            var collection = edge.Src == vertex && edge.Dst == vertex
+                ? v.SelfEdges
+                : edge.Src == vertex
+                    ? v.OutEdges
+                    : edge.Dst == vertex
+                        ? v.InEdges
+                        : null;
+
+            if (collection == null)
+            {
+                v.Edges.Remove(edge);
+                v.SelfEdges.Remove(edge);
+                v.InEdges.Remove(edge);
+                v.OutEdges.Remove(edge);
+            }
+            else if (v.Edges.Contains(edge))
+            {
+                if (collection.Contains(edge))
+                    return;
+                v.SelfEdges.Remove(edge);
+                v.InEdges.Remove(edge);
+                v.OutEdges.Remove(edge);
+                collection.Add(edge);
+            }
+            else
+            {
+                v.Edges.Add(edge);
+                collection.Add(edge);
+            }
+        }
+
+        public static void UnRegisterEdge(IVertex<V, E> vertex, IEdge<V, E> edge)
+        {
+            var v = (GenericVertex<V, E>)vertex;
+            if (v.SelfEdges.Remove(edge))
+            {
+                RegisterEdge(vertex, edge);
+            }
+            else
+            {
+                v.Edges.Remove(edge);
+                v.InEdges.Remove(edge);
+                v.OutEdges.Remove(edge);
+            }
+        }
     }
 }
