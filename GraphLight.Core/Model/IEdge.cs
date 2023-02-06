@@ -1,9 +1,9 @@
 ﻿namespace GraphLight.Model
 {
-    public interface IEdge<TVertexData, TEdgeData> : IElement<TEdgeData>
+    public interface IEdge<out V, out E> : IElement<E>
     {
         bool IsRevert { get; }
-        IVertex<TVertexData> Dst { get; }
-        IVertex<TVertexData> Src { get; }
+        V Dst { get; }
+        V Src { get; }
     }
 }

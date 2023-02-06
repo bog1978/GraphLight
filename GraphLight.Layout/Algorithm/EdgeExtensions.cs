@@ -12,16 +12,16 @@ namespace GraphLight.Algorithm
             var b1 = edge.Dst;
             var a2 = otherEdge.Src;
             var b2 = otherEdge.Dst;
-            return a1.Data.Position < a2.Data.Position && b1.Data.Position > b2.Data.Position
-                || a1.Data.Position > a2.Data.Position && b1.Data.Position < b2.Data.Position
-                || a1.Data.Position == a2.Data.Position && b1.Data.Position == b2.Data.Position;
+            return a1.Position < a2.Position && b1.Position > b2.Position
+                || a1.Position > a2.Position && b1.Position < b2.Position
+                || a1.Position == a2.Position && b1.Position == b2.Position;
         }
 
         internal static double PositionSpan<V, E>(this IEdge<V, E> edge)
             where V : IVertexDataLayered
             where E : IEdgeDataWeight
         {
-            var delta = edge.Src.Data.Position - edge.Dst.Data.Position;
+            var delta = edge.Src.Position - edge.Dst.Position;
             return Math.Abs(delta) * edge.Data.Weight;
         }
     }

@@ -24,10 +24,11 @@ namespace GraphLight.Algorithm
     /// http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/depthSearch.htm
     /// </remarks>
     internal class DepthFirstSearch<G, V, E> : IDepthFirstSearch<V, E>
+    where V: class, IEquatable<V>
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly TraverseRule _rule;
-        private readonly Dictionary<IVertex<V>, DfsVertexAttr> _attrs;
+        private readonly Dictionary<V, DfsVertexAttr> _attrs;
         private int _time;
 
         public DepthFirstSearch(IGraph<G, V, E> graph, TraverseRule rule)
@@ -38,7 +39,7 @@ namespace GraphLight.Algorithm
             _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());
         }
 
-        public Action<IVertexInfo<V, E>>? OnNode { get; set; }
+        public Action<IVertexInfo<V>>? OnNode { get; set; }
 
         public Action<IEdgeInfo<V, E>>? OnEdge { get; set; }
 
@@ -49,7 +50,7 @@ namespace GraphLight.Algorithm
                 Dfs(node);
         }
 
-        private void Dfs(IVertex<V> vertex)
+        private void Dfs(V vertex)
         {
             if (_rule == TraverseRule.PreOrder)
                 EnterVertex(vertex);
@@ -93,7 +94,7 @@ namespace GraphLight.Algorithm
         private void EnterEdge(IEdge<V, E> edge, DfsEdgeType edgeType) => 
             OnEdge?.Invoke(new EdgeInfo(edge, edgeType, _time));
 
-        private void EnterVertex(IVertex<V> vertex) =>
+        private void EnterVertex(V vertex) =>
             OnNode?.Invoke(new VertexInfo(vertex, _time));
 
         #region Nested type: DfsNodeAttr
@@ -128,15 +129,15 @@ namespace GraphLight.Algorithm
             public override string ToString() => $"{Order}: {EdgeType}: {Edge}";
         }
 
-        private class VertexInfo : IVertexInfo<V, E>
+        private class VertexInfo : IVertexInfo<V>
         {
-            public VertexInfo(IVertex<V> vertex, int order)
+            public VertexInfo(V vertex, int order)
             {
                 Vertex = vertex;
                 Order = order;
             }
 
-            public IVertex<V> Vertex { get; }
+            public V Vertex { get; }
 
             public int Order { get; }
 

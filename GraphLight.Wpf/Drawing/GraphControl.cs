@@ -50,7 +50,7 @@ namespace GraphLight.Drawing
                 return;
             _graphPanel.Children.Clear();
             foreach (var vertex in Graph.Vertices)
-                _graphPanel.Children.Add(new VertexControl { DataContext = vertex, Data = vertex.Data });
+                _graphPanel.Children.Add(new VertexControl { DataContext = vertex, Data = vertex });
             foreach (var edge in Graph.Edges)
                 _graphPanel.Children.Add(new EdgeControl { DataContext = edge, Data = edge.Data });
         }

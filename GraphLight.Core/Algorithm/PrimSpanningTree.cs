@@ -6,6 +6,7 @@ using GraphLight.Model;
 namespace GraphLight.Algorithm
 {
     internal class PrimSpanningTree<G, V, E> : ISpanningTree<V, E>
+        where V : class, IEquatable<V>
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly Func<IEdge<V, E>, double> _weightFunc;
@@ -23,12 +24,12 @@ namespace GraphLight.Algorithm
             set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public void Execute(IVertex<V> root)
+        public void Execute(V root)
         {
             var attrs = _graph.Vertices.ToDictionary(x => x, x => new PrimAttr());
             attrs[root].HeapKey = 0;
 
-            var q = new PriorityQueue<double, IVertex<V>>(
+            var q = new PriorityQueue<double, V>(
                 _graph.Vertices, x => attrs[x].HeapKey, HeapType.Min);
 
             while (q.Count > 0)
@@ -42,7 +43,7 @@ namespace GraphLight.Algorithm
 
                 foreach (var e in _graph.GetEdges(u))
                 {
-                    var v = e.Src == u ? e.Dst : e.Src;
+                    var v = u.Equals(e.Src) ? e.Dst : e.Src;
                     var vAttr = attrs[v];
                     var weight = _weightFunc(e);
                     if (vAttr.Color == VertexColor.White && weight < vAttr.HeapKey)

@@ -6,7 +6,7 @@ using GraphLight.Model;
 namespace GraphLight.Algorithm
 {
     internal class KruskalSpanningTree<G, V, E> : ISpanningTree<V, E>
-    where V : IEquatable<V>
+    where V : class, IEquatable<V>
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly Func<IEdge<V, E>, double> _weightFunc;
@@ -24,9 +24,9 @@ namespace GraphLight.Algorithm
             set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public void Execute(IVertex<V> root)
+        public void Execute(V root)
         {
-            var ds = new DisjointSet<IVertex<V>>(_graph.Vertices);
+            var ds = new DisjointSet<V>(_graph.Vertices);
             var sortedEdges = _graph.Edges.OrderBy(_weightFunc).ToList();
             foreach (var edge in sortedEdges)
                 if (ds.Unite(edge.Src, edge.Dst))

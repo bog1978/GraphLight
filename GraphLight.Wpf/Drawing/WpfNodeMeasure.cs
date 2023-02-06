@@ -12,12 +12,12 @@ namespace GraphLight.Drawing
         private static readonly Size _maxSize = new Size(
             double.PositiveInfinity, double.PositiveInfinity);
 
-        public void Measure(IVertex<IVertexData> vertex)
+        public void Measure(IVertexData vertex)
         {
-            var textBlock = new TextBlock { Text = vertex.Data.Label };
+            var textBlock = new TextBlock { Text = vertex.Label };
             textBlock.Measure(_maxSize);
-            vertex.Data.Rect.Width = vertex.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Width + MARGIN;
-            vertex.Data.Rect.Height = vertex.Data.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Height + MARGIN;
+            vertex.Rect.Width = vertex.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Width + MARGIN;
+            vertex.Rect.Height = vertex.IsTmp ? MARGIN / 2 : textBlock.DesiredSize.Height + MARGIN;
         }
     }
 }

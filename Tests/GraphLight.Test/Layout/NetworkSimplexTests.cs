@@ -12,17 +12,26 @@ namespace GraphLight.Layout
         [TestMethod]
         public void TestNetworkSimplex()
         {
-            var graph = Graph.CreateInstance<GraphData, VertexData, EdgeData>(new GraphData());
+            var graph = Graph.CreateInstance<GraphData, IVertexData, EdgeData>(new GraphData());
 
-            graph.AddEdge("a", "b", new EdgeData());
-            graph.AddEdge("a", "e", new EdgeData { Weight = 2 });
-            graph.AddEdge("a", "f", new EdgeData());
-            graph.AddEdge("b", "c", new EdgeData());
-            graph.AddEdge("e", "g", new EdgeData());
-            graph.AddEdge("f", "g", new EdgeData { Weight = 2 });
-            graph.AddEdge("c", "d", new EdgeData());
-            graph.AddEdge("g", "h", new EdgeData { Weight = 10 });
-            graph.AddEdge("d", "h", new EdgeData());
+            var a = new VertexData("a");
+            var b = new VertexData("b");
+            var c = new VertexData("c");
+            var d = new VertexData("d");
+            var e = new VertexData("e");
+            var f = new VertexData("f");
+            var g = new VertexData("g");
+            var h = new VertexData("h");
+
+            graph.AddEdge(a, b, new EdgeData());
+            graph.AddEdge(a, e, new EdgeData { Weight = 2 });
+            graph.AddEdge(a, f, new EdgeData());
+            graph.AddEdge(b, c, new EdgeData());
+            graph.AddEdge(e, g, new EdgeData());
+            graph.AddEdge(f, g, new EdgeData { Weight = 2 });
+            graph.AddEdge(c, d, new EdgeData());
+            graph.AddEdge(g, h, new EdgeData { Weight = 10 });
+            graph.AddEdge(d, h, new EdgeData());
 
             graph.Acyclic();
             var alg = graph.RankNetworkSimplex();
@@ -30,8 +39,8 @@ namespace GraphLight.Layout
 
             var ranksExpected = new[] { 0, 1, 2, 3, 1, 2, 3, 4 };
             var ranksActual = graph.Vertices
-               .OrderBy(x =>x.Data.Id)
-               .Select(x => x.Data)
+               .OrderBy(x =>x.Id)
+               .Select(x => x)
                .OfType<IVertexDataLayered>()
                .Select(x => x.Rank)
                .ToArray();
@@ -88,15 +97,15 @@ namespace GraphLight.Layout
         //    }
         //}
 
-        private static void checkRanks(IGraph<IGraphData, IVertexData, IEdgeData> graph, IDictionary<IVertex<IVertexData>, int> expectedRanks)
+        private static void checkRanks(IGraph<IGraphData, IVertexData, IEdgeData> graph, IDictionary<IVertexData, int> expectedRanks)
         {
             foreach (var vertex in graph.Vertices)
             {
                 var expected = expectedRanks[vertex];
-                var actual = vertex.Data.Rank;
+                var actual = vertex.Rank;
                 Assert.AreEqual(expected, actual,
                     "Vertex {0}: rank={1} but expected {2}",
-                    vertex.Data, actual, expected);
+                    vertex, actual, expected);
             }
         }
     }

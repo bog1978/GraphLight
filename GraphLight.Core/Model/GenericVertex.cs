@@ -2,7 +2,7 @@
 
 namespace GraphLight.Model
 {
-    internal class GenericVertex<V, E> : IVertex<V>
+    internal class GenericVertex<V, E>
     {
         public GenericVertex(V data) => Data = data;
 

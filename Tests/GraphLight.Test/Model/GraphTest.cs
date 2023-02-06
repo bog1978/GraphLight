@@ -11,13 +11,12 @@ namespace GraphLight.Model
         [TestMethod]
         public void TestAddInsertRemove()
         {
-            var graph = Graph.CreateInstance<object, object, object>("");
+            var graph = Graph.CreateInstance<object, string, object>("");
             var g = graph;
-            var ab = graph.AddEdge("A", "B", new object());
-            var a = ab.Src;
-            var b = ab.Dst;
+            var (a, b) = ("A", "B");
+            var ab = graph.AddEdge(a, b, new object());
 
-            var cp = g.InsertControlPoint(ab, new object(), new object());
+            var cp = g.InsertControlPoint(ab, "cp", new object());
             Assert.IsTrue(ReferenceEquals(ab, graph.Edges.First()));
             Assert.IsTrue(ReferenceEquals(ab, graph.GetOutEdges(a).First()));
             Assert.IsTrue(ReferenceEquals(ab, graph.GetInEdges(cp).First()));

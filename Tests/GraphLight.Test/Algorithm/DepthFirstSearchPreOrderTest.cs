@@ -9,20 +9,22 @@ namespace GraphLight.Algorithm
     [TestClass]
     public class DepthFirstSearchPreOrderTest
     {
-        private readonly IEnumerable<IEdge<object, EdgeDataWeight>> _emptyEdges = Enumerable.Empty<IEdge<object, EdgeDataWeight>>();
+        private readonly IEnumerable<IEdge<string, EdgeDataWeight>> _emptyEdges = Enumerable.Empty<IEdge<string, EdgeDataWeight>>();
 
         [TestMethod]
         public void DfsTest1()
         {
-            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
-            var a = graph.AddVertex("A");
-            var b = graph.AddVertex("B");
-            var c = graph.AddVertex("C");
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
 
-            var ab = graph.AddEdge("A", "B", 1);
-            var bc = graph.AddEdge("B", "C", 1);
-            var ca = graph.AddEdge("C", "A", 1);
-            var ba = graph.AddEdge("B", "A", 1);
+            var (a, b, c) = ("A", "B", "C");
+            graph.AddVertex(a);
+            graph.AddVertex(b);
+            graph.AddVertex(c);
+
+            var ab = graph.AddEdge(a, b, 1);
+            var bc = graph.AddEdge(b, c, 1);
+            var ca = graph.AddEdge(c, a, 1);
+            var ba = graph.AddEdge(b, a, 1);
 
             CheckResults(graph,
                 new[] { a, b, c },
@@ -35,17 +37,19 @@ namespace GraphLight.Algorithm
         [TestMethod]
         public void DfsTest2()
         {
-            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
-            var a = graph.AddVertex("A");
-            var b = graph.AddVertex("B");
-            var c = graph.AddVertex("C");
-            var d = graph.AddVertex("D");
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
 
-            var ab = graph.AddEdge("A", "B", 1);
-            var ac = graph.AddEdge("A", "C", 1);
-            var bd = graph.AddEdge("B", "D", 1);
-            var cd = graph.AddEdge("C", "D", 1);
-            var da = graph.AddEdge("D", "A", 1);
+            var (a, b, c, d) = ("A", "B", "C", "D");
+            graph.AddVertex(a);
+            graph.AddVertex(b);
+            graph.AddVertex(c);
+            graph.AddVertex(d);
+
+            var ab = graph.AddEdge(a, b, 1);
+            var ac = graph.AddEdge(a, c, 1);
+            var bd = graph.AddEdge(b, d, 1);
+            var cd = graph.AddEdge(c, d, 1);
+            var da = graph.AddEdge(d, a, 1);
             CheckResults(graph,
                 new[] { a, b, d, c },
                 new[] { ab, bd, ac },
@@ -57,12 +61,14 @@ namespace GraphLight.Algorithm
         [TestMethod]
         public void DfsTest3()
         {
-            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
-            var a = graph.AddVertex("A");
-            var b = graph.AddVertex("B");
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
 
-            var ab1 = graph.AddEdge("A", "B", 1);
-            var ab2 = graph.AddEdge("A", "B", 2);
+            var (a, b) = ("A", "B");
+            graph.AddVertex(a);
+            graph.AddVertex(b);
+
+            var ab1 = graph.AddEdge(a, b, 1);
+            var ab2 = graph.AddEdge(a, b, 2);
 
             CheckResults(graph,
                 new[] { a, b },
@@ -81,22 +87,24 @@ namespace GraphLight.Algorithm
         [TestMethod]
         public void DfsTest4()
         {
-            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
-            var a = graph.AddVertex("A");
-            var b = graph.AddVertex("B");
-            var c = graph.AddVertex("C");
-            var d = graph.AddVertex("D");
-            var e = graph.AddVertex("E");
-            var f = graph.AddVertex("F");
-            var g = graph.AddVertex("G");
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
 
-            var ab = graph.AddEdge("A", "B", 1);
-            var ac = graph.AddEdge("A", "C", 1);
-            var ae = graph.AddEdge("A", "E", 1);
-            var bd = graph.AddEdge("B", "D", 1);
-            var bf = graph.AddEdge("B", "F", 1);
-            var fe = graph.AddEdge("F", "E", 1);
-            var cg = graph.AddEdge("C", "G", 1);
+            var (a, b, c, d, e, f, g) = ("A", "B", "C", "D", "E", "F", "G");
+            graph.AddVertex(a);
+            graph.AddVertex(b);
+            graph.AddVertex(c);
+            graph.AddVertex(d);
+            graph.AddVertex(e);
+            graph.AddVertex(f);
+            graph.AddVertex(g);
+
+            var ab = graph.AddEdge(a, b, 1);
+            var ac = graph.AddEdge(a, c, 1);
+            var ae = graph.AddEdge(a, e, 1);
+            var bd = graph.AddEdge(b, d, 1);
+            var bf = graph.AddEdge(b, f, 1);
+            var fe = graph.AddEdge(f, e, 1);
+            var cg = graph.AddEdge(c, g, 1);
 
             CheckResults(graph,
                 new[] { a, b, d, f, e, c, g },
@@ -115,31 +123,33 @@ namespace GraphLight.Algorithm
         [TestMethod]
         public void DfsTest5()
         {
-            var graph = Graph.CreateInstance<object, object, EdgeDataWeight>("");
-            var n1 = graph.AddVertex("1");
-            var n2 = graph.AddVertex("2");
-            var n3 = graph.AddVertex("3");
-            var n4 = graph.AddVertex("4");
-            var n5 = graph.AddVertex("5");
-            var n6 = graph.AddVertex("6");
-            var n7 = graph.AddVertex("7");
-            var n8 = graph.AddVertex("8");
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
 
-            var e12 = graph.AddEdge("1", "2", 1);
-            var e23 = graph.AddEdge("2", "3", 1);
-            var e34 = graph.AddEdge("3", "4", 1);
+            var (a1, a2, a3, a4, a5, a6, a7, a8) = ("1", "2", "3", "4", "5", "6", "7", "8");
+            graph.AddVertex(a1);
+            graph.AddVertex(a2);
+            graph.AddVertex(a3);
+            graph.AddVertex(a4);
+            graph.AddVertex(a5);
+            graph.AddVertex(a6);
+            graph.AddVertex(a7);
+            graph.AddVertex(a8);
 
-            var e15 = graph.AddEdge("1", "5", 1);
-            var e56 = graph.AddEdge("5", "6", 1);
-            var e67 = graph.AddEdge("6", "7", 1);
-            var e68 = graph.AddEdge("6", "8", 1);
+            var e12 = graph.AddEdge(a1, a2, 1);
+            var e23 = graph.AddEdge(a2, a3, 1);
+            var e34 = graph.AddEdge(a3, a4, 1);
 
-            var e18 = graph.AddEdge("1", "8", 1);
-            var e63 = graph.AddEdge("6", "3", 1);
-            var e42 = graph.AddEdge("4", "2", 1);
+            var e15 = graph.AddEdge(a1, a5, 1);
+            var e56 = graph.AddEdge(a5, a6, 1);
+            var e67 = graph.AddEdge(a6, a7, 1);
+            var e68 = graph.AddEdge(a6, a8, 1);
+
+            var e18 = graph.AddEdge(a1, a8, 1);
+            var e63 = graph.AddEdge(a6, a3, 1);
+            var e42 = graph.AddEdge(a4, a2, 1);
 
             CheckResults(graph,
-                new[] { n1, n2, n3, n4, n5, n6, n7, n8 },
+                new[] { a1, a2, a3, a4, a5, a6, a7, a8 },
                 new[] { e12, e23, e34, e15, e56, e67, e68 },
                 new[] { e18 },
                 new[] { e42 },
@@ -147,19 +157,19 @@ namespace GraphLight.Algorithm
         }
 
         private static void CheckResults(
-            IGraph<object, object, EdgeDataWeight> graph,
-            IEnumerable<IVertex<object>> nodesExpected,
-            IEnumerable<IEdge<object, EdgeDataWeight>> treeEdgesExpected,
-            IEnumerable<IEdge<object, EdgeDataWeight>> forwardExpected,
-            IEnumerable<IEdge<object, EdgeDataWeight>> backwardExpected,
-            IEnumerable<IEdge<object, EdgeDataWeight>> crossExpected)
+            IGraph<object, string, EdgeDataWeight> graph,
+            IEnumerable<string> nodesExpected,
+            IEnumerable<IEdge<string, EdgeDataWeight>> treeEdgesExpected,
+            IEnumerable<IEdge<string, EdgeDataWeight>> forwardExpected,
+            IEnumerable<IEdge<string, EdgeDataWeight>> backwardExpected,
+            IEnumerable<IEdge<string, EdgeDataWeight>> crossExpected)
         {
-            var nodesInf = new List<IVertexInfo<object, EdgeDataWeight>>();
-            var nodes = new List<IVertex<object>>();
-            var backward = new List<IEdge<object, EdgeDataWeight>>();
-            var forward = new List<IEdge<object, EdgeDataWeight>>();
-            var tree = new List<IEdge<object, EdgeDataWeight>>();
-            var cross = new List<IEdge<object, EdgeDataWeight>>();
+            var nodesInf = new List<IVertexInfo<string>>();
+            var nodes = new List<string>();
+            var backward = new List<IEdge<string, EdgeDataWeight>>();
+            var forward = new List<IEdge<string, EdgeDataWeight>>();
+            var tree = new List<IEdge<string, EdgeDataWeight>>();
+            var cross = new List<IEdge<string, EdgeDataWeight>>();
 
             var alg = graph.DepthFirstSearch(TraverseRule.PreOrder);
             alg.OnNode = vi =>

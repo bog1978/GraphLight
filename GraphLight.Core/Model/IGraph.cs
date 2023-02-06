@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GraphLight.Model
 {
     public interface IGraph<out G, V, E> : IElement<G>
+    where V : class, IEquatable<V>
     {
-        IVertex<V> this[V key] { get; }
         IReadOnlyList<IEdge<V, E>> Edges { get; }
-        IReadOnlyList<IVertex<V>> Vertices { get; }
+        IReadOnlyList<V> Vertices { get; }
         IEdge<V, E> AddEdge(V srcData, V dstData, E data);
-        IVertex<V> AddVertex(V data);
-        IVertex<V> InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData);
+        void AddVertex(V data);
+        void InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData);
         void RemoveEdge(IEdge<V, E> edge);
-        void RemoveVertex(IVertex<V> vertex);
-        IReadOnlyList<IEdge<V, E>> GetEdges(IVertex<V> vertex);
-        IReadOnlyList<IEdge<V, E>> GetInEdges(IVertex<V> vertex);
-        IReadOnlyList<IEdge<V, E>> GetOutEdges(IVertex<V> vertex);
-        IReadOnlyList<IEdge<V, E>> GetLoopEdges(IVertex<V> vertex);
+        void RemoveVertex(V vertex);
+        IReadOnlyList<IEdge<V, E>> GetEdges(V vertex);
+        IReadOnlyList<IEdge<V, E>> GetInEdges(V vertex);
+        IReadOnlyList<IEdge<V, E>> GetOutEdges(V vertex);
+        IReadOnlyList<IEdge<V, E>> GetLoopEdges(V vertex);
         void Revert(IEdge<V, E> edge);
-        void ChangeSource(IEdge<V, E> edge, IVertex<V> vertex);
-        void ChangeDestination(IEdge<V, E> edge, IVertex<V> vertex);
+        void ChangeSource(IEdge<V, E> edge, V vertex);
+        void ChangeDestination(IEdge<V, E> edge, V vertex);
     }
 }

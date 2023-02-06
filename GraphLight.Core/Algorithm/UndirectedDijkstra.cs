@@ -8,10 +8,11 @@ namespace GraphLight.Algorithm
 {
     internal class UndirectedDijkstra<G, V, E> : IShortestPath<V, E>
         where E : IEdgeDataWeight
+        where V : class, IEquatable<V>
     {
         private readonly IGraph<G, V, E> _graph;
         private Action<IEdge<V, E>> _enterEdge = x => { };
-        private Action<IVertex<V>> _enterNode = x => { };
+        private Action<V> _enterNode = x => { };
 
         public UndirectedDijkstra(IGraph<G, V, E> graph)
         {
@@ -22,19 +23,19 @@ namespace GraphLight.Algorithm
 
         public void Execute(V start, V end)
         {
-            var from = _graph[start];
-            var to = _graph[end];
+            var from = start;
+            var to = end;
             var attrs = _graph.Vertices.ToDictionary(x => x, x => new DijkstraAttr());
             attrs[from].Distance = 0;
 
-            var queue = new PriorityQueue<double, IVertex<V>>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
+            var queue = new PriorityQueue<double, V>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
 
             while (queue.Count > 0)
             {
                 var src = queue.Dequeue();
                 foreach (var edge in _graph.GetEdges(src))
                 {
-                    var dst = edge.Dst != src ? edge.Dst : edge.Src;
+                    var dst = !src.Equals(edge.Dst) ? edge.Dst : edge.Src;
                     var dstAttr = attrs[dst];
                     var srcAttr = attrs[src];
                     if (srcAttr.Distance + edge.Data.Weight < dstAttr.Distance)
@@ -47,16 +48,16 @@ namespace GraphLight.Algorithm
                 }
             }
 
-            var vertexPath = new List<IVertex<V>>();
+            var vertexPath = new List<V>();
             var edgePath = new List<IEdge<V, E>>();
 
             var last = to;
-            while (last != from)
+            while (!last.Equals(from))
             {
                 var edge = attrs[last].Parent;
                 edgePath.Add(edge);
                 vertexPath.Add(last);
-                last = edge.Src != last ? edge.Src : edge.Dst;
+                last = !edge.Src.Equals(last) ? edge.Src : edge.Dst;
             }
             vertexPath.Add(from);
 
@@ -74,7 +75,7 @@ namespace GraphLight.Algorithm
             set => _enterEdge = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public Action<IVertex<V>> EnterNode
+        public Action<V> EnterNode
         {
             get => _enterNode;
             set => _enterNode = value ?? throw new ArgumentNullException(nameof(value));

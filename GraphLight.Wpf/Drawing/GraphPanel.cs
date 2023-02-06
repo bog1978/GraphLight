@@ -43,7 +43,7 @@ namespace GraphLight.Drawing
             Layout();
 
             // NOTE: Разобраться, почему здесь получается чуть меньше 0.
-            var minLeft = Graph.Vertices.Min(x => x.Data.Rect.Left);
+            var minLeft = Graph.Vertices.Min(x => x.Rect.Left);
 
             // 3. Вычисляем размеры всего графа.
             var w = 0.0;

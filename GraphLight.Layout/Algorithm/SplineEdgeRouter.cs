@@ -24,24 +24,24 @@ namespace GraphLight.Algorithm
             dfs.OnEdge += ei =>
             {
                 var e = ei.Edge;
-                if (!e.Src.Data.IsTmp && !e.Dst.Data.IsTmp)
+                if (!e.Src.IsTmp && !e.Dst.IsTmp)
                 {
                     // Обычное ребро.
                     e.Data.Points.Add(e.Src.CenterPoint());
                     e.Data.Points.Add(e.Dst.CenterPoint());
                 }
-                else if (!e.Src.Data.IsTmp && e.Dst.Data.IsTmp)
+                else if (!e.Src.IsTmp && e.Dst.IsTmp)
                 {
                     // Начало цепочки.
                     chainEdge = e;
                     chainEdge.Data.Points.Add(e.Src.CenterPoint());
                 }
-                else if (e.Src.Data.IsTmp && e.Dst.Data.IsTmp)
+                else if (e.Src.IsTmp && e.Dst.IsTmp)
                 {
                     // Середина цепочки.
                     chainEdge?.Data.Points.Add(e.Src.CenterPoint());
                 }
-                else if (e.Src.Data.IsTmp && !e.Dst.Data.IsTmp)
+                else if (e.Src.IsTmp && !e.Dst.IsTmp)
                 {
                     // Конец цепочки.
                     chainEdge?.Data.Points.Add(e.Src.CenterPoint());
@@ -93,7 +93,7 @@ namespace GraphLight.Algorithm
         private void RemoveTmpNodes()
         {
             var tmpNodes = _graph.Vertices
-                .Where(x => x.Data.IsTmp)
+                .Where(x => x.IsTmp)
                 .ToList();
             tmpNodes.Iter(_graph.RemoveControlPoint);
         }

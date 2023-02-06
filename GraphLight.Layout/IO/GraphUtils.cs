@@ -76,28 +76,28 @@ namespace GraphLight.IO
             {
                 Vertex = graph.Vertices.Select(vertex => new LgmlVertex
                 {
-                    Id = vertex.Data.Id,
-                    Label = vertex.Data.Label,
+                    Id = vertex.Id,
+                    Label = vertex.Label,
                     //Category = vertex.Data.Category,
-                    Background = vertex.Data.Background,
-                    Foreground = vertex.Data.Foreground,
-                    Stroke = vertex.Data.Stroke,
-                    StrokeThickness = vertex.Data.StrokeThickness,
+                    Background = vertex.Background,
+                    Foreground = vertex.Foreground,
+                    Stroke = vertex.Stroke,
+                    StrokeThickness = vertex.StrokeThickness,
                     StrokeThicknessSpecified = true,
-                    FontSize = vertex.Data.FontSize,
+                    FontSize = vertex.FontSize,
                     FontSizeSpecified = true,
-                    Margin = vertex.Data.Margin,
+                    Margin = vertex.Margin,
                     MarginSpecified = true,
-                    Shape = vertex.Data.Shape.Map(),
+                    Shape = vertex.Shape.Map(),
                     ShapeSpecified = true,
-                    StrokeStyle = vertex.Data.StrokeStyle.Map(),
+                    StrokeStyle = vertex.StrokeStyle.Map(),
                     StrokeStyleSpecified = true,
                 }).ToArray(),
                 Edge = graph.Edges.Select(edge => new LgmlEdge
                 {
                     Label = edge.Data.Label,
-                    Src = edge.Src.Data.Id,
-                    Dst = edge.Dst.Data.Id,
+                    Src = edge.Src.Id,
+                    Dst = edge.Dst.Id,
                     //Category = edge.Data.Category,
                     Stroke = edge.Data.Stroke,
                     StrokeThickness = edge.Data.StrokeThickness,
@@ -131,7 +131,7 @@ namespace GraphLight.IO
                     .ApplyVertexStyle(vertex);
 
                 vMap.Add(vertex.Id, data);
-                _ = g.AddVertex(data);
+                g.AddVertex(data);
             }
 
             foreach (var edge in lgmlGraph.Edge)

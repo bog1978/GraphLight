@@ -5,7 +5,7 @@ namespace GraphLight.Algorithm
 {
     public interface IDepthFirstSearch<V, E> : IAlgorithm
     {
-        Action<IVertexInfo<V, E>>? OnNode { get; set; }
+        Action<IVertexInfo<V>>? OnNode { get; set; }
         Action<IEdgeInfo<V, E>>? OnEdge { get; set; }
     }
 
@@ -16,9 +16,9 @@ namespace GraphLight.Algorithm
         int Order { get; }
     }
 
-    public interface IVertexInfo<V, E>
+    public interface IVertexInfo<V>
     {
-        IVertex<V> Vertex { get; }
+        V Vertex { get; }
         int Order { get; }
     }
 

@@ -9,7 +9,7 @@ namespace GraphLight.Algorithm
     internal class VertextOrderer : IAlgorithm
     {
         private readonly IGraph<IGraphData, IVertexData, IEdgeData> _graph;
-        private readonly IDictionary<IVertex<IVertexData>, int> _nodeColors;
+        private readonly IDictionary<IVertexData, int> _nodeColors;
         private int _count;
 
         public VertextOrderer(IGraph<IGraphData, IVertexData, IEdgeData> graph)
@@ -37,12 +37,12 @@ namespace GraphLight.Algorithm
             var ranks = _graph.GetRankList();
             foreach (var rank in ranks)
                 for (var i = 0; i < rank.Count; i++)
-                    rank[i].Data.Position = i;
+                    rank[i].Position = i;
         }
 
-        private void dfs(IVertex<IVertexData> node)
+        private void dfs(IVertexData node)
         {
-            node.Data.Position = _count++;
+            node.Position = _count++;
             _nodeColors[node] = 0;
             foreach (var dst in _graph.GetOutEdges(node).Select(e => e.Dst).Where(dst => _nodeColors[dst] == -1))
             {
@@ -84,7 +84,7 @@ namespace GraphLight.Algorithm
                             swapPositions(n1, n2);
                     }
 
-                    rank.Sort((x, y) => x.Data.Position.CompareTo(y.Data.Position));
+                    rank.Sort((x, y) => x.Position.CompareTo(y.Position));
                 }
 
                 var newQuality = ranks.Sum(x => (double)quality(x));
@@ -94,14 +94,14 @@ namespace GraphLight.Algorithm
             }
         }
 
-        private static void swapPositions(IVertex<IVertexData> n1, IVertex<IVertexData> n2)
+        private static void swapPositions(IVertexData n1, IVertexData n2)
         {
-            var tmp = n1.Data.Position;
-            n1.Data.Position = n2.Data.Position;
-            n2.Data.Position = tmp;
+            var tmp = n1.Position;
+            n1.Position = n2.Position;
+            n2.Position = tmp;
         }
 
-        private int crossCount(IVertex<IVertexData> n1, IVertex<IVertexData> n2)
+        private int crossCount(IVertexData n1, IVertexData n2)
         {
             var cross1 =
                 from e1 in _graph.GetInEdges(n1)
@@ -118,14 +118,14 @@ namespace GraphLight.Algorithm
             return cross1.Count() + cross2.Count();
         }
 
-        private double totalLength(IVertex<IVertexData> n1, IVertex<IVertexData> n2)
+        private double totalLength(IVertexData n1, IVertexData n2)
         {
-            var l1 = _graph.GetEdges(n1).Sum(e => Math.Abs(e.Src.Data.Position - e.Dst.Data.Position) * e.Data.Weight);
-            var l2 = _graph.GetEdges(n2).Sum(e => Math.Abs(e.Src.Data.Position - e.Dst.Data.Position) * e.Data.Weight);
+            var l1 = _graph.GetEdges(n1).Sum(e => Math.Abs(e.Src.Position - e.Dst.Position) * e.Data.Weight);
+            var l2 = _graph.GetEdges(n2).Sum(e => Math.Abs(e.Src.Position - e.Dst.Position) * e.Data.Weight);
             return l1 + l2;
         }
 
-        private int quality(IEnumerable<IVertex<IVertexData>> rank)
+        private int quality(IEnumerable<IVertexData> rank)
         {
             var cnt = 0;
             var edges = rank.SelectMany(x => _graph.GetOutEdges(x)).ToArray();
@@ -144,12 +144,12 @@ namespace GraphLight.Algorithm
         {
             var ranks =
                 from node in _graph.Vertices
-                orderby node.Data.Rank, node.Data.Position
-                group node by node.Data.Rank
+                orderby node.Rank, node.Position
+                group node by node.Rank
                     into rank
                 select rank.ToList();
 
-            var bestPositions = _graph.Vertices.ToDictionary(x => x, x => x.Data.Position);
+            var bestPositions = _graph.Vertices.ToDictionary(x => x, x => x.Position);
             var bestCrossing = double.MaxValue;
             var bestLenght = double.MaxValue;
 
@@ -163,7 +163,7 @@ namespace GraphLight.Algorithm
                     var order = new BaricenterOrderManager(_graph, Math.Max(adjacentRank.Count, rank.Count), isReverse);
                     rank.Iter(order.Insert);
                     order.UpdatePositions();
-                    rank.Sort((a, b) => a.Data.Position.CompareTo(b.Data.Position));
+                    rank.Sort((a, b) => a.Position.CompareTo(b.Position));
                 });
 
                 var currCrossing = ranks.Sum(x => rankCross(x));
@@ -171,7 +171,7 @@ namespace GraphLight.Algorithm
 
                 if (currCrossing < bestCrossing || currCrossing == bestCrossing && currLength < bestLenght)
                 {
-                    bestPositions = _graph.Vertices.ToDictionary(x => x, x => x.Data.Position);
+                    bestPositions = _graph.Vertices.ToDictionary(x => x, x => x.Position);
                     bestCrossing = currCrossing;
                     bestLenght = currLength;
                     i = 0;
@@ -179,10 +179,10 @@ namespace GraphLight.Algorithm
                 isReverse = !isReverse;
             }
             foreach (var pair in bestPositions)
-                pair.Key.Data.Position = pair.Value;
+                pair.Key.Position = pair.Value;
         }
 
-        private int rankCross(IEnumerable<IVertex<IVertexData>> rank)
+        private int rankCross(IEnumerable<IVertexData> rank)
         {
             var cnt = 0;
             var edges = rank.SelectMany(x => _graph.GetOutEdges(x)).ToArray();
@@ -201,25 +201,24 @@ namespace GraphLight.Algorithm
         {
             if (e1 == e2)
                 return false;
-            return e1.Src.Data.Position < e2.Src.Data.Position && e1.Dst.Data.Position > e2.Dst.Data.Position
-                || e1.Src.Data.Position > e2.Src.Data.Position && e1.Dst.Data.Position < e2.Dst.Data.Position;
+            return e1.Src.Position < e2.Src.Position && e1.Dst.Position > e2.Dst.Position
+                || e1.Src.Position > e2.Src.Position && e1.Dst.Position < e2.Dst.Position;
         }
 
         private abstract class OrderManager
         {
             private readonly bool _isRevertPath;
 
-            private readonly IList<IList<IVertex<IVertexData>>>
-                _nodeGroups = new List<IList<IVertex<IVertexData>>>();
+            private readonly IList<IList<IVertexData>> _nodeGroups = new List<IList<IVertexData>>();
 
             protected OrderManager(int count, bool isRevertPath)
             {
                 for (var i = 0; i < count; i++)
-                    _nodeGroups.Add(new List<IVertex<IVertexData>>());
+                    _nodeGroups.Add(new List<IVertexData>());
                 _isRevertPath = isRevertPath;
             }
 
-            public void Insert(IVertex<IVertexData> node)
+            public void Insert(IVertexData node)
             {
                 var index = _isRevertPath
                     ? GetReverseIndex(node)
@@ -231,11 +230,11 @@ namespace GraphLight.Algorithm
             {
                 _nodeGroups
                     .SelectMany(x => x.Reverse())
-                    .Iter((n, i) => { n.Data.Position = i; });
+                    .Iter((n, i) => { n.Position = i; });
             }
 
-            protected abstract int GetDirectIndex(IVertex<IVertexData> node);
-            protected abstract int GetReverseIndex(IVertex<IVertexData> node);
+            protected abstract int GetDirectIndex(IVertexData node);
+            protected abstract int GetReverseIndex(IVertexData node);
         }
 
         private class BaricenterOrderManager : OrderManager
@@ -245,20 +244,20 @@ namespace GraphLight.Algorithm
             public BaricenterOrderManager(IGraph<IGraphData, IVertexData, IEdgeData> graph, int count, bool isRevertPath)
                 : base(count, isRevertPath) => _graph = graph;
 
-            protected override int GetDirectIndex(IVertex<IVertexData> node)
+            protected override int GetDirectIndex(IVertexData node)
             {
                 return _graph.GetInEdges(node).Any()
                     ? (int)Math.Round(
-                        _graph.GetInEdges(node).Select(x => x.Src.Data.Position).Average())
-                    : node.Data.Position;
+                        _graph.GetInEdges(node).Select(x => x.Src.Position).Average())
+                    : node.Position;
             }
 
-            protected override int GetReverseIndex(IVertex<IVertexData> node)
+            protected override int GetReverseIndex(IVertexData node)
             {
                 return _graph.GetOutEdges(node).Any()
                     ? (int)Math.Round(
-                        _graph.GetOutEdges(node).Select(x => x.Dst.Data.Position).Average())
-                    : node.Data.Position;
+                        _graph.GetOutEdges(node).Select(x => x.Dst.Position).Average())
+                    : node.Position;
             }
         }
 
@@ -269,10 +268,10 @@ namespace GraphLight.Algorithm
             public MedianOrderManager(IGraph<IGraphData, IVertexData, IEdgeData> graph, int count, bool isRevertPath)
                 : base(count, isRevertPath) => _graph = graph;
 
-            protected override int GetDirectIndex(IVertex<IVertexData> node)
+            protected override int GetDirectIndex(IVertexData node)
             {
                 var positions = _graph.GetInEdges(node)
-                    .Select(x => x.Src.Data.Position)
+                    .Select(x => x.Src.Position)
                     .OrderBy(x => x)
                     .ToList();
                 if (_graph.GetInEdges(node).Any())
@@ -282,13 +281,13 @@ namespace GraphLight.Algorithm
                         : positions.Count / 2;
                     return positions[index];
                 }
-                return node.Data.Position;
+                return node.Position;
             }
 
-            protected override int GetReverseIndex(IVertex<IVertexData> node)
+            protected override int GetReverseIndex(IVertexData node)
             {
                 var positions = _graph.GetOutEdges(node)
-                    .Select(x => x.Dst.Data.Position)
+                    .Select(x => x.Dst.Position)
                     .OrderBy(x => x)
                     .ToList();
                 if (_graph.GetOutEdges(node).Any())
@@ -298,7 +297,7 @@ namespace GraphLight.Algorithm
                         : positions.Count / 2;
                     return positions[index];
                 }
-                return node.Data.Position;
+                return node.Position;
             }
         }
     }

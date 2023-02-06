@@ -7,17 +7,17 @@ namespace GraphLight.Algorithm
 {
     internal static class VertexExtensions
     {
-        internal static Point2D CenterPoint<V>(this IVertex<V> node)
+        internal static Point2D CenterPoint<V>(this V node)
             where V : IVertexDataLocation =>
-            node.Data.Rect.CustomPoint(0.5, 0.5);
+            node.Rect.CustomPoint(0.5, 0.5);
 
-        internal static Point2D CustomPoint<V>(this IVertex<V> node, double w, double h)
+        internal static Point2D CustomPoint<V>(this V node, double w, double h)
             where V : IVertexDataLocation =>
-            node.Data.Rect.CustomPoint(w, h);
+            node.Rect.CustomPoint(w, h);
 
-        internal static Point2D GetShapePort<V>(this IVertex<V> node, Point2D point)
+        internal static Point2D GetShapePort<V>(this V node, Point2D point)
             where V : IVertexData =>
-            node.Data.Shape switch
+            node.Shape switch
             {
                 None => GetRectPort(node, point),
                 Ellipse => GetEllipsePort(node, point),
@@ -26,9 +26,9 @@ namespace GraphLight.Algorithm
                 _ => node.CenterPoint()
             };
 
-        private static Point2D GetEllipsePort<V>(IVertex<V> node, Point2D point) where V : IVertexData
+        private static Point2D GetEllipsePort<V>(V node, Point2D point) where V : IVertexData
         {
-            var d = node.Data;
+            var d = node;
 
             var center = node.CenterPoint();
             var a = d.Rect.Width / 2;
@@ -46,7 +46,7 @@ namespace GraphLight.Algorithm
             return new Point2D(center.X + x, center.Y + y);
         }
 
-        private static Point2D GetRectPort<V>(IVertex<V> node, Point2D point) where V : IVertexData =>
+        private static Point2D GetRectPort<V>(V node, Point2D point) where V : IVertexData =>
             GetPoligonPort(
                 point,
                 node.CenterPoint(),
@@ -55,7 +55,7 @@ namespace GraphLight.Algorithm
                 node.CustomPoint(1, 1),
                 node.CustomPoint(0, 1));
 
-        private static Point2D GetDiamondPort<V>(IVertex<V> node, Point2D point) where V : IVertexData =>
+        private static Point2D GetDiamondPort<V>(V node, Point2D point) where V : IVertexData =>
             GetPoligonPort(
                 point,
                 node.CenterPoint(),

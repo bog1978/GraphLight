@@ -7,6 +7,6 @@ namespace GraphLight.Algorithm
     {
         void Execute(V start, V end);
         Action<IEdge<V, E>> EnterEdge { get; set; }
-        Action<IVertex<V>> EnterNode { get; set; }
+        Action<V> EnterNode { get; set; }
     }
 }
