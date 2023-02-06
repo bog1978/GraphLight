@@ -8,7 +8,7 @@ namespace GraphLight.Algorithm
 {
     internal class UndirectedDijkstra<G, V, E> : IShortestPath<V, E>
         where E : IEdgeDataWeight
-        where V : class, IEquatable<V>
+        where V : IEquatable<V>
     {
         private readonly IGraph<G, V, E> _graph;
         private Action<IEdge<V, E>> _enterEdge = x => { };

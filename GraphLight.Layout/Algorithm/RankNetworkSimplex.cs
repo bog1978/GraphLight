@@ -6,7 +6,7 @@ using GraphLight.Model;
 namespace GraphLight.Algorithm
 {
     internal class RankNetworkSimplex<G, V, E> : NetworkSimplex
-        where V : class, IVertexDataLayered, IEquatable<V>
+        where V : IVertexDataLayered, IEquatable<V>
         where E : IEdgeDataWeight
     {
         private readonly IGraph<G, V, E> _graph;
@@ -31,7 +31,7 @@ namespace GraphLight.Algorithm
             _vertexMap = _graph.Vertices.ToDictionary(x => x, x => new Vertex());
 
             vertices = _vertexMap.Values.ToList();
-            edges = _graph.Edges.Where(edge => edge.Src != edge.Dst)
+            edges = _graph.Edges.Where(edge => !edge.Src.Equals(edge.Dst))
                 .Select(x => new Edge(_vertexMap[x.Src], _vertexMap[x.Dst], (int)x.Data.Weight, 1))
                 .ToList();
         }

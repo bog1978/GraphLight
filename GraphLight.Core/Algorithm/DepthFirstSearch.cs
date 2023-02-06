@@ -24,7 +24,7 @@ namespace GraphLight.Algorithm
     /// http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/depthSearch.htm
     /// </remarks>
     internal class DepthFirstSearch<G, V, E> : IDepthFirstSearch<V, E>
-    where V: class, IEquatable<V>
+    where V: IEquatable<V>
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly TraverseRule _rule;

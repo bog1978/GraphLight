@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace GraphLight.Model
 {
     public interface IGraph<out G, V, E> : IElement<G>
-    where V : class, IEquatable<V>
+    where V : IEquatable<V>
     {
         IReadOnlyList<IEdge<V, E>> Edges { get; }
         IReadOnlyList<V> Vertices { get; }

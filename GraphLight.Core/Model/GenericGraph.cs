@@ -5,7 +5,7 @@ using System.Linq;
 namespace GraphLight.Model
 {
     internal class GenericGraph<G, V, E> : IGraph<G, V, E>
-    where V : class, IEquatable<V>
+    where V : IEquatable<V>
     {
         private readonly IDictionary<V, GenericVertex<V, E>> _map = new Dictionary<V, GenericVertex<V, E>>();
         private readonly List<IEdge<V, E>> _edges = new List<IEdge<V, E>>();
@@ -21,6 +21,8 @@ namespace GraphLight.Model
 
         public void AddVertex(V data)
         {
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
             if (!_map.TryGetValue(data, out var vertex))
             {
                 vertex = new GenericVertex<V, E>(data);
@@ -32,7 +34,7 @@ namespace GraphLight.Model
         public void RemoveVertex(V vertex)
         {
             if (vertex == null)
-                return;
+                throw new ArgumentNullException(nameof(vertex));
             var edges = GetEdges(vertex).ToArray();
             foreach (var edge in edges)
                 RemoveEdge(edge);
@@ -40,16 +42,40 @@ namespace GraphLight.Model
             _map.Remove(vertex);
         }
 
-        public IReadOnlyList<IEdge<V, E>> GetEdges(V vertex) => _map[vertex].Edges;
+        public IReadOnlyList<IEdge<V, E>> GetEdges(V vertex)
+        {
+            if (vertex == null)
+                throw new ArgumentNullException(nameof(vertex));
+            return _map[vertex].Edges;
+        }
 
-        public IReadOnlyList<IEdge<V, E>> GetInEdges(V vertex) => _map[vertex].InEdges;
+        public IReadOnlyList<IEdge<V, E>> GetInEdges(V vertex)
+        {
+            if (vertex == null)
+                throw new ArgumentNullException(nameof(vertex));
+            return _map[vertex].InEdges;
+        }
 
-        public IReadOnlyList<IEdge<V, E>> GetOutEdges(V vertex) => _map[vertex].OutEdges;
+        public IReadOnlyList<IEdge<V, E>> GetOutEdges(V vertex)
+        {
+            if (vertex == null)
+                throw new ArgumentNullException(nameof(vertex));
+            return _map[vertex].OutEdges;
+        }
 
-        public IReadOnlyList<IEdge<V, E>> GetLoopEdges(V vertex) => _map[vertex].SelfEdges;
+        public IReadOnlyList<IEdge<V, E>> GetLoopEdges(V vertex)
+        {
+            if (vertex == null)
+                throw new ArgumentNullException(nameof(vertex));
+            return _map[vertex].SelfEdges;
+        }
 
         public void InsertVertex(IEdge<V, E> edge, V vertexData, E edgeData)
         {
+            if (vertexData == null)
+                throw new ArgumentNullException(nameof(vertexData));
+            if (edgeData == null)
+                throw new ArgumentNullException(nameof(edgeData));
             if (!Edges.Contains(edge))
                 throw new Exception("Данное ребро не принадлежит графу");
             var newEdge = AddEdge(vertexData, edge.Dst, edgeData);
@@ -58,6 +84,12 @@ namespace GraphLight.Model
 
         public IEdge<V, E> AddEdge(V srcData, V dstData, E data)
         {
+            if (srcData == null)
+                throw new ArgumentNullException(nameof(srcData));
+            if (dstData == null)
+                throw new ArgumentNullException(nameof(dstData));
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
             AddVertex(srcData);
             AddVertex(dstData);
             var edge = new GenericEdge<V, E>(srcData, dstData, data);
@@ -69,13 +101,17 @@ namespace GraphLight.Model
 
         public void RemoveEdge(IEdge<V, E> edge)
         {
+            if (edge == null)
+                throw new ArgumentNullException(nameof(edge));
+            UnRegisterEdge(edge.Src, edge);
+            UnRegisterEdge(edge.Dst, edge);
             _edges.Remove(edge);
-            ChangeSource(edge, null);
-            ChangeDestination(edge, null);
         }
 
         public void Revert(IEdge<V, E> edge)
         {
+            if (edge == null)
+                throw new ArgumentNullException(nameof(edge));
             var e = (GenericEdge<V, E>)edge;
             if (e.IsRevert)
                 throw new Exception("Edge is already reverted.");
@@ -88,6 +124,10 @@ namespace GraphLight.Model
 
         public void ChangeSource(IEdge<V, E> edge, V vertex)
         {
+            if (edge == null)
+                throw new ArgumentNullException(nameof(edge));
+            if (vertex == null)
+                throw new ArgumentNullException(nameof(vertex));
             var e = (GenericEdge<V, E>)edge;
             var oldVertex = e.Src;
             e.Src = vertex;
@@ -96,6 +136,10 @@ namespace GraphLight.Model
 
         public void ChangeDestination(IEdge<V, E> edge, V vertex)
         {
+            if (edge == null)
+                throw new ArgumentNullException(nameof(edge));
+            if (vertex == null)
+                throw new ArgumentNullException(nameof(vertex));
             var e = (GenericEdge<V, E>)edge;
             var oldVertex = e.Dst;
             e.Dst = vertex;
@@ -104,14 +148,22 @@ namespace GraphLight.Model
 
         private void OnEdgeChanged(IEdge<V, E> edge, V oldVertex, V newVertex)
         {
-            if (oldVertex != null)
-                UnRegisterEdge(oldVertex, edge);
-            if (newVertex != null)
-                RegisterEdge(newVertex, edge);
+            if (edge == null)
+                throw new ArgumentNullException(nameof(edge));
+            if (oldVertex == null)
+                throw new ArgumentNullException(nameof(oldVertex));
+            if (newVertex == null)
+                throw new ArgumentNullException(nameof(newVertex));
+            UnRegisterEdge(oldVertex, edge);
+            RegisterEdge(newVertex, edge);
         }
 
         private void RegisterEdge(V vertex, IEdge<V, E> edge)
         {
+            if (vertex == null)
+                throw new ArgumentNullException(nameof(vertex));
+            if (edge == null)
+                throw new ArgumentNullException(nameof(edge));
             var v = _map[vertex];
             var collection = vertex.Equals(edge.Src) && vertex.Equals(edge.Dst)
                 ? v.SelfEdges
@@ -146,11 +198,13 @@ namespace GraphLight.Model
 
         private void UnRegisterEdge(V vertex, IEdge<V, E> edge)
         {
+            if (vertex == null)
+                throw new ArgumentNullException(nameof(vertex));
+            if (edge == null)
+                throw new ArgumentNullException(nameof(edge));
             var v = _map[vertex];
             if (v.SelfEdges.Remove(edge))
-            {
                 RegisterEdge(vertex, edge);
-            }
             else
             {
                 v.Edges.Remove(edge);

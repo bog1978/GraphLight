@@ -6,7 +6,7 @@ using GraphLight.Model;
 namespace GraphLight.Algorithm
 {
     internal class PrimSpanningTree<G, V, E> : ISpanningTree<V, E>
-        where V : class, IEquatable<V>
+        where V : IEquatable<V>
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly Func<IEdge<V, E>, double> _weightFunc;

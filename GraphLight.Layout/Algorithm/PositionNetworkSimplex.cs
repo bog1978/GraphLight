@@ -6,7 +6,7 @@ using GraphLight.Model;
 namespace GraphLight.Algorithm
 {
     internal class PositionNetworkSimplex<G, V, E> : NetworkSimplex
-        where V : class, IVertexDataLayered, IVertexDataLocation, IEquatable<V>
+        where V : IVertexDataLayered, IVertexDataLocation, IEquatable<V>
         where E : IEdgeDataWeight
     {
         private const int H_SPACE = 30;
