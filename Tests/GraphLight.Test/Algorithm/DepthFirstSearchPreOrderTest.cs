@@ -53,9 +53,9 @@ namespace GraphLight.Algorithm
             CheckResults(graph,
                 new[] { a, b, d, c },
                 new[] { ab, bd, ac },
-                _emptyEdges,
+                new[] { cd },
                 new[] { da },
-                new[] { cd });
+                _emptyEdges);
         }
 
         [TestMethod]

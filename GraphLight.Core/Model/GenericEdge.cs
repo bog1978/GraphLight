@@ -20,10 +20,5 @@ namespace GraphLight.Model
         public V Dst { get; internal set; }
 
         public override string ToString() => $"{Src} -> {Dst}: {Data}";
-
-        public override int GetHashCode() => Data.GetHashCode();
-
-        public override bool Equals(object obj) => 
-            obj is GenericEdge<V, E> edge && Data.Equals(edge.Data);
     }
 }

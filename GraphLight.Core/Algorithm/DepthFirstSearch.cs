@@ -24,12 +24,14 @@ namespace GraphLight.Algorithm
     /// http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/depthSearch.htm
     /// </remarks>
     internal class DepthFirstSearch<G, V, E> : IDepthFirstSearch<V, E>
-    where V: IEquatable<V>
+    where V : IEquatable<V>
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly TraverseRule _rule;
         private readonly Dictionary<V, DfsVertexAttr> _attrs;
-        private int _time;
+        private int _depth;
+        private int _vOrder;
+        private int _eOrder;
 
         public DepthFirstSearch(IGraph<G, V, E> graph, TraverseRule rule)
         {
@@ -45,9 +47,29 @@ namespace GraphLight.Algorithm
 
         public void Execute()
         {
-            _time = 0;
-            foreach (var node in _graph.Vertices.Where(node => _attrs[node].Color == VertexColor.White))
+            _vOrder = 0;
+            _eOrder = 0;
+            // Первый проход - обходим корни деревьев (нет входящих ребер).
+            foreach (var node in _graph.Vertices)
+            {
+                var attr = _attrs[node];
+                if (attr.Color != VertexColor.White)
+                    continue;
+                var inEdges = _graph.GetInEdges(node);
+                if (inEdges.Count > 0)
+                    continue;
+                _depth = 0;
                 Dfs(node);
+            }
+            // Второй проход - обходим то, что осталось. Могли быть циклы.
+            foreach (var node in _graph.Vertices)
+            {
+                var attr = _attrs[node];
+                if (attr.Color != VertexColor.White)
+                    continue;
+                _depth = 0;
+                Dfs(node);
+            }
         }
 
         private void Dfs(V vertex)
@@ -56,9 +78,8 @@ namespace GraphLight.Algorithm
                 EnterVertex(vertex);
 
             var srcAttr = _attrs[vertex];
-            _time++;
             srcAttr.Color = VertexColor.Gray;
-            srcAttr.Depth = _time;
+            srcAttr.Depth = _depth;
 
             foreach (var edge in _graph.GetOutEdges(vertex))
             {
@@ -74,28 +95,31 @@ namespace GraphLight.Algorithm
                     case VertexColor.Gray:
                         EnterEdge(edge, DfsEdgeType.Back);
                         break;
-                    case VertexColor.White:
-                        if (_rule == TraverseRule.PreOrder)
-                            EnterEdge(edge, DfsEdgeType.Tree);
+                    case VertexColor.White when _rule == TraverseRule.PreOrder:
+                        EnterEdge(edge, DfsEdgeType.Tree);
+                        _depth++;
                         Dfs(edge.Dst);
-                        if (_rule == TraverseRule.PostOrder)
-                            EnterEdge(edge, DfsEdgeType.Tree);
+                        _depth--;
+                        break;
+                    case VertexColor.White when _rule == TraverseRule.PostOrder:
+                        _depth++;
+                        Dfs(edge.Dst);
+                        _depth--;
+                        EnterEdge(edge, DfsEdgeType.Tree);
                         break;
                 }
             }
 
             srcAttr.Color = VertexColor.Black;
-            //_time++;
-
             if (_rule == TraverseRule.PostOrder)
                 EnterVertex(vertex);
         }
 
-        private void EnterEdge(IEdge<V, E> edge, DfsEdgeType edgeType) => 
-            OnEdge?.Invoke(new EdgeInfo(edge, edgeType, _time));
+        private void EnterEdge(IEdge<V, E> edge, DfsEdgeType edgeType) =>
+            OnEdge?.Invoke(new EdgeInfo(edge, edgeType, _eOrder++));
 
         private void EnterVertex(V vertex) =>
-            OnNode?.Invoke(new VertexInfo(vertex, _time));
+            OnNode?.Invoke(new VertexInfo(vertex, _vOrder++, _depth));
 
         #region Nested type: DfsNodeAttr
 
@@ -112,7 +136,7 @@ namespace GraphLight.Algorithm
             }
         }
 
-        private class EdgeInfo : IEdgeInfo<V,E>
+        private class EdgeInfo : IEdgeInfo<V, E>
         {
             public EdgeInfo(IEdge<V, E> edge, DfsEdgeType edgeType, int order)
             {
@@ -126,22 +150,25 @@ namespace GraphLight.Algorithm
             public DfsEdgeType EdgeType { get; }
 
             public int Order { get; }
-            public override string ToString() => $"{Order}: {EdgeType}: {Edge}";
+            public override string ToString() => $"N={Order}: T={EdgeType}: E={Edge}";
         }
 
         private class VertexInfo : IVertexInfo<V>
         {
-            public VertexInfo(V vertex, int order)
+            public VertexInfo(V vertex, int order, int depth)
             {
                 Vertex = vertex;
                 Order = order;
+                Depth = depth;
             }
 
             public V Vertex { get; }
 
             public int Order { get; }
 
-            public override string ToString() => $"{Order}: {Vertex}";
+            public int Depth { get; }
+
+            public override string ToString() => $"N={Order}: D={Depth}: V={Vertex}";
         }
 
         #endregion

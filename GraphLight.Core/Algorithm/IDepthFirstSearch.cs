@@ -20,6 +20,7 @@ namespace GraphLight.Algorithm
     {
         V Vertex { get; }
         int Order { get; }
+        int Depth { get; }
     }
 
     public enum DfsEdgeType

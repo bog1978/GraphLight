@@ -17,9 +17,7 @@ namespace GraphLight.Algorithm
             var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
 
             var (a, b, c) = ("A", "B", "C");
-            graph.AddVertex(a);
-            graph.AddVertex(b);
-            graph.AddVertex(c);
+            graph.AddVertexRange(a, b, c);
 
             var ab = graph.AddEdge(a, b, 1);
             var bc = graph.AddEdge(b, c, 1);
@@ -38,7 +36,7 @@ namespace GraphLight.Algorithm
         public void DfsTest2()
         {
             var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
-            
+
             var (a, b, c, d) = ("A", "B", "C", "D");
             graph.AddVertex(a);
             graph.AddVertex(b);
@@ -53,16 +51,16 @@ namespace GraphLight.Algorithm
             CheckResults(graph,
                 new[] { d, b, c, a },
                 new[] { bd, ab, ac },
-                _emptyEdges,
+                new[] { cd },
                 new[] { da },
-                new[] { cd });
+                _emptyEdges);
         }
 
         [TestMethod]
         public void DfsTest3()
         {
             var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
-            
+
             var (a, b) = ("A", "B");
             graph.AddVertex(a);
             graph.AddVertex(b);
@@ -88,7 +86,7 @@ namespace GraphLight.Algorithm
         public void DfsTest4()
         {
             var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
-            
+
             var (a, b, c, d, e, f, g) = ("A", "B", "C", "D", "E", "F", "G");
             graph.AddVertex(a);
             graph.AddVertex(b);
@@ -124,7 +122,7 @@ namespace GraphLight.Algorithm
         public void DfsTest5()
         {
             var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
-            
+
             var (a1, a2, a3, a4, a5, a6, a7, a8) = ("1", "2", "3", "4", "5", "6", "7", "8");
             graph.AddVertex(a1);
             graph.AddVertex(a2);
@@ -154,6 +152,30 @@ namespace GraphLight.Algorithm
                 new[] { e18 },
                 new[] { e42 },
                 new[] { e63 });
+        }
+
+        [TestMethod]
+        public void LimLowTest()
+        {
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
+
+            var (a1, a2, a3, a4, a5, a6, a7, a8, a9) = ("1", "2", "3", "4", "5", "6", "7", "8", "9");
+            graph.AddVertexRange(
+                a1, a2, a3, a4, a5, a6, a7, a8, a9);
+            graph.AddEdgeRange(1,
+                (a3, a1), (a3, a2), (a5, a4), (a8, a5),
+                (a8, a6), (a8, a7), (a9, a3), (a9, a8));
+
+            var nodes = new List<IVertexInfo<string>>();
+            var edges = new List<IEdgeInfo<string, EdgeDataWeight>>();
+
+            var alg = graph.DepthFirstSearch(TraverseRule.PostOrder);
+            alg.OnNode = nodes.Add;
+            alg.OnEdge = edges.Add;
+
+            alg.Execute();
+
+            // TODO: Дописать тест!!!
         }
 
         private static void CheckResults(
