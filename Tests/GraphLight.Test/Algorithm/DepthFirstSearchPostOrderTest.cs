@@ -166,16 +166,39 @@ namespace GraphLight.Algorithm
                 (a3, a1), (a3, a2), (a5, a4), (a8, a5),
                 (a8, a6), (a8, a7), (a9, a3), (a9, a8));
 
-            var nodes = new List<IVertexInfo<string>>();
-            var edges = new List<IEdgeInfo<string, EdgeDataWeight>>();
+            var map = graph.Vertices.ToDictionary(x => x, x => new LimLow());
 
             var alg = graph.DepthFirstSearch(TraverseRule.PostOrder);
-            alg.OnNode = nodes.Add;
-            alg.OnEdge = edges.Add;
+            alg.OnNode = ni =>
+            {
+                var currAttr = map[ni.Vertex];
+                var outEdges = graph.GetOutEdges(ni.Vertex);
+                currAttr.Lim = ni.Order + 1;
+                if (outEdges.Count == 0)
+                {
+                    currAttr.Low = ni.Order + 1;
+                }
+                else
+                {
+                    currAttr.Low = outEdges.Min(x => map[x.Dst].Low);
+                }
+            };
 
             alg.Execute();
-
-            // TODO: Дописать тест!!!
+            var expected = new List<LimLow>
+            {
+                new LimLow(1,1),
+                new LimLow(2,2),
+                new LimLow(1,3),
+                new LimLow(4,4),
+                new LimLow(4,5),
+                new LimLow(6,6),
+                new LimLow(7,7),
+                new LimLow(4,8),
+                new LimLow(1,9),
+            };
+            var actual = map.Values.ToList();
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         private static void CheckResults(
@@ -209,6 +232,56 @@ namespace GraphLight.Algorithm
             CollectionAssert.AreEqual(forwardExpected.ToList(), forward, "Wrong forward edges collection");
             CollectionAssert.AreEqual(backwardExpected.ToList(), backward, "Wrong bckward edges collection");
             CollectionAssert.AreEqual(crossExpected.ToList(), cross, "Wrong cross edges collection");
+        }
+
+        private class LimLow : IEquatable<LimLow>
+        {
+            public int Lim;
+            public int Low;
+
+            public LimLow()
+            {
+                Lim = int.MaxValue;
+            }
+
+            public LimLow(int low, int lim)
+            {
+                Low = low;
+                Lim = lim;
+            }
+
+            public override string ToString()
+            {
+                return $"Low:{Low}, Lim:{Lim}";
+            }
+
+            public bool Equals(LimLow? other)
+            {
+                if (ReferenceEquals(null, other))
+                    return false;
+                if (ReferenceEquals(this, other))
+                    return true;
+                return Lim == other.Lim && Low == other.Low;
+            }
+
+            public override bool Equals(object? obj)
+            {
+                if (ReferenceEquals(null, obj))
+                    return false;
+                if (ReferenceEquals(this, obj))
+                    return true;
+                if (obj.GetType() != this.GetType())
+                    return false;
+                return Equals((LimLow)obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return (Lim * 397) ^ Low;
+                }
+            }
         }
     }
 }
