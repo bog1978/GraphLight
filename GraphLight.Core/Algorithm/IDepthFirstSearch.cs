@@ -21,6 +21,7 @@ namespace GraphLight.Algorithm
         V Vertex { get; }
         int Order { get; }
         int Depth { get; }
+        DfsVertexType VertexType { get; }
     }
 
     public enum DfsEdgeType
@@ -29,5 +30,14 @@ namespace GraphLight.Algorithm
         Cross,
         Back,
         Tree,
+    }
+
+    public enum DfsVertexType
+    {
+        Root,
+        Middle,
+        MiddleCycle,
+        Leaf,
+        LeafCycle,
     }
 }

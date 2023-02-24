@@ -156,6 +156,46 @@ namespace GraphLight.Algorithm
                 new[] { e63 });
         }
 
+        /// <summary>
+        /// Классификация узлов. 
+        /// </summary>
+        [TestMethod]
+        public void DfsTest6()
+        {
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
+
+            var (a, b, c, d, e, f, g, h, i, j, k) =
+                ("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K");
+
+            graph.AddVertexRange(a, b, c, d, e, f, g, h, i, j, k);
+            graph.AddEdgeRange(1,
+                (a, b), (b, c), (c, a),
+                (d, e), (e, f), (e, g), (g, d),
+                (h, i), (i, j), (j, k), (j, h));
+
+            var vertexInf = new List<IVertexInfo<string>>();
+            var dfs = graph.DepthFirstSearch(TraverseRule.PreOrder);
+            dfs.OnNode += vertexInf.Add;
+            dfs.Execute();
+
+            var actual = vertexInf.Select(x => $"{x.Vertex}:{x.VertexType}").ToList();
+            var expected = new List<string>
+            {
+                $"{a}:{DfsVertexType.Root}",
+                $"{b}:{DfsVertexType.Middle}",
+                $"{c}:{DfsVertexType.LeafCycle}",
+                $"{d}:{DfsVertexType.Root}",
+                $"{e}:{DfsVertexType.Middle}",
+                $"{f}:{DfsVertexType.Leaf}",
+                $"{g}:{DfsVertexType.LeafCycle}",
+                $"{h}:{DfsVertexType.Root}",
+                $"{i}:{DfsVertexType.Middle}",
+                $"{j}:{DfsVertexType.MiddleCycle}",
+                $"{k}:{DfsVertexType.Leaf}",
+            };
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
         private static void CheckResults(
             IGraph<object, string, EdgeDataWeight> graph,
             IEnumerable<string> nodesExpected,
