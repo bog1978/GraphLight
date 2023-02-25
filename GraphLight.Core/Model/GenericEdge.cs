@@ -3,6 +3,7 @@
 namespace GraphLight.Model
 {
     internal class GenericEdge<V, E> : IEdge<V, E>
+        where V : IEquatable<V>
     {
         public GenericEdge(V src, V dst, E data)
         {

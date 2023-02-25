@@ -8,7 +8,7 @@ namespace GraphLight.Model
     [TestClass]
     public class DrawingGraphTests
     {
-        private static readonly ICollection _emptyEdges = new List<IEdge<object, object>>();
+        private static readonly ICollection _emptyEdges = new List<IEdge<string, object>>();
 
         [TestMethod]
         public void Test1()

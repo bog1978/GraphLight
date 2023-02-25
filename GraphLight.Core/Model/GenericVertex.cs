@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GraphLight.Model
 {
     internal class GenericVertex<V, E>
+        where V : IEquatable<V>
     {
         public GenericVertex(V data) => Data = data;
 

@@ -6,7 +6,7 @@ namespace GraphLight.Algorithm
     internal static class EdgeExtensions
     {
         internal static bool Cross<V, E>(this IEdge<V, E> edge, IEdge<V, E> otherEdge)
-            where V : IVertexDataLayered
+            where V : IEquatable<V>, IVertexDataLayered
         {
             var a1 = edge.Src;
             var b1 = edge.Dst;
@@ -18,7 +18,7 @@ namespace GraphLight.Algorithm
         }
 
         internal static double PositionSpan<V, E>(this IEdge<V, E> edge)
-            where V : IVertexDataLayered
+            where V : IEquatable<V>, IVertexDataLayered
             where E : IEdgeDataWeight
         {
             var delta = edge.Src.Position - edge.Dst.Position;

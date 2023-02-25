@@ -4,12 +4,14 @@ using GraphLight.Model;
 namespace GraphLight.Algorithm
 {
     public interface IDepthFirstSearch<V, E> : IAlgorithm
+        where V : IEquatable<V>
     {
         Action<IVertexInfo<V>>? OnNode { get; set; }
         Action<IEdgeInfo<V, E>>? OnEdge { get; set; }
     }
 
     public interface IEdgeInfo<V, E>
+        where V : IEquatable<V>
     {
         IEdge<V, E> Edge { get; }
         DfsEdgeType EdgeType { get; }
@@ -17,6 +19,7 @@ namespace GraphLight.Algorithm
     }
 
     public interface IVertexInfo<V>
+        where V : IEquatable<V>
     {
         V Vertex { get; }
         int Order { get; }
