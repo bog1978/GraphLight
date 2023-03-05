@@ -83,6 +83,20 @@ namespace GraphLight.Layout
                             Assert.IsTrue(HasEnds(map[h], d, h));
                             break;
                         }
+                    case "PostOrderTraversal_3":
+                        {
+                            var map = sg.Vertices.ToDictionary(x => x.Original);
+                            Assert.AreEqual(0, map[h].Lim); Assert.AreEqual(0, map[h].Low);
+                            Assert.AreEqual(1, map[d].Lim); Assert.AreEqual(0, map[d].Low);
+                            Assert.AreEqual(2, map[c].Lim); Assert.AreEqual(0, map[c].Low);
+                            Assert.AreEqual(3, map[b].Lim); Assert.AreEqual(0, map[b].Low);
+                            Assert.AreEqual(5, map[e].Lim); Assert.AreEqual(4, map[e].Low);
+                            Assert.AreEqual(4, map[g].Lim); Assert.AreEqual(4, map[g].Low);
+                            Assert.AreEqual(6, map[f].Lim); Assert.AreEqual(6, map[f].Low);
+                            Assert.AreEqual(7, map[a].Lim); Assert.AreEqual(0, map[a].Low);
+                            Assert.AreEqual(8, map["_ROOT_"].Lim); Assert.AreEqual(0, map["_ROOT_"].Low);
+                        }
+                        break;
                     default:
                         Assert.Fail("Этот тест еще не написан.");
                         break;

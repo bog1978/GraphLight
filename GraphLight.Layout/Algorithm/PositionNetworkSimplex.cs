@@ -37,14 +37,14 @@ namespace GraphLight.Algorithm
 
         protected override void Initialize(out ICollection<Vertex> vertices, out ICollection<Edge> edges)
         {
-            _vertexMap = _graph.Vertices.ToDictionary(x => x, vertex => new Vertex());
+            _vertexMap = _graph.Vertices.ToDictionary(x => x, vertex => new Vertex(vertex));
 
             vertices = _vertexMap.Values.ToList();
             edges = new List<Edge>();
 
             foreach (var edge in _graph.Edges)
             {
-                var ve = new Vertex();
+                var ve = new Vertex(edge);
                 vertices.Add(ve);
                 edges.Add(new Edge(ve, _vertexMap[edge.Src], (int)edge.Data.Weight, 0));
                 edges.Add(new Edge(ve, _vertexMap[edge.Dst], (int)edge.Data.Weight, 0));

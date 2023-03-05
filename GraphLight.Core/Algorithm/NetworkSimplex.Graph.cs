@@ -46,6 +46,9 @@ namespace GraphLight.Algorithm
 
         protected class Vertex
         {
+            public Vertex(object original) => Original = original;
+
+            public object Original { get; }
             internal VertexColor Color = VertexColor.White;
             public Edge[] Edges;
             public string Id;
@@ -59,6 +62,8 @@ namespace GraphLight.Algorithm
             internal int TreeEdgeCount;
             public int Value;
             public int Priority { get; set; } = int.MaxValue;
+
+            public override string ToString() => $"{Original}: {Value}";
         }
 
         #endregion

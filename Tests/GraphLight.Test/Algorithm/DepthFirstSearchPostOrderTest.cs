@@ -174,28 +174,75 @@ namespace GraphLight.Algorithm
                 var currAttr = map[ni.Vertex];
                 var outEdges = graph.GetOutEdges(ni.Vertex);
                 currAttr.Lim = ni.Order + 1;
-                if (outEdges.Count == 0)
+                currAttr.Low = ni.VertexType switch
                 {
-                    currAttr.Low = ni.Order + 1;
-                }
-                else
-                {
-                    currAttr.Low = outEdges.Min(x => map[x.Dst].Low);
-                }
+                    DfsVertexType.Leaf => ni.Order + 1,
+                    DfsVertexType.LeafCycle => ni.Order + 1,
+                    _ => outEdges.Min(x => map[x.Dst].Low)
+                };
+                //if (outEdges.Count == 0)
+                //{
+                //    currAttr.Low = ni.Order + 1;
+                //}
+                //else
+                //{
+                //    currAttr.Low = outEdges.Min(x => map[x.Dst].Low);
+                //}
             };
 
             alg.Execute();
             var expected = new List<LimLow>
             {
-                new LimLow(1,1),
-                new LimLow(2,2),
-                new LimLow(1,3),
-                new LimLow(4,4),
-                new LimLow(4,5),
-                new LimLow(6,6),
-                new LimLow(7,7),
-                new LimLow(4,8),
-                new LimLow(1,9),
+                new LimLow(1, 1),
+                new LimLow(2, 2),
+                new LimLow(3, 1),
+                new LimLow(4, 4),
+                new LimLow(5, 4),
+                new LimLow(6, 6),
+                new LimLow(7, 7),
+                new LimLow(8, 4),
+                new LimLow(9, 1),
+            };
+            var actual = map.Values.ToList();
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void LimLowTest2()
+        {
+            var graph = Graph.CreateInstance<object, string, EdgeDataWeight>("");
+
+            var (a, b, c, d, e, f, g, h) = ("a", "b", "c", "d", "e", "f", "g", "h");
+            graph.AddVertexRange(a, b, c, d, e, f, g, h);
+            graph.AddEdgeRange(1, (a, b), (a, e), (a, f), (b, c), (e, g), (f, g), (c, d), (g, h), (d, h));
+
+            var map = graph.Vertices.ToDictionary(x => x, x => new LimLow());
+
+            var alg = graph.DepthFirstSearch(TraverseRule.PostOrder);
+            alg.OnNode = ni =>
+            {
+                var currAttr = map[ni.Vertex];
+                var outEdges = graph.GetOutEdges(ni.Vertex);
+                currAttr.Lim = ni.Order;
+                currAttr.Low = ni.VertexType switch
+                {
+                    DfsVertexType.Leaf => ni.Order,
+                    DfsVertexType.LeafCycle => ni.Order,
+                    _ => outEdges.Min(x => map[x.Dst].Low)
+                };
+            };
+
+            alg.Execute();
+            var expected = new List<LimLow>
+            {
+                new LimLow(7, 0), // a
+                new LimLow(3, 0), // b
+                new LimLow(2, 0), // c
+                new LimLow(1, 0), // d
+                new LimLow(5, 4), // e
+                new LimLow(6, 6), // f
+                new LimLow(4, 4), // g
+                new LimLow(0, 0), // h
             };
             var actual = map.Values.ToList();
             CollectionAssert.AreEqual(expected, actual);
@@ -244,7 +291,7 @@ namespace GraphLight.Algorithm
                 Lim = int.MaxValue;
             }
 
-            public LimLow(int low, int lim)
+            public LimLow(int lim, int low)
             {
                 Low = low;
                 Lim = lim;
@@ -252,7 +299,7 @@ namespace GraphLight.Algorithm
 
             public override string ToString()
             {
-                return $"Low:{Low}, Lim:{Lim}";
+                return $"Lim:{Lim}, Low:{Low}";
             }
 
             public bool Equals(LimLow? other)

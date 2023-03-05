@@ -32,7 +32,7 @@ namespace GraphLight.Algorithm
             public IEdge<VertexData, EdgeData>? ParentEdge;
             public VertexData? ParentVertex;
             internal int ScanIndex;
-            internal int TreeEdgeCount;
+            //internal int TreeEdgeCount;
             public int Value;
             public int Priority = int.MaxValue;
             private readonly int _n;

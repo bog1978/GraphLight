@@ -66,80 +66,23 @@ namespace GraphLight.Algorithm
             OnStep();
         }
 
-        private static void PostOrderTraversal(IGraph<GraphData, VertexData, EdgeData> graph, VertexData root)
+        private void PostOrderTraversal(IGraph<GraphData, VertexData, EdgeData> graph)
         {
-            //    int min, max, lim;
-
-            //    if (root.ParentEdge != null)
-            //    {
-            //        min = root.Low;
-            //        max = root.Lim;
-            //        lim = min;
-            //        // ParentEdge is at index 0.
-            //        root.ScanIndex = 1;
-            //    }
-            //    else
-            //    {
-            //        min = 0;
-            //        max = graph.Vertices.Count - 1;
-            //        lim = 0;
-            //        root.ScanIndex = 0;
-            //    }
-
-            //    // root has index max in _graph.Vertices.
-            //    for (var i = min; i < max; i++)
-            //    {
-            //        var v = graph.Vertices[i];
-            //        v.Low = int.MaxValue;
-            //        v.Lim = int.MaxValue;
-            //        v.ParentEdge = null;
-            //        v.ParentVertex = null;
-            //        // For each vertex except global root Edges collection
-            //        // will contain ParentEdge at index 0.
-            //        v.ScanIndex = 1;
-            //    }
-
-            //    var curr = root;
-            //    while (true)
-            //    {
-            //        var len = curr.TreeEdgeCount;
-            //        if (curr.ScanIndex < len)
-            //        {
-            //            var edge = curr.Edges[curr.ScanIndex++];
-            //            var next = edge.Src == curr ? edge.Dst : edge.Src;
-            //            next.ParentEdge = edge;
-            //            next.ParentVertex = curr;
-            //            var edgeIndex = 0;
-            //            for (; edgeIndex < next.TreeEdgeCount; edgeIndex++)
-            //                if (next.Edges[edgeIndex] == edge)
-            //                    break;
-            //            if (edgeIndex > 0)
-            //            {
-            //                // Move ParentEdge to the index 0.
-            //                var tmp = next.Edges[0];
-            //                next.Edges[0] = edge;
-            //                next.Edges[edgeIndex] = tmp;
-            //            }
-            //            curr = next;
-            //        }
-            //        else
-            //        {
-            //            if (curr.Low == int.MaxValue)
-            //                curr.Low = lim;
-            //            if (curr.Lim != lim)
-            //            {
-            //                curr.Lim = lim;
-            //                graph.Vertices[lim] = curr;
-            //            }
-            //            lim++;
-            //            var prev = curr.ParentVertex;
-            //            if (prev == root.ParentVertex)
-            //                break;
-            //            if (prev.Low > curr.Low)
-            //                prev.Low = curr.Low;
-            //            curr = prev;
-            //        }
-            //    }
+            var alg = graph.DepthFirstSearch(TraverseRule.PostOrder);
+            alg.OnNode = ni =>
+            {
+                var currAttr = ni.Vertex;
+                var outEdges = graph.GetOutEdges(ni.Vertex);
+                currAttr.Lim = ni.Order;
+                currAttr.Low = ni.VertexType switch
+                {
+                    DfsVertexType.Leaf => ni.Order,
+                    DfsVertexType.LeafCycle => ni.Order,
+                    _ => outEdges.Min(x => x.Dst.Low)
+                };
+            };
+            alg.Execute();
+            OnStep();
         }
 
         private static int Slack(IEdge<VertexData, EdgeData> edge) => edge.Dst.Value - edge.Src.Value - edge.Data.MinLength;
@@ -215,13 +158,13 @@ namespace GraphLight.Algorithm
             FixValues(Slack(_include));
             _exclude.Data.IsTree = false;
             _include.Data.IsTree = true;
-            UpdateTreeEdges(_exclude.Src);
-            UpdateTreeEdges(_exclude.Dst);
-            UpdateTreeEdges(_include.Src);
-            UpdateTreeEdges(_include.Dst);
+            //UpdateTreeEdges(_exclude.Src);
+            //UpdateTreeEdges(_exclude.Dst);
+            //UpdateTreeEdges(_include.Src);
+            //UpdateTreeEdges(_include.Dst);
 
             _exclude.Data.CutValue = 0;
-            PostOrderTraversal(_graph, localRoot);
+            PostOrderTraversal(_graph);
             UpdateCutValues(path.OrderBy(x => x.Lim));
         }
 
@@ -296,7 +239,7 @@ namespace GraphLight.Algorithm
             SpanningTree(_graph);
             //foreach (var v in _graph.Vertices)
             //    UpdateTreeEdges(v);
-            //PostOrderTraversal(_graph, _graph.Data.Root);
+            PostOrderTraversal(_graph);
             //UpdateCutValues(_graph.Vertices);
         }
 
@@ -386,9 +329,11 @@ namespace GraphLight.Algorithm
                         var low1 = u1.Low > v1.Low
                             ? u1.Low
                             : v1.Low;
-                        for (var ni = w.TreeEdgeCount; ni < wEdges.Count; ni++)
+                        for (var ni = 0; ni < wEdges.Count; ni++)
                         {
                             var ne = wEdges[ni];
+                            if(ne.Data.IsTree)
+                                continue;
                             if (ne.Data.Weight == 0)
                                 continue;
 
@@ -450,21 +395,22 @@ namespace GraphLight.Algorithm
             }
         }
 
-        private void UpdateTreeEdges(VertexData v)
-        {
-            v.TreeEdgeCount = 0;
-            var edges = _graph.GetEdges(v);
-            for (var i = 0; i < edges.Count; i++)
-            {
-                var e = edges[i];
-                if (!e.Data.IsTree)
-                    continue;
-                //    var tmp = edges[v.TreeEdgeCount];
-                //    edges[v.TreeEdgeCount] = e;
-                //    edges[i] = tmp;
-                v.TreeEdgeCount++;
-            }
-        }
+        //private void UpdateTreeEdges(VertexData v)
+        //{
+        //    v.TreeEdgeCount = 0;
+        //    var edges = _graph.GetEdges(v);
+        //    for (var i = 0; i < edges.Count; i++)
+        //    {
+        //        var e = edges[i];
+        //        if (e.Data.IsTree)
+        //        {
+        //            // var tmp = edges[v.TreeEdgeCount];
+        //            // edges[v.TreeEdgeCount] = e;
+        //            // edges[i] = tmp;
+        //            v.TreeEdgeCount++;
+        //        }
+        //    }
+        //}
 
         #endregion
     }

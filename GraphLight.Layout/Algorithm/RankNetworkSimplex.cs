@@ -28,7 +28,7 @@ namespace GraphLight.Algorithm
 
         protected override void Initialize(out ICollection<Vertex> vertices, out ICollection<Edge> edges)
         {
-            _vertexMap = _graph.Vertices.ToDictionary(x => x, x => new Vertex());
+            _vertexMap = _graph.Vertices.ToDictionary(x => x, x => new Vertex(x));
 
             vertices = _vertexMap.Values.ToList();
             edges = _graph.Edges.Where(edge => !edge.Src.Equals(edge.Dst))
