@@ -20,11 +20,12 @@ namespace GraphLight.Model
                 graph.AddEdge(edge.src, edge.dst, edgeData);
         }
 
-        public static void AddEdgeRange<G, V, E>(this IGraph<G, V, E> graph, params (V src, V dst, E data)[] edgeList)
+        public static IGraph<G, V, E> AddEdgeRange<G, V, E>(this IGraph<G, V, E> graph, params (V src, V dst, E data)[] edgeList)
             where V : IEquatable<V>
         {
             foreach (var edge in edgeList)
                 graph.AddEdge(edge.src, edge.dst, edge.data);
+            return graph;
         }
 
         public static IReadOnlyList<V> GetRoots<G, V, E>(this IGraph<G, V, E> graph)
