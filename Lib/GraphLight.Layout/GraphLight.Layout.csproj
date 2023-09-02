@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\GraphLight.Core\GraphLight.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="GraphLight.Layout.Tests"/>
+		<InternalsVisibleTo Include="GraphLight.Wpf.Tests"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="IO\LGML\LGML.xsd" />
+	</ItemGroup>
+
+</Project>

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using GraphLight.Algorithm;
-using GraphLight.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GraphLight.Model
@@ -54,7 +53,7 @@ namespace GraphLight.Model
             graph.AddEdge(a, c, new EdgeData());
             var engine = new GraphVizLayout
             {
-                NodeMeasure = new WpfNodeMeasure(),
+                NodeMeasure = new DummyNodeMeasure(),
                 Graph = graph
             };
             engine.Layout();
@@ -78,7 +77,7 @@ namespace GraphLight.Model
             graph.AddEdge(d, a, new EdgeData());
             var engine = new GraphVizLayout
             {
-                NodeMeasure = new WpfNodeMeasure(),
+                NodeMeasure = new DummyNodeMeasure(),
                 Graph = graph
             };
             engine.Layout();

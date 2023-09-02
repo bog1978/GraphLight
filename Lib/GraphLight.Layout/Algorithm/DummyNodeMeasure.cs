@@ -1,7 +1,6 @@
-using GraphLight.Algorithm;
 using GraphLight.Model;
 
-namespace GraphLight.Drawing
+namespace GraphLight.Algorithm
 {
     public class DummyNodeMeasure : INodeMeasure
     {

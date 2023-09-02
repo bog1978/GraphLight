@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
 	<PropertyGroup>
 		<IsPackable>false</IsPackable>
@@ -12,7 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Lib\GraphLight.Core\GraphLight.Core.csproj" />
+		<ProjectReference Include="..\..\Lib\GraphLight.Wpf\GraphLight.Wpf.csproj" />
 	</ItemGroup>
 
 </Project>
