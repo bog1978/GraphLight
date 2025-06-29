@@ -28,7 +28,7 @@ namespace GraphLight.Algorithm
             var attrs = _graph.Vertices.ToDictionary(x => x, x => new DijkstraAttr());
             attrs[from].Distance = 0;
 
-            var queue = new PriorityQueue<double, V>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
+            var queue = new GraphLight.Collections.PriorityQueue<double, V>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
 
             while (queue.Count > 0)
             {
