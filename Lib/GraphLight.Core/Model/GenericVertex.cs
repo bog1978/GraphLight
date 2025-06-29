@@ -10,13 +10,13 @@ namespace GraphLight.Model
 
         public V Data { get; }
 
-        public List<IEdge<V, E>> Edges { get; } = new List<IEdge<V, E>>();
+        public List<IEdge<V, E>> Edges { get; } = new();
 
-        public List<IEdge<V, E>> InEdges { get; } = new List<IEdge<V, E>>();
+        public List<IEdge<V, E>> InEdges { get; } = new();
 
-        public List<IEdge<V, E>> OutEdges { get; } = new List<IEdge<V, E>>();
+        public List<IEdge<V, E>> OutEdges { get; } = new();
 
-        public List<IEdge<V, E>> SelfEdges { get; } = new List<IEdge<V, E>>();
+        public List<IEdge<V, E>> SelfEdges { get; } = new();
 
         public override string ToString() => Data.ToString();
 

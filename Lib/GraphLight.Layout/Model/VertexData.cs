@@ -37,6 +37,6 @@ namespace GraphLight.Model
 
         public override string ToString() => Id;
 
-        public static implicit operator VertexData(string id) => new VertexData(id);
+        public static implicit operator VertexData(string id) => new(id);
     }
 }

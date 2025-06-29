@@ -9,7 +9,7 @@ namespace GraphLight.Drawing
     {
         private const double MARGIN = 20;
 
-        private static readonly Size _maxSize = new Size(
+        private static readonly Size _maxSize = new(
             double.PositiveInfinity, double.PositiveInfinity);
 
         public void Measure(IVertexData vertex)

@@ -8,6 +8,6 @@
         
         public override string ToString() => $"{Weight:F3}";
 
-        public static implicit operator EdgeDataWeight(double w) => new EdgeDataWeight(w);
+        public static implicit operator EdgeDataWeight(double w) => new(w);
     }
 }

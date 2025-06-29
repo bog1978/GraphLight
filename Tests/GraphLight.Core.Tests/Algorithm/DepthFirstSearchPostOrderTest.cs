@@ -193,15 +193,15 @@ namespace GraphLight.Algorithm
             alg.Execute();
             var expected = new List<LimLow>
             {
-                new LimLow(1, 1),
-                new LimLow(2, 2),
-                new LimLow(3, 1),
-                new LimLow(4, 4),
-                new LimLow(5, 4),
-                new LimLow(6, 6),
-                new LimLow(7, 7),
-                new LimLow(8, 4),
-                new LimLow(9, 1),
+                new(1, 1),
+                new(2, 2),
+                new(3, 1),
+                new(4, 4),
+                new(5, 4),
+                new(6, 6),
+                new(7, 7),
+                new(8, 4),
+                new(9, 1),
             };
             var actual = map.Values.ToList();
             CollectionAssert.AreEqual(expected, actual);
@@ -235,14 +235,14 @@ namespace GraphLight.Algorithm
             alg.Execute();
             var expected = new List<LimLow>
             {
-                new LimLow(7, 0), // a
-                new LimLow(3, 0), // b
-                new LimLow(2, 0), // c
-                new LimLow(1, 0), // d
-                new LimLow(5, 4), // e
-                new LimLow(6, 6), // f
-                new LimLow(4, 4), // g
-                new LimLow(0, 0), // h
+                new(7, 0), // a
+                new(3, 0), // b
+                new(2, 0), // c
+                new(1, 0), // d
+                new(5, 4), // e
+                new(6, 6), // f
+                new(4, 4), // g
+                new(0, 0), // h
             };
             var actual = map.Values.ToList();
             CollectionAssert.AreEqual(expected, actual);

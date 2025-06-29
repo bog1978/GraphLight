@@ -8,8 +8,8 @@ namespace GraphLight.Model
     where V : IEquatable<V>
     {
         private readonly IDictionary<V, GenericVertex<V, E>> _map = new Dictionary<V, GenericVertex<V, E>>();
-        private readonly List<IEdge<V, E>> _edges = new List<IEdge<V, E>>();
-        private readonly List<V> _vertices = new List<V>();
+        private readonly List<IEdge<V, E>> _edges = new();
+        private readonly List<V> _vertices = new();
 
         internal GenericGraph(G data) => Data = data;
 

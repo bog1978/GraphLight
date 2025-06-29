@@ -54,13 +54,13 @@ namespace GraphLight.Geometry
         /// <returns>Скалярное произведение.</returns>
         public static double operator *(Vector2D a, Vector2D b) => a.X * b.X + a.Y * b.Y;
 
-        public static Vector2D operator +(Vector2D a, Vector2D b) => new Vector2D(a.X + b.X, a.Y + b.Y);
+        public static Vector2D operator +(Vector2D a, Vector2D b) => new(a.X + b.X, a.Y + b.Y);
 
-        public static Vector2D operator -(Vector2D a, Vector2D b) => new Vector2D(a.X - b.X, a.Y - b.Y);
+        public static Vector2D operator -(Vector2D a, Vector2D b) => new(a.X - b.X, a.Y - b.Y);
 
-        public static Vector2D operator *(Vector2D v, double k) => new Vector2D(v.X * k, v.Y * k);
+        public static Vector2D operator *(Vector2D v, double k) => new(v.X * k, v.Y * k);
 
-        public static Vector2D operator /(Vector2D v, double k) => new Vector2D(v.X / k, v.Y / k);
+        public static Vector2D operator /(Vector2D v, double k) => new(v.X / k, v.Y / k);
 
         public static bool operator ==(Vector2D p1, Vector2D p2)
         {

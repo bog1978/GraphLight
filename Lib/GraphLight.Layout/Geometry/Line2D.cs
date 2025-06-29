@@ -26,7 +26,7 @@ namespace GraphLight.Geometry
 
         #region Свойства
 
-        public static readonly Line2D Empty = new Line2D(Point2D.Empty, Point2D.Empty);
+        public static readonly Line2D Empty = new(Point2D.Empty, Point2D.Empty);
         private const int ROUND_DIGITS = 10;
         public Point2D P1 { get; set; }
         public Point2D P2 { get; set; }
@@ -124,7 +124,7 @@ namespace GraphLight.Geometry
         /// </summary>
         /// <param name="k"></param>
         /// <returns></returns>
-        public Point2D GetPoint(double k) => new Point2D(P1.X + k * (P2.X - P1.X), P1.Y + k * (P2.Y - P1.Y));
+        public Point2D GetPoint(double k) => new(P1.X + k * (P2.X - P1.X), P1.Y + k * (P2.Y - P1.Y));
 
         #endregion
 

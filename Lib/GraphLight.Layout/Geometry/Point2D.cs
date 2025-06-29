@@ -18,7 +18,7 @@ namespace GraphLight.Geometry
 
         #region Свойства
 
-        public static readonly Point2D Empty = new Point2D(double.NaN, double.NaN);
+        public static readonly Point2D Empty = new(double.NaN, double.NaN);
 
         public double X { get; set; }
 
@@ -30,11 +30,11 @@ namespace GraphLight.Geometry
 
         #region Операторы
 
-        public static Vector2D operator -(Point2D p1, Point2D p2) => new Vector2D(p2, p1);
+        public static Vector2D operator -(Point2D p1, Point2D p2) => new(p2, p1);
 
-        public static Point2D operator +(Point2D p, Vector2D v) => new Point2D(p.X + v.X, p.Y + v.Y);
+        public static Point2D operator +(Point2D p, Vector2D v) => new(p.X + v.X, p.Y + v.Y);
 
-        public static Point2D operator -(Point2D p, Vector2D v) => new Point2D(p.X - v.X, p.Y - v.Y);
+        public static Point2D operator -(Point2D p, Vector2D v) => new(p.X - v.X, p.Y - v.Y);
 
         public static bool operator ==(Point2D a, Point2D b)
         {

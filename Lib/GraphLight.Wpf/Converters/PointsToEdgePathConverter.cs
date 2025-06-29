@@ -53,7 +53,7 @@ namespace GraphLight.Converters
                     {
                         Figures = new PathFigureCollection
                         {
-                            new PathFigure
+                            new()
                             {
                                 StartPoint = pts.First(),
                                 Segments = new PathSegmentCollection

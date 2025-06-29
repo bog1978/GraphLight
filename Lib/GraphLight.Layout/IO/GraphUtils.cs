@@ -72,7 +72,7 @@ namespace GraphLight.IO
         }
 
         private static LgmlGraph ToLgmlGraph(this IGraph<IGraphData, IVertexData, IEdgeData> graph) =>
-            new LgmlGraph
+            new()
             {
                 Vertex = graph.Vertices.Select(vertex => new LgmlVertex
                 {

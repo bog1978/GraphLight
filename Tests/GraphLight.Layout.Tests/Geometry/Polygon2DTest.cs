@@ -57,10 +57,10 @@ namespace GraphLight.Geometry
         {
             var points = new List<Point2D>
                 {
-                    new Point2D(0, 0),
-                    new Point2D(1, 0),
-                    new Point2D(1, 1),
-                    new Point2D(0, 1),
+                    new(0, 0),
+                    new(1, 0),
+                    new(1, 1),
+                    new(0, 1),
                 };
             var target = new Polygon2D(points);
             var result = target.IsInner(new Point2D(0.5, 0.5));
@@ -75,10 +75,10 @@ namespace GraphLight.Geometry
         {
             var points = new List<Point2D>
                 {
-                    new Point2D(0, 0),
-                    new Point2D(1, 0),
-                    new Point2D(1, 1),
-                    new Point2D(0, 1),
+                    new(0, 0),
+                    new(1, 0),
+                    new(1, 1),
+                    new(0, 1),
                 };
             var target = new Polygon2D(points);
             var result = target.IsInner(new Point2D(5, 0.5));
@@ -93,10 +93,10 @@ namespace GraphLight.Geometry
         {
             var points = new List<Point2D>
                 {
-                    new Point2D(0, 0),
-                    new Point2D(1, 0),
-                    new Point2D(1, 1),
-                    new Point2D(0, 1),
+                    new(0, 0),
+                    new(1, 0),
+                    new(1, 1),
+                    new(0, 1),
                 };
             var target = new Polygon2D(points);
             var result = target.IsConvex();
@@ -111,11 +111,11 @@ namespace GraphLight.Geometry
         {
             var points = new List<Point2D>
                 {
-                    new Point2D(0, 0),
-                    new Point2D(1, 0),
-                    new Point2D(1, 1),
-                    new Point2D(0, 1),
-                    new Point2D(0.5, 0.5),
+                    new(0, 0),
+                    new(1, 0),
+                    new(1, 1),
+                    new(0, 1),
+                    new(0.5, 0.5),
                 };
             var target = new Polygon2D(points);
             var result = target.IsConvex();
@@ -130,10 +130,10 @@ namespace GraphLight.Geometry
         {
             var points = new List<Point2D>
                 {
-                    new Point2D(0, 0),
-                    new Point2D(1, 0),
-                    new Point2D(1, 1),
-                    new Point2D(0, 1),
+                    new(0, 0),
+                    new(1, 0),
+                    new(1, 1),
+                    new(0, 1),
                 };
             var target = new Polygon2D(points);
             var result = target.Points.Select((p, i) => p == points[i]).All(x => x);
