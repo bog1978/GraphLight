@@ -19,7 +19,7 @@ namespace GraphLight.Converters
 
         #region IValueConverter Members
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (!(value is IList<Point2D> points) || points.Count <= 1)
                 return null;
@@ -79,7 +79,7 @@ namespace GraphLight.Converters
             return grp;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => null;
 
         #endregion
 
