@@ -16,7 +16,7 @@ namespace GraphLight.Model
                 var resources =
                     from resName in assembly.GetManifestResourceNames()
                     where resName.EndsWith(".graph")
-                    let stream = new Lazy<Stream>(() => assembly.GetManifestResourceStream(resName))
+                    let stream = new Lazy<Stream>(() => assembly.GetManifestResourceStream(resName) ?? throw new ArgumentNullException())
                     select stream;
                 return resources;
             }

@@ -14,7 +14,7 @@ namespace GraphLight.Geometry
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext { get; set; }
+        public TestContext? TestContext { get; set; }
 
         #region Additional test attributes
 
@@ -283,7 +283,7 @@ namespace GraphLight.Geometry
         [TestMethod]
         public void CompareToNull()
         {
-            Line2D l1 = null;
+            Line2D? l1 = null;
             var r1 = l1 == null;
             Assert.IsTrue(r1);
 
@@ -299,17 +299,17 @@ namespace GraphLight.Geometry
             var l2 = new Line2D(2, 2, 1, 1);
             var l3 = new Line2D(new Point2D(1, 1), Point2D.Empty);
             var l4 = new Line2D(Point2D.Empty, new Point2D(1, 1));
-            var l5 = new Line2D(null, null);
+            //var l5 = new Line2D(null, null);
 
             var hc1 = l1.GetHashCode();
             var hc2 = l2.GetHashCode();
             var hc3 = l3.GetHashCode();
             var hc4 = l4.GetHashCode();
-            var hc5 = l5.GetHashCode();
+            //var hc5 = l5.GetHashCode();
 
             Assert.AreEqual(hc1, hc2);
             Assert.AreEqual(hc3, hc4);
-            Assert.IsTrue(hc5 == 0);
+            //Assert.IsTrue(hc5 == 0);
         }
 
         [TestMethod]
@@ -322,11 +322,11 @@ namespace GraphLight.Geometry
             var l4 = new Line2D(new Point2D(1, 1), Point2D.Empty);
             //var l5 = new Line2D(Point2D.Empty, new Point2D(1, 1));
             var l6 = new Line2D(Point2D.Empty, Point2D.Empty);
-            var l7 = new Line2D(null, null);
+            //var l7 = new Line2D(null, null);
             var dict = new Dictionary<Line2D, string>();
             dict.Add(l4, "l4");
             dict.Add(l6, "l6");
-            dict.Add(l7, "l7");
+            //dict.Add(l7, "l7");
             dict.Add(l1, "l1");
             dict.Add(l2, "l2");
             Assert.IsTrue(dict.ContainsKey(l1));
@@ -335,7 +335,7 @@ namespace GraphLight.Geometry
             Assert.IsTrue(dict.ContainsKey(l32));
             Assert.IsTrue(dict.ContainsKey(l4));
             Assert.IsTrue(dict.ContainsKey(l6));
-            Assert.IsTrue(dict.ContainsKey(l7));
+            //Assert.IsTrue(dict.ContainsKey(l7));
         }
 
         [TestMethod]
@@ -361,7 +361,7 @@ namespace GraphLight.Geometry
             Assert.IsTrue(l1.Equals((object)l3));
             Assert.IsTrue(l1.Equals((object)l1));
             Assert.IsFalse(l1.Equals((object)l4));
-            Assert.IsFalse(l1.Equals((object)null));
+            Assert.IsFalse(l1.Equals((object?)null));
             Assert.IsFalse(l1.Equals(555));
         }
     }

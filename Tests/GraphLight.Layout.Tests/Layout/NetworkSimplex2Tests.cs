@@ -103,8 +103,8 @@ namespace GraphLight.Layout
                 }
             }
 
-            static bool HasEnds(IEdge<NetworkSimplex2.VertexData, NetworkSimplex2.EdgeData> edge, object a, object b) =>
-                ReferenceEquals(edge.Src.Original, a) && ReferenceEquals(edge.Dst.Original, b);
+            static bool HasEnds(IEdge<NetworkSimplex2.VertexData, NetworkSimplex2.EdgeData>? edge, object a, object b) => 
+                edge != null && ReferenceEquals(edge.Src.Original, a) && ReferenceEquals(edge.Dst.Original, b);
         }
     }
 }

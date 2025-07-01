@@ -62,7 +62,7 @@ namespace GraphLight.Geometry
 
         public static Vector2D operator /(Vector2D v, double k) => new(v.X / k, v.Y / k);
 
-        public static bool operator ==(Vector2D p1, Vector2D p2)
+        public static bool operator ==(Vector2D? p1, Vector2D? p2)
         {
             if (ReferenceEquals(p1, p2))
                 return true;
@@ -71,7 +71,7 @@ namespace GraphLight.Geometry
             return p1.X == p2.X && p1.Y == p2.Y;
         }
 
-        public static bool operator !=(Vector2D p1, Vector2D p2) => !(p1 == p2);
+        public static bool operator !=(Vector2D? p1, Vector2D? p2) => !(p1 == p2);
 
         #endregion
     }

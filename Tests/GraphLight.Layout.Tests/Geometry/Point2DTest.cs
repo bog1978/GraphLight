@@ -14,7 +14,7 @@ namespace GraphLight.Geometry
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext { get; set; }
+        public TestContext? TestContext { get; set; }
 
         #region Additional test attributes
 
@@ -132,7 +132,7 @@ namespace GraphLight.Geometry
         [TestMethod]
         public void CompareToNull()
         {
-            Point2D l1 = null;
+            Point2D? l1 = null;
             var r1 = l1 == null;
             Assert.IsTrue(r1);
 
@@ -172,7 +172,7 @@ namespace GraphLight.Geometry
             var p2 = new Point2D(1, 2);
             Assert.IsTrue(p1.Equals((object)p1));
             Assert.IsTrue(p1.Equals((object)p2));
-            Assert.IsFalse(p1.Equals((object)null));
+            Assert.IsFalse(p1.Equals((object?)null));
             Assert.IsFalse(p1.Equals(111));
         }
     }
