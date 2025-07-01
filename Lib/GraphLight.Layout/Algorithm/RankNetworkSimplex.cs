@@ -5,21 +5,16 @@ using GraphLight.Model;
 
 namespace GraphLight.Algorithm
 {
-    internal class RankNetworkSimplex<G, V, E> : NetworkSimplex
+    internal class RankNetworkSimplex<G, V, E>(IGraph<G, V, E> graph) : NetworkSimplex
         where V : IVertexDataLayered, IEquatable<V>
         where E : IEdgeDataWeight
+        where G : notnull
     {
-        private readonly IGraph<G, V, E> _graph;
-        private Dictionary<V, Vertex> _vertexMap;
-
-        public RankNetworkSimplex(IGraph<G, V, E> graph)
-        {
-            _graph = graph;
-        }
+        private Dictionary<V, Vertex> _vertexMap = new();
 
         protected override void Finalze()
         {
-            foreach (var vertex in _graph.Vertices)
+            foreach (var vertex in graph.Vertices)
             {
                 var v = _vertexMap[vertex];
                 vertex.Rank = v.Value;
@@ -28,10 +23,10 @@ namespace GraphLight.Algorithm
 
         protected override void Initialize(out ICollection<Vertex> vertices, out ICollection<Edge> edges)
         {
-            _vertexMap = _graph.Vertices.ToDictionary(x => x, x => new Vertex(x));
+            _vertexMap = graph.Vertices.ToDictionary(x => x, x => new Vertex(x));
 
             vertices = _vertexMap.Values.ToList();
-            edges = _graph.Edges.Where(edge => !edge.Src.Equals(edge.Dst))
+            edges = graph.Edges.Where(edge => !edge.Src.Equals(edge.Dst))
                 .Select(x => new Edge(_vertexMap[x.Src], _vertexMap[x.Dst], (int)x.Data.Weight, 1))
                 .ToList();
         }

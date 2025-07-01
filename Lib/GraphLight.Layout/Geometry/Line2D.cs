@@ -8,8 +8,6 @@ namespace GraphLight.Geometry
     {
         #region Конструкторы
 
-        public Line2D() { }
-
         public Line2D(Point2D p1, Point2D p2)
         {
             P1 = p1;
@@ -130,20 +128,20 @@ namespace GraphLight.Geometry
 
         #region Операторы
 
-        public static bool operator ==(Line2D a, Line2D b)
+        public static bool operator ==(Line2D? a, Line2D? b)
         {
             var aIsNull = ReferenceEquals(a, null);
             var bIsNull = ReferenceEquals(b, null);
-            return aIsNull ? bIsNull : a.Equals(b);
+            return aIsNull ? bIsNull : a?.Equals(b) ?? false;
         }
 
-        public static bool operator !=(Line2D a, Line2D b) => !(a == b);
+        public static bool operator !=(Line2D? a, Line2D? b) => !(a == b);
 
         #endregion
 
         #region Равенство
 
-        public bool Equals(Line2D other)
+        public bool Equals(Line2D? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -152,7 +150,7 @@ namespace GraphLight.Geometry
             return eq1 || eq2;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

@@ -7,6 +7,7 @@ namespace GraphLight.Algorithm
     {
         internal static bool Cross<V, E>(this IEdge<V, E> edge, IEdge<V, E> otherEdge)
             where V : IEquatable<V>, IVertexDataLayered
+            where E : notnull
         {
             var a1 = edge.Src;
             var b1 = edge.Dst;

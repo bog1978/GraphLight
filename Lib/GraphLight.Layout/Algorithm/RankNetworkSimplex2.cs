@@ -7,6 +7,7 @@ namespace GraphLight.Algorithm
     internal class RankNetworkSimplex2<G, V, E> : NetworkSimplex2
         where V : IVertexDataLayered, IEquatable<V>
         where E : IEdgeDataWeight
+        where G : notnull
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly Dictionary<V, VertexData> _vertexMap;

@@ -287,7 +287,7 @@ namespace GraphLight.Geometry
             var r1 = l1 == null;
             Assert.IsTrue(r1);
 
-            var l2 = new Line2D();
+            var l2 = new Line2D(0, 0, 0, 0);
             var r2 = l2 == null;
             Assert.IsFalse(r2);
         }

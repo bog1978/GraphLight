@@ -5,10 +5,11 @@ using GraphLight.Model;
 
 namespace GraphLight.Algorithm
 {
-    public class GraphVizLayout : GraphLayout
+    public class GraphVizLayout(INodeMeasure nodeMeasure, IGraph<IGraphData, IVertexData, IEdgeData> graph)
+        : GraphLayout(nodeMeasure, graph)
     {
-        private const double V_SPACE = 50;
-        private const double H_SPACE = 30;
+        private const double VSpace = 50;
+        private const double HSpace = 30;
 
         private int _tmpId;
 
@@ -52,18 +53,18 @@ namespace GraphLight.Algorithm
         {
             var rows =
                 (from node in Graph.Vertices
-                 group node by node.Rank
-                     into row
-                 let r = row.Key
-                 let h = row.Max(x => x.Rect.Height) + V_SPACE
-                 select new { r, h })
-                    .ToDictionary(x => x.r, x => x.h);
+                    group node by node.Rank
+                    into row
+                    let r = row.Key
+                    let h = row.Max(x => x.Rect.Height) + VSpace
+                    select new { r, h })
+                .ToDictionary(x => x.r, x => x.h);
 
             foreach (var node in Graph.Vertices)
             {
                 var rank = node.Rank;
                 var y = (rows[rank] - node.Rect.Height) / 2
-                    + rows.Where(z => z.Key < rank).Sum(z => z.Value);
+                        + rows.Where(z => z.Key < rank).Sum(z => z.Value);
                 node.Rect.Top = y;
             }
         }
@@ -102,7 +103,9 @@ namespace GraphLight.Algorithm
             foreach (var e in Graph.Edges)
                 e.Data.Weight = e.Src.IsTmp
                     ? e.Dst.IsTmp ? 8 : 2
-                    : e.Dst.IsTmp ? 2 : 1;
+                    : e.Dst.IsTmp
+                        ? 2
+                        : 1;
         }
     }
 }

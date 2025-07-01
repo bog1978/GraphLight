@@ -28,7 +28,7 @@ namespace GraphLight.Drawing
             if (Graph == null)
                 return new Size();
 
-            // 1. Вычисляем размеры вершин.
+            // 1. Р’С‹С‡РёСЃР»СЏРµРј СЂР°Р·РјРµСЂС‹ РІРµСЂС€РёРЅ.
             foreach (UIElement child in Children)
             {
                 if (child is VertexControl vertex)
@@ -39,13 +39,13 @@ namespace GraphLight.Drawing
                 }
             }
 
-            // 2. Применяем алгоритм укладки графа.
+            // 2. РџСЂРёРјРµРЅСЏРµРј Р°Р»РіРѕСЂРёС‚Рј СѓРєР»Р°РґРєРё РіСЂР°С„Р°.
             Layout();
 
-            // NOTE: Разобраться, почему здесь получается чуть меньше 0.
+            // NOTE: Р Р°Р·РѕР±СЂР°С‚СЊСЃСЏ, РїРѕС‡РµРјСѓ Р·РґРµСЃСЊ РїРѕР»СѓС‡Р°РµС‚СЃСЏ С‡СѓС‚СЊ РјРµРЅСЊС€Рµ 0.
             var minLeft = Graph.Vertices.Min(x => x.Rect.Left);
 
-            // 3. Вычисляем размеры всего графа.
+            // 3. Р’С‹С‡РёСЃР»СЏРµРј СЂР°Р·РјРµСЂС‹ РІСЃРµРіРѕ РіСЂР°С„Р°.
             var w = 0.0;
             var h = 0.0;
             foreach (UIElement child in Children)
@@ -54,7 +54,7 @@ namespace GraphLight.Drawing
                 {
                     case VertexControl vertex:
                         {
-                            // После укладки графа изменилось только положение вершин, но не их размер.
+                            // РџРѕСЃР»Рµ СѓРєР»Р°РґРєРё РіСЂР°С„Р° РёР·РјРµРЅРёР»РѕСЃСЊ С‚РѕР»СЊРєРѕ РїРѕР»РѕР¶РµРЅРёРµ РІРµСЂС€РёРЅ, РЅРѕ РЅРµ РёС… СЂР°Р·РјРµСЂ.
                             var data = vertex.Data;
                             if (data != null)
                             {
@@ -65,7 +65,7 @@ namespace GraphLight.Drawing
                         }
                     case EdgeControl edge:
                         {
-                            // После укладки графа изменилось геометрия ребер, а значит и их размер.
+                            // РџРѕСЃР»Рµ СѓРєР»Р°РґРєРё РіСЂР°С„Р° РёР·РјРµРЅРёР»РѕСЃСЊ РіРµРѕРјРµС‚СЂРёСЏ СЂРµР±РµСЂ, Р° Р·РЅР°С‡РёС‚ Рё РёС… СЂР°Р·РјРµСЂ.
                             edge.Measure(availableSize);
                             var data = edge.Data;
                             if (data != null)
@@ -101,7 +101,7 @@ namespace GraphLight.Drawing
                         }
                     case EdgeControl edge:
                         {
-                            // После укладки графа изменилось геометрия ребер, а значит и их размер.
+                            // РџРѕСЃР»Рµ СѓРєР»Р°РґРєРё РіСЂР°С„Р° РёР·РјРµРЅРёР»РѕСЃСЊ РіРµРѕРјРµС‚СЂРёСЏ СЂРµР±РµСЂ, Р° Р·РЅР°С‡РёС‚ Рё РёС… СЂР°Р·РјРµСЂ.
                             var data = edge.Data;
                             if (data != null)
                                 edge.Arrange(new Rect(0,0,edge.DesiredSize.Width, edge.DesiredSize.Height));
@@ -117,13 +117,7 @@ namespace GraphLight.Drawing
         {
             if (Graph == null)
                 return;
-
-            var layout = new GraphVizLayout
-            {
-                NodeMeasure = new DummyNodeMeasure(),
-                Graph = Graph
-            };
-
+            var layout = new GraphVizLayout(new DummyNodeMeasure(), Graph);
             layout.Layout();
         }
     }

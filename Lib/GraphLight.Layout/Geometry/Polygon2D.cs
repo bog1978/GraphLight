@@ -163,7 +163,7 @@ namespace GraphLight.Geometry
                 return;
             }
 
-            Point2D dstPoint = null;
+            Point2D? dstPoint = null;
             var minDistance = double.MaxValue;
             var p = concave.First();
             var iStart = srcPol.Points.IndexOf(p);

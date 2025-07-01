@@ -51,11 +51,7 @@ namespace GraphLight.Model
             graph.AddEdge(a, b, new EdgeData());
             graph.AddEdge(b, c, new EdgeData());
             graph.AddEdge(a, c, new EdgeData());
-            var engine = new GraphVizLayout
-            {
-                NodeMeasure = new DummyNodeMeasure(),
-                Graph = graph
-            };
+            var engine = new GraphVizLayout(new DummyNodeMeasure(), graph);
             engine.Layout();
         }
 
@@ -75,11 +71,7 @@ namespace GraphLight.Model
             graph.AddEdge(b, c, new EdgeData());
             graph.AddEdge(c, d, new EdgeData());
             graph.AddEdge(d, a, new EdgeData());
-            var engine = new GraphVizLayout
-            {
-                NodeMeasure = new DummyNodeMeasure(),
-                Graph = graph
-            };
+            var engine = new GraphVizLayout(new DummyNodeMeasure(), graph);
             engine.Layout();
         }
     }

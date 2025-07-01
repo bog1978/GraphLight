@@ -9,6 +9,8 @@ namespace GraphLight.Algorithm
     {
         internal static IEnumerable<List<V>> GetRankList<G, V, E>(this IGraph<G, V, E> graph)
             where V : IVertexDataLayered, IEquatable<V>
+            where E : notnull
+            where G : notnull
         {
             return
                 from node in graph.Vertices
@@ -20,6 +22,8 @@ namespace GraphLight.Algorithm
 
         internal static V InsertControlPoint<G, V, E>(this IGraph<G, V, E> graph, IEdge<V, E> edge, V vertexData, E edgeData)
             where V : IEquatable<V>
+            where E : notnull
+            where G : notnull
         {
             graph.InsertVertex(edge, vertexData, edgeData);
             return vertexData;
@@ -27,6 +31,8 @@ namespace GraphLight.Algorithm
 
         internal static void RemoveControlPoint<G, V, E>(this IGraph<G, V, E> graph, V vertex)
             where V : IEquatable<V>
+            where E : notnull
+            where G : notnull
         {
             var inEdges = graph.GetInEdges(vertex);
             var outEdges = graph.GetOutEdges(vertex);

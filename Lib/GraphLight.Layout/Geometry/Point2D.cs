@@ -36,27 +36,27 @@ namespace GraphLight.Geometry
 
         public static Point2D operator -(Point2D p, Vector2D v) => new(p.X - v.X, p.Y - v.Y);
 
-        public static bool operator ==(Point2D a, Point2D b)
+        public static bool operator ==(Point2D? a, Point2D? b)
         {
             var aIsNull = ReferenceEquals(a, null);
             var bIsNull = ReferenceEquals(b, null);
-            return aIsNull ? bIsNull : a.Equals(b);
+            return aIsNull ? bIsNull : a?.Equals(b) ?? false;
         }
 
-        public static bool operator !=(Point2D p1, Point2D p2) => !(p1 == p2);
+        public static bool operator !=(Point2D? p1, Point2D? p2) => !(p1 == p2);
 
         #endregion
 
         #region Равенство
 
-        public bool Equals(Point2D other)
+        public bool Equals(Point2D? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return other.X == X && other.Y == Y;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;

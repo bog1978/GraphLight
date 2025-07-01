@@ -21,7 +21,9 @@ namespace GraphLight.IO
             var serializer = new XmlSerializer(type);
 
             using var reader = XmlReader.Create(stream, GetReaderSettings("LGML.xsd"));
-            var graph = (LgmlGraph)serializer.Deserialize(reader);
+            var graph = (LgmlGraph?)serializer.Deserialize(reader);
+            if (graph == null)
+                throw new GraphException("Ошибка считывания графа.");
             return graph.FromLgmlGraph();
         }
 
@@ -43,8 +45,11 @@ namespace GraphLight.IO
 
             var errors = new List<Exception>();
             var schema = XmlSchema.Read(xsdStream, (s, e) => errors.Add(e.Exception));
-            if (errors.Any())
+            if (errors.Count != 0)
                 throw new AggregateException(errors);
+
+            if (schema == null)
+                throw new GraphException("Ошибка считывания схемы.");
 
             var schemaSet = new XmlSchemaSet();
             _ = schemaSet.Add(schema);
@@ -153,7 +158,7 @@ namespace GraphLight.IO
         }
 
         private static T ApplyVertexStyle<T>(this T data, LgmlVertexStyle? style)
-        where T : IVertexData
+            where T : IVertexData
         {
             if (style == null)
                 return data;

@@ -2,11 +2,11 @@
 
 namespace GraphLight.Algorithm
 {
-    public abstract class GraphLayout
+    public abstract class GraphLayout(INodeMeasure nodeMeasure, IGraph<IGraphData, IVertexData, IEdgeData> graph)
     {
-        public INodeMeasure NodeMeasure { get; set; }
+        public INodeMeasure NodeMeasure => nodeMeasure;
 
-        public IGraph<IGraphData, IVertexData, IEdgeData> Graph { get; set; }
+        public IGraph<IGraphData, IVertexData, IEdgeData> Graph => graph;
 
         public abstract void Layout();
     }
