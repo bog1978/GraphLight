@@ -47,35 +47,34 @@ namespace GraphLight.Converters
 
             var grp = new GeometryGroup
             {
-                Children = new GeometryCollection
-                {
+                Children =
+                [
                     new PathGeometry
                     {
-                        Figures = new PathFigureCollection
-                        {
+                        Figures =
+                        [
                             new()
                             {
                                 StartPoint = pts.First(),
-                                Segments = new PathSegmentCollection
-                                {
-                                    new PolyQuadraticBezierSegment { Points = pts }
-                                }
+                                Segments = [new PolyQuadraticBezierSegment { Points = pts }]
                             }
-                        }
+                        ]
                     },
+
                     new LineGeometry
                     {
                         StartPoint = p11.ToWpf(),
                         EndPoint = arr.ToWpf(),
                         Transform = new RotateTransform { Angle = ArrowAngle, CenterX = p11.X, CenterY = p11.Y }
                     },
+
                     new LineGeometry
                     {
                         StartPoint = p11.ToWpf(),
                         EndPoint = arr.ToWpf(),
                         Transform = new RotateTransform { Angle = -ArrowAngle, CenterX = p11.X, CenterY = p11.Y }
                     }
-                }
+                ]
             };
             return grp;
         }

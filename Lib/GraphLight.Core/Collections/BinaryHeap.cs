@@ -7,10 +7,11 @@ namespace GraphLight.Collections
 {
     internal class BinaryHeap<TKey, TValue> : IEnumerable<TValue>
         where TKey : IComparable<TKey>
+        where TValue : notnull
     {
         #region Константы и поля
 
-        private readonly IDictionary<TValue, HeapItem> _map;
+        private readonly Dictionary<TValue, HeapItem> _map;
         private readonly int _sgn;
         private readonly List<HeapItem> _heap;
 
@@ -20,9 +21,7 @@ namespace GraphLight.Collections
 
         public BinaryHeap(IEnumerable<TValue> items, Func<TValue, TKey> priorityFunc, HeapType heapType)
         {
-            _sgn = heapType == HeapType.Min
-                ? -1
-                : 1;
+            _sgn = heapType == HeapType.Min ? -1 : 1;
             _heap = items
                .Select((x, i) => new HeapItem(x, priorityFunc(x), i))
                .ToList();
@@ -142,68 +141,36 @@ namespace GraphLight.Collections
 
         #endregion
 
-        private class HeapEnumerator : IEnumerator<TValue>
+        private class HeapEnumerator(IEnumerator<HeapItem> enumerator) : IEnumerator<TValue>
         {
-            #region Константы и поля
-
-            private readonly IEnumerator<HeapItem> _enumerator;
-
-            #endregion
-
-            #region Конструкторы
-
-            public HeapEnumerator(IEnumerator<HeapItem> enumerator)
-            {
-                _enumerator = enumerator;
-            }
-
-            #endregion
-
             #region IDisposable
 
-            public void Dispose() => _enumerator.Dispose();
+            public void Dispose() => enumerator.Dispose();
 
             #endregion
 
             #region IEnumerator
 
-            public bool MoveNext() => _enumerator.MoveNext();
+            public bool MoveNext() => enumerator.MoveNext();
 
-            public void Reset() => _enumerator.Reset();
+            public void Reset() => enumerator.Reset();
 
-            object? IEnumerator.Current => Current;
+            object IEnumerator.Current => Current;
 
             #endregion
 
             #region IEnumerator<TElement>
 
-            public TValue Current => _enumerator.Current.Element;
+            public TValue Current => enumerator.Current.Element;
 
             #endregion
         }
 
-        private class HeapItem
+        private class HeapItem(TValue element, TKey heapKey, int index)
         {
-            #region Константы и поля
-
-            public readonly TKey HeapKey;
-
-            public readonly TValue Element;
-
-            public int HeapIndex;
-
-            #endregion
-
-            #region Конструкторы
-
-            public HeapItem(TValue element, TKey heapKey, int index)
-            {
-                Element = element;
-                HeapKey = heapKey;
-                HeapIndex = index;
-            }
-
-            #endregion
+            public readonly TKey HeapKey = heapKey;
+            public readonly TValue Element = element;
+            public int HeapIndex = index;
         }
     }
 }

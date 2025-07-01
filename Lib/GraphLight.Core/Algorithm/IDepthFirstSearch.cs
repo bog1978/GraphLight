@@ -5,6 +5,7 @@ namespace GraphLight.Algorithm
 {
     public interface IDepthFirstSearch<V, E> : IAlgorithm
         where V : IEquatable<V>
+        where E : notnull
     {
         Action<IVertexInfo<V>>? OnNode { get; set; }
         Action<IEdgeInfo<V, E>>? OnEdge { get; set; }
@@ -12,6 +13,7 @@ namespace GraphLight.Algorithm
 
     public interface IEdgeInfo<V, E>
         where V : IEquatable<V>
+        where E : notnull
     {
         IEdge<V, E> Edge { get; }
         DfsEdgeType EdgeType { get; }

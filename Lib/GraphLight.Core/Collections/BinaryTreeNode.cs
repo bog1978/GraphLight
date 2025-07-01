@@ -2,25 +2,17 @@
 
 namespace GraphLight.Collections
 {
-    public class BinaryTreeNode<T> // структура для представления узлов дерева
-    where T : IComparable<T>
+    public class BinaryTreeNode<T>(T k) // структура для представления узлов дерева
+        where T : IComparable<T>
     {
-        public T key;
-        public int height;
-        public BinaryTreeNode<T> left;
-        public BinaryTreeNode<T> right;
-
-        public BinaryTreeNode(T k)
-        {
-            key = k;
-            left = null;
-            right = null;
-            height = 1;
-        }
+        public T Key => k;
+        public int Height { get; set; } = 1;
+        public BinaryTreeNode<T>? Left { get; set; }
+        public BinaryTreeNode<T>? Right { get; set; }
 
         public override string ToString() =>
-            left == null && right == null
-                ? $"{key}"
-                : $"[{key}:{left}-{right}]";
+            Left == null && Right == null
+                ? $"{Key}"
+                : $"[{Key}:{Left}-{Right}]";
     };
 }

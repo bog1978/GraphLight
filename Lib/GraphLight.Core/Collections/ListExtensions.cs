@@ -8,7 +8,7 @@ namespace GraphLight.Collections
     {
         public static void Iter<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            var enumerator = enumerable.GetEnumerator();
+            using var enumerator = enumerable.GetEnumerator();
             while (enumerator.MoveNext())
                 action(enumerator.Current);
         }
@@ -16,7 +16,7 @@ namespace GraphLight.Collections
         public static void Iter<T>(this IEnumerable<T> enumerable, Action<T, int> action)
         {
             var index = 0;
-            var enumerator = enumerable.GetEnumerator();
+            using var enumerator = enumerable.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 var next = enumerator.Current;
@@ -26,7 +26,7 @@ namespace GraphLight.Collections
 
         public static void Iter<T>(this IEnumerable<T> enumerable, Action<T, T> action)
         {
-            var enumerator = enumerable.GetEnumerator();
+            using var enumerator = enumerable.GetEnumerator();
             enumerator.MoveNext();
             var prev = enumerator.Current;
             while (enumerator.MoveNext())
@@ -59,6 +59,7 @@ namespace GraphLight.Collections
         }
 
         public static IDictionary<TKey, TVal> Backup<TKey, TVal>(this IEnumerable<TKey> enumerable, Func<TKey, TVal> map)
+            where TKey : notnull
         {
             return enumerable.ToDictionary(x => x, map);
         }

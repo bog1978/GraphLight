@@ -6,11 +6,11 @@ namespace GraphLight.Algorithm
 {
     public abstract partial class NetworkSimplex : IAlgorithm
     {
-        private readonly ICollection<Edge> _headToTailEdges = new List<Edge>();
-        private readonly ICollection<Edge> _tailToHeadEdges = new List<Edge>();
-        private Edge _exclude;
-        private Graph _graph;
-        private Edge _include;
+        private readonly List<Edge> _headToTailEdges = new();
+        private readonly List<Edge> _tailToHeadEdges = new();
+        private Edge? _exclude;
+        private Graph? _graph;
+        private Edge? _include;
 
         public void Execute()
         {
@@ -22,9 +22,10 @@ namespace GraphLight.Algorithm
             while (SelectEdgeToExclude())
             {
                 if (!SelectEdgeToInclude())
-                    throw new Exception("No edge to include");
+                    throw new GraphException("No edge to include");
                 Exchange();
             }
+
             Normalize();
 
             Finalze();
@@ -36,6 +37,7 @@ namespace GraphLight.Algorithm
         /// </summary>
         private void FeasibleTree()
         {
+            _ = _graph ?? throw new GraphException("NULL");
             foreach (var vertex in _graph.Vertices)
                 vertex.Value = 0;
             foreach (var edge in _graph.Edges)
@@ -54,17 +56,20 @@ namespace GraphLight.Algorithm
                     if (r > v.Value)
                         v.Value = r;
                 }
+
                 foreach (var outEdge in v.OutEdges)
                     outEdge.IsVisited = true;
                 foreach (var outEdge in v.OutEdges)
                     if (outEdge.Dst.InEdges.All(x => x.IsVisited))
                         q.Enqueue(outEdge.Dst);
             }
+
             InitCutValues();
         }
 
         private void InitCutValues()
         {
+            _ = _graph ?? throw new GraphException("NULL");
             SpanningTree(_graph);
             foreach (var v in _graph.Vertices)
                 UpdateTreeEdges(v);
@@ -131,11 +136,7 @@ namespace GraphLight.Algorithm
                             var dstLim = ne.Dst.Lim;
 
                             if (vLim1 < uLim1)
-                            {
-                                var tmp = srcLim;
-                                srcLim = dstLim;
-                                dstLim = tmp;
-                            }
+                                (srcLim, dstLim) = (dstLim, srcLim);
                             var isTailSrc = low1 <= srcLim && srcLim <= lim1;
                             var isTailDst = low1 <= dstLim && dstLim <= lim1;
 
@@ -160,11 +161,7 @@ namespace GraphLight.Algorithm
                         var dstLim = edge.Dst.Lim;
 
                         if (vLim < uLim)
-                        {
-                            var tmp = srcLim;
-                            srcLim = dstLim;
-                            dstLim = tmp;
-                        }
+                            (srcLim, dstLim) = (dstLim, srcLim);
                         var isTailSrc = low <= srcLim && srcLim <= lim;
                         var isTailDst = low <= dstLim && dstLim <= lim;
 
@@ -187,6 +184,7 @@ namespace GraphLight.Algorithm
 
         private bool SelectEdgeToInclude()
         {
+            _ = _exclude ?? throw new GraphException("NULL");
             ClassifyEdges(_exclude);
 
             _include = null;
@@ -204,6 +202,7 @@ namespace GraphLight.Algorithm
         private bool SelectEdgeToExclude()
         {
             _exclude = null;
+            _ = _graph ?? throw new GraphException("NULL");
             foreach (var edge in _graph.Edges)
             {
                 if (!edge.IsTree || edge.CutValue >= 0)
@@ -211,11 +210,16 @@ namespace GraphLight.Algorithm
                 if (_exclude == null || edge.CutValue < _exclude.CutValue)
                     _exclude = edge;
             }
+
             return _exclude != null;
         }
 
         private void Exchange()
         {
+            _ = _graph ?? throw new GraphException("NULL");
+            _ = _include ?? throw new GraphException("NULL");
+            _ = _exclude ?? throw new GraphException("NULL");
+
             var path = GetVerticesToUpdate(out var localRoot);
 
             FixValues(_include.Slack());
@@ -233,6 +237,9 @@ namespace GraphLight.Algorithm
 
         private void FixValues(int slack)
         {
+            _ = _graph ?? throw new GraphException("NULL");
+            _ = _exclude ?? throw new GraphException("NULL");
+
             int min, max;
             if (_exclude.Src.Lim > _exclude.Dst.Lim)
             {
@@ -244,6 +251,7 @@ namespace GraphLight.Algorithm
                 min = _exclude.Src.Low;
                 max = _exclude.Src.Lim;
             }
+
             for (var i = min; i <= max; i++)
             {
                 var v = _graph.Vertices[i];
@@ -253,6 +261,8 @@ namespace GraphLight.Algorithm
 
         private IEnumerable<Vertex> GetVerticesToUpdate(out Vertex root)
         {
+            _ = _include ?? throw new GraphException("NULL");
+
             var w = _include.Dst;
             var x = _include.Src;
             var minLim = Math.Min(w.Lim, x.Lim);
@@ -260,10 +270,10 @@ namespace GraphLight.Algorithm
 
             var path = new List<Vertex>();
             var l1 = w;
-            for (; l1.Low > minLim || l1.Lim < maxLim; l1 = l1.ParentVertex)
+            for (; l1.Low > minLim || l1.Lim < maxLim; l1 = l1.ParentVertex ?? throw new GraphException("NULL"))
                 path.Add(l1);
             var l2 = x;
-            for (; l2.Low > minLim || l2.Lim < maxLim; l2 = l2.ParentVertex)
+            for (; l2.Low > minLim || l2.Lim < maxLim; l2 = l2.ParentVertex ?? throw new GraphException("NULL"))
                 path.Add(l2);
 
             if (l1 == l2)
@@ -272,7 +282,7 @@ namespace GraphLight.Algorithm
             }
             else
             {
-                throw new Exception();
+                throw new GraphException("Ошибка в алгоритме.");
             }
 
             return path;
@@ -280,6 +290,8 @@ namespace GraphLight.Algorithm
 
         private void Normalize()
         {
+            _ = _graph ?? throw new GraphException("NULL");
+
             // Add 1 to ignore artificial root vertex.
             var minValue = _graph.Vertices.Min(x => x.Value) + 1;
             if (minValue == 0)
@@ -290,6 +302,8 @@ namespace GraphLight.Algorithm
 
         private void ClassifyEdges(Edge breakingEdge)
         {
+            _ = _graph ?? throw new GraphException("NULL");
+
             _tailToHeadEdges.Clear();
             _headToTailEdges.Clear();
             var u = breakingEdge.Src;
@@ -310,11 +324,7 @@ namespace GraphLight.Algorithm
                 var dstLim = testEdge.Dst.Lim;
 
                 if (vLim < uLim)
-                {
-                    var tmp = srcLim;
-                    srcLim = dstLim;
-                    dstLim = tmp;
-                }
+                    (srcLim, dstLim) = (dstLim, srcLim);
                 var isTailSrc = low <= srcLim && srcLim <= lim;
                 var isTailDst = low <= dstLim && dstLim <= lim;
 

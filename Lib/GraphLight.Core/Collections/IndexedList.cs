@@ -9,10 +9,10 @@ namespace GraphLight.Collections
     {
         #region Константы и поля
 
-        private const int _defaultCapacity = 4;
-        private const int _halfMaxLength = (int.MaxValue - 1024 * 1024) / 2;
+        private const int DefaultCapacity = 4;
+        private const int HalfMaxLength = (int.MaxValue - 1024 * 1024) / 2;
 
-        private static readonly T[] EmptyArray = new T[0];
+        private static readonly T[] EmptyArray = [];
 
         private int _size;
         private int _version;
@@ -126,10 +126,10 @@ namespace GraphLight.Collections
                 return;
 
             var newCapacity = _items.Length == 0
-                ? _defaultCapacity
-                : _items.Length < _halfMaxLength
+                ? DefaultCapacity
+                : _items.Length < HalfMaxLength
                     ? _items.Length * 2
-                    : _halfMaxLength * 2;
+                    : HalfMaxLength * 2;
 
             if (newCapacity < min)
                 newCapacity = min;
@@ -165,7 +165,7 @@ namespace GraphLight.Collections
             private readonly IndexedList<T> _list;
             private readonly int _version;
             private int _index;
-            private T _current;
+            private T? _current;
 
             #endregion
 
@@ -219,7 +219,7 @@ namespace GraphLight.Collections
             {
                 get
                 {
-                    if (_index == 0 || _index == _list._size + 1)
+                    if (_current == null || _index == 0 || _index == _list._size + 1)
                         throw new InvalidOperationException("ExceptionResource.InvalidOperation_EnumOpCantHappen");
                     return _current;
                 }

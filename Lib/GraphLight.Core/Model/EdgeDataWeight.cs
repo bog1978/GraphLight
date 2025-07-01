@@ -1,13 +1,12 @@
-﻿namespace GraphLight.Model
+﻿namespace GraphLight.Model;
+
+public class EdgeDataWeight : IEdgeDataWeight
 {
-    public class EdgeDataWeight : IEdgeDataWeight
-    {
-        private EdgeDataWeight(double weight) => Weight = weight;
+    private EdgeDataWeight(double weight) => Weight = weight;
 
-        public double Weight { get; set; }
+    public double Weight { get; set; }
         
-        public override string ToString() => $"{Weight:F3}";
+    public override string ToString() => $"{Weight:F3}";
 
-        public static implicit operator EdgeDataWeight(double w) => new(w);
-    }
+    public static implicit operator EdgeDataWeight(double w) => new(w);
 }

@@ -6,39 +6,39 @@ namespace GraphLight.Collections
     {
         #region Другое
 
-        public static BinaryTreeNode<T> Insert<T>(this BinaryTreeNode<T> p, T k) // вставка ключа k в дерево с корнем p
-        where T : IComparable<T>
+        public static BinaryTreeNode<T> Insert<T>(this BinaryTreeNode<T>? p, T k) // вставка ключа k в дерево с корнем p
+            where T : IComparable<T>
         {
             if (p == null)
                 return new BinaryTreeNode<T>(k);
 
-            if (k.CompareTo(p.key) < 0)
-                p.left = p.left.Insert(k);
+            if (k.CompareTo(p.Key) < 0)
+                p.Left = p.Left.Insert(k);
             else
-                p.right = p.right.Insert(k);
+                p.Right = p.Right.Insert(k);
 
             return p.Balance();
         }
 
-        public static BinaryTreeNode<T> Remove<T>(this BinaryTreeNode<T> p, T k) // удаление ключа k из дерева p
+        public static BinaryTreeNode<T>? Remove<T>(this BinaryTreeNode<T>? p, T k) // удаление ключа k из дерева p
             where T : IComparable<T>
         {
             if (p == null)
                 return null;
 
-            var cmp = k.CompareTo(p.key);
+            var cmp = k.CompareTo(p.Key);
             if (cmp < 0)
-                p.left = p.left.Remove(k);
+                p.Left = p.Left.Remove(k);
             else if (cmp > 0)
-                p.right = p.right.Remove(k);
+                p.Right = p.Right.Remove(k);
             else
             {
-                var q = p.left;
-                var r = p.right;
+                var q = p.Left;
+                var r = p.Right;
                 if (r == null) return q;
                 var min = r.FindMin();
-                min.right = r.RemoveMin();
-                min.left = q;
+                min.Right = r.RemoveMin();
+                min.Left = q;
                 return min.Balance();
             }
 
@@ -54,12 +54,12 @@ namespace GraphLight.Collections
             switch (bFactor)
             {
                 case 2:
-                    if (p.right.BFactor() < 0)
-                        p.right = p.right.RotateRight();
+                    if (p.Right?.BFactor() < 0)
+                        p.Right = p.Right.RotateRight();
                     return p.RotateLeft();
                 case -2:
-                    if (p.left.BFactor() > 0)
-                        p.left = p.left.RotateLeft();
+                    if (p.Left?.BFactor() > 0)
+                        p.Left = p.Left.RotateLeft();
                     return p.RotateRight();
                 default:
                     return p; // балансировка не нужна
@@ -68,41 +68,41 @@ namespace GraphLight.Collections
 
         private static int BFactor<T>(this BinaryTreeNode<T> p)
             where T : IComparable<T>
-            => p.right.Height() - p.left.Height();
+            => p.Right.Height() - p.Left.Height();
 
         private static BinaryTreeNode<T> FindMin<T>(this BinaryTreeNode<T> p) // поиск узла с минимальным ключом в дереве p 
             where T : IComparable<T>
         {
-            return p.left != null ? p.left.FindMin() : p;
+            return p.Left != null ? p.Left.FindMin() : p;
         }
 
         private static void FixHeight<T>(this BinaryTreeNode<T> p)
             where T : IComparable<T>
         {
-            var hl = p.left.Height();
-            var hr = p.right.Height();
-            p.height = (hl > hr ? hl : hr) + 1;
+            var hl = p.Left.Height();
+            var hr = p.Right.Height();
+            p.Height = (hl > hr ? hl : hr) + 1;
         }
 
-        private static int Height<T>(this BinaryTreeNode<T> p)
+        private static int Height<T>(this BinaryTreeNode<T>? p)
             where T : IComparable<T>
-            => p?.height ?? 0;
+            => p?.Height ?? 0;
 
-        private static BinaryTreeNode<T> RemoveMin<T>(this BinaryTreeNode<T> p) // удаление узла с минимальным ключом из дерева p
+        private static BinaryTreeNode<T>? RemoveMin<T>(this BinaryTreeNode<T> p) // удаление узла с минимальным ключом из дерева p
             where T : IComparable<T>
         {
-            if (p.left == null)
-                return p.right;
-            p.left = p.left.RemoveMin();
+            if (p.Left == null)
+                return p.Right;
+            p.Left = p.Left.RemoveMin();
             return p.Balance();
         }
 
         private static BinaryTreeNode<T> RotateLeft<T>(this BinaryTreeNode<T> q) // левый поворот вокруг q
             where T : IComparable<T>
         {
-            var p = q.right;
-            q.right = p.left;
-            p.left = q;
+            var p = q.Right ?? throw new GraphException("Ошибка в алгоритме.");
+            q.Right = p.Left;
+            p.Left = q;
             q.FixHeight();
             p.FixHeight();
             return p;
@@ -111,30 +111,30 @@ namespace GraphLight.Collections
         private static BinaryTreeNode<T> RotateRight<T>(this BinaryTreeNode<T> p) // правый поворот вокруг p
             where T : IComparable<T>
         {
-            var q = p.left;
-            p.left = q.right;
-            q.right = p;
+            var q = p.Left ?? throw new GraphException("Ошибка в алгоритме.");
+            p.Left = q.Right;
+            q.Right = p;
             p.FixHeight();
             q.FixHeight();
             return q;
         }
 
-        public static bool HasChild<T>(this BinaryTreeNode<T> p)
+        private static bool HasChild<T>(this BinaryTreeNode<T> p)
             where T : IComparable<T> =>
-            p?.left != null || p?.right != null;
+            p.Left != null || p.Right != null;
 
-        public static int With<T>(this BinaryTreeNode<T> p)
+        private static int With<T>(this BinaryTreeNode<T> p)
             where T : IComparable<T>
         {
             if (!p.HasChild())
                 return 1;
 
-            var wl = p.left?.With() ?? 1;
-            var wr = p.right?.With() ?? 1;
+            var wl = p.Left?.With() ?? 1;
+            var wr = p.Right?.With() ?? 1;
             return 1 + wl + wr;
         }
 
-        public static void Dump<T>(this BinaryTreeNode<T> node, string indent)
+        public static void Dump<T>(this BinaryTreeNode<T>? node, string indent)
             where T : IComparable<T>
         {
             indent = indent.Replace("└──└", "   └");
@@ -148,13 +148,13 @@ namespace GraphLight.Collections
                 return;
             }
 
-            Console.WriteLine($"{indent}{node.key}:{node.With()}");
+            Console.WriteLine($"{indent}{node.Key}:{node.With()}");
 
             if (!node.HasChild())
                 return;
 
-            Dump(node.left, indent + "├──");
-            Dump(node.right, indent + "└──");
+            Dump(node.Left, indent + "├──");
+            Dump(node.Right, indent + "└──");
         }
 
         #endregion

@@ -126,11 +126,11 @@ namespace GraphLight.Geometry
         public Polygon2D Split(int n1, int n2)
         {
             if (n1 >= Points.Count || n2 >= Points.Count)
-                throw new IndexOutOfRangeException();
+                throw new GraphException("Ошибка в алгоритме.");
             var count = Math.Abs(n1 - n2) + 1;
             var index = Math.Min(n1, n2);
             if (count < 3 || index < 0)
-                throw new IndexOutOfRangeException();
+                throw new GraphException("Ошибка в алгоритме.");
             var range = Points.GetRange(index, count);
             Points.RemoveRange(index + 1, count - 2);
             return new Polygon2D(range);
@@ -207,7 +207,7 @@ namespace GraphLight.Geometry
             }
 
             if (dstPoint == null)
-                throw new Exception("Не удалось найти подходящую точку.");
+                throw new GraphException("Не удалось найти подходящую точку.");
 
             var dstPol = srcPol.Split(
                 srcPol.Points.IndexOf(p),

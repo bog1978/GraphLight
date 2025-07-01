@@ -126,7 +126,7 @@ namespace GraphLight.IO
                     ? vertexStyles[vertex.Category]
                     : null;
 
-                var data = new VertexData(vertex.Id, vertex.Label, vertex.Category)
+                var data = new VertexData(vertex.Id, vertex.Category)
                     .ApplyVertexStyle(style)
                     .ApplyVertexStyle(vertex);
 

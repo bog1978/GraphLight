@@ -33,31 +33,29 @@ namespace GraphLight.Algorithm
 
         #region Nested type: Graph
 
-        protected class Graph
+        protected class Graph(Vertex[] vertices, Edge[] edges, Vertex root)
         {
-            public Edge[] Edges;
-            public Vertex[] Vertices;
-            public Vertex Root;
+            public Edge[] Edges { get; } = edges;
+            public Vertex[] Vertices { get; } = vertices;
+            public Vertex Root { get; } = root;
         }
 
         #endregion
 
         #region Nested type: Vertex
 
-        protected class Vertex
+        protected class Vertex(object original)
         {
-            public Vertex(object original) => Original = original;
-
-            public object Original { get; }
+            public object Original { get; } = original;
             internal VertexColor Color = VertexColor.White;
-            public Edge[] Edges;
-            public string Id;
-            public Edge[] InEdges;
+            public Edge[] Edges = [];
+            public string Id = string.Empty;
+            public Edge[] InEdges = [];
             public int Lim = int.MaxValue;
             public int Low = int.MaxValue;
-            public Edge[] OutEdges;
-            public Edge ParentEdge;
-            public Vertex ParentVertex;
+            public Edge[] OutEdges = [];
+            public Edge? ParentEdge;
+            public Vertex? ParentVertex;
             internal int ScanIndex;
             internal int TreeEdgeCount;
             public int Value;

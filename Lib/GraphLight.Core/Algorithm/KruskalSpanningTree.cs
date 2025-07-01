@@ -6,11 +6,13 @@ using GraphLight.Model;
 namespace GraphLight.Algorithm
 {
     internal class KruskalSpanningTree<G, V, E> : ISpanningTree<V, E>
-    where V : IEquatable<V>
+        where V : IEquatable<V>
+        where E : notnull
+        where G : notnull
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly Func<IEdge<V, E>, double> _weightFunc;
-        private Action<IEdge<V, E>> _enterEdge = x => { };
+        private Action<IEdge<V, E>> _enterEdge = _ => { };
 
         public KruskalSpanningTree(IGraph<G, V, E> graph, Func<IEdge<V, E>, double> weightFunc)
         {

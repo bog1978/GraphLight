@@ -45,7 +45,7 @@ namespace GraphLight.Algorithm
                     graph.RemoveVertex(vertex);
                     break;
                 default:
-                    throw new Exception("Can't remove node");
+                    throw new GraphException("Can't remove node");
             }
         }
     }

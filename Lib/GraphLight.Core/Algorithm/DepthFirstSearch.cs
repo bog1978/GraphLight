@@ -24,7 +24,9 @@ namespace GraphLight.Algorithm
     /// http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/depthSearch.htm
     /// </remarks>
     internal class DepthFirstSearch<G, V, E> : IDepthFirstSearch<V, E>
-    where V : IEquatable<V>
+        where V : IEquatable<V>
+        where E : notnull
+        where G : notnull
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly TraverseRule _rule;
@@ -38,7 +40,7 @@ namespace GraphLight.Algorithm
             _graph = graph;
             _rule = rule;
             // Initially we mark all nodes as white.
-            _attrs = _graph.Vertices.ToDictionary(x => x, x => new DfsVertexAttr());
+            _attrs = _graph.Vertices.ToDictionary(x => x, _ => new DfsVertexAttr());
         }
 
         public Action<IVertexInfo<V>>? OnNode { get; set; }
@@ -61,6 +63,7 @@ namespace GraphLight.Algorithm
                 _depth = 0;
                 Dfs(node, true);
             }
+
             // Второй проход - обходим то, что осталось. Могли быть циклы.
             foreach (var node in _graph.Vertices)
             {

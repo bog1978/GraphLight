@@ -5,6 +5,7 @@ namespace GraphLight.Algorithm
 {
     public interface ISpanningTree<V, E>
         where V : IEquatable<V>
+        where E : notnull
     {
         Action<IEdge<V, E>> EnterEdge { get; set; }
 

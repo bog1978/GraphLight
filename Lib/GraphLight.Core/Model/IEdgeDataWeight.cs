@@ -1,7 +1,6 @@
-﻿namespace GraphLight.Model
+﻿namespace GraphLight.Model;
+
+public interface IEdgeDataWeight
 {
-    public interface IEdgeDataWeight
-    {
-        double Weight { get; set; }
-    }
+    double Weight { get; set; }
 }

@@ -7,10 +7,12 @@ namespace GraphLight.Algorithm
 {
     internal class PrimSpanningTree<G, V, E> : ISpanningTree<V, E>
         where V : IEquatable<V>
+        where E : notnull
+        where G : notnull
     {
         private readonly IGraph<G, V, E> _graph;
         private readonly Func<IEdge<V, E>, double> _weightFunc;
-        private Action<IEdge<V, E>> _enterEdge = x => { };
+        private Action<IEdge<V, E>> _enterEdge = _ => { };
 
         public PrimSpanningTree(IGraph<G, V, E> graph, Func<IEdge<V, E>, double> weightFunc)
         {
@@ -26,7 +28,7 @@ namespace GraphLight.Algorithm
 
         public void Execute(V root)
         {
-            var attrs = _graph.Vertices.ToDictionary(x => x, x => new PrimAttr());
+            var attrs = _graph.Vertices.ToDictionary(x => x, _ => new PrimAttr());
             attrs[root].HeapKey = 0;
 
             var q = new PriorityQueue<double, V>(

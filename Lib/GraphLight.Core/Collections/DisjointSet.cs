@@ -4,15 +4,16 @@ using System.Linq;
 namespace GraphLight.Collections
 {
     internal class DisjointSet<TItem>
+        where TItem : notnull
     {
-        private readonly IDictionary<TItem, int> _index;
+        private readonly Dictionary<TItem, int> _index;
         private readonly int[] _parents;
         private readonly int[] _ranks;
 
         public DisjointSet(IReadOnlyCollection<TItem> items)
         {
             var i = 0;
-            _index = items.ToDictionary(x => x, x => i++);
+            _index = items.ToDictionary(x => x, _ => i++);
             _parents = Enumerable.Range(0, items.Count).ToArray();
             _ranks = new int[items.Count];
         }
@@ -38,7 +39,7 @@ namespace GraphLight.Collections
 
         private int FindSetInternal(int v)
         {
-            // TODO: Передалать на цикл.
+            // TODO: Переделать на цикл.
             if (v == _parents[v])
                 return v;
             return _parents[v] = FindSetInternal(_parents[v]);

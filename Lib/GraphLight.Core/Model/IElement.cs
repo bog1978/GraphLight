@@ -1,7 +1,7 @@
-﻿namespace GraphLight.Model
+﻿namespace GraphLight.Model;
+
+public interface IElement<out TData>
+    where TData : notnull
 {
-    public interface IElement<out TData>
-    {
-        TData Data { get; }
-    }
+    TData Data { get; }
 }

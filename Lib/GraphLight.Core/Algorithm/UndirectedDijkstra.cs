@@ -9,10 +9,11 @@ namespace GraphLight.Algorithm
     internal class UndirectedDijkstra<G, V, E> : IShortestPath<V, E>
         where E : IEdgeDataWeight
         where V : IEquatable<V>
+        where G : notnull
     {
         private readonly IGraph<G, V, E> _graph;
-        private Action<IEdge<V, E>> _enterEdge = x => { };
-        private Action<V> _enterNode = x => { };
+        private Action<IEdge<V, E>> _enterEdge = _ => { };
+        private Action<V> _enterNode = _ => { };
 
         public UndirectedDijkstra(IGraph<G, V, E> graph)
         {
@@ -25,10 +26,10 @@ namespace GraphLight.Algorithm
         {
             var from = start;
             var to = end;
-            var attrs = _graph.Vertices.ToDictionary(x => x, x => new DijkstraAttr());
+            var attrs = _graph.Vertices.ToDictionary(x => x, _ => new DijkstraAttr());
             attrs[from].Distance = 0;
 
-            var queue = new GraphLight.Collections.PriorityQueue<double, V>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
+            var queue = new Collections.PriorityQueue<double, V>(_graph.Vertices, x => attrs[x].Distance, HeapType.Min);
 
             while (queue.Count > 0)
             {
@@ -54,11 +55,15 @@ namespace GraphLight.Algorithm
             var last = to;
             while (!last.Equals(from))
             {
-                var edge = attrs[last].Parent;
-                edgePath.Add(edge);
                 vertexPath.Add(last);
-                last = !edge.Src.Equals(last) ? edge.Src : edge.Dst;
+                var edge = attrs[last].Parent;
+                if (edge != null)
+                {
+                    edgePath.Add(edge);
+                    last = !edge.Src.Equals(last) ? edge.Src : edge.Dst;
+                }
             }
+
             vertexPath.Add(from);
 
             vertexPath.Reverse();

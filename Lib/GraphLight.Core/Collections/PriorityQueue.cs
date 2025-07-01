@@ -4,24 +4,23 @@ using System.Collections.Generic;
 
 namespace GraphLight.Collections
 {
-    internal class PriorityQueue<TKey, TValue> : IEnumerable<TValue>
+    internal class PriorityQueue<TKey, TValue>(IEnumerable<TValue> items, Func<TValue, TKey> priorityFunc, HeapType heapType)
+        : IEnumerable<TValue>
         where TKey : IComparable<TKey>
+        where TValue : notnull
     {
         #region Константы и поля
 
-        private readonly BinaryHeap<TKey, TValue> _heap;
+        private readonly BinaryHeap<TKey, TValue> _heap = new(items, priorityFunc, heapType);
 
         #endregion
 
         #region Конструкторы
 
         public PriorityQueue(Func<TValue, TKey> priorityFunc, HeapType heapType)
-            : this(new TValue[] { }, priorityFunc, heapType)
+            : this([], priorityFunc, heapType)
         {
         }
-
-        public PriorityQueue(IEnumerable<TValue> items, Func<TValue, TKey> priorityFunc, HeapType heapType) =>
-            _heap = new BinaryHeap<TKey, TValue>(items, priorityFunc, heapType);
 
         #endregion
 

@@ -9,7 +9,7 @@ namespace GraphLight.Algorithm
     [TestClass]
     public class DepthFirstSearchPostOrderTest
     {
-        private readonly IEnumerable<IEdge<string, EdgeDataWeight>> _emptyEdges = Enumerable.Empty<IEdge<string, EdgeDataWeight>>();
+        private readonly IEnumerable<IEdge<string, EdgeDataWeight>> _emptyEdges = [];
 
         [TestMethod]
         public void DfsTest1()

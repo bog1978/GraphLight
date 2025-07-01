@@ -3,17 +3,9 @@ using GraphLight.Geometry;
 
 namespace GraphLight.Model
 {
-    public class VertexData : CommonData, IVertexData
+    public class VertexData(string id, string? category = null) : CommonData(id, category), IVertexData
     {
-        public VertexData(string id, string? label = null, string? category = null) : base(id ?? label, category)
-        {
-            Id = id ?? throw new ArgumentNullException(nameof(id));
-            Shape = VertexShape.Ellipse;
-            Margin = 5;
-            Rect = new Rect2D();
-        }
-
-        public string Id { get; }
+        public string Id { get; } = id ?? throw new ArgumentNullException(nameof(id));
 
         bool IVertexDataLocation.IsTmp { get; set; }
 
@@ -21,19 +13,19 @@ namespace GraphLight.Model
 
         int IVertexDataLayered.Position { get; set; }
 
-        public Rect2D Rect { get; }
+        public Rect2D Rect { get; } = new();
 
-        public VertexShape Shape { get; set; }
+        public VertexShape Shape { get; set; } = VertexShape.Ellipse;
 
-        public double Margin { get; set; }
+        public double Margin { get; set; } = 5;
 
-        public bool Equals(IVertexData other) => other?.Id == Id;
+        public bool Equals(IVertexData? other) => other?.Id == Id;
 
-        public int CompareTo(IVertexData other) => StringComparer.Ordinal.Compare(Id, other?.Id);
+        public int CompareTo(IVertexData? other) => StringComparer.Ordinal.Compare(Id, other?.Id);
 
         public override int GetHashCode() => Id.GetHashCode();
 
-        public override bool Equals(object obj) => Equals(obj as IVertexData);
+        public override bool Equals(object? obj) => Equals(obj as IVertexData);
 
         public override string ToString() => Id;
 

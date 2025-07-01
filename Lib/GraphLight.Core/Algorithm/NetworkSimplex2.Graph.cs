@@ -7,7 +7,7 @@ namespace GraphLight.Algorithm
     {
         public class GraphData
         {
-            public VertexData Root;
+            public VertexData? Root;
         }
 
         public class EdgeData

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GraphLight.Collections;
 
@@ -21,15 +22,9 @@ namespace GraphLight.Algorithm
                 grp.Key.InEdges = grp.ToArray();
 
             foreach (var vertex in vertices)
-            {
-                if (vertex.InEdges == null)
-                    vertex.InEdges = new Edge[] { };
-                if (vertex.OutEdges == null)
-                    vertex.OutEdges = new Edge[] { };
                 vertex.Edges = vertex.InEdges.Union(vertex.OutEdges).ToArray();
-            }
 
-            var graph = new Graph { Vertices = vertices.ToArray(), Edges = edges.ToArray(), Root = root };
+            var graph = new Graph(vertices.ToArray(), edges.ToArray(), root);
             return graph;
         }
 
@@ -113,6 +108,7 @@ namespace GraphLight.Algorithm
                         next.Edges[0] = edge;
                         next.Edges[edgeIndex] = tmp;
                     }
+
                     curr = next;
                 }
                 else
@@ -124,10 +120,12 @@ namespace GraphLight.Algorithm
                         curr.Lim = lim;
                         graph.Vertices[lim] = curr;
                     }
+
                     lim++;
                     var prev = curr.ParentVertex;
                     if (prev == root.ParentVertex)
                         break;
+                    _ = prev ?? throw new GraphException("NULL");
                     if (prev.Low > curr.Low)
                         prev.Low = curr.Low;
                     curr = prev;

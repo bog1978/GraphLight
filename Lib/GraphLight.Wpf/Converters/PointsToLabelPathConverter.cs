@@ -32,10 +32,7 @@ namespace GraphLight.Converters
             var grp = new PathFigure
             {
                 StartPoint = pts.First(),
-                Segments = new PathSegmentCollection
-                {
-                    new PolyQuadraticBezierSegment { Points = pts }
-                }
+                Segments = [new PolyQuadraticBezierSegment { Points = pts }]
             };
             return grp;
         }

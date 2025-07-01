@@ -101,7 +101,7 @@ namespace GraphLight.Collections
             var e = new IndexedItem("eee");
             var x = new IndexedItem("xxx");
 
-            int[] IndexListFunc() => new[] { a.Index, b.Index, c.Index, d.Index, e.Index, x.Index };
+            int[] IndexListFunc() => [a.Index, b.Index, c.Index, d.Index, e.Index, x.Index];
 
             var list1 = new IndexedList<IndexedItem> { a, b, c, d, e, };
 
